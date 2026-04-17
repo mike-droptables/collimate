@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sandbox</title>
+    <style>
+        body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background: transparent; }
+        #mount { width: 100%; height: 100%; }
+    </style>
+</head>
+<body>
+    <div id="mount"></div>
+    <script type="module">
+        // ---------------------------------------------------------------
+        // 1. Internal postMessage plumbing (hidden from renderers)
+        // ---------------------------------------------------------------
+        const _pending = new Map();
+        let _nextId = 1;
+        const _filesChangedCbs = [];
+        const _scrollRestoreCbs = [];
+        let _hasOnChange = false;
+        // Signalled once the renderer declares itself ready. Idempotent —
+        // parent discards duplicates, but we guard here too so a renderer
+        // calling ready() twice doesn't post two messages.
+        let _readyFired = false;
+
+        function _postToParent(msg) {
+            window.parent.postMessage(msg, '*');
+        }
+
+        function _fireReady() {
+            if (_readyFired) return;
+            _readyFired = true;
+            _postToParent({ type: 'RENDERER_READY' });
+        }
+
+        function _getSiblingFile(path) {
+            return new Promise((resolve, reject) => {
+                const id = _nextId++;
+                const timer = setTimeout(() => {
+                    if (_pending.has(id)) {
+                        _pending.delete(id);
+                        reject(new Error(`Timeout fetching sibling: ${path}`));
+                    }
+                }, 10000);
+                _pending.set(id, { resolve, reject, timer });
+                _postToParent({ type: 'SIBLING_REQUEST', id, path });
+            });
+        }
+
+        // ---------------------------------------------------------------
+        // 2. Message bus — routes parent replies to callbacks
+        // ---------------------------------------------------------------
+        window.addEventListener('message', (e) => {
+            const data = e.data;
+            if (!data || typeof data !== 'object') return;
+
+            if (data.type === 'SIBLING_RESULT') {
+                const p = _pending.get(data.id);
+                if (p) {
+                    clearTimeout(p.timer);
+                    _pending.delete(data.id);
+                    if (data.error) p.reject(new Error(data.error));
+                    else p.resolve(data.content);
+                }
+            }
+
+            if (data.type === 'FILES_CHANGED') {
+                const detail = { cellId: data.cellId, changedFiles: data.changedFiles || [] };
+                for (const cb of _filesChangedCbs) {
+                    try { cb(detail); } catch (err) { console.error('files-changed callback error:', err); }
+                }
+            }
+
+            if (data.type === 'RESTORE_SCROLL') {
+                for (const cb of _scrollRestoreCbs) {
+                    try { cb(data.scrollTop); } catch (err) { console.error('scroll-restore callback error:', err); }
+                }
+            }
+
+            if (data.type === 'GET_SCROLL') {
+                // Renderers register a scroll reporter via api.reportScroll — we
+                // keep a last-known value and send it back.
+                _postToParent({ type: 'SCROLL_REPORT', scrollTop: _lastScrollTop });
+            }
+
+            if (data.type === 'PING_READY') {
+                // Pool re-use path: a new SandboxIframe just mounted over an
+                // iframe that already finished its first-run setup. It missed
+                // the original RENDERER_READY. If we already fired ready, echo
+                // it back now so the new overlay drops immediately.
+                if (_readyFired) _postToParent({ type: 'RENDERER_READY' });
+            }
+        });
+
+        let _lastScrollTop = 0;
+
+        // ---------------------------------------------------------------
+        // 3. Keyboard forwarding — Ctrl+Arrow always goes to parent
+        // ---------------------------------------------------------------
+        window.addEventListener('keydown', (e) => {
+            if (e.ctrlKey && (e.key === 'ArrowLeft' || e.key === 'ArrowRight')) {
+                e.preventDefault();
+                _postToParent({
+                    type: 'FORWARD_KEYDOWN',
+                    key: e.key, altKey: e.altKey, ctrlKey: e.ctrlKey,
+                    shiftKey: e.shiftKey, metaKey: e.metaKey
+                });
+            }
+        }, { capture: true });
+
+        // ---------------------------------------------------------------
+        // 4. Init — build unified API, fetch content, mount renderer
+        // ---------------------------------------------------------------
+        async function init() {
+            const params = new URLSearchParams(window.location.search);
+            const rendererId = params.get('renderer');
+            const hashUrl = params.get('hash');
+            const diffHashUrl = params.get('diff');
+            const filename = params.get('filename') || '';
+            const cellId = params.get('cellId') || '';
+            const rendererVersion = params.get('rv') || '';
+            let apiBase = params.get('apiBase') || '';
+            if (apiBase.endsWith('/')) apiBase = apiBase.slice(0, -1);
+
+            const mountEl = document.getElementById('mount');
+
+            // Pre-fetch primary file content
+            let content = '';
+            if (hashUrl) {
+                try { content = await fetch(hashUrl).then(r => r.text()); }
+                catch (err) { console.warn('Failed to pre-fetch content:', err); }
+            }
+
+            // Pre-fetch diff content if present
+            let diffContent = null;
+            if (diffHashUrl) {
+                try { diffContent = await fetch(diffHashUrl).then(r => r.text()); }
+                catch (err) { console.warn('Failed to pre-fetch diff content:', err); }
+            }
+
+            _hasOnChange = true; // always expose onChange; parent decides readOnly
+
+            // --- Build the unified Renderer API object ---
+            const api = {
+                getContent:      async () => content,
+                getDiffContent:  async () => diffContent,
+                getFilename:     () => filename,
+                getCellId:       () => cellId,
+                getSiblingFile:  (path) => _getSiblingFile(path),
+                onChange:        (c) => _postToParent({ type: 'FILE_UPDATED', content: c }),
+                onFilesChanged:  (cb) => { _filesChangedCbs.push(cb); return () => { const i = _filesChangedCbs.indexOf(cb); if (i >= 0) _filesChangedCbs.splice(i, 1); }; },
+                onScrollRestore: (cb) => { _scrollRestoreCbs.push(cb); return () => { const i = _scrollRestoreCbs.indexOf(cb); if (i >= 0) _scrollRestoreCbs.splice(i, 1); }; },
+                reportScroll:    (top) => { _lastScrollTop = top; },
+                isReadOnly:      () => false,
+                // Helpers for style/script injection that work in both iframe and Shadow DOM
+                injectStyle:     (css) => { const el = document.createElement('style'); el.textContent = css; document.head.appendChild(el); },
+                // Returns a Promise that resolves when the stylesheet has actually
+                // loaded — crepe/milkdown needs this so it can await CSS before
+                // calling api.ready() and revealing the editor. Without awaiting,
+                // the iframe paints unstyled content during the brief load window.
+                loadCSS: (href) => {
+                    const existing = document.querySelector(`link[href="${href}"]`);
+                    if (existing) {
+                        if (existing.sheet) return Promise.resolve();
+                        return new Promise(resolve => {
+                            existing.addEventListener('load', () => resolve(), { once: true });
+                            existing.addEventListener('error', () => resolve(), { once: true });
+                        });
+                    }
+                    const l = document.createElement('link');
+                    l.rel = 'stylesheet';
+                    l.href = href;
+                    return new Promise(resolve => {
+                        l.addEventListener('load', () => resolve(), { once: true });
+                        l.addEventListener('error', () => resolve(), { once: true });
+                        document.head.appendChild(l);
+                    });
+                },
+                // Renderer signals "I'm fully painted — drop the overlay." The
+                // parent also arms a timeout fallback so a broken renderer never
+                // leaves the overlay up forever.
+                ready: () => _fireReady(),
+            };
+
+            // Legacy compat — set window.sdk so renderers in transition can still use it
+            window.sdk = {
+                content,
+                filename,
+                cellId,
+                getSiblingFile: api.getSiblingFile,
+                onChange: api.onChange,
+                onFilesChanged: api.onFilesChanged,
+            };
+
+            function loadScript(src) {
+                return new Promise((resolve, reject) => {
+                    if (document.querySelector(`script[src="${src}"]`)) return resolve();
+                    const s = document.createElement('script');
+                    s.src = src;
+                    s.onload = resolve;
+                    s.onerror = reject;
+                    document.head.appendChild(s);
+                });
+            }
+
+            try {
+                const cacheBust = rendererVersion ? `?v=${rendererVersion}` : '';
+                const sourceUrl = apiBase
+                    ? `${apiBase}/api/renderers/${rendererId}/source${cacheBust}`
+                    : `/api/renderers/${rendererId}/source${cacheBust}`;
+
+                let moduleObj;
+                try {
+                    const res = await fetch(sourceUrl);
+                    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                    
+                    const entrypoint = res.headers.get('X-Entrypoint') || '';
+                    let finalUrl = sourceUrl;
+                    
+                    if (entrypoint.endsWith('.ts') || entrypoint.endsWith('.tsx')) {
+                        await loadScript('https://unpkg.com/@babel/standalone/babel.min.js');
+                        let sourceCode = await res.text();
+
+                        // Rewrite root-relative SDK imports to fully qualified URLs so they
+                        // resolve inside the Blob (Blob URLs have no base URL of their own).
+                        // apiBase is either an absolute http(s) URL (dev server) or a path-
+                        // relative fragment like '..' (playground / GH Pages). For the
+                        // relative case we must resolve against the current document —
+                        // a naive origin+apiBase concat produced 'http://host:port..'
+                        // which the browser rejected with "Failed to resolve module specifier".
+                        const fullApiBase = apiBase.startsWith('http')
+                            ? apiBase
+                            : new URL(apiBase + '/', window.location.href).toString().replace(/\/$/, '');
+                        sourceCode = sourceCode.replace(/['"]\/api\/sdk\/(.*?)['"]/g, `"${fullApiBase}/api/sdk/$1"`);
+
+                        const transpiled = Babel.transform(sourceCode, {
+                            presets: ['typescript', ['react', { runtime: 'classic' }]],
+                            filename: entrypoint
+                        }).code;
+                        const blob = new Blob([transpiled], { type: 'application/javascript' });
+                        finalUrl = URL.createObjectURL(blob);
+                    }
+
+                    moduleObj = await import(finalUrl);
+                } catch (err) {
+                    throw new Error(`Failed to load renderer from ${sourceUrl}: ${err.message}`);
+                }
+
+                // Unwrap default export for new SDK renderers
+                const renderer = moduleObj.default || moduleObj;
+
+                if (diffHashUrl && typeof renderer.mountDiff === 'function') {
+                    await renderer.mountDiff(mountEl, api);
+                } else if (typeof renderer.mount === 'function') {
+                    await renderer.mount(mountEl, api);
+                } else {
+                    mountEl.innerHTML = `<div style="color:red;padding:10px;font-family:monospace;">Renderer '${rendererId}' does not export mount()</div>`;
+                }
+            } catch (err) {
+                console.error(err);
+                mountEl.innerHTML = `<div style="color:red;padding:10px;font-family:monospace;">Failed to load renderer: ${err.message}</div>`;
+            }
+        }
+
+        // ---------------------------------------------------------------
+        // 5. Wait for layout before init (prevents narrow-mode lock)
+        // ---------------------------------------------------------------
+        function waitForWidth() {
+            if (window.innerWidth > 100) return Promise.resolve();
+            return new Promise(resolve => {
+                requestAnimationFrame(function poll() {
+                    if (window.innerWidth > 100) { resolve(); return; }
+                    requestAnimationFrame(poll);
+                });
+            });
+        }
+
+        waitForWidth().then(init);
+    </script>
+</body>
+</html>
