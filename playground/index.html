@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <script>// Playground bootstrap gate. Inlined as a classic <script> at the top
+// of site/playground/index.html's <head> — runs synchronously before
+// any module scripts (React bundle, boot.js) start executing.
+//
+// Why this exists: the React bundle executes as a deferred module, hits
+// the axios client, and fires /api/* fetches. On the very first visit
+// the service worker isn't controlling yet, so those fetches land on
+// GitHub Pages (or the python http.server preview) and 404. React then
+// renders a "connection error" banner — terrible first impression.
+//
+// This shim intercepts /api/* fetches early and holds them until either
+// (a) the SW takes control via clients.claim(), at which point the
+// queued fetches run through the SW and route to pyodide, or (b) a
+// safety timer fires and we let the calls fall through (so a
+// completely broken SW doesn't hang the UI forever).
+//
+// Subsequent visits: navigator.serviceWorker.controller is already set
+// when this script runs, so we skip the gate entirely — zero cost.
+(function () {
+    'use strict';
+
+    if (!('serviceWorker' in navigator)) return;
+    if (navigator.serviceWorker.controller) return;
+
+    var origFetch = window.fetch.bind(window);
+    var origXHR = window.XMLHttpRequest;
+    var released = false;
+    var pending = [];
+
+    function isApiRequest(input) {
+        var url = typeof input === 'string' ? input : (input && input.url) || '';
+        // Also catch URL objects / Request objects. We match a
+        // substring instead of startsWith because axios uses
+        // `../api` and some callers pass origin-absolute URLs.
+        return /\/api(\/|$)/.test(url);
+    }
+
+    function release() {
+        if (released) return;
+        released = true;
+        // Restore native fetch so follow-up calls don't go through
+        // the wrapper's check-and-dispatch path.
+        window.fetch = origFetch;
+        var q = pending;
+        pending = [];
+        for (var i = 0; i < q.length; i++) {
+            try { q[i](); } catch (e) { /* each promise handles its own rejection */ }
+        }
+    }
+
+    window.fetch = function (input, init) {
+        if (released) return origFetch(input, init);
+        if (!isApiRequest(input)) return origFetch(input, init);
+        return new Promise(function (resolve, reject) {
+            pending.push(function () {
+                origFetch(input, init).then(resolve, reject);
+            });
+        });
+    };
+
+    // Also intercept XMLHttpRequest. axios uses fetch when available
+    // (modern browsers) but some polyfills/old code paths fall back to
+    // XHR. Gating only fetch would let those through early.
+    var XHRProto = origXHR.prototype;
+    var origOpen = XHRProto.open;
+    var origSend = XHRProto.send;
+    XHRProto.open = function (method, url) {
+        this.__gatedUrl = url;
+        return origOpen.apply(this, arguments);
+    };
+    XHRProto.send = function () {
+        var self = this;
+        var args = arguments;
+        if (released || !isApiRequest(self.__gatedUrl)) {
+            return origSend.apply(self, args);
+        }
+        pending.push(function () {
+            try { origSend.apply(self, args); } catch (e) { /* swallow */ }
+        });
+    };
+
+    function notifyBooting() {
+        // Tell the SW the page is starting up so its readyPromise resets.
+        // Without this signal the SW may carry "ready" state from the
+        // previous page load and start the per-request timer too eagerly.
+        try {
+            if (navigator.serviceWorker.controller) {
+                navigator.serviceWorker.controller.postMessage({ type: 'page-booting' });
+            }
+        } catch (e) { /* SW state may not allow postMessage yet; harmless. */ }
+    }
+
+    navigator.serviceWorker.register('/sw.js', { scope: '/' }).then(function () {
+        // If the SW was already waiting from a previous tab it may
+        // already be controlling by the time we get here. Otherwise
+        // controllerchange fires after clients.claim() runs in the
+        // SW's activate handler.
+        if (navigator.serviceWorker.controller) {
+            notifyBooting();
+            release();
+        } else {
+            navigator.serviceWorker.addEventListener('controllerchange', function () {
+                notifyBooting();
+                release();
+            }, { once: true });
+        }
+    }).catch(function (err) {
+        // SW registration fundamentally broken (non-https, disabled by
+        // policy, bad file). Better to let fetches through and get
+        // 404s than hang forever.
+        console.error('[collimate] SW registration failed:', err);
+        release();
+    });
+
+    // Safety net: if the SW never claims the page for any reason
+    // (e.g. new-SW waiting on old-SW clients to close), release after
+    // 10s so the UI at least renders. Users will see the same 404s as
+    // before, but no worse than pre-gate behavior.
+    setTimeout(release, 10000);
+})();
+</script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+    <title>Collimate</title>
+    <!-- Preconnect to the pyodide CDN so the TLS handshake is paid for
+         before boot.js fires its first import(). Saves a few hundred
+         milliseconds on the cold path and is a no-op for native serving. -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+    <script type="module" crossorigin src="./assets/index-Blcp1FMn.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-DRQuMieW.css">
+      <link rel="preload" as="fetch" crossorigin="anonymous" href="./app.tar.gz">
+    <link rel="preload" as="fetch" crossorigin="anonymous" href="./pyodide/collimate_sdk-0.1.0-py3-none-any.whl">
+    <script type="module" src="./pyodide/boot.js"></script>
+  </head>
+  <body class="antialiased">
+    <div id="root"></div>
+    <!--
+      Runtime config (window.__COLLIMATE_CONFIG__) is injected by the
+      backend's index.html handler when the bundled UI is served by
+      FastAPI. Vite's dev server doesn't inject anything; getApiUrl
+      falls back to the build-time defaults in that case, which is
+      exactly what dev wants.
+    -->
+  </body>
+</html>

@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Why — Collimate</title>
+  <meta name="description" content="Generation Is Commodity. Judgment Is Scarcity." />
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+  <style>
+    :root {
+      --void-main:       #1c1f2e;
+      --violet:       #7c3aed;
+      --violet-lt:    #a78bfa;
+      --cyan:         #06b6d4;
+      --cyan-lt:      #67e8f9;
+      --grad:         linear-gradient(135deg, #7c3aed, #06b6d4);
+      --white:        #ffffff;
+      --off-white:    #e8edf2;
+      --mid:          #b4c2ce;
+      --dim:          #6b7d8e;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+      color: var(--off-white);
+      background-color: var(--void-main);
+      min-height: 100vh;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.6;
+    }
+
+    .page-wrap {
+      position: relative; z-index: 1;
+      max-width: 860px; margin: 0 auto; padding: 0 32px;
+    }
+
+    nav {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 32px 0;
+    }
+    .nav-logo {
+      font-family: 'Space Grotesk', system-ui, sans-serif;
+      font-size: 1.85rem; font-weight: 700; letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--white); text-decoration: none;
+    }
+    .nav-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 0.85rem; font-weight: 500; color: var(--dim);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-back:hover { color: var(--off-white); }
+    .nav-back svg { width: 14px; height: 14px; fill: currentColor; }
+
+    .manifesto-cell {
+      margin: 24px 0 96px;
+    }
+
+    /* Markdown rendered content */
+    .manifesto-body h1 {
+      font-size: clamp(1.5rem, 3.5vw, 2.2rem);
+      font-weight: 800;
+      color: var(--white);
+      letter-spacing: -0.03em;
+      line-height: 1.2;
+      margin-bottom: 28px;
+    }
+    .manifesto-body h2 {
+      font-size: clamp(1.1rem, 2.5vw, 1.45rem);
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: -0.02em;
+      line-height: 1.3;
+      margin: 44px 0 18px;
+    }
+    .manifesto-body p {
+      font-size: 1rem;
+      color: var(--mid);
+      line-height: 1.82;
+      margin-bottom: 20px;
+    }
+    .manifesto-body strong { color: var(--off-white); }
+    .manifesto-body em { color: var(--off-white); font-style: italic; }
+    .manifesto-body hr {
+      border: none;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      margin: 40px 0;
+    }
+    .manifesto-body blockquote {
+      border-left: 2px solid rgba(124,58,237,0.5);
+      padding: 4px 0 4px 24px;
+      margin: 32px 0;
+    }
+    .manifesto-body blockquote p {
+      font-family: "JetBrains Mono", ui-monospace, Menlo, monospace;
+      font-size: 0.92rem;
+      background: var(--grad);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-weight: 600;
+      color: var(--off-white);
+      margin: 0;
+    }
+    .manifesto-date {
+      font-size: 0.78rem; font-weight: 700;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--dim); margin-bottom: 24px;
+      font-family: "JetBrains Mono", ui-monospace, Menlo, monospace;
+    }
+
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: var(--void-main); }
+    ::-webkit-scrollbar-thumb { background: rgba(124,58,237,0.3); border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(124,58,237,0.5); }
+  </style>
+</head>
+<body>
+
+  <div class="page-wrap">
+
+    <nav>
+      <a class="nav-logo" href="./">Collimate</a>
+      <a class="nav-back" href="./">
+        <svg viewBox="0 0 16 16"><path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/></svg>
+        Back
+      </a>
+    </nav>
+
+    <div class="manifesto-cell">
+      <div class="manifesto-body" id="manifesto-body"></div>
+    </div>
+
+  </div>
+
+  <script id="manifesto-md" type="text/markdown">
+5·01·26
+
+# Generation Is Commodity. Judgment Is Scarcity.
+
+---
+
+Something strange happened the first time a sentence I hadn't written appeared in my compose window.
+
+Predictive text, finishing my thought. It felt convenient. Then fast. Then annoying — and I couldn't immediately articulate why, because the suggestions were usually right. Grammatically correct. Contextually plausible. The tool was doing exactly what it promised.
+
+The irritation wasn't about accuracy. It was about what the interface had already decided I was. Autocomplete has exactly two branches: accept or reject. Tab or Escape. Before I'd even decided what I _meant_, the tool had determined that my contribution was approval. Not intention. Not voice. Just a binary gate, as fast as possible.
+
+---
+
+## The Two Stories
+
+There are two narratives about what AI means for your work, and you're expected to agree with both of them.
+
+The first says AI is a superpower. If you aren't 10x-ing your output, you're falling behind. The people who thrive will be the ones who adopt fastest and ask the fewest questions about what they're adopting. If this story makes you uneasy, you're the person who doesn't get it. A luddite. Sentimental about a world that isn't coming back.
+
+The second says AI is a capable junior colleague. Your job is to direct it, review its work, approve or reject. Your contribution is oversight. Taste, maybe, if you're lucky. There is an even stronger version that suggests your job is to minimize the supervision this junior colleague needs.
+
+One story says you're obsolete if you don't comply. The other says you're useful, but only as a checkpoint or fail safe. Both are the same insult wearing different clothes. Both reduce your role to something smaller than what you actually do when you think well.
+
+---
+
+## The Landscape
+
+Paste a problem into a chat window. The model streams back code — clean naming, reasonable structure, it compiles. But it doesn't fit your system. It misses the edge cases you spent a year learning. The output is _plausible_. Plausible enough to waste your time before you realize it's wrong.
+
+You try to fix it. "Adjust the database schema." The model fixes the schema and quietly breaks the authentication flow it wrote two prompts ago. Now you're scrolling through a linear transcript, trying to hold a non-linear problem in your head. A chat is sequential. Your problem isn't. You're trying to force a graph through a slot.
+
+So you graduate. You leave the chat behind and wire up a pipeline — agents, tool calls, orchestration, a CLI that writes code across your repo. You've moved from writing the perfect prompt to writing the perfect harness. The interface changed. The linearity didn't.
+
+A model can produce ten architecturally coherent approaches in the time it takes you to read one. Generation is commodity. What's scarce is you — looking at those ten approaches and knowing which one is worth pursuing, and why. Every major AI interface optimizes for the quality of a single output when it should optimize for the speed and clarity of your judgment across many. They treat the model as a conversationalist you coax toward a right answer. They should treat it as a factory that gives you options to choose between.
+
+You are a domain expert. And you have been reduced to tech support for your own tools.
+
+---
+
+## Why This Persists
+
+Creating a first draft used to be the hardest part of the job, so our entire tooling ecosystem was built around mutating a single precious artifact. One document. One thread. One branch you fork with great ceremony and merge back with greater pain.
+
+AI made generation free. We are still forcing that abundance through interfaces designed for scarcity. The bottleneck moved. The tools didn't.
+
+---
+
+## What It Should Feel Like
+
+Judgment starts with knowing what to look at. Ten variants of a complicated system can't be judged by reading ten walls of code. The right lens for one decision is a summary. For another it's the diff between two approaches. For another it's a performance curve, or a dependency graph, or the three lines where the trade-off actually lives. The shape of the problem determines how you see it, and the shape changes as you move through it. A tool that shows you one view is a tool that's already decided what matters. A tool that lets you choose the lens is a tool that knows the choosing _is_ work.
+
+Problem-solving has a rhythm underneath this. You go wide: generate five directions, hold them loosely. You go narrow: two are interesting, look closer. Something breaks and you go wide again, differently, because now you know something you didn't before. The workspace should move the way your thinking moves. Breadth when you need it. Exhale when the options close down. And the transition between them feeling like focus, not chaos.
+
+When you commit, when you pick a direction, the others aren't lost. They stay recoverable. This creates something new: a graveyard of good ideas. The system documents not just what you built, but why you didn't build the alternatives. The graveyard isn't failure. It's proof of judgment.
+
+---
+
+## Why Better Models Aren't the Solve but the Accelerant
+
+There is a reasonable counter: _this is scaffolding for immature technology; once models are capable enough, it isn't needed._
+
+The hardest decisions aren't hard because the answer is obscure. They're hard because there is no single answer — only trade-offs. A model can map the frontier between shipping fast and maintaining backward compatibility. It can show you exactly what you lose at each point on the curve. What it cannot do is decide whether the customers who depend on the old API matter more than the ones you'll gain with the new one. That requires knowing who you are, and no amount of intelligence substitutes for it.
+
+The proper role of AI is a **Pareto explorer**: eliminating dominated options, mapping the frontier of viable trade-offs, and getting out of the way. Better models map that frontier with more precision. They surface more options, more clearly. Which means more judgment, exercised faster, at higher stakes.
+
+This is the spreadsheet pattern. Excel didn't give accountants free afternoons. It raised the floor, and the work expanded to fill the new capability. The decisions that used to be hard became table stakes. The decisions that are hard now didn't exist a year ago. AI does the same thing, faster.
+
+Every quarter, the bar for what constitutes a good decision rises — because everyone's baseline output just got better. The premium on your judgment doesn't shrink as models improve. It compounds.
+
+---
+
+This is a third story about what AI means for your work. It's not the one where you're obsolete and it's not the one where you're a checkpoint.
+
+You are not a gate in the AI's workflow; The AI is a mapping tool in yours. Your judgment is the scarce resource. It always was.
+
+We built a tool that finally knows it.
+
+---
+
+  </script>
+
+  <script>
+    const md = document.getElementById('manifesto-md').textContent;
+    document.getElementById('manifesto-body').innerHTML = marked.parse(md);
+  </script>
+
+</body>
+</html>
