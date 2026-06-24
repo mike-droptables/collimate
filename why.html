@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Why — Collimate</title>
+  <meta name="description" content="Generation is commodity. Judgment is scarcity. The longer essay on why Collimate exists." />
+  <meta name="theme-color" content="#121419" />
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+  <link rel="preload" href="./fonts/hanken-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="./fonts/fraunces-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="./fonts/fonts.css">
+  <style>
+    :root {
+      /* ── same palette as index ── */
+      --void:         #121419;
+      --panel:        #1A1C23;
+      --gold:         #C9A95C;   /* satin brass */
+      --gold-hi:      #E4C988;
+      --gold-soft:    rgba(201,169,92,0.12);
+      --gold-line:    rgba(201,169,92,0.45);
+      --border:       #504538;
+      --text:         #EAEAEA;
+      --text-dim:     #7A7A7A;
+      --radius:       8px;
+      --text-head:    #efefec;
+      --text-body:    #c6c6c6;
+      --text-faint:   #8a857c;   /* ≥4.5:1 on panel and void */
+      --rule:         rgba(234,234,234,0.07);
+      --pad-x:        clamp(20px, 5vw, 48px);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: "Hanken Grotesk", system-ui, -apple-system, sans-serif;
+      color: var(--text-body);
+      background-color: var(--void);
+      min-height: 100vh; overflow-x: hidden;
+      -webkit-font-smoothing: antialiased; line-height: 1.6;
+    }
+
+    .serif { font-family: "Fraunces", Georgia, serif; font-optical-sizing: auto; }
+    .mono  { font-family: "JetBrains Mono", ui-monospace, Menlo, monospace; }
+
+    /* faint glow so the page reads as the same world as index, without the grid */
+    .layer-glow {
+      position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background:
+        radial-gradient(ellipse 140% 70% at 50% -10%, rgba(202,194,185,0.06) 0%, transparent 60%),
+        radial-gradient(ellipse 90% 60% at 105% 110%, rgba(52,66,90,0.14) 0%, transparent 60%);
+    }
+
+    .page-wrap { position: relative; z-index: 1; max-width: 760px; margin: 0 auto; padding: 0 var(--pad-x); }
+
+    /* ── nav (same as index) ── */
+    nav { display: flex; align-items: center; justify-content: space-between; padding: 30px 0; }
+    .nav-logo {
+      font-family: "Fraunces", serif; font-optical-sizing: auto;
+      font-size: 1.5rem; font-weight: 600; letter-spacing: -0.01em;
+      color: var(--text-head); text-decoration: none;
+      display: flex; align-items: center; gap: 0.6rem;
+    }
+    .nav-logo .nav-mark { height: 26px; width: auto; flex: none; color: var(--gold); filter: drop-shadow(0 0 6px rgba(201,169,92,0.45)); }
+    .nav-links { display: flex; gap: 1.9rem; align-items: center; list-style: none; }
+    .nav-links li { display: flex; } /* anchor becomes a flex item — avoids svg-baseline misalignment */
+    .nav-links a {
+      display: inline-flex; align-items: center; gap: 7px;
+      font-family: "JetBrains Mono", monospace; font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--text-dim); text-decoration: none; transition: color 0.18s;
+    }
+    .nav-links a svg { width: 14px; height: 14px; fill: currentColor; }
+    .nav-links a:hover { color: var(--text); }
+
+    /* ── eyebrow (same as index) ── */
+    .eyebrow {
+      font-family: "JetBrains Mono", monospace; font-size: 0.7rem; letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--text-faint); display: inline-flex; align-items: center; gap: 0.6rem;
+    }
+    .eyebrow::before { content: ""; width: 1.5rem; height: 1px; background: var(--gold-line); }
+
+    /* ── essay head ── */
+    .essay-head { margin: 40px 0 0; }
+    .essay-head .eyebrow { margin-bottom: 18px; }
+    .essay-head h1 {
+      font-family: "Fraunces", serif; font-optical-sizing: auto;
+      font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 500; color: var(--text-head);
+      letter-spacing: -0.02em; line-height: 1.16;
+    }
+    .essay-head h1 em { font-style: italic; font-weight: 500; color: var(--gold); text-shadow: 0 0 24px rgba(201,169,92,0.30); }
+
+    /* ── essay body (markdown rendered) ── */
+    .manifesto-cell { margin: 34px 0 0; }
+    .manifesto-body h2 {
+      font-family: "Fraunces", serif; font-optical-sizing: auto;
+      font-size: clamp(1.35rem, 2.6vw, 1.75rem); font-weight: 500; color: var(--text-head);
+      letter-spacing: -0.018em; line-height: 1.25; margin: 0 0 16px;
+    }
+    .manifesto-body p { font-size: 1.04rem; color: var(--text-body); line-height: 1.8; margin-bottom: 18px; }
+    .manifesto-body strong { color: var(--text); font-weight: 600; }
+    .manifesto-body em { color: var(--text-head); font-style: italic; }
+    .manifesto-body hr { border: none; border-top: 1px solid var(--rule); margin: 44px 0 40px; }
+    .manifesto-body blockquote { border-left: 2px solid var(--gold-line); padding: 2px 0 2px 22px; margin: 30px 0; }
+    .manifesto-body blockquote p {
+      font-family: "Fraunces", Georgia, serif; font-style: italic;
+      font-size: 1.1rem; color: var(--gold); margin: 0;
+    }
+
+    .essay-footer-link {
+      display: inline-flex; align-items: center; gap: 6px; margin: 26px 0 0;
+      font-family: "JetBrains Mono", monospace; font-size: 0.82rem; letter-spacing: 0.03em;
+      color: var(--text-dim); text-decoration: none; border-bottom: 1px solid var(--border); padding-bottom: 3px;
+      transition: color 0.15s, border-color 0.15s;
+    }
+    .essay-footer-link:hover { color: var(--text); border-color: var(--gold-line); }
+
+    /* ── footer (same as index) ── */
+    .site-footer {
+      position: relative; z-index: 1; background: var(--void); border-top: 1px solid var(--rule);
+      margin-top: 92px; padding: 72px 0 60px; text-align: center;
+      font-family: "JetBrains Mono", monospace; font-size: 0.78rem; letter-spacing: 0.03em; color: var(--text-faint);
+    }
+    .footer-inner { max-width: 1180px; margin: 0 auto; padding: 0 var(--pad-x); }
+    .site-footer a { color: var(--text-dim); text-decoration: none; transition: color 0.15s; }
+    .site-footer a:hover { color: var(--text); }
+    .site-footer .sep { opacity: 0.4; margin: 0 10px; }
+
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: var(--void); }
+    ::-webkit-scrollbar-thumb { background: rgba(201,169,92,0.28); border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(201,169,92,0.5); }
+
+    @media (max-width: 640px) {
+      nav { padding: 22px 0; }
+      .nav-links { gap: 1.2rem; }
+      .essay-head { margin-top: 26px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="layer-glow"></div>
+
+  <div class="page-wrap">
+
+    <nav>
+      <a class="nav-logo" href="./"><svg class="nav-mark" viewBox="7 18 39 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="11" cy="32" r="3" fill="currentColor"/><g stroke="currentColor" stroke-width="3.4" stroke-linecap="round"><line x1="12" y1="32" x2="28" y2="24"/><line x1="12" y1="32" x2="28" y2="40"/></g><path d="M28 19 C33 25 33 39 28 45 C23 39 23 25 28 19 Z" fill="currentColor"/><g stroke="currentColor" stroke-width="3.4" stroke-linecap="round"><line x1="28" y1="24" x2="43" y2="24"/><line x1="28" y1="40" x2="43" y2="40"/></g></svg>Collimate</a>
+      <ul class="nav-links">
+        <li>
+          <a href="https://github.com/mike-droptables/collimate" target="_blank" rel="noopener">
+            <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+            GitHub
+          </a>
+        </li>
+        <li>
+          <a href="./">
+            <svg viewBox="0 0 16 16"><path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/></svg>
+            Home
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <header class="essay-head">
+      <div class="eyebrow">// Why collimate exists</div>
+      <h1 class="serif">Generation is commodity.<br><em>Judgment is scarcity.</em></h1>
+    </header>
+
+    <div class="manifesto-cell">
+      <div class="manifesto-body">
+        <p>Something strange happened the first time a sentence I hadn't written appeared in my compose window.</p>
+        <p>Predictive text, finishing my thought. Convenient, at first. Then fast. Then quietly irritating — and I couldn't say why, because the suggestions were usually right. Grammatical. Plausible. The tool was doing exactly what it promised.</p>
+        <p>The irritation wasn't about accuracy. It was about what the interface had already decided I was. Autocomplete offers two branches: accept or reject. Tab or Escape. Before I'd finished deciding what I meant, the tool had concluded that my contribution was approval. Not intention. Not voice. A binary gate, served as fast as possible.</p>
+        <p>That small annoyance turned out to be the whole problem.</p>
+        <hr>
+        <h2>The Two Stories</h2>
+        <p>There are two narratives about what AI means for your work, and you're expected to believe both at once.</p>
+        <p>The first says AI is a superpower. If you aren't 10x-ing your output, you're behind. The people who win will be the ones who adopt fastest and ask the fewest questions about what they're adopting. If the story unsettles you, you're the one who doesn't get it. Sentimental about a world that isn't coming back.</p>
+        <p>The second says AI is a capable junior colleague. Your job is to direct it, review its work, approve or reject. Your contribution is oversight, and taste if you're lucky. The ambitious version of this story says your real job is to make it need less and less supervision over time: to make yourself redundant, gracefully.</p>
+        <p>One story says you're obsolete if you don't comply. The other says you're useful, but only as a checkpoint. Both reduce your role to something smaller than what you actually do when you think well. They're the same insult in different clothes.</p>
+        <hr>
+        <h2>The Landscape</h2>
+        <p>Paste a hard problem into a chat window. The model streams back code. Clean names, sensible structure, it compiles. But it doesn't fit your system. It misses the edge cases you spent a year learning. It's plausible. Plausible enough to cost you an hour before you see it's wrong.</p>
+        <p>You try to steer. <em>Adjust the schema.</em> The model adjusts the schema and quietly breaks the auth flow it wrote two prompts ago. Now you're scrolling a linear transcript trying to hold a non-linear problem in your head. The chat is a sequence. Your problem is a graph. You're forcing the graph through a slot.</p>
+        <p>So you graduate. You leave the chat and build a harness: agents, tool calls, orchestration writing code across your repo. You've traded writing the perfect prompt for writing the perfect harness. The interface changed. The linearity didn't.</p>
+        <p>Here is the part that doesn't get easier with a better model. The hardest problems don't have a right answer that a smarter system will eventually find. They have trade-offs, and a trade-off has no single solution, only a chosen point on a curve. When the model hands you one answer to a problem like that, it hasn't found <em>the</em> answer. It has satisficed: picked a good-enough point on axes it chose for you, and presented the result as if it were the destination.</p>
+        <p>And the better the model gets, the more convincing that compromise becomes. A more capable generator returns a more polished answer — cleaner, more plausible, more complete. Which means it hides its own seams better. The places where it quietly decided that speed mattered more than compatibility, or that this customer mattered less than that one, get smoother and harder to find. Capability doesn't dissolve the need for your judgment. It buries it deeper.</p>
+        <p>A model can produce ten coherent approaches in the time it takes you to read one. Generation is commodity. What's scarce is you — looking at those ten and knowing which is worth pursuing, and why, and what each one gave up to look so clean. Every major AI interface optimizes the quality of a single output. They should optimize the speed and clarity of your judgment across many. They treat the model as a conversationalist to be coaxed toward a right answer. They should treat it as a factory that hands you options to choose between.</p>
+        <p>You are a domain expert. You've been turned into tech support for your own tools.</p>
+        <hr>
+        <h2>Why This Persists</h2>
+        <p>Making the first draft used to be the hard part of the job. So the entire tooling ecosystem grew up around one precious artifact: one document, one thread, one branch you fork with ceremony and merge back with pain.</p>
+        <p>AI made the first draft free. We're still forcing that abundance through interfaces built for scarcity. The bottleneck moved. The tools stayed.</p>
+        <hr>
+        <h2>What It Should Feel Like</h2>
+        <p>Judgment starts with knowing what to look at. Ten variants of a complex system can't be judged by reading ten walls of code. For one decision the right lens is a summary. For another it's the diff between two approaches. For another it's a performance curve, a dependency graph, the three lines where the trade-off actually lives. The shape of the problem decides how you should see it, and the shape changes as you move through it. A tool that shows you one view has already decided what matters. A tool worth using lets you choose the lens, because the choosing is the work.</p>
+        <p>Underneath this is a rhythm. You go wide: five directions, held loosely. You go narrow: two are interesting, look closer. Something breaks and you go wide again, differently, because you now know something you didn't. The workspace should move the way thinking moves. Breadth when you need it, contraction when the options close, and the transition between them should feel like focus, not chaos. It should hold the state of all of it so your head doesn't have to — so the scarce thing in your skull is spent judging, not remembering where everything is.</p>
+        <p>And then the hard part, which is both halves. The space of possibilities is endless and the model fills it cheaply, and that is exactly why going wide is a skill: breadth counts only when it's aimed at the places where the problem actually lives, the questions worth asking next, the weak points that give up something new when pushed. And the cut is hard in the way it has always been. Choosing one direction and closing the others. Not because the answer revealed itself, but because no answer was going to, and you decided which compromise you could live with and put your name on it. The work is doing both well.</p>
+        <p>When you make that cut, the roads not taken don't vanish. They stay recoverable. That's not sentimentality, it's what makes the choice legible. A decision you can't reconstruct is indistinguishable from a guess. When the alternatives are still there, the record shows not just what you built but what you turned down and why. That is the thing no autocomplete and no agent produces: evidence that a judgment was made. Not a graveyard of failures. A record of decisions.</p>
+        <hr>
+        <h2>Why Better Models Are the Accelerant, Not the Escape</h2>
+        <p>The obvious objection: isn't this just scaffolding for immature technology? Once the models are good enough, won't they make the choice too?</p>
+        <p>Follow that question all the way out, because it runs further than the comfortable answer admits. The models will get better at mapping the frontier — more options, more precisely, the dominated ones eliminated faster. And they will get better at something more unsettling: guessing <em>you</em>. Feed a model enough of your past decisions, your customers, your stated priorities, and it will start to predict which point on the curve you'd pick. It increasingly can.</p>
+        <p>Two things survive that, and they are not the usual consolations.</p>
+        <p>The first is that a prediction of your choice is not you having made it. When the trade-off ships and the customers who depended on the old behavior are gone, <em>the model expected I'd want this</em> is not something you can stand behind. The choice has to be yours because the consequences are yours. Accountability doesn't transfer to a system that guessed well. It never has, in any domain where the stakes are real.</p>
+        <p>The second is deeper. The model can guess you on the tenth problem of a familiar kind. But the hardest decisions don't reveal a preference you already had; they create one. On something truly novel, the fight isn't over which answer is right inside the frame, it's over what the frame should be. Which axes matter. What counts as a cost. Those get settled by you committing — and until you do, there is nothing to predict.</p>
+        <p>So the proper role of the model isn't oracle. It's explorer. Map the frontier, eliminate the dominated options, surface the trade-offs clearly — and make visible where it satisficed, what it assumed, what it quietly chose on your behalf. Better models do this better. Which means more decisions, surfaced faster, at higher stakes, with their seams exposed instead of smoothed over.</p>
+        <p>This is the spreadsheet pattern, told with the part that usually gets left out. Excel didn't give accountants free afternoons. It raised the floor, and the work expanded to fill the new capability. It also put a great many people who did the old floor-level work out of it. The lesson isn't the reassuring one, that your judgment compounds while you sit still. It's that the location of valuable judgment keeps moving upward, relentlessly, and the people who thrive are the ones who move with it. The decisions that were hard last year are table stakes now. The decisions that are hard now didn't exist last year.</p>
+        <p>A tool that serves that frontier serves you wherever the frontier goes. That is the bet: not that your judgment is safe, but that it is <em>mobile</em>, and that it needs an instrument built for motion instead of one built for guarding a single precious artifact.</p>
+        <hr>
+        <h2>A Third Story</h2>
+        <p>This is a third story about what AI means for your work. Not the one where you're obsolete. Not the one where you're a checkpoint.</p>
+        <p>You are not a gate in the AI's workflow. The AI is a mapping tool in yours. The scarce resource was never the generation. It was the judgment — knowing what to look at, what each option costs, which compromise you can stand behind, and when to stop. It always was.</p>
+        <p>I'm building a tool that knows it.</p>
+      </div>
+      <a class="essay-footer-link" href="./">← Back to the front page</a>
+    </div>
+
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <a href="https://github.com/mike-droptables/collimate" target="_blank" rel="noopener">GitHub</a>
+        <span class="sep">·</span>
+        <a href="https://github.com/mike-droptables/collimate-sdk" target="_blank" rel="noopener">SDK</a>
+        <span class="sep">·</span>
+        <a href="./">Home</a>
+        <span class="sep">·</span>
+        <a href="mailto:michael@collimate.dev">michael@collimate.dev</a>
+      </div>
+      <div class="serif" style="margin-top: 26px; font-style: italic; font-size: 0.84rem; color: var(--text-faint); letter-spacing: 0;">col·li·mate, <span style="opacity: 0.7;">v.</span> — to make divergent rays parallel.</div>
+      <div style="margin-top: 12px; opacity: 0.7;">© 2026 Collimate · App FSL-1.1 · SDK Apache-2.0</div>
+    </div>
+  </footer>
+
+</body>
+</html>
