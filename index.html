@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Collimate — for AI work too important to ship on the first answer</title>
+  <meta name="description" content="A local workbench for the AI work you can't just accept. The model's answer is a starting point — fork it, challenge it, compare approaches, keep what holds." />
+  <meta name="theme-color" content="#121419" />
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+  <link rel="preload" href="./fonts/hanken-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="./fonts/fraunces-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="./fonts/fonts.css">
+
+  <style>
+    :root {
+      /* ── pulled from the app's default config ── */
+      --void:         #121419;   /* Background — off-black, easier to read against */
+      --panel:        #1A1C23;   /* Panel */
+      --bg-base:      #444b5a;   /* BG Base (the grid canvas) */
+      --gold:         #C9A95C;   /* Primary — satin brass */
+      --gold-hi:      #E4C988;
+      --gold-soft:    rgba(201,169,92,0.12);
+      --gold-line:    rgba(201,169,92,0.45);
+      --on-gold:      #221b09;
+      --hot:          #C97350;   /* Hot — live / running indicator */
+      --hot-soft:     rgba(201,115,80,0.18);
+      --border:       #504538;   /* Borders (warm) */
+      --text:         #EAEAEA;   /* Text */
+      --text-dim:     #7A7A7A;   /* Dim Text */
+      --radius:       8px;       /* Radius */
+
+      /* ── derived ── */
+      --bg-glow-warm: rgba(216,193,160,0.15);
+      --bg-glow-cool: rgba(52,66,90,0.40);
+      --solid-bg:     #121419;
+      --grid-minor:   rgba(181,181,181,0.42);
+      --grid-major:   rgba(181,181,181,0.68);
+      --text-head:    #efefec;
+      --text-body:    #c6c6c6;
+      --text-faint:   #8a857c;   /* ≥4.5:1 on panel and void */
+      --rule:         rgba(234,234,234,0.07);
+
+      /* ── layout ── */
+      --pad-x:        clamp(20px, 5vw, 48px);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: "Hanken Grotesk", system-ui, -apple-system, sans-serif;
+      color: var(--text-body);
+      background-color: var(--void);
+      min-height: 100vh; overflow-x: hidden;
+      -webkit-font-smoothing: antialiased; line-height: 1.6;
+    }
+
+    .serif { font-family: "Fraunces", Georgia, serif; font-optical-sizing: auto; }
+    .mono  { font-family: "JetBrains Mono", ui-monospace, Menlo, monospace; }
+
+    /* ── grid background (the product's own canvas) ── */
+    .layer-bg { position: fixed; inset: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 0; }
+    .layer-base {
+      background:
+        radial-gradient(ellipse 140% 90% at 50% 5%,   var(--bg-glow-warm) 0%, transparent 65%),
+        radial-gradient(ellipse 100% 80% at 105% 95%, var(--bg-glow-cool) 0%, transparent 60%),
+        var(--bg-base);
+    }
+    .layer-grid-minor {
+      opacity: 0.18;
+      background-image:
+        repeating-linear-gradient(90deg, var(--grid-minor) 0px, var(--grid-minor) 1px, transparent 1px, transparent 15px),
+        repeating-linear-gradient(0deg,  var(--grid-minor) 0px, var(--grid-minor) 1px, transparent 1px, transparent 15px);
+    }
+    .layer-grid-major {
+      opacity: 0.20;
+      background-image:
+        repeating-linear-gradient(90deg, var(--grid-major) 0px, var(--grid-major) 1px, transparent 1px, transparent 75px),
+        repeating-linear-gradient(0deg,  var(--grid-major) 0px, var(--grid-major) 1px, transparent 1px, transparent 75px);
+    }
+    .layer-vignette { background: radial-gradient(ellipse at center, rgba(0,0,0,0) 1px, rgba(0,0,0,0.62) 100%); }
+    #solid-overlay { position: fixed; inset: 0; background: var(--solid-bg); opacity: 0; pointer-events: none; z-index: 0; will-change: opacity; }
+    /* Faint grid that survives the solid-overlay fade: sits above the overlay,
+       masked out of the center column so it never runs behind the essay text.
+       Fades in with the same scroll progress as the overlay. */
+    #side-grid {
+      position: fixed; inset: 0; pointer-events: none; z-index: 1; opacity: 0; will-change: opacity;
+      --side-minor: rgba(181,181,181,0.055);
+      --side-major: rgba(181,181,181,0.09);
+      background-image:
+        repeating-linear-gradient(90deg, var(--side-minor) 0px, var(--side-minor) 1px, transparent 1px, transparent 15px),
+        repeating-linear-gradient(0deg,  var(--side-minor) 0px, var(--side-minor) 1px, transparent 1px, transparent 15px),
+        repeating-linear-gradient(90deg, var(--side-major) 0px, var(--side-major) 1px, transparent 1px, transparent 75px),
+        repeating-linear-gradient(0deg,  var(--side-major) 0px, var(--side-major) 1px, transparent 1px, transparent 75px);
+      -webkit-mask-image: linear-gradient(90deg, #000 0%, #000 calc(50% - 560px), transparent calc(50% - 430px), transparent calc(50% + 430px), #000 calc(50% + 560px), #000 100%);
+              mask-image: linear-gradient(90deg, #000 0%, #000 calc(50% - 560px), transparent calc(50% - 430px), transparent calc(50% + 430px), #000 calc(50% + 560px), #000 100%);
+    }
+
+    .page-wrap { position: relative; z-index: 2; max-width: 1280px; margin: 0 auto; padding: 0 var(--pad-x); }
+
+    /* ── nav ── */
+    nav { display: flex; align-items: center; justify-content: space-between; padding: 26px 0 20px; border-bottom: 1px solid var(--rule); }
+    .nav-logo {
+      font-family: "Fraunces", serif; font-optical-sizing: auto;
+      font-size: 1.5rem; font-weight: 600; letter-spacing: -0.01em;
+      color: var(--text-head); text-decoration: none;
+      display: flex; align-items: center; gap: 0.6rem;
+    }
+    /* brand mark — the collimator glyph (matches the favicon / app icon) */
+    .nav-logo .nav-mark { height: 26px; width: auto; flex: none; color: var(--gold); filter: drop-shadow(0 0 6px rgba(201,169,92,0.45)); }
+    .nav-links { display: flex; gap: 1.9rem; align-items: center; list-style: none; }
+    .nav-links li { display: flex; } /* anchor becomes a flex item — avoids svg-baseline misalignment */
+    .nav-links a {
+      display: inline-flex; align-items: center; gap: 7px;
+      font-family: "JetBrains Mono", monospace; font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--text-dim); text-decoration: none; transition: color 0.18s;
+    }
+    .nav-links a svg { width: 14px; height: 14px; fill: currentColor; }
+    .nav-links a:hover { color: var(--text); }
+
+    /* ── eyebrow ── */
+    .eyebrow {
+      font-family: "JetBrains Mono", monospace; font-size: 0.7rem; letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--text-faint); display: inline-flex; align-items: center; gap: 0.6rem;
+    }
+    .eyebrow::before { content: ""; width: 1.5rem; height: 1px; background: var(--gold-line); }
+
+    /* ── hero lede ── */
+    .hero { padding: 42px 0 20px; display: flex; flex-direction: column; align-items: center; text-align: center; }
+    .hero-lede {
+      font-size: clamp(1.12rem, 1.6vw, 1.5rem); font-weight: 500; color: var(--text-head);
+      line-height: 1.55; max-width: 760px; letter-spacing: -0.005em;
+    }
+    .hero-lede .mute { color: #b4b2ac; font-weight: 400; }
+    /* centered hairline that anchors the lede and echoes the eyebrow motif below */
+    .hero-lede::after {
+      content: ""; display: block; width: 34px; height: 1px; margin: 22px auto 0;
+      background: linear-gradient(90deg, transparent, var(--gold-line) 50%, transparent);
+    }
+
+    /* ── loop frame (placeholder → real product loop) ── */
+    .loop-wrap { position: relative; z-index: 2; max-width: 1100px; margin: 20px auto 0; padding: 0 var(--pad-x); }
+    .loop-frame {
+      position: relative; aspect-ratio: 16 / 9; margin-inline: auto;
+      /* cap by viewport height so the punchline stays near the fold on short/wide screens */
+      width: min(100%, 960px);
+      width: min(100%, clamp(560px, calc((100svh - 542px) * 16 / 9), 960px));
+      background: linear-gradient(180deg, rgba(33,36,45,0.62) 0%, rgba(24,26,33,0.55) 46%, rgba(19,21,27,0.5) 100%);
+      border: 1px solid var(--border);
+      border-radius: var(--radius); overflow: hidden;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.045), 0 26px 74px -30px rgba(0,0,0,0.78);
+    }
+    /* collimator crop-marks: frame the content as a deliberate viewport, not an empty box */
+    .loop-frame::after {
+      content: ""; position: absolute; inset: 11px; pointer-events: none; z-index: 3;
+      --tick: rgba(201,169,92,0.32); --len: 15px;
+      background:
+        linear-gradient(var(--tick),var(--tick)) 0 0        / var(--len) 1px no-repeat,
+        linear-gradient(var(--tick),var(--tick)) 0 0        / 1px var(--len) no-repeat,
+        linear-gradient(var(--tick),var(--tick)) 100% 0      / var(--len) 1px no-repeat,
+        linear-gradient(var(--tick),var(--tick)) 100% 0      / 1px var(--len) no-repeat,
+        linear-gradient(var(--tick),var(--tick)) 0 100%      / var(--len) 1px no-repeat,
+        linear-gradient(var(--tick),var(--tick)) 0 100%      / 1px var(--len) no-repeat,
+        linear-gradient(var(--tick),var(--tick)) 100% 100%   / var(--len) 1px no-repeat,
+        linear-gradient(var(--tick),var(--tick)) 100% 100%   / 1px var(--len) no-repeat;
+    }
+    .loop-grid {
+      position: absolute; inset: 0;
+      background-image:
+        repeating-linear-gradient(90deg, rgba(255,255,255,0.025) 0, rgba(255,255,255,0.025) 1px, transparent 1px, transparent 56px),
+        repeating-linear-gradient(0deg,  rgba(255,255,255,0.025) 0, rgba(255,255,255,0.025) 1px, transparent 1px, transparent 56px);
+    }
+    .loop-vignette { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(circle at center, rgba(20,22,28,0) 35%, rgba(8,8,10,0.55) 100%); }
+    .loop-caption {
+      position: absolute; left: 16px; bottom: 13px;
+      font-family: "JetBrains Mono", monospace; font-size: 0.66rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-faint);
+    }
+    .loop-caption .b { color: var(--gold); }
+
+    /* legible schematic: generate → fork → test both → keep one */
+    .schem { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+    .schem-inner { display: flex; flex-direction: column; align-items: center; gap: 20px; }
+    .s-card { background: rgba(255,255,255,0.035); border: 1px solid var(--border); border-radius: 6px; padding: 11px 13px; display: flex; flex-direction: column; gap: 6px; }
+    .s-tag { font-family: "JetBrains Mono", monospace; font-size: 0.56rem; letter-spacing: 0.13em; text-transform: uppercase; color: var(--text-faint); }
+    .s-line { height: 4px; border-radius: 100px; background: rgba(255,255,255,0.13); }
+    .s-result { width: 168px; }
+    .s-pair { display: flex; gap: 26px; }
+    .s-approach { width: 150px; position: relative; }
+    .s-check { display: flex; align-items: center; gap: 6px; margin-top: 2px; font-family: "JetBrains Mono", monospace; font-size: 0.56rem; color: var(--text-dim); }
+    .s-check svg { width: 9px; height: 9px; }
+    .s-approach.kept { border-color: var(--gold-line); background: var(--gold-soft); animation: keptBreathe 6s ease-in-out infinite; }
+    .s-approach.kept .s-check { color: var(--gold); }
+    @keyframes keptBreathe {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(201,169,92,0.0); border-color: var(--gold-line); }
+      50%      { box-shadow: 0 0 22px 0 rgba(201,169,92,0.18); border-color: rgba(201,169,92,0.75); }
+    }
+    .s-keptlabel { position: absolute; top: -8px; right: 10px; font-family: "JetBrains Mono", monospace; font-size: 0.54rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); background: #16140f; padding: 1px 6px; border: 1px solid var(--gold-line); border-radius: 3px; }
+    .s-fork { width: 220px; height: 40px; }
+    .s-fork path { stroke: var(--gold-line); stroke-width: 1; fill: none; }
+    @media (min-width: 881px)  { .schem-inner { transform: scale(1.18); } }
+    @media (min-width: 1500px) { .schem-inner { transform: scale(1.3); } }
+    @media (max-width: 880px) { .schem-inner { transform: scale(0.9); } }
+    /* Narrow screens: a 16:9 frame gets too short to hold the schematic clear of
+       the caption, so give it a taller ratio here. The real video swaps in with
+       object-fit:cover, so it still fills this box. */
+    @media (max-width: 640px) { .schem-inner { transform: scale(0.82); } .loop-frame { aspect-ratio: 4 / 3; } }
+    @media (max-width: 430px) { .schem-inner { transform: scale(0.68); } }
+
+    /* ── punchline ── */
+    .thesis-block { position: relative; z-index: 2; max-width: 880px; margin: 32px auto 0; padding: 0 var(--pad-x); text-align: center; }
+    h1.thesis-punchline {
+      font-family: "Fraunces", serif; font-optical-sizing: auto;
+      font-size: clamp(1.75rem, 3.3vw, 2.9rem); font-weight: 500; color: var(--text-head);
+      letter-spacing: -0.02em; line-height: 1.16; max-width: 26ch; margin: 0 auto;
+    }
+    h1.thesis-punchline em { font-style: italic; font-weight: 500; color: var(--gold); text-shadow: 0 0 24px rgba(201,169,92,0.30); }
+
+    /* ── hero actions ── */
+    .hero-actions { position: relative; z-index: 2; max-width: 720px; margin: 48px auto 0; padding: 0 var(--pad-x); display: flex; flex-direction: column; align-items: center; gap: 14px; }
+    .btn-playground {
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px;
+      width: 100%; max-width: 560px; padding: 13px 24px;
+      background: var(--gold-soft); border: 2px solid var(--gold-line); border-radius: var(--radius);
+      font-family: "JetBrains Mono", monospace; text-decoration: none; cursor: pointer;
+      box-shadow: 0 2px 18px rgba(201,169,92,0.10);
+      transition: all 0.18s;
+    }
+    .btn-playground:hover { border-color: var(--gold); background: rgba(201,169,92,0.18); box-shadow: 0 2px 24px rgba(201,169,92,0.18); }
+    .btn-playground .btn-main { display: inline-flex; align-items: center; gap: 10px; font-size: 0.92rem; font-weight: 500; letter-spacing: 0.04em; color: var(--gold); }
+    .btn-playground:hover .btn-main { color: var(--gold-hi); }
+    .btn-playground .btn-main svg { width: 16px; height: 16px; fill: currentColor; }
+    .btn-playground .btn-sub { font-size: 0.66rem; letter-spacing: 0.09em; text-transform: uppercase; color: var(--text-faint); }
+
+    .btn-install {
+      display: inline-flex; align-items: center; gap: 9px; margin-top: 2px; padding: 12px 24px;
+      background: rgba(26,28,35,0.62); border: 1px solid var(--border); border-radius: var(--radius);
+      font-family: "JetBrains Mono", monospace; font-size: 0.8rem; font-weight: 500; letter-spacing: 0.07em; text-transform: uppercase;
+      color: var(--text-body); text-decoration: none; transition: border-color 0.18s, background 0.18s, color 0.18s;
+    }
+    .btn-install:hover { border-color: var(--gold-line); background: var(--gold-soft); color: var(--text); }
+    .btn-install svg { width: 13px; height: 13px; fill: currentColor; }
+
+    .uvx-copy-icon { display: flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 5px; background: rgba(255,255,255,0.05); border: 1px solid var(--border); flex-shrink: 0; transition: all 0.18s; }
+    .uvx-copy-icon svg { width: 12px; height: 12px; fill: var(--text-faint); transition: fill 0.18s; }
+
+    /* static scroll cue — just a still chevron, no label/bounce/fade */
+    .scroll-hint { position: relative; z-index: 2; display: flex; justify-content: center; margin: 46px auto 54px; color: var(--text-faint); }
+    .scroll-hint svg { width: 30px; height: 30px; stroke: currentColor; fill: none; opacity: 0.5; stroke-width: 1.5; }
+
+    /* ── essay column ── */
+    .essay-wrap { position: relative; z-index: 2; max-width: 760px; margin: 0 auto; padding: 0 var(--pad-x); }
+    .essay-section { padding: 12px 0; }
+    .essay-section + .essay-section { border-top: 1px solid var(--rule); margin-top: 22px; padding-top: 40px; }
+    .essay-section .eyebrow { margin-bottom: 16px; }
+    .essay-section h2 {
+      font-family: "Fraunces", serif; font-optical-sizing: auto; font-size: clamp(1.45rem, 2.8vw, 2rem);
+      font-weight: 500; color: var(--text-head); letter-spacing: -0.018em; line-height: 1.2; margin: 0 0 18px;
+    }
+    .essay-section p { font-size: 1.04rem; color: var(--text-body); line-height: 1.8; margin-bottom: 18px; }
+    .essay-section p:last-child { margin-bottom: 0; }
+    .essay-section p b { color: var(--text); font-weight: 600; }
+    .kicker { font-family: "Fraunces", serif; font-weight: 500; color: var(--text-head); }
+
+    .essay-link {
+      display: inline-flex; align-items: center; gap: 6px; margin-top: 4px;
+      font-family: "JetBrains Mono", monospace; font-size: 0.82rem; letter-spacing: 0.03em;
+      color: var(--text-dim); text-decoration: none; border-bottom: 1px solid var(--border); padding-bottom: 3px;
+      transition: color 0.15s, border-color 0.15s;
+    }
+    .essay-link:hover { color: var(--text); border-color: var(--gold-line); }
+
+    /* ── install & source ── */
+    .install-grid { display: grid; grid-template-columns: 1fr; gap: 16px; margin-top: 6px; }
+    .install-card { display: flex; flex-direction: column; gap: 10px; background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); padding: 26px; }
+    .install-card-source { flex-direction: row; align-items: stretch; gap: 16px; text-align: center; }
+    .source-col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+    .install-block { display: flex; flex-direction: column; gap: 9px; }
+    .install-block + .install-block { margin-top: 12px; }
+    .install-heading { font-family: "JetBrains Mono", monospace; font-size: 0.74rem; letter-spacing: 0.03em; color: var(--text-faint); }
+    .install-heading strong { color: var(--gold); font-weight: 600; text-transform: uppercase; letter-spacing: 0.09em; }
+    .cmd-line {
+      display: flex; flex-wrap: wrap; align-items: center; gap: 10px; width: 100%; padding: 10px 12px;
+      background: rgba(13,14,18,0.6); border: 1px solid var(--border); border-radius: 6px;
+      font-family: "JetBrains Mono", monospace; font-size: 0.82rem; color: var(--text-body);
+      cursor: pointer; text-align: left; transition: border-color 0.18s, background 0.18s;
+    }
+    .cmd-line > span { white-space: nowrap; }
+    .cmd-line:hover { border-color: var(--gold-line); background: var(--gold-soft); }
+    .cmd-line .dollar { color: var(--text-faint); user-select: none; }
+    .cmd-line .cmd-hl { color: var(--gold); font-weight: 500; }
+    .cmd-line .cmd-note { font-size: 0.72rem; color: var(--text-faint); white-space: normal; }
+    .cmd-line .uvx-copy-icon { margin-left: auto; }
+    .cmd-line:hover .uvx-copy-icon { background: var(--gold-soft); border-color: var(--gold-line); }
+    .cmd-line:hover .uvx-copy-icon svg { fill: var(--gold); }
+    .cmd-or { font-family: "JetBrains Mono", monospace; font-size: 0.62rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-faint); padding-left: 13px; user-select: none; }
+    .install-tagline { font-family: "JetBrains Mono", monospace; font-size: 0.72rem; color: var(--text-dim); margin-top: 12px; letter-spacing: 0.02em; }
+    .btn-github-sm {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 10px 14px;
+      background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: var(--radius);
+      font-family: "JetBrains Mono", monospace; font-size: 0.78rem; font-weight: 500; letter-spacing: 0.02em;
+      color: var(--text-dim); text-decoration: none; transition: all 0.18s; width: 100%; max-width: 380px;
+    }
+    .btn-github-sm:hover { background: rgba(255,255,255,0.06); border-color: #6a5c49; color: var(--text); }
+    .btn-github-sm svg { width: 15px; height: 15px; fill: currentColor; }
+    .github-fsl { font-family: "JetBrains Mono", monospace; font-size: 0.68rem; color: var(--text-faint); text-align: center; line-height: 1.6; }
+    .get-uv-link { font-family: "JetBrains Mono", monospace; font-size: 0.7rem; color: var(--text-faint); text-decoration: none; display: block; margin-top: auto; transition: color 0.18s; }
+    .get-uv-link:hover { color: var(--gold); }
+
+    /* ── community ── */
+    .discord-btn {
+      display: inline-flex; align-items: center; gap: 10px; margin-top: 6px; padding: 12px 22px;
+      background: transparent; border: 1px solid var(--gold-line); border-radius: var(--radius);
+      font-family: "JetBrains Mono", monospace; font-size: 0.84rem; font-weight: 500; letter-spacing: 0.04em;
+      color: var(--gold); text-decoration: none; transition: all 0.18s;
+    }
+    .discord-btn:hover { border-color: var(--gold); background: var(--gold-soft); color: var(--gold-hi); }
+    .discord-btn svg { width: 16px; height: 16px; fill: currentColor; }
+
+    /* ── footer ── */
+    .site-footer {
+      position: relative; z-index: 2; background: var(--void); border-top: 1px solid var(--rule);
+      margin-top: 92px; padding: 72px 0 60px; text-align: center;
+      font-family: "JetBrains Mono", monospace; font-size: 0.78rem; letter-spacing: 0.03em; color: var(--text-faint);
+    }
+    .footer-inner { max-width: 1180px; margin: 0 auto; padding: 0 var(--pad-x); }
+    .site-footer a { color: var(--text-dim); text-decoration: none; transition: color 0.15s; }
+    .site-footer a:hover { color: var(--text); }
+    .site-footer .sep { opacity: 0.4; margin: 0 10px; }
+
+    /* ── toast ── */
+    #toast {
+      position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%) translateY(16px);
+      background: rgba(22,20,15,0.94); border: 1px solid var(--gold-line); border-radius: var(--radius);
+      padding: 13px 26px; font-family: "JetBrains Mono", monospace; font-size: 0.84rem; color: var(--text);
+      box-shadow: 0 16px 48px rgba(0,0,0,0.6); opacity: 0; pointer-events: none; z-index: 9999;
+      transition: opacity 0.3s, transform 0.3s cubic-bezier(0.175,0.885,0.32,1.275); white-space: nowrap;
+    }
+    #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    .reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.75s cubic-bezier(0.2,0.7,0.2,1), transform 0.75s cubic-bezier(0.2,0.7,0.2,1); }
+    .reveal.in { opacity: 1; transform: none; }
+
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: var(--solid-bg); }
+    ::-webkit-scrollbar-thumb { background: rgba(201,169,92,0.28); border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(201,169,92,0.5); }
+
+    @media (max-width: 640px) {
+      nav { padding: 22px 0 18px; }
+      .nav-links { gap: 1.2rem; }
+      .hero { padding: 36px 0 18px; }
+      .loop-caption { font-size: 0.58rem; letter-spacing: 0.07em; }
+      .scroll-hint { margin: 52px auto 40px; }
+      .essay-section + .essay-section { margin-top: 14px; padding-top: 32px; }
+      .install-card { padding: 20px 16px; }
+      .install-card-source { flex-direction: column; }
+      .cmd-line { font-size: 0.78rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+      .reveal { opacity: 1; transform: none; }
+    }
+  </style>
+  <noscript>
+    <style>
+      /* Without JS the solid-overlay fade never runs, so back the essay column
+         directly; the brand grid stays visible on the sides. The reveal-on-scroll
+         hidden state is applied by JS only, so all text is already exposed. */
+      .essay-wrap { background: rgba(18,20,25,0.92); border-radius: var(--radius); }
+    </style>
+  </noscript>
+</head>
+<body>
+
+  <div class="layer-bg layer-base"></div>
+  <div class="layer-bg layer-grid-minor"></div>
+  <div class="layer-bg layer-grid-major"></div>
+  <div class="layer-bg layer-vignette"></div>
+  <div id="solid-overlay"></div>
+  <div id="side-grid"></div>
+
+  <div id="toast">✓ Copied to clipboard</div>
+
+  <!-- ────────── ABOVE THE FOLD ────────── -->
+  <div class="page-wrap">
+    <nav>
+      <a class="nav-logo" href="#"><svg class="nav-mark" viewBox="7 18 39 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="11" cy="32" r="3" fill="currentColor"/><g stroke="currentColor" stroke-width="3.4" stroke-linecap="round"><line x1="12" y1="32" x2="28" y2="24"/><line x1="12" y1="32" x2="28" y2="40"/></g><path d="M28 19 C33 25 33 39 28 45 C23 39 23 25 28 19 Z" fill="currentColor"/><g stroke="currentColor" stroke-width="3.4" stroke-linecap="round"><line x1="28" y1="24" x2="43" y2="24"/><line x1="28" y1="40" x2="43" y2="40"/></g></svg>Collimate</a>
+      <ul class="nav-links">
+        <li>
+          <a href="https://github.com/mike-droptables/collimate" target="_blank" rel="noopener">
+            <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+            GitHub
+          </a>
+        </li>
+        <li><a href="./why.html">Why</a></li>
+      </ul>
+    </nav>
+
+    <header class="hero">
+      <p class="hero-lede">
+        The model's answer is a starting point: fork it, challenge it, compare approaches, keep what holds.
+      </p>
+    </header>
+  </div>
+
+  <!-- ── HERO VIDEO LOOP ──
+       Placeholder: a legible schematic of the actual loop (generate → fork →
+       test both → keep one). A real silent ~20s product loop will replace it.
+
+       To swap in the real video, replace the entire <div class="schem">…</div>
+       block below with:
+         <video autoplay loop muted playsinline class="loop-video"
+                poster="./loop-poster.jpg" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
+           <source src="./demo-loop.webm" type="video/webm">
+         </video>
+       Pick a poster frame that is itself a legible real screenshot — it's what
+       a meaningful share of visitors actually see. Film the *pause* (the
+       fork-and-compare), not the generation. -->
+  <div class="loop-wrap">
+    <div class="loop-frame">
+      <div class="loop-grid"></div>
+
+      <div class="schem" aria-hidden="true">
+        <div class="schem-inner">
+          <div class="s-card s-result">
+            <span class="s-tag">model output</span>
+            <div class="s-line" style="width:100%"></div>
+            <div class="s-line" style="width:62%"></div>
+          </div>
+
+          <svg class="s-fork" viewBox="0 0 200 26" preserveAspectRatio="none">
+            <path d="M100 0 V8 M100 8 C100 18, 38 14, 38 26 M100 8 C100 18, 162 14, 162 26"/>
+          </svg>
+
+          <div class="s-pair">
+            <div class="s-card s-approach">
+              <span class="s-tag">approach a</span>
+              <div class="s-line" style="width:100%"></div>
+              <div class="s-line" style="width:48%"></div>
+              <div class="s-check"><svg viewBox="0 0 12 12"><path d="M2 6.5 5 9.5 10 3" stroke="currentColor" stroke-width="1.4" fill="none"/></svg>same challenge</div>
+            </div>
+            <div class="s-card s-approach kept">
+              <span class="s-keptlabel">kept</span>
+              <span class="s-tag">approach b</span>
+              <div class="s-line" style="width:100%"></div>
+              <div class="s-line" style="width:70%"></div>
+              <div class="s-check"><svg viewBox="0 0 12 12"><path d="M2 6.5 5 9.5 10 3" stroke="currentColor" stroke-width="1.4" fill="none"/></svg>same challenge</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="loop-vignette"></div>
+      <div class="loop-caption">product loop · <span class="b">placeholder</span> · real demo goes here</div>
+    </div>
+  </div>
+
+  <!-- PUNCHLINE -->
+  <div class="thesis-block">
+    <h1 class="thesis-punchline serif">
+      For AI-assisted work that's <em>too important to ship on the first answer.</em>
+    </h1>
+  </div>
+
+  <!-- HERO ACTIONS -->
+  <div class="hero-actions">
+    <a href="./playground/" class="btn-playground">
+      <span class="btn-main">
+        <svg viewBox="0 0 16 16"><path d="M0 3.5A1.5 1.5 0 0 1 1.5 2h13A1.5 1.5 0 0 1 16 3.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 12.5v-9zm1.5-.5a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-13z"/><path d="M3 5.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5z"/></svg>
+        Try the Playground in Browser
+      </span>
+      <span class="btn-sub">the real app · sandboxed · nothing saved</span>
+    </a>
+    <a href="#install-source" class="btn-install">
+      Install locally
+      <svg viewBox="0 0 16 16"><path d="M8 12l-5-5h10l-5 5z"/></svg>
+    </a>
+  </div>
+
+  <div class="scroll-hint" aria-hidden="true">
+    <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+  </div>
+
+  <!-- ────────── BELOW THE FOLD ────────── -->
+  <div class="essay-wrap" id="essay">
+
+    <div class="essay-section">
+      <div class="eyebrow">// 01</div>
+      <h2 class="serif">Most AI use is one-shot, and should be. This is for the other kind.</h2>
+    </div>
+
+    <div class="essay-section">
+      <div class="eyebrow">// 02</div>
+      <h2 class="serif">Where it goes wrong.</h2>
+      <p>
+        You ask for something hard and get something plausible: clean, compiles, reads right. Plausible enough that you build on it before you catch what it missed. You ask for a fix; it breaks something it wrote two prompts ago, and you're scrolling a flat transcript holding a branching problem in your head.
+      </p>
+      <p>
+        None of that is the model being bad. It's abundance forced through tools built to guard one precious draft. <b>The bottleneck moved. The tools didn't.</b>
+      </p>
+    </div>
+
+    <div class="essay-section">
+      <div class="eyebrow">// 03</div>
+      <h2 class="serif">The loop.</h2>
+      <p>
+        Get a result that looks reasonable. The right next move is to challenge it — demand tests, write down your complaints, try a rival approach. Almost nobody does, because in a chat every challenge pollutes the context that produced the answer: pushing back risks the thing you already have. Here, challenging is cheap. Fork the result, set the approaches side by side, throw the same objection at both. Keep what holds; what doesn't stays a card you can flip back to. <span class="kicker">Explore, challenge, compare, merge, kill.</span> Nothing you try is lost.
+      </p>
+    </div>
+
+    <div class="essay-section">
+      <div class="eyebrow">// 04</div>
+      <h2 class="serif">Why it's different.</h2>
+      <p>
+        Current tools move your judgment to the edges. Agents do the work and you approve the diff; or you write the spec and they execute. Both park you at a gate. Collimate keeps you in the middle, where the thinking happens: testing hunches, running the experiment, choosing between approaches.
+      </p>
+      <p>
+        It doesn't care whether a draft came from one model or eight agents racing, only what you do with it once it exists. If throughput is the goal, a background agent wins. This is for work where <b>the cost is in the commit, not the keystroke.</b>
+      </p>
+      <a class="essay-link" href="./why.html">Read the longer essay →</a>
+    </div>
+
+    <div class="essay-section">
+      <div class="eyebrow">// 05</div>
+      <h2 class="serif">What to know.</h2>
+      <p>
+        Runs locally: single-user, no cloud, no accounts, keyboard-driven. What you make is plain files in local content-addressed storage, indexed by SQLite. Pre-1.0 and single-author: the hard parts are solved with care, some of the polish isn't.
+      </p>
+      <p>
+        The layer you build on is two pieces, both created in the app. <b>Generators</b> are plain Python that can run anything: any model, any agent harness, or no AI at all. <b>Renderers</b> are TypeScript views for whatever files they produce. That layer is Apache-licensed and separate from the app, so nothing you make is trapped if the app goes away.
+      </p>
+    </div>
+
+    <div class="essay-section" id="install-source">
+      <div class="eyebrow">// 06</div>
+      <h2 class="serif">Install and source.</h2>
+      <div class="install-grid">
+        <div class="install-card">
+          <div class="install-block">
+            <div class="install-heading"><strong>Try it</strong> (nothing installed, runs from cache)</div>
+            <button class="cmd-line" onclick="copyText('uvx collimate')">
+              <span class="dollar">$</span>
+              <span><span class="cmd-hl">uvx</span> collimate</span>
+              <span class="cmd-note"># headless server · open :5001 in your browser</span>
+              <span class="uvx-copy-icon"><svg viewBox="0 0 16 16"><path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/><path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/></svg></span>
+            </button>
+            <div class="cmd-or">or</div>
+            <button class="cmd-line" onclick="copyText('uvx --from collimate collimateapp')">
+              <span class="dollar">$</span>
+              <span><span class="cmd-hl">uvx</span> --from collimate collimateapp</span>
+              <span class="cmd-note"># same server, in its own app window</span>
+              <span class="uvx-copy-icon"><svg viewBox="0 0 16 16"><path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/><path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/></svg></span>
+            </button>
+          </div>
+          <div class="install-block">
+            <div class="install-heading"><strong>Keep it</strong> (puts collimate + collimateapp on your PATH)</div>
+            <button class="cmd-line" onclick="copyText('uv tool install collimate')">
+              <span class="dollar">$</span>
+              <span><span class="cmd-hl">uv tool</span> install collimate</span>
+              <span class="uvx-copy-icon"><svg viewBox="0 0 16 16"><path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/><path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/></svg></span>
+            </button>
+            <button class="cmd-line" onclick="copyText('collimate-app-shortcut')">
+              <span class="dollar">$</span>
+              <span>collimate-app-shortcut</span>
+              <span class="cmd-note"># optional: desktop launcher (runs collimateapp)</span>
+              <span class="uvx-copy-icon"><svg viewBox="0 0 16 16"><path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/><path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/></svg></span>
+            </button>
+          </div>
+          <div class="install-tagline">Needs Python 3.x and uv. No account, no cloud, no auth.</div>
+          <a class="get-uv-link" href="https://docs.astral.sh/uv/getting-started/installation/" target="_blank" rel="noopener">Don't have uv? Get it here →</a>
+        </div>
+
+        <div class="install-card install-card-source">
+          <div class="source-col">
+            <a class="btn-github-sm" href="https://github.com/mike-droptables/collimate" target="_blank" rel="noopener">
+              <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+              App Source
+            </a>
+            <div class="github-fsl">FSL-1.1 · Apache-2.0 after two years</div>
+          </div>
+          <div class="source-col">
+            <a class="btn-github-sm" href="https://github.com/mike-droptables/collimate-sdk" target="_blank" rel="noopener">
+              <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+              SDK Source
+            </a>
+            <div class="github-fsl">Apache-2.0</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="essay-section" id="community">
+      <div class="eyebrow">// 07</div>
+      <h2 class="serif">Community.</h2>
+      <p>
+        Feedback shapes what this becomes. Tell me what's broken, or show what you've made.
+      </p>
+      <a class="discord-btn" href="https://discord.gg/collimate" target="_blank" rel="noopener">
+        <svg viewBox="0 0 16 16"><path d="M13.545 2.907a13.227 13.227 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.19 12.19 0 0 0-3.658 0 8.258 8.258 0 0 0-.412-.833.051.051 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.041.041 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032c.001.014.01.028.021.037a13.276 13.276 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019c.308-.42.582-.863.818-1.329a.05.05 0 0 0-.01-.059.051.051 0 0 0-.018-.011 8.875 8.875 0 0 1-1.248-.595.05.05 0 0 1-.02-.066.051.051 0 0 1 .015-.019c.084-.063.168-.129.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.052.052 0 0 1 .053.007c.08.066.164.132.248.195a.051.051 0 0 1-.004.085 8.254 8.254 0 0 1-1.249.594.05.05 0 0 0-.03.03.052.052 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.235 13.235 0 0 0 4.001-2.02.049.049 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.034.034 0 0 0-.02-.019zm-8.198 7.307c-.789 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612zm5.316 0c-.788 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612z"/></svg>
+        Join the Discord
+      </a>
+    </div>
+
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <a href="https://github.com/mike-droptables/collimate" target="_blank" rel="noopener">GitHub</a>
+        <span class="sep">·</span>
+        <a href="https://github.com/mike-droptables/collimate-sdk" target="_blank" rel="noopener">SDK</a>
+        <span class="sep">·</span>
+        <a href="./why.html">Why</a>
+        <span class="sep">·</span>
+        <a href="mailto:michael@collimate.dev">michael@collimate.dev</a>
+      </div>
+      <div class="serif" style="margin-top: 26px; font-style: italic; font-size: 0.84rem; color: var(--text-faint); letter-spacing: 0;">col·li·mate, <span style="opacity: 0.7;">v.</span> — to make divergent rays parallel.</div>
+      <div style="margin-top: 12px; opacity: 0.7;">© 2026 Collimate · App FSL-1.1 · SDK Apache-2.0</div>
+    </div>
+  </footer>
+
+  <script>
+    function copyText(textToCopy) {
+      navigator.clipboard.writeText(textToCopy).then(() => {
+        const t = document.getElementById('toast');
+        t.classList.add('show');
+        setTimeout(() => t.classList.remove('show'), 2600);
+      });
+    }
+    const solidOverlay = document.getElementById('solid-overlay');
+    const sideGrid = document.getElementById('side-grid');
+    const essayEl = document.getElementById('essay');
+    function updateOverlay() {
+      const rect = essayEl.getBoundingClientRect();
+      const vh = window.innerHeight;
+      const progress = 1 - Math.max(0, Math.min(1, (rect.top - vh * 0.15) / (vh * 0.7)));
+      solidOverlay.style.opacity = progress;
+      sideGrid.style.opacity = progress;
+    }
+    window.addEventListener('scroll', updateOverlay, { passive: true });
+    updateOverlay();
+
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { threshold: 0.16, rootMargin: '0px 0px -6% 0px' });
+    // The hidden .reveal state must only ever be applied here, from JS — never
+    // in the markup — so browsers with JS off always see the text.
+    document.querySelectorAll('.essay-section').forEach(el => { el.classList.add('reveal'); io.observe(el); });
+  </script>
+
+</body>
+</html>
