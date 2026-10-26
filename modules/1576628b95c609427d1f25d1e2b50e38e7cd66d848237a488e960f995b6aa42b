@@ -1,0 +1,4 @@
+/* esm.sh - react-remove-scroll-bar@2.3.8 */
+import "./react-style-singleton@^2.2.2?deps=react@19.3.1&target=es2022";
+import "./react@19.3.1/es2022/react.mjs";
+export * from "./react-remove-scroll-bar@2.3.8/X-ZHJlYWN0QDE5LjMuMQ/es2022/react-remove-scroll-bar.mjs";

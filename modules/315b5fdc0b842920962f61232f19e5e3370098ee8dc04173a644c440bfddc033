@@ -1,0 +1,8 @@
+/* esm.sh - @iconify/utils@3.1.7/lib/css/format */
+var n={selectorStart:{compressed:"{",compact:" {",expanded:" {"},selectorEnd:{compressed:"}",compact:`; }
+`,expanded:`;
+}
+`},rule:{compressed:"{key}:",compact:" {key}: ",expanded:`
+  {key}: `}};function d(c,e="expanded"){let o=[];for(let t=0;t<c.length;t++){let{selector:s,rules:l}=c[t],r=(s instanceof Array?s.join(e==="compressed"?",":", "):s)+n.selectorStart[e],p=!0;for(let a in l)p||(r+=";"),r+=n.rule[e].replace("{key}",a)+l[a],p=!1;r+=n.selectorEnd[e],o.push(r)}return o.join(e==="compressed"?"":`
+`)}export{d as formatCSS};
+//# sourceMappingURL=format.mjs.map

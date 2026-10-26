@@ -1,0 +1,5 @@
+/* esm.sh - @assistant-ui/core@0.3.31/dist/utils/text */
+var n=e=>e.content.filter(t=>t.type==="text").map(t=>t.text).join(`
+
+`);export{n as getThreadMessageText};
+//# sourceMappingURL=text.mjs.map

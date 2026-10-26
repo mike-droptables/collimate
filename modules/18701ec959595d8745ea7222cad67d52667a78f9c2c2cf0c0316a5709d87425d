@@ -1,0 +1,2 @@
+/* esm.sh - space-separated-tokens@2.0.2 */
+export * from "./space-separated-tokens@2.0.2/es2022/space-separated-tokens.mjs";

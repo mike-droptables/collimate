@@ -1,0 +1,2 @@
+/* esm.sh - path-data-parser@0.1.0 */
+export * from "./path-data-parser@0.1.0/es2022/path-data-parser.mjs";

@@ -1,0 +1,3 @@
+/* esm.sh - micromark-factory-whitespace@2.0.1 */
+import{factorySpace as u}from"../../micromark-factory-space@^2.0.0?target=es2022";import{markdownLineEnding as a,markdownSpace as o}from"../../micromark-util-character@^2.0.0?target=es2022";function f(r,e){let t;return i;function i(n){return a(n)?(r.enter("lineEnding"),r.consume(n),r.exit("lineEnding"),t=!0,i):o(n)?u(r,i,t?"linePrefix":"lineSuffix")(n):e(n)}}export{f as factoryWhitespace};
+//# sourceMappingURL=micromark-factory-whitespace.mjs.map

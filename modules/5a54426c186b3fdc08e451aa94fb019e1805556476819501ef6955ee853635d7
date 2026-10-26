@@ -1,0 +1,4 @@
+/* esm.sh - @lezer/json@1.0.3 */
+import "./highlight@^1.0.0?target=es2022";
+import "./lr@^1.0.0?target=es2022";
+export * from "./json@1.0.3/es2022/json.mjs";

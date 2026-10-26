@@ -1,0 +1,12 @@
+/* esm.sh - vue@3.5.44 */
+import{initCustomFormatter as i}from"../../@vue/runtime-dom@3.5.44/es2022/runtime-dom.mjs";export*from"../../@vue/runtime-dom@3.5.44/es2022/runtime-dom.mjs";var e=()=>{};export{e as compile};
+/*! Bundled license information:
+
+vue/dist/vue.runtime.esm-bundler.js:
+  (**
+  * vue v3.5.44
+  * (c) 2018-present Yuxi (Evan) You and Vue contributors
+  * @license MIT
+  **)
+*/
+//# sourceMappingURL=vue.mjs.map

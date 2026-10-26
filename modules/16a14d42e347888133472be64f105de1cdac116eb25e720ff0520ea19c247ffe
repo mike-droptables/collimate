@@ -1,0 +1,3 @@
+/* esm.sh - yaml@2.9.1/browser/dist/stringify/stringifyNumber */
+function o({format:s,minFractionDigits:f,tag:r,value:t}){if(typeof t=="bigint")return String(t);let i=typeof t=="number"?t:Number(t);if(!isFinite(i))return isNaN(i)?".nan":i<0?"-.inf":".inf";let n=Object.is(t,-0)?"-0":JSON.stringify(t);if(!s&&f&&(!r||r==="tag:yaml.org,2002:float")&&/^-?\d/.test(n)&&!n.includes("e")){let e=n.indexOf(".");e<0&&(e=n.length,n+=".");let g=f-(n.length-e-1);for(;g-- >0;)n+="0"}return n}export{o as stringifyNumber};
+//# sourceMappingURL=stringifyNumber.mjs.map

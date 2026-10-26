@@ -1,0 +1,3 @@
+/* esm.sh - @mermaid-js/parser@2.0.1 */
+import "../node/process.mjs";
+export * from "./parser@2.0.1/es2022/parser.mjs";

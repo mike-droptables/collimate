@@ -1,0 +1,4 @@
+/* esm.sh - @lezer/css@1.3.9 */
+import "./highlight@^1.0.0?target=es2022";
+import "./lr@^1.3.0?target=es2022";
+export * from "./css@1.3.9/es2022/css.mjs";

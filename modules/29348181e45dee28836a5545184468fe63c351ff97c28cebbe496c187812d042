@@ -1,0 +1,3 @@
+/* esm.sh - @assistant-ui/core@0.3.31/dist/runtime/utils/load-earlier */
+var t=class{pending;get isLoading(){return this.pending!==void 0}load(i,r,e){if(this.pending)return this.pending;if(!i)return Promise.resolve();let n=Promise.resolve().then(()=>i()).catch(r).finally(()=>{this.pending=void 0,e(!1)});return this.pending=n,e(!0),n}};export{t as LoadEarlier};
+//# sourceMappingURL=load-earlier.mjs.map

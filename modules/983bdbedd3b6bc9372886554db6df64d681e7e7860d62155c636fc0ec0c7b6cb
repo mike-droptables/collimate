@@ -1,0 +1,6 @@
+/* esm.sh - @codemirror/lang-sql@6.10.0 */
+import "./autocomplete@^6.0.0?target=es2022";
+import "./language@^6.0.0?target=es2022";
+import "../@lezer/highlight@^1.0.0?target=es2022";
+import "../@lezer/lr@^1.0.0?target=es2022";
+export * from "./lang-sql@6.10.0/es2022/lang-sql.mjs";

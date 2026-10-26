@@ -1,0 +1,3 @@
+/* esm.sh - @iconify/utils@3.1.7/lib/icon/square */
+function f(t){if(t.width!==t.height){let e=Math.max(t.width,t.height);return{...t,width:e,height:e,left:t.left-(e-t.width)/2,top:t.top-(e-t.height)/2}}return t}function m(t){let[e,u,r,a]=t;if(r!==a){let h=Math.max(r,a);return[e-(h-r)/2,u-(h-a)/2,h,h]}return t}export{f as makeIconSquare,m as makeViewBoxSquare};
+//# sourceMappingURL=square.mjs.map

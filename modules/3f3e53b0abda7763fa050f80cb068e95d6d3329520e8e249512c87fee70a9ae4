@@ -1,0 +1,3 @@
+/* esm.sh - @iconify/utils@3.1.7/lib/icon-set/expand */
+import{defaultIconDimensions as o}from"../icon/defaults.mjs";function m(n){let i=Object.keys(n.icons);Object.keys(o).forEach(e=>{if(typeof n[e]!=typeof o[e])return;let t=n[e];i.forEach(s=>{let c=n.icons[s];e in c||(c[e]=t)}),delete n[e]})}export{m as expandIconSet};
+//# sourceMappingURL=expand.mjs.map

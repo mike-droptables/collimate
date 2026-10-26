@@ -1,0 +1,3 @@
+/* esm.sh - es-toolkit@1.53.0/dist/predicate/isIterable */
+function n(t){return t!=null&&typeof t[Symbol.iterator]=="function"}export{n as isIterable};
+//# sourceMappingURL=isIterable.mjs.map

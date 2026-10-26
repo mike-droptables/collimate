@@ -1,0 +1,2 @@
+/* esm.sh - devlop@1.1.0 */
+export * from "./devlop@1.1.0/es2022/devlop.mjs";

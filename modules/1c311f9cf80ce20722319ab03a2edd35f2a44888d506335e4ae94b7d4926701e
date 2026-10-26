@@ -1,0 +1,3 @@
+/* esm.sh - @assistant-ui/store@0.3.22/dist/utils/useHostDestroySignal */
+"use client";import{useInsertionEffect as o,useState as r}from"../../../../../tap@0.9.24/X-ZHJlYWN0QDE5LjMuMQ/es2022/react-shim.mjs";var s=()=>{let[e]=r(()=>({controller:new AbortController,generation:0}));return o(()=>{let t=++e.generation;return()=>queueMicrotask(()=>{e.generation===t&&e.controller.abort()})},[e]),e.controller.signal};export{s as useHostDestroySignal};
+//# sourceMappingURL=useHostDestroySignal.mjs.map

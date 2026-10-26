@@ -1,0 +1,40 @@
+/* esm.sh - react-remove-scroll-bar@2.3.8 */
+import*as c from"../../../react@19.3.1/es2022/react.mjs";import{styleSingleton as x}from"../../../react-style-singleton@^2.2.2?deps=react@19.3.1&target=es2022";var d="right-scroll-bar-position",l="width-before-scroll-bar",p="with-scroll-bars-hidden",s="--removed-body-scroll-bar-size";var h={left:0,top:0,right:0,gap:0},m=function(t){return parseInt(t||"",10)||0},b=function(t){var r=window.getComputedStyle(document.body),o=r[t==="padding"?"paddingLeft":"marginLeft"],n=r[t==="padding"?"paddingTop":"marginTop"],e=r[t==="padding"?"paddingRight":"marginRight"];return[m(o),m(n),m(e)]},f=function(t){if(t===void 0&&(t="margin"),typeof window>"u")return h;var r=b(t),o=document.documentElement.clientWidth,n=window.innerWidth;return{left:r[0],top:r[1],right:r[2],gap:Math.max(0,n-o+r[2]-r[0])}};var y=x(),i="data-scroll-locked",S=function(t,r,o,n){var e=t.left,g=t.top,v=t.right,a=t.gap;return o===void 0&&(o="margin"),`
+  .`.concat(p,` {
+   overflow: hidden `).concat(n,`;
+   padding-right: `).concat(a,"px ").concat(n,`;
+  }
+  body[`).concat(i,`] {
+    overflow: hidden `).concat(n,`;
+    overscroll-behavior: contain;
+    `).concat([r&&"position: relative ".concat(n,";"),o==="margin"&&`
+    padding-left: `.concat(e,`px;
+    padding-top: `).concat(g,`px;
+    padding-right: `).concat(v,`px;
+    margin-left:0;
+    margin-top:0;
+    margin-right: `).concat(a,"px ").concat(n,`;
+    `),o==="padding"&&"padding-right: ".concat(a,"px ").concat(n,";")].filter(Boolean).join(""),`
+  }
+  
+  .`).concat(d,` {
+    right: `).concat(a,"px ").concat(n,`;
+  }
+  
+  .`).concat(l,` {
+    margin-right: `).concat(a,"px ").concat(n,`;
+  }
+  
+  .`).concat(d," .").concat(d,` {
+    right: 0 `).concat(n,`;
+  }
+  
+  .`).concat(l," .").concat(l,` {
+    margin-right: 0 `).concat(n,`;
+  }
+  
+  body[`).concat(i,`] {
+    `).concat(s,": ").concat(a,`px;
+  }
+`)},u=function(){var t=parseInt(document.body.getAttribute(i)||"0",10);return isFinite(t)?t:0},w=function(){c.useEffect(function(){return document.body.setAttribute(i,(u()+1).toString()),function(){var t=u()-1;t<=0?document.body.removeAttribute(i):document.body.setAttribute(i,t.toString())}},[])},C=function(t){var r=t.noRelative,o=t.noImportant,n=t.gapMode,e=n===void 0?"margin":n;w();var g=c.useMemo(function(){return f(e)},[e]);return c.createElement(y,{styles:S(g,!r,e,o?"":"!important")})};export{C as RemoveScrollBar,l as fullWidthClassName,f as getGapWidth,p as noScrollbarsClassName,s as removedBarSizeVariable,d as zeroRightClassName};
+//# sourceMappingURL=react-remove-scroll-bar.mjs.map

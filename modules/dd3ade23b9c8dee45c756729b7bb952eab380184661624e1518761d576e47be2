@@ -1,0 +1,5 @@
+/* esm.sh - mdast-util-gfm-table@2.0.0 */
+import "./devlop@^1.0.0?target=es2022";
+import "./markdown-table@^3.0.0?target=es2022";
+import "./mdast-util-to-markdown@^2.0.0?target=es2022";
+export * from "./mdast-util-gfm-table@2.0.0/es2022/mdast-util-gfm-table.mjs";

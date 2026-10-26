@@ -1,0 +1,3 @@
+/* esm.sh - browser-fs-access@0.29.1/dist/file-open-002ab408 */
+var p=async e=>{let i=await e.getFile();return i.handle=e,i},l=async(e=[{}])=>{Array.isArray(e)||(e=[e]);let i=[];e.forEach((a,c)=>{i[c]={description:a.description||"",accept:{}},a.mimeTypes?a.mimeTypes.map(s=>{i[c].accept[s]=a.extensions||[]}):i[c].accept["*/*"]=a.extensions||[]});let n=await window.showOpenFilePicker({id:e[0].id,startIn:e[0].startIn,types:i,multiple:e[0].multiple||!1,excludeAcceptAllOption:e[0].excludeAcceptAllOption||!1}),t=await Promise.all(n.map(p));return e[0].multiple?t:t[0]};export{l as default};
+//# sourceMappingURL=file-open-002ab408.mjs.map

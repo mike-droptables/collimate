@@ -1,0 +1,5 @@
+/* esm.sh - @codemirror/search@6.7.2 */
+import "./state@^6.0.0?target=es2022";
+import "./view@^6.37.0?target=es2022";
+import "../crelt@^1.0.5?target=es2022";
+export * from "./search@6.7.2/es2022/search.mjs";

@@ -1,0 +1,3 @@
+/* esm.sh - micromark-util-character@2.1.1 */
+var o=t(/[A-Za-z]/),e=t(/[\dA-Za-z]/),u=t(/[#-'*+\--9=?A-Z^-~]/);function c(n){return n!==null&&(n<32||n===127)}var a=t(/\d/),p=t(/[\dA-Fa-f]/),s=t(/[!-/:-@[-`{-~]/);function x(n){return n!==null&&n<-2}function l(n){return n!==null&&(n<0||n===32)}function f(n){return n===-2||n===-1||n===32}var A=t(/\p{P}|\p{S}/u),g=t(/\s/);function t(n){return r;function r(i){return i!==null&&i>-1&&n.test(String.fromCharCode(i))}}export{o as asciiAlpha,e as asciiAlphanumeric,u as asciiAtext,c as asciiControl,a as asciiDigit,p as asciiHexDigit,s as asciiPunctuation,x as markdownLineEnding,l as markdownLineEndingOrSpace,f as markdownSpace,A as unicodePunctuation,g as unicodeWhitespace};
+//# sourceMappingURL=micromark-util-character.mjs.map

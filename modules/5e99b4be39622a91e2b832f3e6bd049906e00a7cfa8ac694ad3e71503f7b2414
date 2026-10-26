@@ -1,0 +1,3 @@
+/* esm.sh - @assistant-ui/core@0.3.31/dist/utils/run-lease */
+var n=class{_generation=0;begin(){return this._generation++,this.current()}current(){let e=this._generation;return{isCurrent:()=>e===this._generation}}invalidate(){this._generation++}};export{n as RunLeases};
+//# sourceMappingURL=run-lease.mjs.map

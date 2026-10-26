@@ -1,0 +1,3 @@
+/* esm.sh - d3-transition@3.0.1/src/transition/selectAll */
+import{selectorAll as w}from"../../../../d3-selection@^3.0.0?target=es2022";import{Transition as x}from"./index.mjs";import y,{get as A}from"./schedule.mjs";function B(f){var h=this._name,m=this._id;typeof f!="function"&&(f=w(f));for(var n=this._groups,u=n.length,v=[],l=[],o=0;o<u;++o)for(var _=n[o],s=_.length,t,r=0;r<s;++r)if(t=_[r]){for(var a=f.call(t,t.__data__,r,_),p,e=A(t,m),i=0,g=a.length;i<g;++i)(p=a[i])&&y(p,h,m,i,a,e);v.push(a),l.push(t)}return new x(v,l,h,m)}export{B as default};
+//# sourceMappingURL=selectAll.mjs.map

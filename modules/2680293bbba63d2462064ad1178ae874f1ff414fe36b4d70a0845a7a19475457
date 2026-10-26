@@ -1,0 +1,5 @@
+/* esm.sh - @lezer/html@1.3.13 */
+import "./common@^1.2.0?target=es2022";
+import "./highlight@^1.0.0?target=es2022";
+import "./lr@^1.0.0?target=es2022";
+export * from "./html@1.3.13/es2022/html.mjs";

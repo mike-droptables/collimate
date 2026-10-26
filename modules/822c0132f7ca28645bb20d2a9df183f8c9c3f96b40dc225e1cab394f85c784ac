@@ -1,0 +1,3 @@
+/* esm.sh - @assistant-ui/core@0.3.31/dist/types/message */
+var s="ui://",e=t=>!!t?.startsWith(s),o=t=>t.display==="text"||t.display!=="questions"&&t.allowFreeform===!0;export{s as MCP_APP_URI_SCHEME,e as isMcpAppUri,o as toolApprovalAcceptsText};
+//# sourceMappingURL=message.mjs.map

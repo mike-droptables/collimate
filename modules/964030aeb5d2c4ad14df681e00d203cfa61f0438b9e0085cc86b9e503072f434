@@ -1,0 +1,3 @@
+/* esm.sh - browser-fs-access@0.29.1 */
+var t=(()=>{if(typeof self>"u")return!1;if(!("top"in self&&self!==top)){if("showOpenFilePicker"in self)return"showOpenFilePicker"}return!1})(),n=t?import("./dist/file-open-002ab408.mjs"):import("./dist/file-open-7c801643.mjs");async function o(...e){return(await n).default(...e)}var r=t?import("./dist/directory-open-4ed118d0.mjs"):import("./dist/directory-open-01563666.mjs");async function s(...e){return(await r).default(...e)}var i=t?import("./dist/file-save-745eba88.mjs"):import("./dist/file-save-3189631c.mjs");async function a(...e){return(await i).default(...e)}export{s as directoryOpen,o as fileOpen,a as fileSave,t as supported};
+//# sourceMappingURL=browser-fs-access.mjs.map

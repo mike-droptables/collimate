@@ -1,0 +1,7 @@
+/* esm.sh - prosemirror-tables@1.8.5 */
+import "./prosemirror-keymap@^1.2.3?deps=prosemirror-model@1.25.12&target=es2022";
+import "./prosemirror-model@1.25.12/es2022/prosemirror-model.mjs";
+import "./prosemirror-state@^1.4.4?deps=prosemirror-model@1.25.12&target=es2022";
+import "./prosemirror-transform@^1.10.5?deps=prosemirror-model@1.25.12&target=es2022";
+import "./prosemirror-view@^1.41.4?deps=prosemirror-model@1.25.12&target=es2022";
+export * from "./prosemirror-tables@1.8.5/X-ZHByb3NlbWlycm9yLW1vZGVsQDEuMjUuMTI/es2022/prosemirror-tables.mjs";

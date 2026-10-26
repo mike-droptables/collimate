@@ -1,0 +1,3 @@
+/* esm.sh - @assistant-ui/store@0.3.22/dist/utils/BaseProxyHandler */
+var n=new Set(["$$typeof","nodeType","then","__v_raw","__v_isRef","__v_isReactive","__v_isReadonly","__v_isShallow","__v_skip"]),s=(e,r)=>{if(e===Symbol.toStringTag)return r;if(typeof e!="symbol"){if(e==="toJSON")return()=>r;if(!n.has(e))return!1}},o=class{getOwnPropertyDescriptor(e,r){let t=this.get(e,r);if(t!==void 0)return{value:t,writable:!1,enumerable:!0,configurable:!0}}set(){return!1}setPrototypeOf(){return!1}defineProperty(){return!1}deleteProperty(){return!1}preventExtensions(){return!1}};export{o as BaseProxyHandler,s as handleIntrospectionProp};
+//# sourceMappingURL=BaseProxyHandler.mjs.map

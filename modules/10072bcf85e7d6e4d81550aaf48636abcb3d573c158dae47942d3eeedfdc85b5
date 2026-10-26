@@ -1,0 +1,3 @@
+/* esm.sh - es-toolkit@1.53.0/dist/object/invert */
+function r(e){let n={},s=Object.keys(e);for(let t=0;t<s.length;t++){let c=s[t],o=e[c];n[o]=c}return n}export{r as invert};
+//# sourceMappingURL=invert.mjs.map

@@ -1,0 +1,3 @@
+/* esm.sh - @iconify/utils@3.1.7/lib/icon/defaults */
+var e=Object.freeze({left:0,top:0,width:16,height:16}),t=Object.freeze({rotate:0,vFlip:!1,hFlip:!1}),o=Object.freeze({...e,...t}),n=Object.freeze({...o,body:"",hidden:!1});export{n as defaultExtendedIconProps,e as defaultIconDimensions,o as defaultIconProps,t as defaultIconTransformations};
+//# sourceMappingURL=defaults.mjs.map

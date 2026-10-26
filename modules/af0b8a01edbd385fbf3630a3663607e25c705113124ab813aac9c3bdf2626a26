@@ -1,0 +1,3 @@
+/* esm.sh - unist-util-visit@5.2.0 */
+import "./unist-util-visit-parents@^6.1.0?target=es2022";
+export * from "./unist-util-visit@5.2.0/es2022/unist-util-visit.mjs";

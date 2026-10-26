@@ -1,0 +1,3 @@
+/* esm.sh - micromark-factory-destination@2.0.1 */
+import "./micromark-util-character@^2.0.0?target=es2022";
+export * from "./micromark-factory-destination@2.0.1/es2022/micromark-factory-destination.mjs";

@@ -1,0 +1,3 @@
+/* esm.sh - @assistant-ui/tap@0.9.24/react-shim/compiler-runtime */
+import{peekResourceFiber as s}from"../dist/core/helpers/execution-context.mjs";import{useMemoCache as i}from"../dist/react-hooks/useMemoCache.mjs";import{MEMO_CACHE_SENTINEL as r,createMemoCache as c}from"../dist/react-hooks/useMemoCache.mjs";import m,{useMemo as a}from"../../../../../react@19.3.1/es2022/react.mjs";var n=m,p=e=>a(()=>{let o=c(e);return o[r]=!0,o},[]),t=n.__COMPILER_RUNTIME?.c??p;var u=()=>s()!==null,h=e=>u()?i(e):t(e);export{h as c};
+//# sourceMappingURL=compiler-runtime.mjs.map

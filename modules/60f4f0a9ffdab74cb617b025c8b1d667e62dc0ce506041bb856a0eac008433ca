@@ -1,0 +1,3 @@
+/* esm.sh - @assistant-ui/core@0.3.31/dist/runtime/utils/composer-submission */
+var i=(o,e,n=()=>!0)=>{let s=new Set,r=new Set;for(let t of o){let d=e(t)?.find(a=>!t.known.has(a)&&!s.has(a)&&n(t,a));d!==void 0&&(s.add(d),r.add(t))}return{landed:r,claimed:s}},c=(o,e)=>o.filter(n=>!e.landed.has(n)).map(n=>({...n,known:new Set([...n.known,...e.claimed])}));export{i as matchInTransit,c as retainInTransit};
+//# sourceMappingURL=composer-submission.mjs.map

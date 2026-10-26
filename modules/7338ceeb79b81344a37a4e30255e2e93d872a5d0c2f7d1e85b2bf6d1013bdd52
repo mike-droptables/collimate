@@ -1,0 +1,17 @@
+/* esm.sh - use-sync-external-store@1.7.0/shim/with-selector */
+import*as __0$ from"../../../../react@19.3.1/es2022/react.mjs";import*as __1$ from"../shim.mjs";var require=n=>{const e=m=>typeof m.default<"u"?m.default:m,c=m=>Object.assign({__esModule:true},m);switch(n){case"react":return e(__0$);case"use-sync-external-store/shim":return e(__1$);default:console.error('module "'+n+'" not found');return null;}};
+var N=Object.create;var y=Object.defineProperty;var W=Object.getOwnPropertyDescriptor;var w=Object.getOwnPropertyNames;var G=Object.getPrototypeOf,I=Object.prototype.hasOwnProperty;var E=(e=>typeof require<"u"?require:typeof Proxy<"u"?new Proxy(e,{get:(r,u)=>(typeof require<"u"?require:r)[u]}):e)(function(e){if(typeof require<"u")return require.apply(this,arguments);throw Error('Dynamic require of "'+e+'" is not supported')});var R=(e,r)=>()=>{try{return r||e((r={exports:{}}).exports,r),r.exports}catch(u){throw r=0,u}};var _=(e,r,u,t)=>{if(r&&typeof r=="object"||typeof r=="function")for(let i of w(r))!I.call(e,i)&&i!==u&&y(e,i,{get:()=>r[i],enumerable:!(t=W(r,i))||t.enumerable});return e};var h=(e,r,u)=>(u=e!=null?N(G(e)):{},_(r||!e||!e.__esModule?y(u,"default",{value:e,enumerable:!0}):u,e));var D=R(z=>{"use strict";var m=E("react"),k=E("use-sync-external-store/shim");function p(e,r){return e===r&&(e!==0||1/e===1/r)||e!==e&&r!==r}var q=typeof Object.is=="function"?Object.is:p,A=k.useSyncExternalStore,B=m.useRef,C=m.useEffect,F=m.useMemo,H=m.useDebugValue;z.useSyncExternalStoreWithSelector=function(e,r,u,t,i){var f=B(null);if(f.current===null){var l={hasValue:!1,value:null};f.current=l}else l=f.current;f=F(function(){function d(o){if(!j){if(j=!0,n=o,o=t(o),i!==void 0&&l.hasValue){var c=l.value;if(i(c,o))return a=c}return a=o}if(c=a,q(n,o))return c;var V=t(o);return i!==void 0&&i(c,V)?(n=o,c):(n=o,a=V)}var j=!1,n,a,b=u===void 0?null:u;return[function(){return d(r())},b===null?void 0:function(){return d(b())}]},[r,u,t,i]);var s=A(e,f[0],f[1]);return C(function(){l.hasValue=!0,l.value=s},[s]),H(s),s}});var O=R((L,M)=>{"use strict";M.exports=D()});var v=h(O()),{useSyncExternalStoreWithSelector:P}=v,Q=v.default??v;export{Q as default,P as useSyncExternalStoreWithSelector};
+/*! Bundled license information:
+
+use-sync-external-store/cjs/use-sync-external-store-shim/with-selector.production.js:
+  (**
+   * @license React
+   * use-sync-external-store-shim/with-selector.production.js
+   *
+   * Copyright (c) Meta Platforms, Inc. and affiliates.
+   *
+   * This source code is licensed under the MIT license found in the
+   * LICENSE file in the root directory of this source tree.
+   *)
+*/
+//# sourceMappingURL=with-selector.mjs.map

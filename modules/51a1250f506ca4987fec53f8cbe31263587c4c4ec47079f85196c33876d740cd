@@ -1,0 +1,3 @@
+/* esm.sh - @iconify/utils@3.1.7/lib/icon-set/tree */
+function u(o,i){let s=o.icons,e=o.aliases||Object.create(null),t=Object.create(null);function r(c){if(s[c])return t[c]=[];if(!(c in t)){t[c]=null;let n=e[c]&&e[c].parent,l=n&&r(n);l&&(t[c]=[n].concat(l))}return t[c]}return(i||Object.keys(s).concat(Object.keys(e))).forEach(r),t}export{u as getIconsTree};
+//# sourceMappingURL=tree.mjs.map

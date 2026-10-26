@@ -1,0 +1,8 @@
+/* esm.sh - @codemirror/lang-javascript@6.2.5 */
+import "./autocomplete@^6.0.0?target=es2022";
+import "./language@^6.6.0?target=es2022";
+import "./state@^6.0.0?target=es2022";
+import "./view@^6.17.0?target=es2022";
+import "../@lezer/common@^1.0.0?target=es2022";
+import "../@lezer/javascript@^1.0.0?target=es2022";
+export * from "./lang-javascript@6.2.5/es2022/lang-javascript.mjs";

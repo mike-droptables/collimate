@@ -1,0 +1,3 @@
+/* esm.sh - @iconify/utils@3.1.7/lib/emoji/regex/create */
+import{convertEmojiSequenceToUTF32 as t}from"../convert.mjs";import{getSequenceFromEmojiStringOrKeyword as i}from"../cleanup.mjs";import{getQualifiedEmojiVariations as m}from"../test/variations.mjs";import{createEmojisTree as n,parseEmojiTree as p}from"./tree.mjs";function a(r){r=r.map(e=>t(e));let o=n(r);return p(o).regex}function s(r){let o=r.map(e=>typeof e=="string"?i(e):e);return o=m(o.map(e=>({sequence:e}))).map(e=>e.sequence),a(o)}export{s as createOptimisedRegex,a as createOptimisedRegexForEmojiSequences};
+//# sourceMappingURL=create.mjs.map

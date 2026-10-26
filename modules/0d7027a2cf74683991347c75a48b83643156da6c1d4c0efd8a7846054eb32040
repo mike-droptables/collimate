@@ -1,0 +1,3 @@
+/* esm.sh - @iconify/utils@3.1.7/lib/svg/size */
+var h=/(-?[0-9.]*[0-9]+[0-9.]*)/g,a=/^-?[0-9.]*[0-9]+[0-9.]*$/g;function o(t,f,e){if(f===1)return t;if(e=e||100,typeof t=="number")return Math.ceil(t*f*e)/e;if(typeof t!="string")return t;let l=t.split(h);if(l===null||!l.length)return t;let n=[],u=l.shift(),s=a.test(u);for(;;){if(s){let r=parseFloat(u);isNaN(r)?n.push(u):n.push(Math.ceil(r*f*e)/e)}else n.push(u);if(u=l.shift(),u===void 0)return n.join("");s=!s}}export{o as calculateSize};
+//# sourceMappingURL=size.mjs.map

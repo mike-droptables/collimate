@@ -1,0 +1,3 @@
+/* esm.sh - @assistant-ui/core@0.3.31/dist/runtime/api/assistant-runtime */
+import{ThreadListRuntimeImpl as e}from"./thread-list-runtime.mjs";var i=class{threads;_thread;_core;constructor(t){this._core=t,this.threads=new e(t.threads),this._thread=this.threads.main,this.__internal_bindMethods()}__internal_bindMethods(){this.registerModelContextProvider=this.registerModelContextProvider.bind(this)}get thread(){return this._thread}registerModelContextProvider(t){return this._core.registerModelContextProvider(t)}};export{i as AssistantRuntimeImpl};
+//# sourceMappingURL=assistant-runtime.mjs.map

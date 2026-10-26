@@ -1,0 +1,3 @@
+/* esm.sh - @lezer/highlight@1.2.5 */
+import "./common@^1.3.0?target=es2022";
+export * from "./highlight@1.2.5/es2022/highlight.mjs";

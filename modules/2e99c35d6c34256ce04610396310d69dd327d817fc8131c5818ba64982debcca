@@ -1,0 +1,3 @@
+/* esm.sh - d3-transition@3.0.1/src/selection/index */
+import{selection as t}from"../../../../d3-selection@^3.0.0?target=es2022";import o from"./interrupt.mjs";import r from"./transition.mjs";t.prototype.interrupt=o;t.prototype.transition=r;
+//# sourceMappingURL=index.mjs.map

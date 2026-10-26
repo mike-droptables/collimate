@@ -1,0 +1,3 @@
+/* esm.sh - decode-named-character-reference@1.3.0 */
+var r=document.createElement("i");function c(t){let n="&"+t+";";r.innerHTML=n;let e=r.textContent;return e.charCodeAt(e.length-1)===59&&t!=="semi"||e===n?!1:e}export{c as decodeNamedCharacterReference};
+//# sourceMappingURL=decode-named-character-reference.mjs.map

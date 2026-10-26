@@ -1,0 +1,5 @@
+/* esm.sh - remark-inline-links@7.0.0 */
+import "./mdast-util-definitions@^6.0.0?target=es2022";
+import "./unist-util-visit@^5.0.0?target=es2022";
+export * from "./remark-inline-links@7.0.0/es2022/remark-inline-links.mjs";
+export { default } from "./remark-inline-links@7.0.0/es2022/remark-inline-links.mjs";

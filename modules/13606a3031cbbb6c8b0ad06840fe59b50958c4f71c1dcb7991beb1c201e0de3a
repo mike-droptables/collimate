@@ -1,0 +1,3 @@
+/* esm.sh - @assistant-ui/core@0.3.31/dist/store/clients/submission-message */
+import{fromThreadMessageLike as t}from"../../runtime/utils/thread-message-like.mjs";var a=e=>t({role:e.role,content:e.role==="system"||e.text?[{type:"text",text:e.text}]:[],attachments:[],metadata:{custom:{...e.quote?{quote:e.quote}:{}}}},e.id,{type:"complete",reason:"unknown"});export{a as submissionThreadMessage};
+//# sourceMappingURL=submission-message.mjs.map

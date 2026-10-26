@@ -1,0 +1,3 @@
+/* esm.sh - @ungap/structured-clone@1.4.0 */
+import{deserialize as t}from"./esm/deserialize.mjs";import{serialize as i}from"./esm/serialize.mjs";var u=typeof structuredClone=="function"?(r,e)=>e&&("json"in e||"lossy"in e)?t(i(r,e)):structuredClone(r):(r,e)=>t(i(r,e));export{u as default,t as deserialize,i as serialize};
+//# sourceMappingURL=structured-clone.mjs.map

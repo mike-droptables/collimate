@@ -1,0 +1,3 @@
+/* esm.sh - html-url-attributes@3.0.1 */
+var t={action:["form"],cite:["blockquote","del","ins","q"],data:["object"],formAction:["button","input"],href:["a","area","base","link"],icon:["menuitem"],itemId:null,manifest:["html"],ping:["a","area"],poster:["video"],src:["audio","embed","iframe","img","input","script","source","track","video"]};export{t as urlAttributes};
+//# sourceMappingURL=html-url-attributes.mjs.map

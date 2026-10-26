@@ -1,0 +1,3 @@
+/* esm.sh - @assistant-ui/core@0.3.31/dist/utils/notify-event-listeners */
+var i=(r,e,s)=>{let o=n=>{console.error(`[assistant-ui] ${s} listener threw an error`,n)};for(let n of r)try{let t=n(typeof e=="function"?e():e);t!==null&&(typeof t=="object"||typeof t=="function")&&"then"in t&&typeof t.then=="function"&&Promise.resolve(t).catch(o)}catch(t){o(t)}};export{i as notifyEventListeners};
+//# sourceMappingURL=notify-event-listeners.mjs.map

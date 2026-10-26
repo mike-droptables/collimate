@@ -1,0 +1,4 @@
+/* esm.sh - @lezer/sass@1.1.0 */
+import "./highlight@^1.0.0?target=es2022";
+import "./lr@^1.0.0?target=es2022";
+export * from "./sass@1.1.0/es2022/sass.mjs";

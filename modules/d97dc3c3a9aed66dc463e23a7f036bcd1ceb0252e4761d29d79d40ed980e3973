@@ -1,0 +1,3 @@
+/* esm.sh - @iconify/utils@3.1.7/lib/icon/merge */
+import{defaultExtendedIconProps as f,defaultIconTransformations as r}from"./defaults.mjs";import{mergeIconTransformations as t}from"./transformations.mjs";function a(e,i){let n=t(e,i);for(let o in f)o in r?o in e&&!(o in n)&&(n[o]=r[o]):o in i?n[o]=i[o]:o in e&&(n[o]=e[o]);return n}export{a as mergeIconData};
+//# sourceMappingURL=merge.mjs.map

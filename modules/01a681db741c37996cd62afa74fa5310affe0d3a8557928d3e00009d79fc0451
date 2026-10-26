@@ -1,0 +1,3 @@
+/* esm.sh - @assistant-ui/core@0.3.31/dist/runtimes/local/local-runtime-core */
+import{ExportedMessageRepository as t}from"../../runtime/utils/message-repository.mjs";import{BaseAssistantRuntimeCore as e}from"../../runtime/base/base-assistant-runtime-core.mjs";import{LocalThreadRuntimeCore as s}from"./local-thread-runtime-core.mjs";import{LocalThreadListRuntimeCore as i}from"./local-thread-list-runtime-core.mjs";var d=class extends e{threads;Provider=void 0;_options;constructor(r,o){super(),this._options=r,this.threads=new i(()=>new s(this._contextProvider,this._options,o&&t.fromArray(o)))}};export{d as LocalRuntimeCore};
+//# sourceMappingURL=local-runtime-core.mjs.map

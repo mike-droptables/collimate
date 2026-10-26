@@ -1,0 +1,6 @@
+/* esm.sh - @codemirror/lang-go@6.0.1 */
+import "./autocomplete@^6.0.0?target=es2022";
+import "./language@^6.6.0?target=es2022";
+import "../@lezer/common@^1.0.0?target=es2022";
+import "../@lezer/go@^1.0.0?target=es2022";
+export * from "./lang-go@6.0.1/es2022/lang-go.mjs";

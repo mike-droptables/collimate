@@ -1,0 +1,3 @@
+/* esm.sh - @embedpdf/utils@2.15.1 */
+function h(r,e){let{width:t,height:i}=r.size;switch(e%4){case 1:return{matrix:`matrix(0, -1, 1, 0, 0, ${i})`,width:i,height:t};case 2:return{matrix:`matrix(-1, 0, 0, -1, ${t}, ${i})`,width:t,height:i};case 3:return{matrix:`matrix(0, 1, -1, 0, ${t}, 0)`,width:i,height:t};default:return{matrix:"matrix(1, 0, 0, 1, 0, 0)",width:t,height:i}}}export{h as getCounterRotation};
+//# sourceMappingURL=utils.mjs.map

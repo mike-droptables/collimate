@@ -1,0 +1,736 @@
+/* esm.sh - @milkdown/crepe@7.22.3 */
+import{defaultsDeep as ma}from"../../../../lodash-es@^4.17.21?target=es2022";import{languages as Ca}from"../../../../@codemirror/language-data@^6.3.1?target=es2022";import{oneDark as wa}from"../../../../@codemirror/theme-one-dark@^6.1.2?target=es2022";import{diffComponentConfig as _a,diffComponent as ga}from"../../../kit@7.22.3/X-ZEBtaWxrZG93bi9jb3JlQDcuMjIuMyxAbWlsa2Rvd24vY3R4QDcuMjIuMyxAbWlsa2Rvd24vcGx1Z2luLWxpc3RlbmVyQDcuMjIuMyxAbWlsa2Rvd24vcHJvc2VANy4yMi4zLHByb3NlbWlycm9yLW1vZGVsQDEuMjUuMTI/es2022/component/diff.mjs";import{diffPluginKey as Pn,clearDiffReviewCmd as So,acceptAllDiffsCmd as No,diffConfig as fa,diff as ka}from"../../../kit@7.22.3/X-ZEBtaWxrZG93bi9jb3JlQDcuMjIuMyxAbWlsa2Rvd24vY3R4QDcuMjIuMyxAbWlsa2Rvd24vcGx1Z2luLWxpc3RlbmVyQDcuMjIuMyxAbWlsa2Rvd24vcHJvc2VANy4yMi4zLHByb3NlbWlycm9yLW1vZGVsQDEuMjUuMTI/es2022/plugin/diff.mjs";import{streamingPluginKey as ct,startStreamingCmd as ya,abortStreamingCmd as Yt,pushChunkCmd as ba,endStreamingCmd as Ia,streamingConfig as La,streaming as Ha}from"../../../kit@7.22.3/X-ZEBtaWxrZG93bi9jb3JlQDcuMjIuMyxAbWlsa2Rvd24vY3R4QDcuMjIuMyxAbWlsa2Rvd24vcGx1Z2luLWxpc3RlbmVyQDcuMjIuMyxAbWlsa2Rvd24vcHJvc2VANy4yMi4zLHByb3NlbWlycm9yLW1vZGVsQDEuMjUuMTI/es2022/plugin/streaming.mjs";import{createSlice as Fo}from"../../../kit@7.22.3/X-ZEBtaWxrZG93bi9jb3JlQDcuMjIuMyxAbWlsa2Rvd24vY3R4QDcuMjIuMyxAbWlsa2Rvd24vcGx1Z2luLWxpc3RlbmVyQDcuMjIuMyxAbWlsa2Rvd24vcHJvc2VANy4yMi4zLHByb3NlbWlycm9yLW1vZGVsQDEuMjUuMTI/es2022/ctx.mjs";import{editorViewCtx as q,serializerCtx as Ma,commandsCtx as I,schemaCtx as xa,editorCtx as Uo,EditorStatus as Ut,Editor as Ta,rootCtx as Sa,defaultValueCtx as Ea,editorViewOptionsCtx as Ba}from"../../../kit@7.22.3/X-ZEBtaWxrZG93bi9jb3JlQDcuMjIuMyxAbWlsa2Rvd24vY3R4QDcuMjIuMyxAbWlsa2Rvd24vcGx1Z2luLWxpc3RlbmVyQDcuMjIuMyxAbWlsa2Rvd24vcHJvc2VANy4yMi4zLHByb3NlbWlycm9yLW1vZGVsQDEuMjUuMTI/es2022/core.mjs";import{aiBuildContextError as Pa,aiProviderError as Aa}from"../../../kit@7.22.3/X-ZEBtaWxrZG93bi9jb3JlQDcuMjIuMyxAbWlsa2Rvd24vY3R4QDcuMjIuMyxAbWlsa2Rvd24vcGx1Z2luLWxpc3RlbmVyQDcuMjIuMyxAbWlsa2Rvd24vcHJvc2VANy4yMi4zLHByb3NlbWlycm9yLW1vZGVsQDEuMjUuMTI/es2022/exception.mjs";import{$ctx as Oe,$command as An,$prose as mt,$nodeSchema as Va,$inputRule as zo,$remark as Ko,getMarkdown as Ra}from"../../../kit@7.22.3/X-ZEBtaWxrZG93bi9jb3JlQDcuMjIuMyxAbWlsa2Rvd24vY3R4QDcuMjIuMyxAbWlsa2Rvd24vcGx1Z2luLWxpc3RlbmVyQDcuMjIuMyxAbWlsa2Rvd24vcHJvc2VANy4yMi4zLHByb3NlbWlycm9yLW1vZGVsQDEuMjUuMTI/es2022/utils.mjs";import{TextSelection as _e,PluginKey as Jt,Plugin as Qt,NodeSelection as Xo,EditorState as $a}from"../../../kit@7.22.3/X-ZEBtaWxrZG93bi9jb3JlQDcuMjIuMyxAbWlsa2Rvd24vY3R4QDcuMjIuMyxAbWlsa2Rvd24vcGx1Z2luLWxpc3RlbmVyQDcuMjIuMyxAbWlsa2Rvd24vcHJvc2VANy4yMi4zLHByb3NlbWlycm9yLW1vZGVsQDEuMjUuMTI/es2022/prose/state.mjs";import Za from"../../../../dompurify@^3.2.5?target=es2022";import{TooltipProvider as Vn,tooltipFactory as Rn}from"../../../kit@7.22.3/X-ZEBtaWxrZG93bi9jb3JlQDcuMjIuMyxAbWlsa2Rvd24vY3R4QDcuMjIuMyxAbWlsa2Rvd24vcGx1Z2luLWxpc3RlbmVyQDcuMjIuMyxAbWlsa2Rvd24vcHJvc2VANy4yMi4zLHByb3NlbWlycm9yLW1vZGVsQDEuMjUuMTI/es2022/plugin/tooltip.mjs";import{posToDOMRect as Ga,findParent as Yo,findNodeInSelection as Oa,nodeRule as Da,browser as qa}from"../../../kit@7.22.3/X-ZEBtaWxrZG93bi9jb3JlQDcuMjIuMyxAbWlsa2Rvd24vY3R4QDcuMjIuMyxAbWlsa2Rvd24vcGx1Z2luLWxpc3RlbmVyQDcuMjIuMyxAbWlsa2Rvd24vcHJvc2VANy4yMi4zLHByb3NlbWlycm9yLW1vZGVsQDEuMjUuMTI/es2022/prose.mjs";import{defineComponent as De,ref as D,watch as on,computed as ve,h as p,nextTick as Eo,createApp as qe,watchEffect as Wa,onUnmounted as Jo,Fragment as Ct,shallowRef as an,onMounted as Na}from"../../../../vue@^3.5.20?target=es2022";import{Icon as N}from"../../../kit@7.22.3/X-ZEBtaWxrZG93bi9jb3JlQDcuMjIuMyxAbWlsa2Rvd24vY3R4QDcuMjIuMyxAbWlsa2Rvd24vcGx1Z2luLWxpc3RlbmVyQDcuMjIuMyxAbWlsa2Rvd24vcHJvc2VANy4yMi4zLHByb3NlbWlycm9yLW1vZGVsQDEuMjUuMTI/es2022/component.mjs";import{DecorationSet as Ye,Decoration as Qo,EditorView as Fa}from"../../../kit@7.22.3/X-ZEBtaWxrZG93bi9jb3JlQDcuMjIuMyxAbWlsa2Rvd24vY3R4QDcuMjIuMyxAbWlsa2Rvd24vcGx1Z2luLWxpc3RlbmVyQDcuMjIuMyxAbWlsa2Rvd24vcHJvc2VANy4yMi4zLHByb3NlbWlycm9yLW1vZGVsQDEuMjUuMTI/es2022/prose/view.mjs";import{blockConfig as Ua,block as jo,BlockProvider as za}from"../../../kit@7.22.3/X-ZEBtaWxrZG93bi9jb3JlQDcuMjIuMyxAbWlsa2Rvd24vY3R4QDcuMjIuMyxAbWlsa2Rvd24vcGx1Z2luLWxpc3RlbmVyQDcuMjIuMyxAbWlsa2Rvd24vcHJvc2VANy4yMi4zLHByb3NlbWlycm9yLW1vZGVsQDEuMjUuMTI/es2022/plugin/block.mjs";import{paragraphSchema as $n,clearTextInCurrentBlockCommand as O,setBlockTypeCommand as j,headingSchema as pe,blockquoteSchema as e1,wrapInBlockTypeCommand as Ce,hrSchema as t1,addBlockTypeCommand as we,bulletListSchema as n1,orderedListSchema as l1,listItemSchema as o1,codeBlockSchema as $e,selectTextNearPosCommand as a1,toggleStrongCommand as i1,isMarkSelectedCommand as Se,strongSchema as s1,strongKeymap as Ka,toggleEmphasisCommand as r1,emphasisSchema as d1,emphasisKeymap as Xa,toggleInlineCodeCommand as u1,inlineCodeSchema as sn,inlineCodeKeymap as Ya,isNodeSelectedCommand as Ja,linkSchema as rn,commonmark as Qa}from"../../../kit@7.22.3/X-ZEBtaWxrZG93bi9jb3JlQDcuMjIuMyxAbWlsa2Rvd24vY3R4QDcuMjIuMyxAbWlsa2Rvd24vcGx1Z2luLWxpc3RlbmVyQDcuMjIuMyxAbWlsa2Rvd24vcHJvc2VANy4yMi4zLHByb3NlbWlycm9yLW1vZGVsQDEuMjUuMTI/es2022/preset/commonmark.mjs";import{slashFactory as ja,SlashProvider as ei}from"../../../kit@7.22.3/X-ZEBtaWxrZG93bi9jb3JlQDcuMjIuMyxAbWlsa2Rvd24vY3R4QDcuMjIuMyxAbWlsa2Rvd24vcGx1Z2luLWxpc3RlbmVyQDcuMjIuMyxAbWlsa2Rvd24vcHJvc2VANy4yMi4zLHByb3NlbWlycm9yLW1vZGVsQDEuMjUuMTI/es2022/plugin/slash.mjs";import{imageBlockSchema as c1,imageBlockConfig as h1,imageBlockComponent as ti}from"../../../kit@7.22.3/X-ZEBtaWxrZG93bi9jb3JlQDcuMjIuMyxAbWlsa2Rvd24vY3R4QDcuMjIuMyxAbWlsa2Rvd24vcGx1Z2luLWxpc3RlbmVyQDcuMjIuMyxAbWlsa2Rvd24vcHJvc2VANy4yMi4zLHByb3NlbWlycm9yLW1vZGVsQDEuMjUuMTI/es2022/component/image-block.mjs";import{createTable as p1,toggleStrikethroughCommand as v1,strikethroughSchema as m1,strikethroughKeymap as ni,gfm as li}from"../../../kit@7.22.3/X-ZEBtaWxrZG93bi9jb3JlQDcuMjIuMyxAbWlsa2Rvd24vY3R4QDcuMjIuMyxAbWlsa2Rvd24vcGx1Z2luLWxpc3RlbmVyQDcuMjIuMyxAbWlsa2Rvd24vcHJvc2VANy4yMi4zLHByb3NlbWlycm9yLW1vZGVsQDEuMjUuMTI/es2022/preset/gfm.mjs";import{defaultKeymap as oi,indentWithTab as ai}from"../../../../@codemirror/commands@^6.2.4?target=es2022";import{keymap as ii}from"../../../../@codemirror/view@^6.16.0?target=es2022";import{codeBlockConfig as C1,codeBlockComponent as si}from"../../../kit@7.22.3/X-ZEBtaWxrZG93bi9jb3JlQDcuMjIuMyxAbWlsa2Rvd24vY3R4QDcuMjIuMyxAbWlsa2Rvd24vcGx1Z2luLWxpc3RlbmVyQDcuMjIuMyxAbWlsa2Rvd24vcHJvc2VANy4yMi4zLHByb3NlbWlycm9yLW1vZGVsQDEuMjUuMTI/es2022/component/code-block.mjs";import{basicSetup as ri}from"../../../../codemirror@6.0.2/es2022/codemirror.mjs";import{dropIndicatorConfig as di,cursor as ui}from"../../../kit@7.22.3/X-ZEBtaWxrZG93bi9jb3JlQDcuMjIuMyxAbWlsa2Rvd24vY3R4QDcuMjIuMyxAbWlsa2Rvd24vcGx1Z2luLWxpc3RlbmVyQDcuMjIuMyxAbWlsa2Rvd24vcHJvc2VANy4yMi4zLHByb3NlbWlycm9yLW1vZGVsQDEuMjUuMTI/es2022/plugin/cursor.mjs";import{createVirtualCursor as ci}from"../../../../prosemirror-virtual-cursor@^0.4.2?deps=prosemirror-model@1.25.12&target=es2022";import{inlineImageConfig as hi,imageInlineComponent as pi}from"../../../kit@7.22.3/X-ZEBtaWxrZG93bi9jb3JlQDcuMjIuMyxAbWlsa2Rvd24vY3R4QDcuMjIuMyxAbWlsa2Rvd24vcGx1Z2luLWxpc3RlbmVyQDcuMjIuMyxAbWlsa2Rvd24vcHJvc2VANy4yMi4zLHByb3NlbWlycm9yLW1vZGVsQDEuMjUuMTI/es2022/component/image-inline.mjs";import w1 from"../../../../katex@^0.19.0?target=es2022";import{redo as Bo,undo as vi}from"../../../kit@7.22.3/X-ZEBtaWxrZG93bi9jb3JlQDcuMjIuMyxAbWlsa2Rvd24vY3R4QDcuMjIuMyxAbWlsa2Rvd24vcGx1Z2luLWxpc3RlbmVyQDcuMjIuMyxAbWlsa2Rvd24vcHJvc2VANy4yMi4zLHByb3NlbWlycm9yLW1vZGVsQDEuMjUuMTI/es2022/prose/history.mjs";import{keymap as mi}from"../../../kit@7.22.3/X-ZEBtaWxrZG93bi9jb3JlQDcuMjIuMyxAbWlsa2Rvd24vY3R4QDcuMjIuMyxAbWlsa2Rvd24vcGx1Z2luLWxpc3RlbmVyQDcuMjIuMyxAbWlsa2Rvd24vcHJvc2VANy4yMi4zLHByb3NlbWlycm9yLW1vZGVsQDEuMjUuMTI/es2022/prose/keymap.mjs";import{Schema as Ci}from"../../../kit@7.22.3/X-ZEBtaWxrZG93bi9jb3JlQDcuMjIuMyxAbWlsa2Rvd24vY3R4QDcuMjIuMyxAbWlsa2Rvd24vcGx1Z2luLWxpc3RlbmVyQDcuMjIuMyxAbWlsa2Rvd24vcHJvc2VANy4yMi4zLHByb3NlbWlycm9yLW1vZGVsQDEuMjUuMTI/es2022/prose/model.mjs";import{textblockTypeInputRule as wi}from"../../../kit@7.22.3/X-ZEBtaWxrZG93bi9jb3JlQDcuMjIuMyxAbWlsa2Rvd24vY3R4QDcuMjIuMyxAbWlsa2Rvd24vcGx1Z2luLWxpc3RlbmVyQDcuMjIuMyxAbWlsa2Rvd24vcHJvc2VANy4yMi4zLHByb3NlbWlycm9yLW1vZGVsQDEuMjUuMTI/es2022/prose/inputrules.mjs";import _i from"../../../../remark-math@^6.0.0?target=es2022";import{visit as gi}from"../../../../unist-util-visit@^5.0.0?target=es2022";import{configureLinkTooltip as fi,linkTooltipConfig as ki,linkTooltipPlugin as yi,toggleLinkCommand as _1}from"../../../kit@7.22.3/X-ZEBtaWxrZG93bi9jb3JlQDcuMjIuMyxAbWlsa2Rvd24vY3R4QDcuMjIuMyxAbWlsa2Rvd24vcGx1Z2luLWxpc3RlbmVyQDcuMjIuMyxAbWlsa2Rvd24vcHJvc2VANy4yMi4zLHByb3NlbWlycm9yLW1vZGVsQDEuMjUuMTI/es2022/component/link-tooltip.mjs";import{listItemBlockComponent as bi,listItemBlockConfig as Ii}from"../../../kit@7.22.3/X-ZEBtaWxrZG93bi9jb3JlQDcuMjIuMyxAbWlsa2Rvd24vY3R4QDcuMjIuMyxAbWlsa2Rvd24vcGx1Z2luLWxpc3RlbmVyQDcuMjIuMyxAbWlsa2Rvd24vcHJvc2VANy4yMi4zLHByb3NlbWlycm9yLW1vZGVsQDEuMjUuMTI/es2022/component/list-item-block.mjs";import{tableBlockConfig as Li,tableBlock as Hi}from"../../../kit@7.22.3/X-ZEBtaWxrZG93bi9jb3JlQDcuMjIuMyxAbWlsa2Rvd24vY3R4QDcuMjIuMyxAbWlsa2Rvd24vcGx1Z2luLWxpc3RlbmVyQDcuMjIuMyxAbWlsa2Rvd24vcHJvc2VANy4yMi4zLHByb3NlbWlycm9yLW1vZGVsQDEuMjUuMTI/es2022/component/table-block.mjs";import dn from"../../../../clsx@^2.0.0?target=es2022";import{clipboard as Mi}from"../../../kit@7.22.3/X-ZEBtaWxrZG93bi9jb3JlQDcuMjIuMyxAbWlsa2Rvd24vY3R4QDcuMjIuMyxAbWlsa2Rvd24vcGx1Z2luLWxpc3RlbmVyQDcuMjIuMyxAbWlsa2Rvd24vcHJvc2VANy4yMi4zLHByb3NlbWlycm9yLW1vZGVsQDEuMjUuMTI/es2022/plugin/clipboard.mjs";import{history as xi}from"../../../kit@7.22.3/X-ZEBtaWxrZG93bi9jb3JlQDcuMjIuMyxAbWlsa2Rvd24vY3R4QDcuMjIuMyxAbWlsa2Rvd24vcGx1Z2luLWxpc3RlbmVyQDcuMjIuMyxAbWlsa2Rvd24vcHJvc2VANy4yMi4zLHByb3NlbWlycm9yLW1vZGVsQDEuMjUuMTI/es2022/plugin/history.mjs";import{indentConfig as Ti,indent as Si}from"../../../kit@7.22.3/X-ZEBtaWxrZG93bi9jb3JlQDcuMjIuMyxAbWlsa2Rvd24vY3R4QDcuMjIuMyxAbWlsa2Rvd24vcGx1Z2luLWxpc3RlbmVyQDcuMjIuMyxAbWlsa2Rvd24vcHJvc2VANy4yMi4zLHByb3NlbWlycm9yLW1vZGVsQDEuMjUuMTI/es2022/plugin/indent.mjs";import{listenerCtx as Po,listener as Ei}from"../../../kit@7.22.3/X-ZEBtaWxrZG93bi9jb3JlQDcuMjIuMyxAbWlsa2Rvd24vY3R4QDcuMjIuMyxAbWlsa2Rvd24vcGx1Z2luLWxpc3RlbmVyQDcuMjIuMyxAbWlsa2Rvd24vcHJvc2VANy4yMi4zLHByb3NlbWlycm9yLW1vZGVsQDEuMjUuMTI/es2022/plugin/listener.mjs";import{trailing as Bi}from"../../../kit@7.22.3/X-ZEBtaWxrZG93bi9jb3JlQDcuMjIuMyxAbWlsa2Rvd24vY3R4QDcuMjIuMyxAbWlsa2Rvd24vcGx1Z2luLWxpc3RlbmVyQDcuMjIuMyxAbWlsa2Rvd24vcHJvc2VANy4yMi4zLHByb3NlbWlycm9yLW1vZGVsQDEuMjUuMTI/es2022/plugin/trailing.mjs";import{uploadConfig as Pi,upload as Ai}from"../../../kit@7.22.3/X-ZEBtaWxrZG93bi9jb3JlQDcuMjIuMyxAbWlsa2Rvd24vY3R4QDcuMjIuMyxAbWlsa2Rvd24vcGx1Z2luLWxpc3RlbmVyQDcuMjIuMyxAbWlsa2Rvd24vcHJvc2VANy4yMi4zLHByb3NlbWlycm9yLW1vZGVsQDEuMjUuMTI/es2022/plugin/upload.mjs";var M=(t=>(t.CodeMirror="code-mirror",t.ListItem="list-item",t.LinkTooltip="link-tooltip",t.Cursor="cursor",t.ImageBlock="image-block",t.BlockEdit="block-edit",t.Toolbar="toolbar",t.Placeholder="placeholder",t.Table="table",t.Latex="latex",t.TopBar="top-bar",t.AI="ai",t))(M||{}),Vi={cursor:!0,"list-item":!0,"link-tooltip":!0,"image-block":!0,"block-edit":!0,placeholder:!0,toolbar:!0,"code-mirror":!0,table:!0,latex:!0,"top-bar":!1,ai:!1},Zn=`
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+  >
+    <path
+      fill="currentColor"
+      d="M19 9l1.25-2.75L23 5l-2.75-1.25L19 1l-1.25 2.75L15 5l2.75 1.25zm0 14l1.25-2.75L23 19l-2.75-1.25L19 15l-1.25 2.75L15 19l2.75 1.25zM9 20l3-6.5L18 10l-6-3.5L9 0L6 6.5L0 10l6 3.5z"
+      transform="translate(3 3) scale(0.75)"
+    />
+  </svg>
+`,Ri=`
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+  >
+    <path
+      d="M4.25 20.5C4.0375 20.5 3.85942 20.4281 3.71575 20.2843C3.57192 20.1404 3.5 19.9622 3.5 19.7498C3.5 19.5371 3.57192 19.359 3.71575 19.2155C3.85942 19.0718 4.0375 19 4.25 19H19.75C19.9625 19 20.1406 19.0719 20.2843 19.2158C20.4281 19.3596 20.5 19.5378 20.5 19.7502C20.5 19.9629 20.4281 20.141 20.2843 20.2845C20.1406 20.4282 19.9625 20.5 19.75 20.5H4.25ZM8.25 16.625C8.0375 16.625 7.85942 16.5531 7.71575 16.4093C7.57192 16.2654 7.5 16.0872 7.5 15.8748C7.5 15.6621 7.57192 15.484 7.71575 15.3405C7.85942 15.1968 8.0375 15.125 8.25 15.125H15.75C15.9625 15.125 16.1406 15.1969 16.2843 15.3408C16.4281 15.4846 16.5 15.6628 16.5 15.8753C16.5 16.0879 16.4281 16.266 16.2843 16.4095C16.1406 16.5532 15.9625 16.625 15.75 16.625H8.25ZM4.25 12.75C4.0375 12.75 3.85942 12.6781 3.71575 12.5343C3.57192 12.3904 3.5 12.2122 3.5 11.9998C3.5 11.7871 3.57192 11.609 3.71575 11.4655C3.85942 11.3218 4.0375 11.25 4.25 11.25H19.75C19.9625 11.25 20.1406 11.3219 20.2843 11.4658C20.4281 11.6096 20.5 11.7878 20.5 12.0003C20.5 12.2129 20.4281 12.391 20.2843 12.5345C20.1406 12.6782 19.9625 12.75 19.75 12.75H4.25ZM8.25 8.875C8.0375 8.875 7.85942 8.80308 7.71575 8.65925C7.57192 8.51542 7.5 8.33725 7.5 8.12475C7.5 7.91208 7.57192 7.734 7.71575 7.5905C7.85942 7.44683 8.0375 7.375 8.25 7.375H15.75C15.9625 7.375 16.1406 7.44692 16.2843 7.59075C16.4281 7.73458 16.5 7.91275 16.5 8.12525C16.5 8.33792 16.4281 8.516 16.2843 8.6595C16.1406 8.80317 15.9625 8.875 15.75 8.875H8.25ZM4.25 5C4.0375 5 3.85942 4.92808 3.71575 4.78425C3.57192 4.64042 3.5 4.46225 3.5 4.24975C3.5 4.03708 3.57192 3.859 3.71575 3.7155C3.85942 3.57183 4.0375 3.5 4.25 3.5H19.75C19.9625 3.5 20.1406 3.57192 20.2843 3.71575C20.4281 3.85958 20.5 4.03775 20.5 4.25025C20.5 4.46292 20.4281 4.641 20.2843 4.7845C20.1406 4.92817 19.9625 5 19.75 5H4.25Z"
+    />
+  </svg>
+`,$i=`
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+  >
+    <path
+      d="M4.25 20.5C4.0375 20.5 3.85942 20.4281 3.71575 20.2843C3.57192 20.1404 3.5 19.9622 3.5 19.7498C3.5 19.5371 3.57192 19.359 3.71575 19.2155C3.85942 19.0718 4.0375 19 4.25 19H19.75C19.9625 19 20.1406 19.0719 20.2843 19.2158C20.4281 19.3596 20.5 19.5378 20.5 19.7502C20.5 19.9629 20.4281 20.141 20.2843 20.2845C20.1406 20.4282 19.9625 20.5 19.75 20.5H4.25ZM4.25 16.625C4.0375 16.625 3.85942 16.5531 3.71575 16.4093C3.57192 16.2654 3.5 16.0872 3.5 15.8748C3.5 15.6621 3.57192 15.484 3.71575 15.3405C3.85942 15.1968 4.0375 15.125 4.25 15.125H13.75C13.9625 15.125 14.1406 15.1969 14.2843 15.3408C14.4281 15.4846 14.5 15.6628 14.5 15.8753C14.5 16.0879 14.4281 16.266 14.2843 16.4095C14.1406 16.5532 13.9625 16.625 13.75 16.625H4.25ZM4.25 12.75C4.0375 12.75 3.85942 12.6781 3.71575 12.5343C3.57192 12.3904 3.5 12.2122 3.5 11.9998C3.5 11.7871 3.57192 11.609 3.71575 11.4655C3.85942 11.3218 4.0375 11.25 4.25 11.25H19.75C19.9625 11.25 20.1406 11.3219 20.2843 11.4658C20.4281 11.6096 20.5 11.7878 20.5 12.0003C20.5 12.2129 20.4281 12.391 20.2843 12.5345C20.1406 12.6782 19.9625 12.75 19.75 12.75H4.25ZM4.25 8.875C4.0375 8.875 3.85942 8.80308 3.71575 8.65925C3.57192 8.51542 3.5 8.33725 3.5 8.12475C3.5 7.91208 3.57192 7.734 3.71575 7.5905C3.85942 7.44683 4.0375 7.375 4.25 7.375H13.75C13.9625 7.375 14.1406 7.44692 14.2843 7.59075C14.4281 7.73458 14.5 7.91275 14.5 8.12525C14.5 8.33792 14.4281 8.516 14.2843 8.6595C14.1406 8.80317 13.9625 8.875 13.75 8.875H4.25ZM4.25 5C4.0375 5 3.85942 4.92808 3.71575 4.78425C3.57192 4.64042 3.5 4.46225 3.5 4.24975C3.5 4.03708 3.57192 3.859 3.71575 3.7155C3.85942 3.57183 4.0375 3.5 4.25 3.5H19.75C19.9625 3.5 20.1406 3.57192 20.2843 3.71575C20.4281 3.85958 20.5 4.03775 20.5 4.25025C20.5 4.46292 20.4281 4.641 20.2843 4.7845C20.1406 4.92817 19.9625 5 19.75 5H4.25Z"
+    />
+  </svg>
+`,Zi=`
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+  >
+    <path
+      d="M4.25 5C4.0375 5 3.85942 4.92808 3.71575 4.78425C3.57192 4.64042 3.5 4.46225 3.5 4.24975C3.5 4.03708 3.57192 3.859 3.71575 3.7155C3.85942 3.57183 4.0375 3.5 4.25 3.5H19.75C19.9625 3.5 20.1406 3.57192 20.2843 3.71575C20.4281 3.85958 20.5 4.03775 20.5 4.25025C20.5 4.46292 20.4281 4.641 20.2843 4.7845C20.1406 4.92817 19.9625 5 19.75 5H4.25ZM10.25 8.875C10.0375 8.875 9.85942 8.80308 9.71575 8.65925C9.57192 8.51542 9.5 8.33725 9.5 8.12475C9.5 7.91208 9.57192 7.734 9.71575 7.5905C9.85942 7.44683 10.0375 7.375 10.25 7.375H19.75C19.9625 7.375 20.1406 7.44692 20.2843 7.59075C20.4281 7.73458 20.5 7.91275 20.5 8.12525C20.5 8.33792 20.4281 8.516 20.2843 8.6595C20.1406 8.80317 19.9625 8.875 19.75 8.875H10.25ZM4.25 12.75C4.0375 12.75 3.85942 12.6781 3.71575 12.5343C3.57192 12.3904 3.5 12.2122 3.5 11.9998C3.5 11.7871 3.57192 11.609 3.71575 11.4655C3.85942 11.3218 4.0375 11.25 4.25 11.25H19.75C19.9625 11.25 20.1406 11.3219 20.2843 11.4658C20.4281 11.6096 20.5 11.7878 20.5 12.0003C20.5 12.2129 20.4281 12.391 20.2843 12.5345C20.1406 12.6782 19.9625 12.75 19.75 12.75H4.25ZM10.25 16.625C10.0375 16.625 9.85942 16.5531 9.71575 16.4093C9.57192 16.2654 9.5 16.0872 9.5 15.8748C9.5 15.6621 9.57192 15.484 9.71575 15.3405C9.85942 15.1968 10.0375 15.125 10.25 15.125H19.75C19.9625 15.125 20.1406 15.1969 20.2843 15.3408C20.4281 15.4846 20.5 15.6628 20.5 15.8753C20.5 16.0879 20.4281 16.266 20.2843 16.4095C20.1406 16.5532 19.9625 16.625 19.75 16.625H10.25ZM4.25 20.5C4.0375 20.5 3.85942 20.4281 3.71575 20.2843C3.57192 20.1404 3.5 19.9622 3.5 19.7498C3.5 19.5371 3.57192 19.359 3.71575 19.2155C3.85942 19.0718 4.0375 19 4.25 19H19.75C19.9625 19 20.1406 19.0719 20.2843 19.2158C20.4281 19.3596 20.5 19.5378 20.5 19.7502C20.5 19.9629 20.4281 20.141 20.2843 20.2845C20.1406 20.4282 19.9625 20.5 19.75 20.5H4.25Z"
+    />
+  </svg>
+`,g1=`
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+  >
+    <path
+      d="M8.85758 18.625C8.4358 18.625 8.07715 18.4772 7.78163 18.1817C7.48613 17.8862 7.33838 17.5275 7.33838 17.1058V6.8942C7.33838 6.47242 7.48613 6.11377 7.78163 5.81825C8.07715 5.52275 8.4358 5.375 8.85758 5.375H12.1999C13.2191 5.375 14.1406 5.69231 14.9643 6.32693C15.788 6.96154 16.1999 7.81603 16.1999 8.89038C16.1999 9.63779 16.0194 10.2471 15.6585 10.7183C15.2976 11.1894 14.9088 11.5314 14.4922 11.7442C15.005 11.9211 15.4947 12.2708 15.9614 12.7933C16.428 13.3157 16.6614 14.0192 16.6614 14.9038C16.6614 16.182 16.1902 17.1217 15.2479 17.723C14.3056 18.3243 13.3563 18.625 12.3999 18.625H8.85758ZM9.4883 16.6327H12.3191C13.1063 16.6327 13.6627 16.4141 13.9884 15.9769C14.314 15.5397 14.4768 15.1205 14.4768 14.7192C14.4768 14.3179 14.314 13.8987 13.9884 13.4615C13.6627 13.0243 13.0909 12.8057 12.273 12.8057H9.4883V16.6327ZM9.4883 10.875H12.0826C12.6903 10.875 13.172 10.7013 13.5278 10.3539C13.8836 10.0064 14.0615 9.59037 14.0615 9.10575C14.0615 8.59035 13.8733 8.16918 13.497 7.84225C13.1207 7.51533 12.6595 7.35188 12.1133 7.35188H9.4883V10.875Z"
+    />
+  </svg>
+`,Gi=`
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+  >
+    <g clip-path="url(#clip0_952_6527)">
+      <circle cx="12" cy="12" r="3" />
+    </g>
+    <defs>
+      <clipPath id="clip0_952_6527">
+        <rect width="24" height="24" />
+      </clipPath>
+    </defs>
+  </svg>
+`,f1=`
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+  >
+    <g clip-path="url(#clip0_977_8070)">
+      <path
+        d="M4 10.5C3.17 10.5 2.5 11.17 2.5 12C2.5 12.83 3.17 13.5 4 13.5C4.83 13.5 5.5 12.83 5.5 12C5.5 11.17 4.83 10.5 4 10.5ZM4 4.5C3.17 4.5 2.5 5.17 2.5 6C2.5 6.83 3.17 7.5 4 7.5C4.83 7.5 5.5 6.83 5.5 6C5.5 5.17 4.83 4.5 4 4.5ZM4 16.5C3.17 16.5 2.5 17.18 2.5 18C2.5 18.82 3.18 19.5 4 19.5C4.82 19.5 5.5 18.82 5.5 18C5.5 17.18 4.83 16.5 4 16.5ZM8 19H20C20.55 19 21 18.55 21 18C21 17.45 20.55 17 20 17H8C7.45 17 7 17.45 7 18C7 18.55 7.45 19 8 19ZM8 13H20C20.55 13 21 12.55 21 12C21 11.45 20.55 11 20 11H8C7.45 11 7 11.45 7 12C7 12.55 7.45 13 8 13ZM7 6C7 6.55 7.45 7 8 7H20C20.55 7 21 6.55 21 6C21 5.45 20.55 5 20 5H8C7.45 5 7 5.45 7 6Z"
+      />
+    </g>
+    <defs>
+      <clipPath id="clip0_977_8070">
+        <rect width="24" height="24" />
+      </clipPath>
+    </defs>
+  </svg>
+`,Oi=`
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="32"
+    height="32"
+    viewBox="0 0 24 24"
+  >
+    <path
+      fill="currentColor"
+      d="M9 22a1 1 0 0 1-1-1v-3H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-6.1l-3.7 3.71c-.2.19-.45.29-.7.29zm1-6v3.08L13.08 16H20V4H4v12z"
+    />
+  </svg>
+`,Di=`
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+  >
+    <g clip-path="url(#clip0_1803_1151)">
+      <path
+        d="M19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3ZM10.71 16.29C10.32 16.68 9.69 16.68 9.3 16.29L5.71 12.7C5.32 12.31 5.32 11.68 5.71 11.29C6.1 10.9 6.73 10.9 7.12 11.29L10 14.17L16.88 7.29C17.27 6.9 17.9 6.9 18.29 7.29C18.68 7.68 18.68 8.31 18.29 8.7L10.71 16.29Z"
+      />
+    </g>
+    <defs>
+      <clipPath id="clip0_1803_1151">
+        <rect width="24" height="24" />
+      </clipPath>
+    </defs>
+  </svg>
+`,qi=`
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+  >
+    <g clip-path="url(#clip0_1803_535)">
+      <path
+        d="M18 19H6C5.45 19 5 18.55 5 18V6C5 5.45 5.45 5 6 5H18C18.55 5 19 5.45 19 6V18C19 18.55 18.55 19 18 19ZM19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3Z"
+      />
+    </g>
+    <defs>
+      <clipPath id="clip0_1803_535">
+        <rect width="24" height="24" />
+      </clipPath>
+    </defs>
+  </svg>
+`,Gn=`
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke-width="1.5"
+    stroke="currentColor"
+    class="w-6 h-6"
+  >
+    <path
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      d="M19.5 8.25l-7.5 7.5-7.5-7.5"
+    />
+  </svg>
+`,Wi=`
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke-width="1.5"
+    stroke="currentColor"
+  >
+    <path
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      d="M15.75 19.5L8.25 12l7.5-7.5"
+    />
+  </svg>
+`,Ni=`
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke-width="1.5"
+    stroke="currentColor"
+  >
+    <path
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      d="M8.25 4.5l7.5 7.5-7.5 7.5"
+    />
+  </svg>
+`,On=`
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+  >
+    <g clip-path="url(#clip0_1098_15553)">
+      <path
+        d="M18.3007 5.70973C17.9107 5.31973 17.2807 5.31973 16.8907 5.70973L12.0007 10.5897L7.1107 5.69973C6.7207 5.30973 6.0907 5.30973 5.7007 5.69973C5.3107 6.08973 5.3107 6.71973 5.7007 7.10973L10.5907 11.9997L5.7007 16.8897C5.3107 17.2797 5.3107 17.9097 5.7007 18.2997C6.0907 18.6897 6.7207 18.6897 7.1107 18.2997L12.0007 13.4097L16.8907 18.2997C17.2807 18.6897 17.9107 18.6897 18.3007 18.2997C18.6907 17.9097 18.6907 17.2797 18.3007 16.8897L13.4107 11.9997L18.3007 7.10973C18.6807 6.72973 18.6807 6.08973 18.3007 5.70973Z"
+      />
+    </g>
+    <defs>
+      <clipPath id="clip0_1098_15553">
+        <rect width="24" height="24" />
+      </clipPath>
+    </defs>
+  </svg>
+`,Dn=`
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+  >
+    <g clip-path="url(#clip0_977_8081)">
+      <path
+        d="M9.4 16.6L4.8 12L9.4 7.4L8 6L2 12L8 18L9.4 16.6ZM14.6 16.6L19.2 12L14.6 7.4L16 6L22 12L16 18L14.6 16.6Z"
+      />
+    </g>
+    <defs>
+      <clipPath id="clip0_977_8081">
+        <rect width="24" height="24" />
+      </clipPath>
+    </defs>
+  </svg>
+`,Fi=`
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+  >
+    <path
+      d="M3 3h18a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zm1 2v14h16V5H4zm8 10h6v2h-6v-2zm-3.333-3L5.838 9.172l1.415-1.415L11.495 12l-4.242 4.243-1.415-1.415L8.667 12z"
+    />
+  </svg>
+`,jt=`
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+  >
+    <g clip-path="url(#clip0_1013_1606)">
+      <path
+        d="M9.00012 16.1998L5.50012 12.6998C5.11012 12.3098 4.49012 12.3098 4.10012 12.6998C3.71012 13.0898 3.71012 13.7098 4.10012 14.0998L8.29012 18.2898C8.68012 18.6798 9.31012 18.6798 9.70012 18.2898L20.3001 7.69982C20.6901 7.30982 20.6901 6.68982 20.3001 6.29982C19.9101 5.90982 19.2901 5.90982 18.9001 6.29982L9.00012 16.1998Z"
+        fill="#817567"
+      />
+    </g>
+    <defs>
+      <clipPath id="clip0_1013_1606">
+        <rect width="24" height="24" />
+      </clipPath>
+    </defs>
+  </svg>
+`,k1=`
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    height="24px"
+    viewBox="0 -960 960 960"
+    width="24px"
+    fill="none"
+  >
+    <path
+      d="M360-240q-33 0-56.5-23.5T280-320v-480q0-33 23.5-56.5T360-880h360q33 0 56.5 23.5T800-800v480q0 33-23.5 56.5T720-240H360Zm0-80h360v-480H360v480ZM200-80q-33 0-56.5-23.5T120-160v-560h80v560h440v80H200Zm160-240v-480 480Z"
+    />
+  </svg>
+`,y1=`
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+  >
+    <g clip-path="url(#clip0_977_7900)">
+      <path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M19 13H5C4.45 13 4 12.55 4 12C4 11.45 4.45 11 5 11H19C19.55 11 20 11.45 20 12C20 12.55 19.55 13 19 13Z"
+      />
+    </g>
+    <defs>
+      <clipPath id="clip0_977_7900">
+        <rect width="24" height="24" />
+      </clipPath>
+    </defs>
+  </svg>
+`,Ao=`
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="16"
+    height="16"
+    viewBox="0 0 16 16"
+  >
+    <path
+      d="M3.5 9.83366C3.35833 9.83366 3.23961 9.78571 3.14383 9.68983C3.04794 9.59394 3 9.47516 3 9.33349C3 9.19171 3.04794 9.07299 3.14383 8.97733C3.23961 8.88155 3.35833 8.83366 3.5 8.83366H12.5C12.6417 8.83366 12.7604 8.8816 12.8562 8.97749C12.9521 9.07338 13 9.19216 13 9.33383C13 9.4756 12.9521 9.59433 12.8562 9.68999C12.7604 9.78577 12.6417 9.83366 12.5 9.83366H3.5ZM3.5 7.16699C3.35833 7.16699 3.23961 7.11905 3.14383 7.02316C3.04794 6.92727 3 6.80849 3 6.66683C3 6.52505 3.04794 6.40633 3.14383 6.31066C3.23961 6.21488 3.35833 6.16699 3.5 6.16699H12.5C12.6417 6.16699 12.7604 6.21494 12.8562 6.31083C12.9521 6.40671 13 6.52549 13 6.66716C13 6.80894 12.9521 6.92766 12.8562 7.02333C12.7604 7.1191 12.6417 7.16699 12.5 7.16699H3.5Z"
+    />
+  </svg>
+`,ht=`
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+  >
+    <g clip-path="url(#clip0_1013_1585)">
+      <path
+        d="M14.06 9.02L14.98 9.94L5.92 19H5V18.08L14.06 9.02ZM17.66 3C17.41 3 17.15 3.1 16.96 3.29L15.13 5.12L18.88 8.87L20.71 7.04C21.1 6.65 21.1 6.02 20.71 5.63L18.37 3.29C18.17 3.09 17.92 3 17.66 3ZM14.06 6.19L3 17.25V21H6.75L17.81 9.94L14.06 6.19Z"
+      />
+    </g>
+    <defs>
+      <clipPath id="clip0_1013_1585">
+        <rect width="24" height="24" />
+      </clipPath>
+    </defs>
+  </svg>
+`,b1=`
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+  >
+    <path
+      fill="currentColor"
+      d="M9 16l-5-5l5-5l1.4 1.4L7.825 10H18V6h2v6H7.825l2.575 2.6z"
+    />
+  </svg>
+`,Ui=`
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+  >
+    <path
+      fill="currentColor"
+      d="M9.55 17.575L4.225 12.25l1.4-1.425L9.55 14.75l8.825-8.825l1.4 1.425z"
+    />
+  </svg>
+`,zi=`
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+  >
+    <g clip-path="url(#clip0_992_5553)">
+      <path
+        d="M19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3ZM19 19H5V5H19V19ZM12 17H14V7H10V9H12V17Z"
+      />
+    </g>
+    <defs>
+      <clipPath id="clip0_992_5553">
+        <rect width="24" height="24" />
+      </clipPath>
+    </defs>
+  </svg>
+`,Ki=`
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+  >
+    <g clip-path="url(#clip0_992_5559)">
+      <path
+        d="M19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3ZM19 19H5V5H19V19ZM15 15H11V13H13C14.1 13 15 12.11 15 11V9C15 7.89 14.1 7 13 7H9V9H13V11H11C9.9 11 9 11.89 9 13V17H15V15Z"
+      />
+    </g>
+    <defs>
+      <clipPath id="clip0_992_5559">
+        <rect width="24" height="24" />
+      </clipPath>
+    </defs>
+  </svg>
+`,Xi=`
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+  >
+    <g clip-path="url(#clip0_992_5565)">
+      <path
+        d="M19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3ZM19 19H5V5H19V19ZM15 15V13.5C15 12.67 14.33 12 13.5 12C14.33 12 15 11.33 15 10.5V9C15 7.89 14.1 7 13 7H9V9H13V11H11V13H13V15H9V17H13C14.1 17 15 16.11 15 15Z"
+      />
+    </g>
+    <defs>
+      <clipPath id="clip0_992_5565">
+        <rect width="24" height="24" />
+      </clipPath>
+    </defs>
+  </svg>
+`,Yi=`
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+  >
+    <g clip-path="url(#clip0_977_7757)">
+      <path
+        d="M19.04 3H5.04004C3.94004 3 3.04004 3.9 3.04004 5V19C3.04004 20.1 3.94004 21 5.04004 21H19.04C20.14 21 21.04 20.1 21.04 19V5C21.04 3.9 20.14 3 19.04 3ZM19.04 19H5.04004V5H19.04V19ZM13.04 17H15.04V7H13.04V11H11.04V7H9.04004V13H13.04V17Z"
+      />
+    </g>
+    <defs>
+      <clipPath id="clip0_977_7757">
+        <rect width="24" height="24" />
+      </clipPath>
+    </defs>
+  </svg>
+`,Ji=`
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+  >
+    <g clip-path="url(#clip0_977_7760)">
+      <path
+        d="M19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3ZM19 19H5V5H19V19ZM15 15V13C15 11.89 14.1 11 13 11H11V9H15V7H9V13H13V15H9V17H13C14.1 17 15 16.11 15 15Z"
+      />
+    </g>
+    <defs>
+      <clipPath id="clip0_977_7760">
+        <rect width="24" height="24" />
+      </clipPath>
+    </defs>
+  </svg>
+`,Qi=`
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+  >
+    <g clip-path="url(#clip0_977_7763)">
+      <path
+        d="M11 17H13C14.1 17 15 16.11 15 15V13C15 11.89 14.1 11 13 11H11V9H15V7H11C9.9 7 9 7.89 9 9V15C9 16.11 9.9 17 11 17ZM11 13H13V15H11V13ZM19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3ZM19 19H5V5H19V19Z"
+      />
+    </g>
+    <defs>
+      <clipPath id="clip0_977_7763">
+        <rect width="24" height="24" />
+      </clipPath>
+    </defs>
+  </svg>
+`,zt=`
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+  >
+    <g clip-path="url(#clip0_977_8075)">
+      <path
+        d="M19 5V19H5V5H19ZM19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3ZM14.14 11.86L11.14 15.73L9 13.14L6 17H18L14.14 11.86Z"
+      />
+    </g>
+    <defs>
+      <clipPath id="clip0_977_8075">
+        <rect width="24" height="24" />
+      </clipPath>
+    </defs>
+  </svg>
+`,I1=`
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+  >
+    <path
+      d="M6.29811 18.625C6.04505 18.625 5.83115 18.5375 5.65641 18.3626C5.48166 18.1877 5.39429 17.9736 5.39429 17.7203C5.39429 17.467 5.48166 17.2532 5.65641 17.0788C5.83115 16.9045 6.04505 16.8173 6.29811 16.8173H9.21159L12.452 7.18265H9.53851C9.28545 7.18265 9.07155 7.0952 8.89681 6.9203C8.72206 6.7454 8.63469 6.5313 8.63469 6.278C8.63469 6.02472 8.72206 5.81089 8.89681 5.63652C9.07155 5.46217 9.28545 5.375 9.53851 5.375H16.8847C17.1377 5.375 17.3516 5.46245 17.5264 5.63735C17.7011 5.81225 17.7885 6.02634 17.7885 6.27962C17.7885 6.53293 17.7011 6.74676 17.5264 6.92113C17.3516 7.09548 17.1377 7.18265 16.8847 7.18265H14.2789L11.0385 16.8173H13.6443C13.8973 16.8173 14.1112 16.9048 14.286 17.0797C14.4607 17.2546 14.5481 17.4687 14.5481 17.722C14.5481 17.9752 14.4607 18.1891 14.286 18.3634C14.1112 18.5378 13.8973 18.625 13.6443 18.625H6.29811Z"
+    />
+  </svg>
+`,L1=`
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+  >
+    <path
+      d="M17.0385 19.5003V16.5388H14.0769V15.0388H17.0385V12.0773H18.5384V15.0388H21.5V16.5388H18.5384V19.5003H17.0385ZM10.8077 16.5388H7.03845C5.78282 16.5388 4.7125 16.0963 3.8275 15.2114C2.9425 14.3266 2.5 13.2564 2.5 12.0009C2.5 10.7454 2.9425 9.67504 3.8275 8.78979C4.7125 7.90454 5.78282 7.46191 7.03845 7.46191H10.8077V8.96186H7.03845C6.1987 8.96186 5.48235 9.25834 4.8894 9.85129C4.29645 10.4442 3.99998 11.1606 3.99998 12.0003C3.99998 12.8401 4.29645 13.5564 4.8894 14.1494C5.48235 14.7423 6.1987 15.0388 7.03845 15.0388H10.8077V16.5388ZM8.25 12.7503V11.2504H15.75V12.7503H8.25ZM21.5 12.0003H20C20 11.1606 19.7035 10.4442 19.1106 9.85129C18.5176 9.25834 17.8013 8.96186 16.9615 8.96186H13.1923V7.46191H16.9615C18.2171 7.46191 19.2875 7.90441 20.1725 8.78939C21.0575 9.67439 21.5 10.7447 21.5 12.0003Z"
+    />
+  </svg>
+`,ji=`
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+  >
+    <path
+      fill="currentColor"
+      d="M3 18v-2h13v2zm0-5v-2h18v2zm0-5V6h18v2zm15 13v-3h-3v-2h3v-3h2v3h3v2h-3v3z"
+    />
+  </svg>
+`,es=`
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+  >
+    <g clip-path="url(#clip0_971_7680)">
+      <path
+        d="M11 18C11 19.1 10.1 20 9 20C7.9 20 7 19.1 7 18C7 16.9 7.9 16 9 16C10.1 16 11 16.9 11 18ZM9 10C7.9 10 7 10.9 7 12C7 13.1 7.9 14 9 14C10.1 14 11 13.1 11 12C11 10.9 10.1 10 9 10ZM9 4C7.9 4 7 4.9 7 6C7 7.1 7.9 8 9 8C10.1 8 11 7.1 11 6C11 4.9 10.1 4 9 4ZM15 8C16.1 8 17 7.1 17 6C17 4.9 16.1 4 15 4C13.9 4 13 4.9 13 6C13 7.1 13.9 8 15 8ZM15 10C13.9 10 13 10.9 13 12C13 13.1 13.9 14 15 14C16.1 14 17 13.1 17 12C17 10.9 16.1 10 15 10ZM15 16C13.9 16 13 16.9 13 18C13 19.1 13.9 20 15 20C16.1 20 17 19.1 17 18C17 16.9 16.1 16 15 16Z"
+      />
+    </g>
+    <defs>
+      <clipPath id="clip0_971_7680">
+        <rect width="24" height="24" />
+      </clipPath>
+    </defs>
+  </svg>
+`,H1=`
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+  >
+    <g clip-path="url(#clip0_977_8067)">
+      <path
+        d="M8 7H20C20.55 7 21 6.55 21 6C21 5.45 20.55 5 20 5H8C7.45 5 7 5.45 7 6C7 6.55 7.45 7 8 7ZM20 17H8C7.45 17 7 17.45 7 18C7 18.55 7.45 19 8 19H20C20.55 19 21 18.55 21 18C21 17.45 20.55 17 20 17ZM20 11H8C7.45 11 7 11.45 7 12C7 12.55 7.45 13 8 13H20C20.55 13 21 12.55 21 12C21 11.45 20.55 11 20 11ZM4.5 16H2.5C2.22 16 2 16.22 2 16.5C2 16.78 2.22 17 2.5 17H4V17.5H3.5C3.22 17.5 3 17.72 3 18C3 18.28 3.22 18.5 3.5 18.5H4V19H2.5C2.22 19 2 19.22 2 19.5C2 19.78 2.22 20 2.5 20H4.5C4.78 20 5 19.78 5 19.5V16.5C5 16.22 4.78 16 4.5 16ZM2.5 5H3V7.5C3 7.78 3.22 8 3.5 8C3.78 8 4 7.78 4 7.5V4.5C4 4.22 3.78 4 3.5 4H2.5C2.22 4 2 4.22 2 4.5C2 4.78 2.22 5 2.5 5ZM4.5 10H2.5C2.22 10 2 10.22 2 10.5C2 10.78 2.22 11 2.5 11H3.8L2.12 12.96C2.04 13.05 2 13.17 2 13.28V13.5C2 13.78 2.22 14 2.5 14H4.5C4.78 14 5 13.78 5 13.5C5 13.22 4.78 13 4.5 13H3.2L4.88 11.04C4.96 10.95 5 10.83 5 10.72V10.5C5 10.22 4.78 10 4.5 10Z"
+      />
+    </g>
+    <defs>
+      <clipPath id="clip0_977_8067">
+        <rect width="24" height="24" />
+      </clipPath>
+    </defs>
+  </svg>
+`,un=`
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+  >
+    <g clip-path="url(#clip0_971_7676)">
+      <path
+        d="M18 13H13V18C13 18.55 12.55 19 12 19C11.45 19 11 18.55 11 18V13H6C5.45 13 5 12.55 5 12C5 11.45 5.45 11 6 11H11V6C11 5.45 11.45 5 12 5C12.55 5 13 5.45 13 6V11H18C18.55 11 19 11.45 19 12C19 12.55 18.55 13 18 13Z"
+      />
+    </g>
+    <defs>
+      <clipPath id="clip0_971_7676">
+        <rect width="24" height="24" />
+      </clipPath>
+    </defs>
+  </svg>
+`,M1=`
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+  >
+    <g clip-path="url(#clip0_977_7897)">
+      <path
+        d="M7.17 17C7.68 17 8.15 16.71 8.37 16.26L9.79 13.42C9.93 13.14 10 12.84 10 12.53V8C10 7.45 9.55 7 9 7H5C4.45 7 4 7.45 4 8V12C4 12.55 4.45 13 5 13H7L5.97 15.06C5.52 15.95 6.17 17 7.17 17ZM17.17 17C17.68 17 18.15 16.71 18.37 16.26L19.79 13.42C19.93 13.14 20 12.84 20 12.53V8C20 7.45 19.55 7 19 7H15C14.45 7 14 7.45 14 8V12C14 12.55 14.45 13 15 13H17L15.97 15.06C15.52 15.95 16.17 17 17.17 17Z"
+      />
+    </g>
+    <defs>
+      <clipPath id="clip0_977_7897">
+        <rect width="24" height="24" />
+      </clipPath>
+    </defs>
+  </svg>
+`,cn=`
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+  >
+    <path
+      d="M7.30775 20.4997C6.81058 20.4997 6.385 20.3227 6.031 19.9687C5.677 19.6147 5.5 19.1892 5.5 18.692V5.99973H5.25C5.0375 5.99973 4.85942 5.92782 4.71575 5.78398C4.57192 5.64015 4.5 5.46198 4.5 5.24948C4.5 5.03682 4.57192 4.85873 4.71575 4.71523C4.85942 4.57157 5.0375 4.49973 5.25 4.49973H9C9 4.2549 9.08625 4.04624 9.25875 3.87374C9.43108 3.7014 9.63967 3.61523 9.8845 3.61523H14.1155C14.3603 3.61523 14.5689 3.7014 14.7413 3.87374C14.9138 4.04624 15 4.2549 15 4.49973H18.75C18.9625 4.49973 19.1406 4.57165 19.2843 4.71548C19.4281 4.85932 19.5 5.03748 19.5 5.24998C19.5 5.46265 19.4281 5.64073 19.2843 5.78423C19.1406 5.9279 18.9625 5.99973 18.75 5.99973H18.5V18.692C18.5 19.1892 18.323 19.6147 17.969 19.9687C17.615 20.3227 17.1894 20.4997 16.6923 20.4997H7.30775ZM17 5.99973H7V18.692C7 18.7818 7.02883 18.8556 7.0865 18.9132C7.14417 18.9709 7.21792 18.9997 7.30775 18.9997H16.6923C16.7821 18.9997 16.8558 18.9709 16.9135 18.9132C16.9712 18.8556 17 18.7818 17 18.692V5.99973ZM10.1543 16.9997C10.3668 16.9997 10.5448 16.9279 10.6885 16.7842C10.832 16.6404 10.9037 16.4622 10.9037 16.2497V8.74973C10.9037 8.53723 10.8318 8.35907 10.688 8.21523C10.5443 8.07157 10.3662 7.99973 10.1535 7.99973C9.941 7.99973 9.76292 8.07157 9.61925 8.21523C9.47575 8.35907 9.404 8.53723 9.404 8.74973V16.2497C9.404 16.4622 9.47583 16.6404 9.6195 16.7842C9.76333 16.9279 9.94158 16.9997 10.1543 16.9997ZM13.8465 16.9997C14.059 16.9997 14.2371 16.9279 14.3807 16.7842C14.5243 16.6404 14.596 16.4622 14.596 16.2497V8.74973C14.596 8.53723 14.5242 8.35907 14.3805 8.21523C14.2367 8.07157 14.0584 7.99973 13.8458 7.99973C13.6333 7.99973 13.4552 8.07157 13.3115 8.21523C13.168 8.35907 13.0962 8.53723 13.0962 8.74973V16.2497C13.0962 16.4622 13.1682 16.6404 13.312 16.7842C13.4557 16.9279 13.6338 16.9997 13.8465 16.9997Z"
+    />
+  </svg>
+`,ts=`
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+  >
+    <path
+      fill="currentColor"
+      d="M12 20q-3.35 0-5.675-2.325T4 12q0-3.35 2.325-5.675T12 4q1.725 0 3.3.713T18 6.75V4h2v7h-7V9h4.2q-.8-1.4-2.187-2.2T12 6Q9.5 6 7.75 7.75T6 12q0 2.5 1.75 4.25T12 18q1.925 0 3.475-1.1T17.65 14h2.1q-.7 2.65-2.85 4.325T12 20"
+    />
+  </svg>
+`,x1=`
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke-width="1.5"
+    stroke="currentColor"
+    class="w-6 h-6"
+  >
+    <path
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+    />
+  </svg>
+`,ns=`
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+  >
+    <path
+      fill="currentColor"
+      d="M11 20V7.825l-5.6 5.6L4 12l8-8l8 8l-1.4 1.425l-5.6-5.6V20z"
+    />
+  </svg>
+`,ls=`
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+  >
+    <path
+      fill="currentColor"
+      d="M3 20v-6l8-2l-8-2V4l19 8z"
+    />
+  </svg>
+`,os=`
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+  >
+    <path
+      fill="currentColor"
+      d="M5 13v-2h14v2z"
+    />
+  </svg>
+`,T1=`
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+  >
+    <path
+      d="M3.25 13.7404C3.0375 13.7404 2.85938 13.6684 2.71563 13.5246C2.57188 13.3808 2.5 13.2026 2.5 12.99C2.5 12.7774 2.57188 12.5993 2.71563 12.4558C2.85938 12.3122 3.0375 12.2404 3.25 12.2404H20.75C20.9625 12.2404 21.1406 12.3123 21.2843 12.4561C21.4281 12.5999 21.5 12.7781 21.5 12.9907C21.5 13.2033 21.4281 13.3814 21.2843 13.525C21.1406 13.6686 20.9625 13.7404 20.75 13.7404H3.25ZM10.9423 10.2596V6.62495H6.5673C6.2735 6.62495 6.02377 6.52201 5.8181 6.31613C5.61245 6.11026 5.50963 5.86027 5.50963 5.56615C5.50963 5.27205 5.61245 5.02083 5.8181 4.8125C6.02377 4.60417 6.2735 4.5 6.5673 4.5H17.4423C17.7361 4.5 17.9858 4.60294 18.1915 4.80883C18.3971 5.01471 18.5 5.2647 18.5 5.5588C18.5 5.85292 18.3971 6.10413 18.1915 6.31245C17.9858 6.52078 17.7361 6.62495 17.4423 6.62495H13.0673V10.2596H10.9423ZM10.9423 15.7211H13.0673V18.4423C13.0673 18.7361 12.9643 18.9858 12.7584 19.1915C12.5526 19.3971 12.3026 19.5 12.0085 19.5C11.7144 19.5 11.4631 19.3962 11.2548 19.1887C11.0465 18.9811 10.9423 18.7291 10.9423 18.4327V15.7211Z"
+    />
+  </svg>
+`,S1=`
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+  >
+    <g clip-path="url(#clip0_977_8078)">
+      <path
+        d="M20 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H20C21.1 21 22 20.1 22 19V5C22 3.9 21.1 3 20 3ZM20 5V8H5V5H20ZM15 19H10V10H15V19ZM5 10H8V19H5V10ZM17 19V10H20V19H17Z"
+      />
+    </g>
+    <defs>
+      <clipPath id="clip0_977_8078">
+        <rect width="24" height="24" />
+      </clipPath>
+    </defs>
+  </svg>
+`,as=`
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+  >
+    <g clip-path="url(#clip0_992_5547)">
+      <path
+        d="M5 5.5C5 6.33 5.67 7 6.5 7H10.5V17.5C10.5 18.33 11.17 19 12 19C12.83 19 13.5 18.33 13.5 17.5V7H17.5C18.33 7 19 6.33 19 5.5C19 4.67 18.33 4 17.5 4H6.5C5.67 4 5 4.67 5 5.5Z"
+      />
+    </g>
+    <defs>
+      <clipPath id="clip0_992_5547">
+        <rect width="24" height="24" />
+      </clipPath>
+    </defs>
+  </svg>
+`,E1=`
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+  >
+    <path
+      d="M5.66936 16.3389L9.39244 12.6158C9.54115 12.4671 9.71679 12.3937 9.91936 12.3957C10.1219 12.3976 10.2975 12.4761 10.4463 12.6312C10.5847 12.7823 10.654 12.9585 10.654 13.1599C10.654 13.3613 10.5847 13.5363 10.4463 13.6851L6.32704 17.8197C6.14627 18.0004 5.93538 18.0908 5.69436 18.0908C5.45333 18.0908 5.24243 18.0004 5.06166 17.8197L3.01744 15.7754C2.87899 15.637 2.81136 15.4629 2.81456 15.2533C2.81776 15.0437 2.88859 14.8697 3.02706 14.7312C3.16551 14.5928 3.34008 14.5235 3.55076 14.5235C3.76144 14.5235 3.93494 14.5928 4.07126 14.7312L5.66936 16.3389ZM5.66936 8.72359L9.39244 5.00049C9.54115 4.85177 9.71679 4.77838 9.91936 4.78031C10.1219 4.78223 10.2975 4.86075 10.4463 5.01586C10.5847 5.16691 10.654 5.34314 10.654 5.54454C10.654 5.74592 10.5847 5.92097 10.4463 6.06969L6.32704 10.2043C6.14627 10.3851 5.93538 10.4755 5.69436 10.4755C5.45333 10.4755 5.24243 10.3851 5.06166 10.2043L3.01744 8.16009C2.87899 8.02162 2.81136 7.84759 2.81456 7.63799C2.81776 7.42837 2.88859 7.25433 3.02706 7.11586C3.16551 6.97741 3.34008 6.90819 3.55076 6.90819C3.76144 6.90819 3.93494 6.97741 4.07126 7.11586L5.66936 8.72359ZM13.7597 16.5581C13.5472 16.5581 13.3691 16.4862 13.2253 16.3424C13.0816 16.1986 13.0097 16.0204 13.0097 15.8078C13.0097 15.5952 13.0816 15.4171 13.2253 15.2735C13.3691 15.13 13.5472 15.0582 13.7597 15.0582H20.7597C20.9722 15.0582 21.1503 15.1301 21.2941 15.2739C21.4378 15.4177 21.5097 15.5959 21.5097 15.8085C21.5097 16.0211 21.4378 16.1992 21.2941 16.3427C21.1503 16.4863 20.9722 16.5581 20.7597 16.5581H13.7597ZM13.7597 8.94276C13.5472 8.94276 13.3691 8.87085 13.2253 8.72704C13.0816 8.58324 13.0097 8.40504 13.0097 8.19244C13.0097 7.97985 13.0816 7.80177 13.2253 7.65819C13.3691 7.5146 13.5472 7.44281 13.7597 7.44281H20.7597C20.9722 7.44281 21.1503 7.51471 21.2941 7.65851C21.4378 7.80233 21.5097 7.98053 21.5097 8.19311C21.5097 8.40571 21.4378 8.5838 21.2941 8.72739C21.1503 8.87097 20.9722 8.94276 20.7597 8.94276H13.7597Z"
+    />
+  </svg>
+`,Vo=`
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+  >
+    <path
+      fill="currentColor"
+      d="m12.9 16l-2.55-2.5l.05-.05q1.45-1.6 2.262-3.117T13.95 7H16V5h-6V3H8v2H2v2h9.1q-.5 1.2-1.225 2.387T8 11.7q-.6-.6-1.187-1.412T5.85 8.6H3.85q.5 1.4 1.3 2.7T6.95 13.7L2.85 17.75L4.25 19.15L8 15.4L10.55 17.95zM18.5 22h-2L21 10h2l4.5 12h-2l-1.05-3h-4.9zm1.6-5h3.6l-1.8-5.1z"
+    />
+  </svg>
+`,qn=`
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="32"
+    height="32"
+    viewBox="0 0 24 24"
+  >
+    <path
+      fill="currentColor"
+      d="M7 19v-.808L13.096 12L7 5.808V5h10v1.25H9.102L14.727 12l-5.625 5.77H17V19z"
+    />
+  </svg>
+`,B1=`
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    height="24px"
+    viewBox="0 -960 960 960"
+    width="24px"
+  >
+    <path
+      d="m644-428-58-58q9-47-27-88t-93-32l-58-58q17-8 34.5-12t37.5-4q75 0 127.5 52.5T660-500q0 20-4 37.5T644-428Zm128 126-58-56q38-29 67.5-63.5T832-500q-50-101-143.5-160.5T480-720q-29 0-57 4t-55 12l-62-62q41-17 84-25.5t90-8.5q151 0 269 83.5T920-500q-23 59-60.5 109.5T772-302Zm20 246L624-222q-35 11-70.5 16.5T480-200q-151 0-269-83.5T40-500q21-53 53-98.5t73-81.5L56-792l56-56 736 736-56 56ZM222-624q-29 26-53 57t-41 67q50 101 143.5 160.5T480-280q20 0 39-2.5t39-5.5l-36-38q-11 3-21 4.5t-21 1.5q-75 0-127.5-52.5T300-500q0-11 1.5-21t4.5-21l-84-82Zm319 93Zm-151 75Z"
+    />
+  </svg>
+`,is={[M.CodeMirror]:{theme:wa,languages:Ca,expandIcon:Gn,searchIcon:x1,clearSearchIcon:On,searchPlaceholder:"Search language",noResultText:"No result",previewToggleIcon:t=>t?ht:B1}},ss=Fo([],"FeaturesCtx"),rs=Fo({},"CrepeCtx");function ds(t){return t.get("CrepeCtx")}function We(t){return t.use("FeaturesCtx")}function Y(t){return e=>{We(e).update(n=>n.includes(t)?n:[...n,t])}}function us(t,e){var n;let l=t.get(q),o=t.get(Ma),{state:i}=l,a=o(i.doc),r="";if(!i.selection.empty){let{from:s,to:u}=i.selection,c=i.doc.slice(s,u),{schema:h}=i.doc.type,g=h.topNodeType.createAndFill(null,c.content);if(!g){let k=(n=h.nodes.paragraph)==null?void 0:n.createAndFill(null,c.content);k&&(g=h.topNodeType.createAndFill(null,k))}r=g?o(g):i.doc.textBetween(s,u)}return{document:a,selection:r,instruction:e}}var Ze=Oe({provider:void 0,buildContext:void 0,diffReviewOnEnd:!0,onError:t=>{console.error(`[milkdown/ai] [${t.code}]`,t)},aiIcon:void 0},"aiProviderConfig"),R=Oe({abortController:null,label:"",lastInstruction:"",lastLabel:void 0,lastFrom:-1,lastTo:-1,diffOwnedByAI:!1},"aiSession");function P1(t,e){let n=t.get(Ze.key);try{n.onError(e)}catch(l){console.error("[milkdown/ai] onError handler failed:",l)}}function Kt(t){let e=t.get(R.key);t.set(R.key,{...e,abortController:null,label:""})}async function cs(t,e,n,l){try{let o=e(n,l.signal),i=t.get(I);for await(let s of o){if(l.signal.aborted)break;i.call(ba.key,s)}if(l.signal.aborted)return;let a=t.get(Ze.key);if(a.diffReviewOnEnd){let s=t.get(R.key);t.set(R.key,{...s,diffOwnedByAI:!0})}let r=i.call(Ia.key,{diffReview:a.diffReviewOnEnd});if(a.diffReviewOnEnd&&!r){let s=t.get(R.key);t.set(R.key,{...s,diffOwnedByAI:!1})}}catch(o){if(l.signal.aborted)return;let i=Aa(o);P1(t,i),t.get(I).call(Yt.key,{keep:!1})}finally{t.get(R.key).abortController===l&&Kt(t)}}var Wn=An("RunAI",t=>e=>(n,l)=>{var o,i,a,r;if(!e?.instruction)return!1;let s=t.get(Ze.key);if(!s.provider||t.get(R.key).abortController||(o=ct.getState(n))!=null&&o.active||(i=Pn.getState(n))!=null&&i.active)return!1;if(!l)return!0;let c=new AbortController,{from:h,to:g}=n.selection;t.set(R.key,{abortController:c,label:(a=e.label)!=null?a:"",lastInstruction:e.instruction,lastLabel:e.label,lastFrom:h,lastTo:g,diffOwnedByAI:!1});let k=t.get(I),v=n.selection.empty?"cursor":"selection";if(!k.call(ya.key,{insertAt:v}))return Kt(t),!1;let d;try{d=((r=s.buildContext)!=null?r:us)(t,e.instruction)}catch(m){let _=Pa(m);return P1(t,_),k.call(Yt.key,{keep:!1}),Kt(t),!1}return cs(t,s.provider,d,c),!0}),A1=An("AbortAI",t=>e=>(n,l)=>{var o;let i=t.get(R.key);return l?i.abortController?(i.abortController.abort(),Kt(t),(o=ct.getState(n))!=null&&o.active&&t.get(I).call(Yt.key,e),!0):!1:!!i.abortController}),V1=t=>{throw TypeError(t)},Nn=(t,e,n)=>e.has(t)||V1("Cannot "+n),Z=(t,e,n)=>(Nn(t,e,"read from private field"),n?n.call(t):e.get(t)),K=(t,e,n)=>e.has(t)?V1("Cannot add the same private member more than once"):e instanceof WeakSet?e.add(t):e.set(t,n),ne=(t,e,n,l)=>(Nn(t,e,"write to private field"),e.set(t,n),n),xe=(t,e,n)=>(Nn(t,e,"access private method"),n),Je,bt,Qe,pt,It,Lt,me,Ee,ue,R1,Ht,$1,hn,Z1,pn,vn,Ge="milkdown-ai-diff-actions";function G1(t,e){t.innerHTML=Za.sanitize(e.trim())}function hs(t){let e=document.createElement("span");return e.className=`${Ge}-icon`,G1(e,t),e}var mn=class{constructor(e,n,l){this.ctx=e,K(this,ue),K(this,Je),K(this,bt),K(this,Qe),K(this,pt),K(this,It,!1),K(this,Lt,!1),K(this,me,null),K(this,Ee,!1),K(this,hn,()=>{let a=this.ctx.get(R.key);if(!a.lastInstruction||!Z(this,Ee)||!xe(this,ue,Z1).call(this))return;let r=this.ctx.get(I);r.call(So.key);let s=this.ctx.get(q),{doc:u}=s.state,c=Math.min(Math.max(a.lastFrom,0),u.content.size),h=Math.min(Math.max(a.lastTo,0),u.content.size);s.dispatch(s.state.tr.setSelection(_e.create(s.state.doc,c,h))),r.call(Wn.key,{instruction:a.lastInstruction,label:a.lastLabel})}),K(this,pn,()=>{this.ctx.get(I).call(So.key)}),K(this,vn,()=>{this.ctx.get(I).call(No.key)}),ne(this,pt,l),ne(this,bt,xe(this,ue,R1).call(this,n));let o=document.createElement("div");o.className=Ge,o.dataset.show="false",ne(this,Qe,xe(this,ue,Ht).call(this,"retry",l.retryIcon,l.retryLabel,Z(this,hn))),o.appendChild(Z(this,Qe)),o.appendChild(xe(this,ue,Ht).call(this,"reject",l.rejectIcon,l.rejectAllLabel,Z(this,pn)));let i=xe(this,ue,Ht).call(this,"accept",l.acceptIcon,l.acceptAllLabel,Z(this,vn));i.appendChild(xe(this,ue,$1).call(this)),o.appendChild(i),ne(this,Je,o),Z(this,bt).appendChild(o),this.update(n)}update(e){var n;let l=!!((n=Pn.getState(e.state))!=null&&n.active);if(l!==Z(this,Lt))if(ne(this,Lt,l),l){let i=this.ctx.get(R.key);ne(this,Ee,i.diffOwnedByAI),ne(this,me,e.state.doc)}else{ne(this,Ee,!1),ne(this,me,null);let i=this.ctx.get(R.key);i.diffOwnedByAI&&this.ctx.set(R.key,{...i,diffOwnedByAI:!1})}let o=l&&Z(this,Ee);if(o!==Z(this,It)&&(ne(this,It,o),Z(this,Je).dataset.show=o?"true":"false"),o){let i=this.ctx.get(R.key),a=!!Z(this,me)&&e.state.doc.eq(Z(this,me));Z(this,Qe).disabled=!i.lastInstruction||!a}}destroy(){Z(this,Je).remove()}};Je=new WeakMap;bt=new WeakMap;Qe=new WeakMap;pt=new WeakMap;It=new WeakMap;Lt=new WeakMap;me=new WeakMap;Ee=new WeakMap;ue=new WeakSet;R1=function(t){var e;return(e=t.dom.closest(".milkdown"))!=null?e:document.body};Ht=function(t,e,n,l){let o=document.createElement("button");o.type="button",o.className=`${Ge}-btn ${Ge}-btn-${t}`,o.appendChild(hs(e));let i=document.createElement("span");return i.textContent=n,o.appendChild(i),o.addEventListener("mousedown",a=>a.preventDefault()),o.addEventListener("click",a=>{a.preventDefault(),a.stopPropagation(),l()}),o};$1=function(){let t=document.createElement("span");t.className=`${Ge}-shortcut`;let e=document.createElement("span");e.textContent=Z(this,pt).modSymbol;let n=document.createElement("span");return n.className=`${Ge}-shortcut-icon`,G1(n,Z(this,pt).enterKeyIcon),t.append(e,n),t};hn=new WeakMap;Z1=function(){return Z(this,me)?this.ctx.get(q).state.doc.eq(Z(this,me)):!1};pn=new WeakMap;vn=new WeakMap;var ps=new Jt("CREPE_AI_DIFF_ACTIONS_PANEL"),vs="Retry",ms="Reject all",Cs="Accept all";function ws(){var t,e,n,l;if(typeof navigator>"u")return"\u2318";let o=navigator,i=(l=(n=(e=(t=o.userAgentData)==null?void 0:t.platform)!=null?e:o.platform)!=null?n:o.userAgent)!=null?l:"";return/mac|iphone|ipad|ipod/i.test(i)?"\u2318":"Ctrl"}var _s=ws();function gs(t){var e,n,l,o,i,a,r;let{config:s,enterKeyIcon:u}=t;return{retryLabel:(e=s?.retryLabel)!=null?e:vs,rejectAllLabel:(n=s?.rejectAllLabel)!=null?n:ms,acceptAllLabel:(l=s?.acceptAllLabel)!=null?l:Cs,retryIcon:(o=s?.retryIcon)!=null?o:ts,rejectIcon:(i=s?.rejectIcon)!=null?i:On,acceptIcon:(a=s?.acceptIcon)!=null?a:jt,enterKeyIcon:u??b1,modSymbol:(r=s?.modSymbol)!=null?r:_s}}function fs(t={}){let e=gs(t);return mt(n=>new Qt({key:ps,view(l){return new mn(n,l,e)},props:{handleKeyDown(l,o){var i;return o.key!=="Enter"||!(o.metaKey||o.ctrlKey)||!((i=Pn.getState(l.state))!=null&&i.active)||!n.get(R.key).diffOwnedByAI?!1:(o.preventDefault(),n.get(I).call(No.key),!0)}}}))}var O1=t=>{throw TypeError(t)},D1=(t,e,n)=>e.has(t)||O1("Cannot "+n),ae=(t,e,n)=>(D1(t,e,"read from private field"),n?n.call(t):e.get(t)),Ro=(t,e,n)=>e.has(t)?O1("Cannot add the same private member more than once"):e instanceof WeakSet?e.add(t):e.set(t,n),$o=(t,e,n,l)=>(D1(t,e,"write to private field"),e.set(t,n),n),oe,je;function Zo(t){let e={addItem:(n,l)=>(t.items.set(n,l),e),removeItem:n=>(t.items.delete(n),e),getItem:n=>t.items.get(n),clear:()=>(t.items.clear(),e)};return e}var Cn=class{constructor(){Ro(this,oe,[]),this.addItem=(e,n)=>(ae(this,je).call(this,e),ae(this,oe).push({kind:"item",id:e,item:n}),this),this.addSubmenu=(e,n,l)=>{ae(this,je).call(this,e);let o={def:n,items:new Map};return l&&l(Zo(o)),ae(this,oe).push({kind:"submenu",id:e,node:o}),this},this.removeItem=e=>(ae(this,je).call(this,e),this),this.getItem=e=>{let n=ae(this,oe).find(l=>l.kind==="item"&&l.id===e);return n?.kind==="item"?n.item:void 0},this.getSubmenu=e=>{let n=ae(this,oe).find(l=>l.kind==="submenu"&&l.id===e);return n?.kind==="submenu"?Zo(n.node):void 0},this.clear=()=>($o(this,oe,[]),this),this.build=()=>{let e=[],n={};for(let l of ae(this,oe))l.kind==="item"?e.push({kind:"item",id:l.id,item:l.item}):(e.push({kind:"submenu",id:l.id,def:l.node.def}),n[l.id]={def:l.node.def,items:Array.from(l.node.items.entries()).map(([o,i])=>({id:o,item:i}))});return{main:e,submenus:n}},Ro(this,je,e=>{$o(this,oe,ae(this,oe).filter(n=>n.id!==e))})}};oe=new WeakMap;je=new WeakMap;function ks(t){t.addItem("improve",{icon:Zn,label:"Improve writing",streamingLabel:"Improving writing",prompt:"Improve the writing while preserving the original meaning."}).addItem("grammar",{icon:Ui,label:"Fix grammar & spelling",streamingLabel:"Fixing grammar & spelling",prompt:"Fix any grammar and spelling errors without changing the meaning."}).addItem("shorter",{icon:os,label:"Make shorter",streamingLabel:"Making shorter",prompt:"Make this shorter while preserving the key information."}).addItem("longer",{icon:ji,label:"Make longer",streamingLabel:"Expanding",prompt:"Expand this with more detail and examples."}),t.addSubmenu("tone",{icon:ht,label:"Change tone\u2026",title:"Change tone",searchPlaceholder:"Search tones\u2026"},e=>{let n=[["professional","Professional"],["casual","Casual"],["confident","Confident"],["friendly","Friendly"],["direct","Direct"],["formal","Formal"]];for(let[l,o]of n)e.addItem(l,{icon:ht,label:o,streamingLabel:"Adjusting tone",prompt:`Rewrite this in a ${o.toLowerCase()} tone.`})}),t.addSubmenu("translate",{icon:Vo,label:"Translate\u2026",title:"Translate",searchPlaceholder:"Search languages\u2026"},e=>{let n=[["english","English","English"],["chinese","Chinese","Chinese (Simplified)"],["japanese","Japanese","Japanese"],["korean","Korean","Korean"],["spanish","Spanish","Spanish"],["french","French","French"],["german","German","German"]];for(let[l,o,i]of n)e.addItem(l,{icon:Vo,label:o,streamingLabel:`Translating to ${o}`,prompt:`Translate this to ${i}.`})})}function ge(...t){}ge(p);function ys(t,e){let n=e.trim();if(!n)return[t];let l=t.toLowerCase(),o=n.toLowerCase(),i=l.indexOf(o);return i===-1?[t]:[t.slice(0,i),p("mark",null,t.slice(i,i+n.length)),t.slice(i+n.length)]}var bs=De({props:{placeholder:{type:Object,required:!0},resetSignal:{type:Object,required:!0},suggestions:{type:Object,required:!0},chrome:{type:Object,required:!0},onConfirm:{type:Function,required:!0},onCancel:{type:Function,required:!0}},setup({placeholder:t,resetSignal:e,suggestions:n,chrome:l,onConfirm:o,onCancel:i}){let a=D(""),r=D({kind:"main"}),s=D(0),u=D(null),c=D(null),h=`ai-instruction-list-${Math.random().toString(36).slice(2,9)}`,g=w=>`${h}-opt-${w}`,k=`ai-instruction-input-${Math.random().toString(36).slice(2,9)}`;on(e,()=>{a.value="",r.value={kind:"main"},s.value=0});let v=ve(()=>{if(r.value.kind==="submenu"){let w=n.submenus[r.value.id];return w?w.items.map(({id:V,item:W})=>({id:V,icon:W.icon,label:W.label,hasSubmenu:!1,prompt:{text:W.prompt,streamingLabel:W.streamingLabel}})):[]}return n.main.map(w=>w.kind==="item"?{id:w.id,icon:w.item.icon,label:w.item.label,hasSubmenu:!1,prompt:{text:w.item.prompt,streamingLabel:w.item.streamingLabel}}:{id:w.id,icon:w.def.icon,label:w.def.label,hasSubmenu:!0})}),d=ve(()=>{var w,V;return r.value.kind!=="submenu"?null:(V=(w=n.submenus[r.value.id])==null?void 0:w.def)!=null?V:null}),m=ve(()=>{let w=a.value.trim().toLowerCase();return w?v.value.filter(V=>V.label.toLowerCase().includes(w)):v.value}),_=ve(()=>a.value.trim().length>0),y=ve(()=>m.value.length+(_.value?1:0));on([m,r,_],()=>{s.value=_.value?m.value.length:0});let E=()=>{Eo(()=>{var w;return(w=u.value)==null?void 0:w.focus()})},B=w=>{r.value={kind:"submenu",id:w},a.value="",s.value=0,E()},T=()=>{r.value={kind:"main"},a.value="",s.value=0,E()},G=w=>{w.hasSubmenu?B(w.id):w.prompt&&(o(w.prompt.text,w.prompt.streamingLabel),a.value="")},ee=()=>{let w=a.value.trim();w&&(o(w),a.value="")},f=()=>{let w=s.value,V=m.value;w<V.length?G(V[w]):_.value&&ee()},C=()=>{Eo(()=>{let w=c.value;if(!w)return;let V=w.querySelector(`[data-index="${s.value}"]`);V?.scrollIntoView({block:"nearest"})})},H=w=>{if(w.stopPropagation(),w.key==="ArrowDown"){if(w.preventDefault(),y.value===0)return;s.value=(s.value+1)%y.value,C();return}if(w.key==="ArrowUp"){if(w.preventDefault(),y.value===0)return;s.value=(s.value-1+y.value)%y.value,C();return}if(w.key==="Enter"){w.preventDefault(),f();return}if(w.key==="Escape"){w.preventDefault(),r.value.kind==="submenu"?T():i();return}w.key==="Backspace"&&a.value===""&&r.value.kind==="submenu"&&(w.preventDefault(),T())},P=w=>{w.preventDefault()};return()=>{let w=m.value,V=_.value,W=d.value;return p("div",{class:"ai-instruction"},p("div",{class:"ai-instruction-input"},p("span",{class:"ai-instruction-input-prefix"},p(N,{icon:l.aiIcon})),p("input",{ref:u,id:k,class:"ai-instruction-input-field",role:"combobox","aria-expanded":"true","aria-autocomplete":"list","aria-controls":h,"aria-activedescendant":y.value>0?g(s.value):void 0,placeholder:W?W.searchPlaceholder:t.value,value:a.value,onInput:te=>{a.value=te.target.value},onKeydown:H}),p("button",{type:"button",class:"ai-instruction-submit","aria-label":l.submitButtonLabel,disabled:!V,onMousedown:P,onClick:ee},p(N,{icon:l.sendIcon}))),p("div",{class:"ai-instruction-list",ref:c,id:h,role:"listbox","aria-label":l.listboxLabel},W&&p("button",{type:"button",class:"ai-instruction-back",onMousedown:P,onClick:T},p("span",{class:"ai-instruction-back-icon","aria-hidden":"true"},p(N,{icon:l.chevronLeftIcon})),p("span",null,W.title)),w.length>0&&p("div",{class:"ai-instruction-section"},p("div",{class:"ai-instruction-section-header"},l.suggestionsHeaderLabel),w.map((te,re)=>p("div",{key:te.id,id:g(re),"data-index":re,role:"option","aria-selected":re===s.value,class:["ai-instruction-item",re===s.value?"active":""],onMousedown:P,onClick:()=>G(te),onPointerenter:()=>{s.value=re}},p("span",{class:"ai-instruction-item-icon"},p(N,{icon:te.icon})),p("span",{class:"ai-instruction-item-label"},ys(te.label,a.value)),te.hasSubmenu&&p("span",{class:"ai-instruction-item-arrow"},p(N,{icon:l.chevronRightIcon}))))),V&&p("div",{class:"ai-instruction-section"},p("div",{class:"ai-instruction-section-header"},l.sendAsPromptHeaderLabel),p("div",{id:g(w.length),"data-index":w.length,role:"option","aria-selected":s.value===w.length,class:["ai-instruction-item","ai-instruction-item-prompt",s.value===w.length?"active":""],onMousedown:P,onClick:ee,onPointerenter:()=>{s.value=w.length}},p("span",{class:"ai-instruction-item-icon"},p(N,{icon:l.sendPromptIcon})),p("span",{class:"ai-instruction-item-label"},l.sendAsPromptLabel," ",p("span",{class:"ai-instruction-item-quote"},'"',a.value,'"')),p("span",{class:"ai-instruction-item-shortcut"},p(N,{icon:l.enterKeyIcon}))))))}}}),q1=t=>{throw TypeError(t)},W1=(t,e,n)=>e.has(t)||q1("Cannot "+n),A=(t,e,n)=>(W1(t,e,"read from private field"),n?n.call(t):e.get(t)),le=(t,e,n)=>e.has(t)?q1("Cannot add the same private member more than once"):e instanceof WeakSet?e.add(t):e.set(t,n),X=(t,e,n,l)=>(W1(t,e,"write to private field"),e.set(t,n),n),Ie,Q,Mt,xt,et,Tt,St,ce,wn,_n,gn=class{constructor(e,n,l){this.ctx=e,le(this,Ie),le(this,Q),le(this,Mt),le(this,xt),le(this,et),le(this,Tt,-1),le(this,St,-1),le(this,ce,!1),le(this,wn,(a,r)=>{!a.trim()||!this.ctx.get(I).call(Wn.key,{instruction:a,label:r})||(X(this,ce,!1),A(this,Q).hide())}),le(this,_n,()=>{X(this,ce,!1),A(this,Q).hide()}),this.show=(a,r)=>{X(this,Tt,a),X(this,St,r),A(this,et).value++,X(this,ce,!0);let s=this.ctx.get(q);A(this,Q).show({getBoundingClientRect:()=>Ga(s,a,r)},s),requestAnimationFrame(()=>{var u;(u=A(this,Ie).querySelector("input"))==null||u.focus()})},this.update=(a,r)=>{let{selection:s}=a.state,u=s instanceof _e,c=s.from!==A(this,Tt)||s.to!==A(this,St);if(!u||c){X(this,ce,!1),A(this,Q).hide();return}A(this,Q).update(a,r)},this.destroy=()=>{A(this,Mt).unmount(),A(this,Q).destroy(),A(this,Ie).remove()},X(this,xt,D(l.placeholder)),X(this,et,D(0));let o=document.createElement("div");o.className="milkdown-ai-instruction";let i=qe(bs,{placeholder:A(this,xt),resetSignal:A(this,et),suggestions:l.suggestions,chrome:l.chrome,onConfirm:A(this,wn),onCancel:A(this,_n)});i.mount(o),X(this,Mt,i),X(this,Ie,o),X(this,Q,new Vn({content:o,debounce:0,offset:10,shouldShow:()=>A(this,ce),floatingUIOptions:{placement:"bottom"}})),A(this,Q).onHide=()=>{X(this,ce,!1),requestAnimationFrame(()=>{try{let r=A(this,Ie).getRootNode().activeElement;if(!r||!A(this,Ie).contains(r))return;this.ctx.get(q).dom.focus({preventScroll:!0})}catch{}})},A(this,Q).update(n)}};Ie=new WeakMap;Q=new WeakMap;Mt=new WeakMap;xt=new WeakMap;et=new WeakMap;Tt=new WeakMap;St=new WeakMap;ce=new WeakMap;wn=new WeakMap;_n=new WeakMap;var Is={show:()=>{}},Fn=Oe({...Is},"aiInstructionTooltipAPI"),N1=Rn("CREPE_AI_INSTRUCTION"),Ls="SUGGESTIONS",Hs="SEND AS PROMPT",Ms="Ask AI:",xs="Send prompt",Ts="AI suggestions",Ss="Tell AI what to do with the selection\u2026";function Es(t){var e,n,l,o,i,a,r,s,u,c,h;return{aiIcon:(e=t?.aiIcon)!=null?e:Zn,sendIcon:(n=t?.sendIcon)!=null?n:ns,sendPromptIcon:(l=t?.sendPromptIcon)!=null?l:ls,enterKeyIcon:(o=t?.enterKeyIcon)!=null?o:b1,chevronLeftIcon:(i=t?.chevronLeftIcon)!=null?i:Wi,chevronRightIcon:(a=t?.chevronRightIcon)!=null?a:Ni,suggestionsHeaderLabel:(r=t?.suggestionsHeaderLabel)!=null?r:Ls,sendAsPromptHeaderLabel:(s=t?.sendAsPromptHeaderLabel)!=null?s:Hs,sendAsPromptLabel:(u=t?.sendAsPromptLabel)!=null?u:Ms,submitButtonLabel:(c=t?.submitButtonLabel)!=null?c:xs,listboxLabel:(h=t?.listboxLabel)!=null?h:Ts}}function Bs(t){var e,n;let l=new Cn;return ks(l),(e=t?.buildAISuggestions)==null||e.call(t,l),{placeholder:(n=t?.instructionPlaceholder)!=null?n:Ss,chrome:Es(t),suggestions:l.build()}}function Ps(t){return e=>{let n=Bs(t),l=null;e.update(Fn.key,o=>({...o,show:(i,a)=>{l?.show(i,a)}})),e.set(N1.key,{view:o=>(l=new gn(e,o,n),l)})}}var F1=t=>{throw TypeError(t)},U1=(t,e,n)=>e.has(t)||F1("Cannot "+n),ie=(t,e,n)=>(U1(t,e,"read from private field"),n?n.call(t):e.get(t)),fe=(t,e,n)=>e.has(t)?F1("Cannot add the same private member more than once"):e instanceof WeakSet?e.add(t):e.set(t,n),Te=(t,e,n,l)=>(U1(t,e,"write to private field"),e.set(t,n),n),Et,Bt,Pt,fn,At,Be,Vt,wt="milkdown-ai-streaming",As=800,Vs="Generating",Rs="Esc to cancel",Go=new Jt("CREPE_AI_STREAMING_INDICATOR"),kn=class{constructor(e,n,l){fe(this,Et),fe(this,Bt),fe(this,Pt),fe(this,fn,performance.now()),fe(this,At,""),fe(this,Be,0),fe(this,Vt,()=>{let u=(performance.now()-ie(this,fn))/As*360;ie(this,Et).style.transform=`rotate(${u}deg)`,Te(this,Be,requestAnimationFrame(ie(this,Vt)))}),Te(this,Pt,n);let o=document.createElement("span");o.className=`${wt}-indicator`,o.contentEditable="false",o.setAttribute("role","status"),o.setAttribute("aria-live","polite");let i=document.createElement("span");i.className=`${wt}-spinner`,i.setAttribute("aria-hidden","true"),o.appendChild(i);let a=document.createElement("span");a.className=`${wt}-label`,o.appendChild(a);let r=document.createElement("span");r.className=`${wt}-esc`,r.textContent=l,o.appendChild(r),this.dom=o,Te(this,Et,i),Te(this,Bt,a),this.setLabel(e),ie(this,Vt).call(this)}setLabel(e){let l=`${e.get(R.key).label||ie(this,Pt)}\u2026`;l!==ie(this,At)&&(Te(this,At,l),ie(this,Bt).textContent=l)}destroy(){ie(this,Be)&&cancelAnimationFrame(ie(this,Be)),Te(this,Be,0)}};Et=new WeakMap;Bt=new WeakMap;Pt=new WeakMap;fn=new WeakMap;At=new WeakMap;Be=new WeakMap;Vt=new WeakMap;function $s(t={}){var e,n;let{config:l}=t,o=(e=l?.fallbackLabel)!=null?e:Vs,i=(n=l?.cancelHint)!=null?n:Rs;return mt(a=>{let r=null;function s(){return r?r.setLabel(a):r=new kn(a,o,i),r}function u(){r&&(r.destroy(),r=null)}function c(h,g){let k=Math.min(g,h.content.size),v=Qo.widget(k,s().dom,{side:1,key:"ai-streaming-indicator"});return Ye.create(h,[v])}return new Qt({key:Go,state:{init:()=>Ye.empty,apply(h,g,k,v){let d=ct.getState(v);return!d?.active||d.insertEndPos==null?(u(),Ye.empty):h.getMeta(ct)||h.docChanged?c(v.doc,d.insertEndPos):g.map(h.mapping,h.doc)}},view(){return{destroy(){u()}}},props:{decorations(h){var g;return(g=Go.getState(h))!=null?g:Ye.empty},handleKeyDown(h,g){var k;if(g.key!=="Escape")return!1;let v=a.get(I);return a.get(R.key).abortController?(g.preventDefault(),v.call(A1.key,{keep:!0}),!0):(k=ct.getState(h.state))!=null&&k.active?(g.preventDefault(),v.call(Yt.key,{keep:!0}),!0):!1}}})})}var Zs=["table","image-block","code_block"],Oo={heading:["id"]},Gs=(t,e)=>{var n,l;let o=(n=e?.diff)!=null?n:{},i=(l=e?.streaming)!=null?l:{};t.config(Y(M.AI)).config(a=>{a.update(fa.key,u=>{var c;return{...u,ignoreAttrs:(c=o.ignoreAttrs)!=null?c:Oo}});let{ignoreAttrs:r,...s}=o;a.update(_a.key,u=>{var c;return{...u,customBlockTypes:(c=s.customBlockTypes)!=null?c:Zs,...s}})}).use(ka).use(ga).config(a=>{a.update(La.key,r=>{var s;return{...r,...i,ignoreAttrs:(s=i.ignoreAttrs)!=null?s:Oo,...e?.diffReviewOnEnd!==void 0?{diffReviewOnEnd:e.diffReviewOnEnd}:{}}})}).use(Ha).config(a=>{a.update(Ze.key,r=>{var s;return{...r,...e?.provider!==void 0?{provider:e.provider}:{},...e?.buildContext!==void 0?{buildContext:e.buildContext}:{},diffReviewOnEnd:(s=e?.diffReviewOnEnd)!=null?s:r.diffReviewOnEnd,...e?.onError!==void 0?{onError:e.onError}:{},...e?.aiIcon!==void 0?{aiIcon:e.aiIcon}:{}}})}).use(Ze).use(R).use(Wn).use(A1).config(Ps(e)).use(Fn).use(N1).use($s({config:e?.streamingIndicator})).use(fs({config:e?.diffActions,enterKeyIcon:e?.enterKeyIcon}))};function z1(t){return t.$from.parent.type.name==="code_block"}function K1(t){var e;let n=(e=t.$from.node(t.$from.depth-1))==null?void 0:e.type;return n?.name==="list_item"}var X1=t=>{throw TypeError(t)},Y1=(t,e,n)=>e.has(t)||X1("Cannot "+n),Ue=(t,e,n)=>(Y1(t,e,"read from private field"),n?n.call(t):e.get(t)),Do=(t,e,n)=>e.has(t)?X1("Cannot add the same private member more than once"):e instanceof WeakSet?e.add(t):e.set(t,n),Os=(t,e,n,l)=>(Y1(t,e,"write to private field"),e.set(t,n),n),Pe,Rt,vt=class{constructor(){Do(this,Pe,[]),this.clear=()=>(Os(this,Pe,[]),this),Do(this,Rt,e=>{let n={group:e,addItem:(l,o)=>{let i={...o,key:l};return e.items.push(i),n},clear:()=>(e.items=[],n)};return n}),this.addGroup=(e,n)=>{let o={key:e,label:n,items:[]};return Ue(this,Pe).push(o),Ue(this,Rt).call(this,o)},this.getGroup=e=>{let n=Ue(this,Pe).find(l=>l.key===e);if(!n)throw new Error(`Group with key ${e} not found`);return Ue(this,Rt).call(this,n)},this.build=()=>Ue(this,Pe)}};Pe=new WeakMap;Rt=new WeakMap;function Ds(t,e,n){var l,o,i,a,r,s,u,c,h,g,k,v,d,m,_,y,E,B,T,G,ee,f,C,H,P,w,V,W,te,re,zn,Kn,Xn,Yn,Jn,Qn,jn,el,tl,nl,ll,ol,al,il,sl,rl,dl,ul,cl,hl,pl,vl,ml,Cl,wl,_l,gl,fl,kl,yl,bl,Il,Ll,Hl,Ml,xl,Tl,Sl,El,Bl,Pl,Al,Vl,Rl,$l,Zl,Gl,Ol,Dl,ql,Wl,Nl,Fl,Ul,zl,Kl,Xl,Yl,Jl,Ql,jl,eo,to,no,lo,oo,ao,io,so,ro,uo,co,ho,po,vo,mo,Co,wo,_o,go,fo,ko,yo,bo,Io,Lo,Ho,Mo,xo;let Me=n&&We(n).get(),ca=Me?.includes(M.Latex),ha=Me?.includes(M.ImageBlock),pa=Me?.includes(M.Table),Ne=new vt;if(e?.textGroup!==null){let S=Ne.addGroup("text",(o=(l=e?.textGroup)==null?void 0:l.label)!=null?o:"Text");((i=e?.textGroup)==null?void 0:i.text)!==null&&S.addItem("text",{label:(s=(r=(a=e?.textGroup)==null?void 0:a.text)==null?void 0:r.label)!=null?s:"Text",icon:(h=(c=(u=e?.textGroup)==null?void 0:u.text)==null?void 0:c.icon)!=null?h:as,onRun:b=>{let L=b.get(I),x=$n.type(b);L.call(O.key),L.call(j.key,{nodeType:x})}}),((g=e?.textGroup)==null?void 0:g.h1)!==null&&S.addItem("h1",{label:(d=(v=(k=e?.textGroup)==null?void 0:k.h1)==null?void 0:v.label)!=null?d:"Heading 1",icon:(y=(_=(m=e?.textGroup)==null?void 0:m.h1)==null?void 0:_.icon)!=null?y:zi,onRun:b=>{let L=b.get(I),x=pe.type(b);L.call(O.key),L.call(j.key,{nodeType:x,attrs:{level:1}})}}),((E=e?.textGroup)==null?void 0:E.h2)!==null&&S.addItem("h2",{label:(G=(T=(B=e?.textGroup)==null?void 0:B.h2)==null?void 0:T.label)!=null?G:"Heading 2",icon:(C=(f=(ee=e?.textGroup)==null?void 0:ee.h2)==null?void 0:f.icon)!=null?C:Ki,onRun:b=>{let L=b.get(I),x=pe.type(b);L.call(O.key),L.call(j.key,{nodeType:x,attrs:{level:2}})}}),((H=e?.textGroup)==null?void 0:H.h3)!==null&&S.addItem("h3",{label:(V=(w=(P=e?.textGroup)==null?void 0:P.h3)==null?void 0:w.label)!=null?V:"Heading 3",icon:(re=(te=(W=e?.textGroup)==null?void 0:W.h3)==null?void 0:te.icon)!=null?re:Xi,onRun:b=>{let L=b.get(I),x=pe.type(b);L.call(O.key),L.call(j.key,{nodeType:x,attrs:{level:3}})}}),((zn=e?.textGroup)==null?void 0:zn.h4)!==null&&S.addItem("h4",{label:(Yn=(Xn=(Kn=e?.textGroup)==null?void 0:Kn.h4)==null?void 0:Xn.label)!=null?Yn:"Heading 4",icon:(jn=(Qn=(Jn=e?.textGroup)==null?void 0:Jn.h4)==null?void 0:Qn.icon)!=null?jn:Yi,onRun:b=>{let L=b.get(I),x=pe.type(b);L.call(O.key),L.call(j.key,{nodeType:x,attrs:{level:4}})}}),((el=e?.textGroup)==null?void 0:el.h5)!==null&&S.addItem("h5",{label:(ll=(nl=(tl=e?.textGroup)==null?void 0:tl.h5)==null?void 0:nl.label)!=null?ll:"Heading 5",icon:(il=(al=(ol=e?.textGroup)==null?void 0:ol.h5)==null?void 0:al.icon)!=null?il:Ji,onRun:b=>{let L=b.get(I),x=pe.type(b);L.call(O.key),L.call(j.key,{nodeType:x,attrs:{level:5}})}}),((sl=e?.textGroup)==null?void 0:sl.h6)!==null&&S.addItem("h6",{label:(ul=(dl=(rl=e?.textGroup)==null?void 0:rl.h6)==null?void 0:dl.label)!=null?ul:"Heading 6",icon:(pl=(hl=(cl=e?.textGroup)==null?void 0:cl.h6)==null?void 0:hl.icon)!=null?pl:Qi,onRun:b=>{let L=b.get(I),x=pe.type(b);L.call(O.key),L.call(j.key,{nodeType:x,attrs:{level:6}})}}),((vl=e?.textGroup)==null?void 0:vl.quote)!==null&&S.addItem("quote",{label:(wl=(Cl=(ml=e?.textGroup)==null?void 0:ml.quote)==null?void 0:Cl.label)!=null?wl:"Quote",icon:(fl=(gl=(_l=e?.textGroup)==null?void 0:_l.quote)==null?void 0:gl.icon)!=null?fl:M1,onRun:b=>{let L=b.get(I),x=e1.type(b);L.call(O.key),L.call(Ce.key,{nodeType:x})}}),((kl=e?.textGroup)==null?void 0:kl.divider)!==null&&S.addItem("divider",{label:(Il=(bl=(yl=e?.textGroup)==null?void 0:yl.divider)==null?void 0:bl.label)!=null?Il:"Divider",icon:(Ml=(Hl=(Ll=e?.textGroup)==null?void 0:Ll.divider)==null?void 0:Hl.icon)!=null?Ml:y1,onRun:b=>{let L=b.get(I),x=t1.type(b);L.call(O.key),L.call(we.key,{nodeType:x})}})}if(e?.listGroup!==null){let S=Ne.addGroup("list",(Tl=(xl=e?.listGroup)==null?void 0:xl.label)!=null?Tl:"List");((Sl=e?.listGroup)==null?void 0:Sl.bulletList)!==null&&S.addItem("bullet-list",{label:(Pl=(Bl=(El=e?.listGroup)==null?void 0:El.bulletList)==null?void 0:Bl.label)!=null?Pl:"Bullet List",icon:(Rl=(Vl=(Al=e?.listGroup)==null?void 0:Al.bulletList)==null?void 0:Vl.icon)!=null?Rl:f1,onRun:b=>{let L=b.get(I),x=n1.type(b);L.call(O.key),L.call(Ce.key,{nodeType:x})}}),(($l=e?.listGroup)==null?void 0:$l.orderedList)!==null&&S.addItem("ordered-list",{label:(Ol=(Gl=(Zl=e?.listGroup)==null?void 0:Zl.orderedList)==null?void 0:Gl.label)!=null?Ol:"Ordered List",icon:(Wl=(ql=(Dl=e?.listGroup)==null?void 0:Dl.orderedList)==null?void 0:ql.icon)!=null?Wl:H1,onRun:b=>{let L=b.get(I),x=l1.type(b);L.call(O.key),L.call(Ce.key,{nodeType:x})}}),((Nl=e?.listGroup)==null?void 0:Nl.taskList)!==null&&S.addItem("task-list",{label:(zl=(Ul=(Fl=e?.listGroup)==null?void 0:Fl.taskList)==null?void 0:Ul.label)!=null?zl:"Task List",icon:(Yl=(Xl=(Kl=e?.listGroup)==null?void 0:Kl.taskList)==null?void 0:Xl.icon)!=null?Yl:E1,onRun:b=>{let L=b.get(I),x=o1.type(b);L.call(O.key),L.call(Ce.key,{nodeType:x,attrs:{checked:!1}})}})}if(e?.advancedGroup!==null){let S=Ne.addGroup("advanced",(Ql=(Jl=e?.advancedGroup)==null?void 0:Jl.label)!=null?Ql:"Advanced");((jl=e?.advancedGroup)==null?void 0:jl.image)!==null&&ha&&S.addItem("image",{label:(no=(to=(eo=e?.advancedGroup)==null?void 0:eo.image)==null?void 0:to.label)!=null?no:"Image",icon:(ao=(oo=(lo=e?.advancedGroup)==null?void 0:lo.image)==null?void 0:oo.icon)!=null?ao:zt,onRun:b=>{let L=b.get(I),x=c1.type(b);L.call(O.key),L.call(we.key,{nodeType:x})}}),((io=e?.advancedGroup)==null?void 0:io.codeBlock)!==null&&S.addItem("code",{label:(uo=(ro=(so=e?.advancedGroup)==null?void 0:so.codeBlock)==null?void 0:ro.label)!=null?uo:"Code",icon:(po=(ho=(co=e?.advancedGroup)==null?void 0:co.codeBlock)==null?void 0:ho.icon)!=null?po:Dn,onRun:b=>{let L=b.get(I),x=$e.type(b);L.call(O.key),L.call(j.key,{nodeType:x})}}),((vo=e?.advancedGroup)==null?void 0:vo.table)!==null&&pa&&S.addItem("table",{label:(wo=(Co=(mo=e?.advancedGroup)==null?void 0:mo.table)==null?void 0:Co.label)!=null?wo:"Table",icon:(fo=(go=(_o=e?.advancedGroup)==null?void 0:_o.table)==null?void 0:go.icon)!=null?fo:S1,onRun:b=>{let L=b.get(I),x=b.get(q);L.call(O.key);let{from:va}=x.state.selection;L.call(we.key,{nodeType:p1(b,3,3)}),L.call(a1.key,{pos:va})}}),((ko=e?.advancedGroup)==null?void 0:ko.math)!==null&&ca&&S.addItem("math",{label:(Io=(bo=(yo=e?.advancedGroup)==null?void 0:yo.math)==null?void 0:bo.label)!=null?Io:"Math",icon:(Mo=(Ho=(Lo=e?.advancedGroup)==null?void 0:Lo.math)==null?void 0:Ho.icon)!=null?Mo:qn,onRun:b=>{let L=b.get(I),x=$e.type(b);L.call(O.key),L.call(we.key,{nodeType:x,attrs:{language:"LaTeX"}})}})}(xo=e?.buildMenu)==null||xo.call(e,Ne);let Fe=Ne.build();t&&(Fe=Fe.map(S=>{let b=S.items.filter(L=>L.label.toLowerCase().includes(t.toLowerCase()));return{...S,items:b}}).filter(S=>S.items.length>0));let To=Fe.flatMap(S=>S.items);return To.forEach((S,b)=>{Object.assign(S,{index:b})}),Fe.reduce((S,b)=>{let L=S+b.items.length;return Object.assign(b,{range:[S,L]}),L},0),{groups:Fe,size:To.length}}ge(p);var qs=De({props:{ctx:{type:Object,required:!0},show:{type:Object,required:!0},filter:{type:Object,required:!0},hide:{type:Function,required:!0},config:{type:Object,required:!1}},setup({ctx:t,show:e,filter:n,hide:l,config:o}){let i=D(),a=ve(()=>Ds(n.value,o,t)),r=D(0),s=D({x:-999,y:-999}),u=d=>{let{x:m,y:_}=d;s.value={x:m,y:_}};on([a,e],()=>{let{size:d}=a.value;d===0&&e.value?l():r.value>=d&&(r.value=0)});let c=(d,m)=>{let _=r.value,y=typeof d=="function"?d(_):d;m?.(y),r.value=y},h=d=>{var m,_;let y=(m=i.value)==null?void 0:m.querySelector(`[data-index="${d}"]`),E=(_=i.value)==null?void 0:_.querySelector(".menu-groups");!y||!E||(E.scrollTop=y.offsetTop-E.offsetTop)},g=d=>{let m=a.value.groups.flatMap(_=>_.items).at(d);m?.onRun&&t&&m.onRun(t),l()},k=d=>{let{size:m,groups:_}=a.value;if(d.key==="Escape"){d.preventDefault(),l?.();return}if(d.key==="ArrowDown")return d.preventDefault(),c(y=>y<m-1?y+1:y,h);if(d.key==="ArrowUp")return d.preventDefault(),c(y=>y<=0?y:y-1,h);if(d.key==="ArrowLeft")return d.preventDefault(),c(y=>{let E=_.find(T=>T.range[0]<=y&&T.range[1]>y);if(!E)return y;let B=_[_.indexOf(E)-1];return B?B.range[1]-1:y},h);if(d.key==="ArrowRight")return d.preventDefault(),c(y=>{let E=_.find(T=>T.range[0]<=y&&T.range[1]>y);if(!E)return y;let B=_[_.indexOf(E)+1];return B?B.range[0]:y},h);d.key==="Enter"&&(d.preventDefault(),g(r.value))},v=d=>m=>{let _=s.value;if(!_)return;let{x:y,y:E}=m;y===_.x&&E===_.y||c(d)};return Wa(()=>{e.value?window.addEventListener("keydown",k,{capture:!0}):window.removeEventListener("keydown",k,{capture:!0})}),Jo(()=>{window.removeEventListener("keydown",k,{capture:!0})}),()=>p("div",{ref:i,onPointerdown:d=>d.preventDefault()},p("nav",{class:"tab-group"},p("ul",null,a.value.groups.map(d=>p("li",{key:d.key,onPointerdown:()=>c(d.range[0],h),class:r.value>=d.range[0]&&r.value<d.range[1]?"selected":""},d.label)))),p("div",{class:"menu-groups",onPointermove:u},a.value.groups.map(d=>p("div",{key:d.key,class:"menu-group"},p("h6",null,d.label),p("ul",null,d.items.map(m=>p("li",{key:m.key,"data-index":m.index,class:r.value===m.index?"hover":"",onPointerenter:v(m.index),onPointerdown:()=>{var _,y;(y=(_=i.value)==null?void 0:_.querySelector(`[data-index="${m.index}"]`))==null||y.classList.add("active")},onPointerup:()=>{var _,y;(y=(_=i.value)==null?void 0:_.querySelector(`[data-index="${m.index}"]`))==null||y.classList.remove("active"),g(m.index)}},p(N,{icon:m.icon}),p("span",null,m.label))))))))}}),J1=t=>{throw TypeError(t)},Q1=(t,e,n)=>e.has(t)||J1("Cannot "+n),J=(t,e,n)=>(Q1(t,e,"read from private field"),n?n.call(t):e.get(t)),ze=(t,e,n)=>e.has(t)?J1("Cannot add the same private member more than once"):e instanceof WeakSet?e.add(t):e.set(t,n),ke=(t,e,n,l)=>(Q1(t,e,"write to private field"),e.set(t,n),n),tt,$t,Zt,se,Ae,j1=ja("CREPE_MENU"),Un=Oe({show:()=>{},hide:()=>{}},"menuAPICtx");function Ws(t,e){t.set(j1.key,{view:n=>new yn(t,n,e)})}var yn=class{constructor(e,n,l){ze(this,tt),ze(this,$t),ze(this,Zt),ze(this,se),ze(this,Ae,null),this.update=k=>{J(this,se).update(k)},this.show=k=>{ke(this,Ae,k),J(this,Zt).value="",J(this,se).show()},this.hide=()=>{ke(this,Ae,null),J(this,se).hide()},this.destroy=()=>{J(this,se).destroy(),J(this,$t).unmount(),J(this,tt).remove()};var o,i;let a=document.createElement("div");a.classList.add("milkdown-slash-menu");let r=D(!1),s=D("");ke(this,Zt,s);let u=this.hide,c=qe(qs,{ctx:e,config:l,show:r,filter:s,hide:u});ke(this,$t,c),c.mount(a),ke(this,tt,a);let h=this,g=(o=l?.slashMenu)!=null?o:{};ke(this,se,new ei({content:J(this,tt),debounce:20,shouldShow(k){if(z1(k.state.selection)||K1(k.state.selection))return!1;let v=this.getContent(k,m=>["paragraph","heading"].includes(m.type.name));if(v==null||!Ns(k.state.selection))return!1;let d=J(h,Ae);if(s.value=v.startsWith("/")?v.slice(1):v,typeof d=="number"){let m=k.state.doc.nodeSize-2,_=Math.min(d,m);return k.state.doc.resolve(_).node()!==k.state.doc.resolve(k.state.selection.from).node()?(ke(h,Ae,null),!1):!0}return!!v.startsWith("/")},offset:(i=g.offset)!=null?i:10,middleware:g.middleware,floatingUIOptions:g.floatingUIOptions,root:g.root})),J(this,se).onShow=()=>{r.value=!0},J(this,se).onHide=()=>{r.value=!1},this.update(n),e.set(Un.key,{show:k=>this.show(k),hide:()=>this.hide()})}};tt=new WeakMap;$t=new WeakMap;Zt=new WeakMap;se=new WeakMap;Ae=new WeakMap;function Ns(t){if(!(t instanceof _e))return!1;let{$head:e}=t,n=e.parent;return e.parentOffset===n.content.size}ge(p,Ct);var Fs=De({props:{onAdd:{type:Function,required:!0},addIcon:{type:String,required:!0},handleIcon:{type:String,required:!0}},setup(t){let e=D();return()=>p(Ct,null,p("div",{ref:e,class:"operation-item",onPointerdown:n=>{var l;n.preventDefault(),n.stopPropagation(),(l=e.value)==null||l.classList.add("active")},onPointerup:n=>{var l;n.preventDefault(),n.stopPropagation(),(l=e.value)==null||l.classList.remove("active"),t.onAdd()}},p(N,{icon:t.addIcon})),p("div",{class:"operation-item"},p(N,{icon:t.handleIcon})))}}),ea=t=>{throw TypeError(t)},ta=(t,e,n)=>e.has(t)||ea("Cannot "+n),ye=(t,e,n)=>(ta(t,e,"read from private field"),n?n.call(t):e.get(t)),_t=(t,e,n)=>e.has(t)?ea("Cannot add the same private member more than once"):e instanceof WeakSet?e.add(t):e.set(t,n),gt=(t,e,n,l)=>(ta(t,e,"write to private field"),e.set(t,n),n),Gt,Le,Ot,Dt,bn=class{constructor(e,n){_t(this,Gt),_t(this,Le),_t(this,Ot),_t(this,Dt),this.update=()=>{ye(this,Le).update()},this.destroy=()=>{ye(this,Le).destroy(),ye(this,Gt).remove(),ye(this,Ot).unmount()},this.onAdd=()=>{let h=ye(this,Dt),g=h.get(q);g.hasFocus()||g.focus();let{state:k,dispatch:v}=g,d=ye(this,Le).active;if(!d)return;let _=d.$pos.pos+d.node.nodeSize,y=k.tr.insert(_,$n.type(h).create());y=y.setSelection(_e.near(y.doc.resolve(_))),v(y.scrollIntoView()),ye(this,Le).hide(),h.get(Un.key).show(y.selection.from)};var l,o,i,a,r;gt(this,Dt,e);let s=document.createElement("div");s.classList.add("milkdown-block-handle");let u=qe(Fs,{onAdd:this.onAdd,addIcon:(l=n?.handleAddIcon)!=null?l:un,handleIcon:(o=n?.handleDragIcon)!=null?o:es});u.mount(s),gt(this,Ot,u),gt(this,Gt,s);let c=(i=n?.blockHandle)!=null?i:{};gt(this,Le,new za({ctx:e,content:s,getOffset:(a=c.getOffset)!=null?a:(()=>16),getPlacement:(r=c.getPlacement)!=null?r:(({active:h,blockDom:g})=>{if(h.node.type.name==="heading")return"left";let k=0;h.node.descendants(G=>{k+=G.childCount});let v=h.el,d=v.getBoundingClientRect(),m=g.getBoundingClientRect(),_=window.getComputedStyle(v),y=Number.parseInt(_.paddingTop,10)||0,E=Number.parseInt(_.paddingBottom,10)||0,B=d.height-y-E,T=m.height;return k>2||T<B?"left-start":"left"}),shouldShow:c.shouldShow,getPosition:c.getPosition,middleware:c.middleware,floatingUIOptions:c.floatingUIOptions,root:c.root})),this.update()}};Gt=new WeakMap;Le=new WeakMap;Ot=new WeakMap;Dt=new WeakMap;function Us(t,e){t.set(Ua.key,{filterNodes:n=>!Yo(o=>["table","blockquote","math_inline"].includes(o.type.name))(n)}),t.set(jo.key,{view:()=>new bn(t,e)})}var zs=(t,e)=>{t.config(Y(M.BlockEdit)).config(n=>Us(n,e)).config(n=>Ws(n,e)).use(Un).use(jo).use(j1)},Ks=(t,e={})=>{t.config(Y(M.CodeMirror)).config(n=>{let{languages:l=[],theme:o}=e,i=[ii.of(oi.concat(ai)),ri];o&&i.push(o),e.extensions&&i.push(...e.extensions),n.update(C1.key,a=>{var r;return{extensions:i,languages:l,expandIcon:e.expandIcon||Gn,searchIcon:e.searchIcon||x1,clearSearchIcon:e.clearSearchIcon||On,searchPlaceholder:e.searchPlaceholder||"Search language",copyText:e.copyText||"Copy",copyIcon:e.copyIcon||k1,onCopy:e.onCopy||(()=>{}),noResultText:e.noResultText||"No result",renderLanguage:e.renderLanguage||a.renderLanguage,renderPreview:e.renderPreview||a.renderPreview,previewToggleButton:s=>{var u,c;let h=((u=e.previewToggleIcon)==null?void 0:u.call(e,s))||(s?ht:B1),g=((c=e.previewToggleText)==null?void 0:c.call(e,s))||(s?"Edit":"Hide");return[h,g].map(k=>k.trim()).join(" ")},previewLabel:e.previewLabel||a.previewLabel,previewLoading:e.previewLoading||a.previewLoading,previewOnlyByDefault:(r=e.previewOnlyByDefault)!=null?r:a.previewOnlyByDefault}})}).use(si)},Xs=(t,e)=>{if(t.config(Y(M.Cursor)).config(l=>{l.update(di.key,()=>{var o,i;return{class:"crepe-drop-cursor",width:(o=e?.width)!=null?o:4,color:(i=e?.color)!=null?i:!1}})}).use(ui),e?.virtual===!1)return;let n=ci({skipWarning:["inlineCode"]});t.use(mt(()=>n))},Ys=(t,e)=>{t.config(Y(M.ImageBlock)).config(n=>{n.update(hi.key,l=>{var o,i,a,r,s,u;return{uploadButton:(o=e?.inlineUploadButton)!=null?o:"Upload",imageIcon:(i=e?.inlineImageIcon)!=null?i:zt,confirmButton:(a=e?.inlineConfirmButton)!=null?a:jt,uploadPlaceholderText:(r=e?.inlineUploadPlaceholderText)!=null?r:"or paste link",onUpload:(u=(s=e?.inlineOnUpload)!=null?s:e?.onUpload)!=null?u:l.onUpload,proxyDomURL:e?.proxyDomURL}}),n.update(h1.key,l=>{var o,i,a,r,s,u,c,h,g;return{uploadButton:(o=e?.blockUploadButton)!=null?o:"Upload file",imageIcon:(i=e?.blockImageIcon)!=null?i:zt,captionIcon:(a=e?.blockCaptionIcon)!=null?a:Oi,confirmButton:(r=e?.blockConfirmButton)!=null?r:"Confirm",captionPlaceholderText:(s=e?.blockCaptionPlaceholderText)!=null?s:"Write Image Caption",uploadPlaceholderText:(u=e?.blockUploadPlaceholderText)!=null?u:"or paste link",onUpload:(h=(c=e?.blockOnUpload)!=null?c:e?.onUpload)!=null?h:l.onUpload,proxyDomURL:e?.proxyDomURL,onImageLoadError:(g=e?.onImageLoadError)!=null?g:l.onImageLoadError,maxWidth:e?.maxWidth,maxHeight:e?.maxHeight}})}).use(ti).use(pi)},Js=$e.extendSchema(t=>e=>{let n=t(e);return{...n,toMarkdown:{match:n.toMarkdown.match,runner:(l,o)=>{var i,a;if(((i=o.attrs.language)!=null?i:"").toLowerCase()==="latex")l.addNode("math",void 0,((a=o.content.firstChild)==null?void 0:a.text)||"");else return n.toMarkdown.runner(l,o)}}}}),Re="math_inline",Qs="ToggleLatex",Xt=Va(Re,()=>({group:"inline",inline:!0,draggable:!0,atom:!0,attrs:{value:{default:""}},parseDOM:[{tag:`span[data-type="${Re}"]`,getAttrs:t=>{var e;return{value:(e=t.dataset.value)!=null?e:""}}}],toDOM:t=>{let e=t.attrs.value,n=document.createElement("span");return n.dataset.type=Re,n.dataset.value=e,w1.render(e,n,{throwOnError:!1}),n},parseMarkdown:{match:t=>t.type==="inlineMath",runner:(t,e,n)=>{t.addNode(n,{value:e.value})}},toMarkdown:{match:t=>t.type.name===Re,runner:(t,e)=>{t.addNode("inlineMath",void 0,e.attrs.value)}}})),js=An("ToggleLatex",t=>()=>(e,n)=>{let{hasNode:l,pos:o,target:i}=Oa(e,Xt.type(t)),{selection:a,doc:r,tr:s}=e;if(!l){let k=r.textBetween(a.from,a.to),v=s.replaceSelectionWith(Xt.type(t).create({value:k}));return n&&n(v.setSelection(Xo.create(v.doc,a.from))),!0}let{from:u,to:c}=a;if(!i||o<0)return!1;let h=s.delete(o,o+1),g=i.attrs.value;return h=h.insertText(g,o),n&&n(h.setSelection(_e.create(h.doc,u,c+g.length-1))),!0}),qo=Rn("INLINE_LATEX");ge(p);var er=De({props:{config:{type:Object,required:!0},innerView:{type:Object,required:!0},updateValue:{type:Object,required:!0}},setup(t){let e=l=>{if(!(!l||!(l instanceof HTMLElement))){for(;l.firstChild;)l.removeChild(l.firstChild);t.innerView.value&&l.appendChild(t.innerView.value.dom)}},n=l=>{l.preventDefault(),t.updateValue.value()};return()=>p("div",{class:"container"},t.innerView.value&&p("div",{ref:e}),p("button",{type:"button",onPointerdown:n},p(N,{icon:t.config.inlineEditConfirm})))}}),na=t=>{throw TypeError(t)},la=(t,e,n)=>e.has(t)||na("Cannot "+n),$=(t,e,n)=>(la(t,e,"read from private field"),n?n.call(t):e.get(t)),de=(t,e,n)=>e.has(t)?na("Cannot add the same private member more than once"):e instanceof WeakSet?e.add(t):e.set(t,n),ft=(t,e,n,l)=>(la(t,e,"write to private field"),e.set(t,n),n),nt,Ve,qt,He,lt,ot,In,Ln,Hn=class{constructor(e,n,l){this.ctx=e,de(this,nt),de(this,Ve),de(this,qt),de(this,He,an(null)),de(this,lt,an(()=>{})),de(this,ot),de(this,In,()=>{$(this,He).value&&($(this,He).value.destroy(),$(this,He).value=null)}),de(this,Ln,i=>{let r=(()=>{if(!i.editable)return!1;let{selection:s,schema:u}=i.state;if(s.empty||!(s instanceof Xo))return!1;let c=s.node;if(c.type.name!==Re)return!1;let h=s.from,g=u.nodes.paragraph.create(null,u.text(c.attrs.value)),k=new Fa($(this,qt),{state:$a.create({doc:g,schema:new Ci({nodes:{doc:{content:"block+"},paragraph:{content:"inline*",group:"block",parseDOM:[{tag:"p"}],toDOM(){return["p",0]}},text:{group:"inline"}}}),plugins:[mi({"Mod-z":vi,"Mod-Z":Bo,"Mod-y":Bo,Enter:()=>($(this,lt).value(),!0)})]})});return $(this,He).value=k,$(this,lt).value=()=>{let{tr:v}=i.state;v.setNodeAttribute(h,"value",k.state.doc.textContent),i.dispatch(v),requestAnimationFrame(()=>{i.focus()})},!0})();return r||$(this,In).call(this),r}),this.update=(i,a)=>{$(this,Ve).update(i,a)},this.destroy=()=>{$(this,ot).unmount(),$(this,Ve).destroy(),$(this,nt).remove()};let o=document.createElement("div");o.className="milkdown-latex-inline-edit",ft(this,nt,o),ft(this,ot,qe(er,{config:l,innerView:$(this,He),updateValue:$(this,lt)})),$(this,ot).mount(o),ft(this,Ve,new Vn({debounce:0,content:$(this,nt),shouldShow:$(this,Ln),offset:10,floatingUIOptions:{placement:"bottom"}})),$(this,Ve).update(n),ft(this,qt,document.createElement("div"))}};nt=new WeakMap;Ve=new WeakMap;qt=new WeakMap;He=new WeakMap;lt=new WeakMap;ot=new WeakMap;In=new WeakMap;Ln=new WeakMap;var tr=zo(t=>Da(/(?:\$)([^$]+)(?:\$)$/,Xt.type(t),{getAttr:e=>{var n;return{value:(n=e[1])!=null?n:""}}})),nr=zo(t=>wi(/^\$\$[\s\n]$/,$e.type(t),()=>({language:"LaTeX"}))),lr=Ko("remarkMath",()=>_i);function or(t){return gi(t,"math",(e,n,l)=>{let{value:o}=e,i={type:"code",lang:"LaTeX",value:o};l.children.splice(n,1,i)})}var ar=Ko("remarkMathBlock",()=>()=>or),ir=(t,e)=>{t.config(Y(M.Latex)).config(n=>{if(!We(n).get().includes(M.CodeMirror))throw new Error("You need to enable CodeMirror to use LaTeX feature");n.update(C1.key,i=>({...i,renderPreview:(a,r,s)=>{if(a.toLowerCase()==="latex"&&r.length>0)return sr(r,e?.katexOptions);let u=i.renderPreview;return u(a,r,s)}})),n.set(qo.key,{view:i=>{var a;return new Hn(n,i,{inlineEditConfirm:(a=e?.inlineEditConfirm)!=null?a:jt,...e})}})}).use(lr).use(ar).use(Xt).use(qo).use(tr).use(nr).use(Js).use(js)};function sr(t,e){return w1.renderToString(t,{...e,throwOnError:!1,displayMode:!0})}var rr=(t,e)=>{t.config(Y(M.LinkTooltip)).config(fi).config(n=>{n.update(ki.key,l=>{var o,i,a,r,s,u;return{...l,linkIcon:(o=e?.linkIcon)!=null?o:k1,editButton:(i=e?.editButton)!=null?i:ht,removeButton:(a=e?.removeButton)!=null?a:cn,confirmButton:(r=e?.confirmButton)!=null?r:jt,inputPlaceholder:(s=e?.inputPlaceholder)!=null?s:"Paste link...",onCopyLink:(u=e?.onCopyLink)!=null?u:(()=>{})}})}).use(yi)};function dr(t,e){t.set(Ii.key,{renderLabel:({label:n,listType:l,checked:o})=>{var i,a,r;return o==null?l==="bullet"?(i=e?.bulletIcon)!=null?i:Gi:n:o?(a=e?.checkBoxCheckedIcon)!=null?a:Di:(r=e?.checkBoxUncheckedIcon)!=null?r:qi}})}var ur=(t,e)=>{t.config(Y(M.ListItem)).config(n=>dr(n,e)).use(bi)};function cr(t){var e;return t.childCount<=1&&!((e=t.firstChild)!=null&&e.content.size)}function hr(t,e){let{selection:n}=t;if(!n.empty)return null;let l=n.$anchor,o=l.parent;if(o.content.size>0||Yo(r=>r.type.name==="table")(l))return null;let a=l.before();return Qo.node(a,a+o.nodeSize,{class:"crepe-placeholder","data-placeholder":e})}var Mn=Oe({text:"Please enter...",mode:"block"},"placeholderConfigCtx"),pr=mt(t=>new Qt({key:new Jt("CREPE_PLACEHOLDER"),props:{decorations:e=>{var n;if(ds(t).readonly)return null;let o=t.get(Mn.key);if(o.mode==="doc"&&!cr(e.doc)||z1(e.selection)||K1(e.selection))return null;let i=(n=o.text)!=null?n:"Please enter...",a=hr(e,i);return a?Ye.create(e.doc,[a]):null}}})),vr=(t,e)=>{t.config(Y(M.Placeholder)).config(n=>{e&&n.update(Mn.key,l=>({...l,...e}))}).use(pr).use(Mn)},mr=(t,e)=>{t.config(Y(M.Table)).config(n=>{n.update(Li.key,l=>({...l,renderButton:o=>{var i,a,r,s,u,c,h,g,k;switch(o){case"add_row":return(i=e?.addRowIcon)!=null?i:un;case"add_col":return(a=e?.addColIcon)!=null?a:un;case"delete_row":return(r=e?.deleteRowIcon)!=null?r:cn;case"delete_col":return(s=e?.deleteColIcon)!=null?s:cn;case"align_col_left":return(u=e?.alignLeftIcon)!=null?u:$i;case"align_col_center":return(c=e?.alignCenterIcon)!=null?c:Ri;case"align_col_right":return(h=e?.alignRightIcon)!=null?h:Zi;case"col_drag_handle":return(g=e?.colDragHandleIcon)!=null?g:Ao;case"row_drag_handle":return(k=e?.rowDragHandleIcon)!=null?k:Ao}}}))}).use(Hi)};function kt(t,e){return{slice:t,entry:e}}function Cr(t){if(t===" "||t.toLowerCase()==="space")return{display:"Space",aria:" "};if(t.length===1){let e=t.toUpperCase();return{display:e,aria:e}}return{display:t,aria:t}}function wr(t,e){var n;let l=t.split(/-(?!$)/),o=(n=l[l.length-1])!=null?n:"",i=l.slice(0,-1),a=!1,r=!1,s=!1,u=!1;for(let k of i)switch(k.toLowerCase()){case"mod":e?a=!0:r=!0;break;case"meta":case"cmd":case"m":a=!0;break;case"ctrl":case"control":case"c":r=!0;break;case"alt":case"option":case"a":s=!0;break;case"shift":case"s":u=!0;break}let c=Cr(o),h=e?[r&&"\u2303",s&&"\u2325",u&&"\u21E7",a&&"\u2318",c.display].filter(Boolean).join(""):[r&&"Ctrl",s&&"Alt",u&&"Shift",a&&"Meta",c.display].filter(Boolean).join("+"),g=[a&&"Meta",r&&"Control",s&&"Alt",u&&"Shift",c.aria].filter(Boolean).join("+");return{display:h,aria:g}}function _r(t,e){if(!t.isInjected(e.slice))return;let n=t.get(e.slice)[e.entry],l=n?[n.shortcuts].flat()[0]:void 0;if(l)return wr(l,qa.mac)}function gr(t,e){var n,l,o,i,a,r,s,u,c,h,g,k,v,d,m,_,y,E;let B=new vt;B.addGroup("formatting","Formatting").addItem("bold",{icon:(n=t?.boldIcon)!=null?n:g1,label:(l=t?.boldLabel)!=null?l:"Bold",keymap:kt(Ka.key,"ToggleBold"),active:C=>C.get(I).call(Se.key,s1.type(C)),onRun:C=>{C.get(I).call(i1.key)}}).addItem("italic",{icon:(o=t?.italicIcon)!=null?o:I1,label:(i=t?.italicLabel)!=null?i:"Italic",keymap:kt(Xa.key,"ToggleEmphasis"),active:C=>C.get(I).call(Se.key,d1.type(C)),onRun:C=>{C.get(I).call(r1.key)}}).addItem("strikethrough",{icon:(a=t?.strikethroughIcon)!=null?a:T1,label:(r=t?.strikethroughLabel)!=null?r:"Strikethrough",keymap:kt(ni.key,"ToggleStrikethrough"),active:C=>C.get(I).call(Se.key,m1.type(C)),onRun:C=>{C.get(I).call(v1.key)}});let T=B.addGroup("function","Function");T.addItem("code",{icon:(s=t?.codeIcon)!=null?s:Dn,label:(u=t?.codeLabel)!=null?u:"Inline code",keymap:kt(Ya.key,"ToggleInlineCode"),active:C=>C.get(I).call(Se.key,sn.type(C)),onRun:C=>{C.get(I).call(u1.key)}});let G=e&&We(e).get();if(G?.includes(M.Latex)&&T.addItem("latex",{icon:(c=t?.latexIcon)!=null?c:qn,label:(h=t?.latexLabel)!=null?h:"Inline math",active:C=>{let H=C.get(I),P=C.get(xa).nodes[Re];return H.call(Ja.key,P)},onRun:C=>{C.get(I).call(Qs)}}),T.addItem("link",{icon:(g=t?.linkIcon)!=null?g:L1,label:(k=t?.linkLabel)!=null?k:"Link",active:C=>C.get(I).call(Se.key,rn.type(C)),onRun:C=>{C.get(I).call(_1.key)}}),e&&G?.includes(M.AI)){let C=e.get(Ze.key);C.provider&&T.addItem("ai",{icon:(d=(v=t?.aiIcon)!=null?v:C.aiIcon)!=null?d:Zn,label:(m=t?.aiLabel)!=null?m:"Ask AI",active:()=>!1,onRun:H=>{let P=H.get(Fn.key),w=H.get(q),{from:V,to:W}=w.state.selection;P.show(V,W)}})}(_=t?.buildToolbar)==null||_.call(t,B);let f=B.build();if(e)for(let C of f)for(let H of C.items){if(!H.keymap)continue;let P=_r(e,H.keymap);P&&((y=H.shortcut)!=null||(H.shortcut=P.display),(E=H.ariaKeyshortcuts)!=null||(H.ariaKeyshortcuts=P.aria))}return f}ge(p,Ct);var fr=De({props:{ctx:{type:Object,required:!0},hide:{type:Function,required:!0},show:{type:Object,required:!0},selection:{type:Object,required:!0},config:{type:Object,required:!1}},setup(t){let{ctx:e,config:n}=t,l=r=>s=>{s.preventDefault(),e&&r?.(e)};function o(r){return ge(t.selection.value),e.get(Uo).status!==Ut.Created?!1:r(e)}let i=ve(()=>gr(n,e));function a(r){if(r.label)return r.shortcut?`${r.label} (${r.shortcut})`:r.label}return()=>p(Ct,null,i.value.map(r=>r.items.map(s=>p("button",{type:"button",class:dn("toolbar-item",e&&o(s.active)&&"active"),"data-toolbar-item":s.key,title:a(s),"aria-label":s.label,"aria-keyshortcuts":s.ariaKeyshortcuts,onPointerdown:l(s.onRun)},p(N,{icon:s.icon})))).reduce((r,s,u)=>(u===0?r.push(...s):r.push(p("div",{class:"divider"}),...s),r),[]))}}),oa=t=>{throw TypeError(t)},aa=(t,e,n)=>e.has(t)||oa("Cannot "+n),F=(t,e,n)=>(aa(t,e,"read from private field"),n?n.call(t):e.get(t)),Ke=(t,e,n)=>e.has(t)?oa("Cannot add the same private member more than once"):e instanceof WeakSet?e.add(t):e.set(t,n),yt=(t,e,n,l)=>(aa(t,e,"write to private field"),e.set(t,n),n),he,at,Wt,it,st,Wo=Rn("CREPE_TOOLBAR"),xn=class{constructor(e,n,l){Ke(this,he),Ke(this,at),Ke(this,Wt),Ke(this,it),Ke(this,st,D(!1)),this.update=(a,r)=>{F(this,he).update(a,r),F(this,it).value=a.state.selection},this.destroy=()=>{F(this,he).destroy(),F(this,Wt).unmount(),F(this,at).remove()},this.hide=()=>{F(this,he).hide()};let o=document.createElement("div");o.className="milkdown-toolbar",yt(this,it,an(n.state.selection));let i=qe(fr,{ctx:e,hide:this.hide,config:l,selection:F(this,it),show:F(this,st)});i.mount(o),yt(this,at,o),yt(this,Wt,i),yt(this,he,new Vn({content:F(this,at),debounce:20,offset:10,shouldShow(a){let{doc:r,selection:s}=a.state,{empty:u,from:c,to:h}=s,g=!r.textBetween(c,h).length&&s instanceof _e,k=!(s instanceof _e),v=a.dom.getRootNode().activeElement,d=o.contains(v),m=!a.hasFocus()&&!d,_=!a.editable;return!(m||k||u||g||_)}})),F(this,he).onShow=()=>{F(this,st).value=!0},F(this,he).onHide=()=>{F(this,st).value=!1},this.update(n)}};he=new WeakMap;at=new WeakMap;Wt=new WeakMap;it=new WeakMap;st=new WeakMap;var kr=(t,e)=>{t.config(Y(M.Toolbar)).config(n=>{n.set(Wo.key,{view:l=>new xn(n,l,e)})}).use(Wo)},ia=[{label:"Paragraph",level:null},{label:"Heading 1",level:1},{label:"Heading 2",level:2},{label:"Heading 3",level:3},{label:"Heading 4",level:4},{label:"Heading 5",level:5},{label:"Heading 6",level:6}];function yr(t,e){var n,l;let o=e??ia,i=t.get(q),{$from:a}=i.state.selection,r=a.parent,s=(n=o.find(u=>u.level===null))!=null?n:o[0];if(r.type===pe.type(t)){let u=r.attrs.level;return(l=o.find(c=>c.level===u))!=null?l:s}return s}function br(t,e){let n=t.get(I);if(e==null){let l=$n.type(t);n.call(j.key,{nodeType:l})}else{let l=pe.type(t);n.call(j.key,{nodeType:l,attrs:{level:e}})}}function be(t,e){if(t.get(I).call(Se.key,e))return!0;let o=t.get(q),{state:i}=o;if(i.storedMarks)return i.storedMarks.some(a=>a.type===e);if(i.selection instanceof _e){let{$cursor:a}=i.selection;if(a)return a.marks().some(r=>r.type===e)}return!1}function Ir(t,e){let n=t??ia;return{icon:"",active:()=>!1,selector:{chevronIcon:e??Gn,activeLabel:l=>yr(l,n).label,options:n.map(l=>({label:l.label,onSelect:o=>br(o,l.level)}))}}}function Lr(t,e){var n,l,o,i,a,r,s,u,c,h,g,k,v,d,m;let _=e&&We(e).get(),y=_?.includes(M.Latex),E=_?.includes(M.ImageBlock),B=_?.includes(M.Table),T=new vt;T.addGroup("heading","Heading").addItem("heading-selector",{...Ir(t?.headingOptions,t?.chevronDownIcon)}),T.addGroup("formatting","Formatting").addItem("bold",{icon:(n=t?.boldIcon)!=null?n:g1,active:f=>be(f,s1.type(f)),onRun:f=>{f.get(I).call(i1.key)}}).addItem("italic",{icon:(l=t?.italicIcon)!=null?l:I1,active:f=>be(f,d1.type(f)),onRun:f=>{f.get(I).call(r1.key)}}).addItem("strikethrough",{icon:(o=t?.strikethroughIcon)!=null?o:T1,active:f=>be(f,m1.type(f)),onRun:f=>{f.get(I).call(v1.key)}}).addItem("code",{icon:(i=t?.codeIcon)!=null?i:Dn,active:f=>be(f,sn.type(f)),onRun:f=>{let C=f.get(q),{state:H}=C;if(H.selection.empty){let P=sn.type(f);be(f,P)?C.dispatch(H.tr.removeStoredMark(P)):C.dispatch(H.tr.addStoredMark(P.create()))}else f.get(I).call(u1.key)}}),T.addGroup("list","List").addItem("bullet-list",{icon:(a=t?.bulletListIcon)!=null?a:f1,active:()=>!1,onRun:f=>{let C=f.get(I),H=n1.type(f);C.call(Ce.key,{nodeType:H})}}).addItem("ordered-list",{icon:(r=t?.orderedListIcon)!=null?r:H1,active:()=>!1,onRun:f=>{let C=f.get(I),H=l1.type(f);C.call(Ce.key,{nodeType:H})}}).addItem("task-list",{icon:(s=t?.taskListIcon)!=null?s:E1,active:()=>!1,onRun:f=>{let C=f.get(I),H=o1.type(f);C.call(Ce.key,{nodeType:H,attrs:{checked:!1}})}});let G=T.addGroup("insert","Insert");G.addItem("link",{icon:(u=t?.linkIcon)!=null?u:L1,active:f=>be(f,rn.type(f)),onRun:f=>{let C=f.get(q),{state:H}=C,P=rn.type(f);if(H.selection.empty&&be(f,P)){C.dispatch(H.tr.removeStoredMark(P));return}f.get(I).call(_1.key)}}),E&&G.addItem("image",{icon:(c=t?.imageIcon)!=null?c:zt,active:()=>!1,onRun:f=>{let C=f.get(I),H=c1.type(f);C.call(we.key,{nodeType:H})}}),B&&G.addItem("table",{icon:(h=t?.tableIcon)!=null?h:S1,active:()=>!1,onRun:f=>{let C=f.get(I),H=f.get(q),{from:P}=H.state.selection;C.call(we.key,{nodeType:p1(f,3,3)}),C.call(a1.key,{pos:P})}});let ee=T.addGroup("block","Block");return ee.addItem("code-block",{icon:(g=t?.codeBlockIcon)!=null?g:Fi,active:()=>!1,onRun:f=>{let C=f.get(I),H=$e.type(f);C.call(j.key,{nodeType:H})}}),y&&ee.addItem("math",{icon:(k=t?.mathIcon)!=null?k:qn,active:()=>!1,onRun:f=>{let C=f.get(I),H=$e.type(f);C.call(we.key,{nodeType:H,attrs:{language:"LaTeX"}})}}),T.addGroup("more","More").addItem("quote",{icon:(v=t?.quoteIcon)!=null?v:M1,active:()=>!1,onRun:f=>{let C=f.get(I),H=e1.type(f);C.call(Ce.key,{nodeType:H})}}).addItem("hr",{icon:(d=t?.hrIcon)!=null?d:y1,active:()=>!1,onRun:f=>{let C=f.get(I),H=t1.type(f);C.call(we.key,{nodeType:H})}}),(m=t?.buildTopBar)==null||m.call(t,T),T.build()}ge(p,Ct);var Hr=De({props:{ctx:{type:Object,required:!0},version:{type:Object,required:!0},config:{type:Object,required:!1}},setup(t){let{ctx:e,config:n}=t,l=D(null),o=v=>d=>{d.preventDefault(),e&&v(e)};function i(){return e.get(Uo).status===Ut.Created}function a(){ge(t.version.value)}function r(v){return a(),i()?v(e):!1}function s(v){var d,m;return a(),i()?v.activeLabel(e):(m=(d=v.options[0])==null?void 0:d.label)!=null?m:""}function u(v,d){d.preventDefault(),d.stopPropagation(),l.value=l.value===v?null:v}let c=v=>{v.target.closest(".top-bar-heading-selector")||(l.value=null)};Na(()=>{window.addEventListener("pointerdown",c)}),Jo(()=>{window.removeEventListener("pointerdown",c)});let h=ve(()=>Lr(n,e));function g(v,d){let m=l.value===v,_=s(d);return p("div",{key:v,class:"top-bar-heading-selector"},p("button",{type:"button",class:"top-bar-heading-button",onPointerdown:y=>u(v,y)},p("span",{class:"top-bar-heading-label"},_),d.chevronIcon&&p("span",{class:"top-bar-chevron"},p(N,{icon:d.chevronIcon}))),m&&p("div",{class:"top-bar-heading-dropdown"},d.options.map((y,E)=>p("button",{key:`${v}-${E}`,type:"button",class:dn("top-bar-heading-option",_===y.label&&"active"),onPointerdown:B=>{B.preventDefault(),B.stopPropagation(),l.value=null,y.onSelect(e)}},y.label))))}function k(v){return p("button",{key:v.key,type:"button",class:dn("top-bar-item",r(v.active)&&"active"),onPointerdown:o(v.onRun)},p(N,{icon:v.icon}))}return()=>{let v=i()?e.get(q):null;return(v?!v.editable:!1)?null:p("div",{class:"top-bar-inner"},h.value.map(m=>m.items.map(_=>_.selector?g(_.key,_.selector):_.onRun?k(_):null)).reduce((m,_,y)=>{var E,B;if(y===0)m.push(..._);else{let T=(B=(E=h.value[y])==null?void 0:E.key)!=null?B:y;m.push(p("div",{key:`divider-${T}`,class:"top-bar-divider"}),..._)}return m},[]))}}}),sa=t=>{throw TypeError(t)},ra=(t,e,n)=>e.has(t)||sa("Cannot "+n),Xe=(t,e,n)=>(ra(t,e,"read from private field"),n?n.call(t):e.get(t)),en=(t,e,n)=>e.has(t)?sa("Cannot add the same private member more than once"):e instanceof WeakSet?e.add(t):e.set(t,n),tn=(t,e,n,l)=>(ra(t,e,"write to private field"),e.set(t,n),n),rt,Nt,dt,Mr=new Jt("CREPE_TOP_BAR"),Tn=class{constructor(e,n,l){en(this,rt),en(this,Nt),en(this,dt),this.update=(r,s)=>{Xe(this,rt).style.display=r.editable?"":"none",Xe(this,dt).value++},this.destroy=()=>{Xe(this,Nt).unmount(),Xe(this,rt).remove()},tn(this,dt,D(0));let o=document.createElement("div");o.className="milkdown-top-bar";let i=qe(Hr,{ctx:e,config:l,version:Xe(this,dt)});i.mount(o),tn(this,rt,o),tn(this,Nt,i);let a=n.dom.parentElement;a&&a.insertBefore(o,a.firstChild),this.update(n)}};rt=new WeakMap;Nt=new WeakMap;dt=new WeakMap;var Sn=Oe({view:()=>({update:()=>{},destroy:()=>{}})},"topBarConfig"),xr=mt(t=>{let e=t.get(Sn.key);return new Qt({key:Mr,view:e.view})}),Tr=(t,e)=>{t.config(Y(M.TopBar)).config(n=>{n.set(Sn.key,{view:l=>new Tn(n,l,e)})}).use(Sn).use(xr)};function Sr(t,e,n){switch(t){case M.CodeMirror:return Ks(e,n);case M.ListItem:return ur(e,n);case M.LinkTooltip:return rr(e,n);case M.ImageBlock:return Ys(e,n);case M.Cursor:return Xs(e,n);case M.BlockEdit:return zs(e,n);case M.Placeholder:return vr(e,n);case M.Toolbar:return kr(e,n);case M.Table:return mr(e,n);case M.Latex:return ir(e,n);case M.TopBar:return Tr(e,n);case M.AI:return Gs(e,n)}}var da=t=>{throw TypeError(t)},ua=(t,e,n)=>e.has(t)||da("Cannot "+n),U=(t,e,n)=>(ua(t,e,"read from private field"),n?n.call(t):e.get(t)),nn=(t,e,n)=>e.has(t)?da("Cannot add the same private member more than once"):e instanceof WeakSet?e.add(t):e.set(t,n),ln=(t,e,n,l)=>(ua(t,e,"write to private field"),e.set(t,n),n),z,Ft,ut,En=class{constructor({root:e,defaultValue:n=""}={}){nn(this,z),nn(this,Ft),nn(this,ut,!0),this.addFeature=(o,i)=>(o(U(this,z),i),this),this.create=()=>U(this,z).create(),this.destroy=()=>U(this,z).destroy(),this.setReadonly=o=>(ln(this,ut,!o),U(this,z).action(i=>{U(this,z).status===Ut.Created&&i.get(q).setProps({editable:()=>!o})}),this),this.getMarkdown=()=>U(this,z).action(Ra()),this.on=o=>U(this,z).status!==Ut.Created?(U(this,z).config(i=>{let a=i.get(Po);o(a)}),this):(U(this,z).action(i=>{let a=i.get(Po);o(a)}),this);var l;ln(this,Ft,(l=typeof e=="string"?document.querySelector(e):e)!=null?l:document.body),ln(this,z,Ta.make().config(o=>{o.inject(rs,this),o.inject(ss,[])}).config(o=>{o.set(Sa,U(this,Ft)),o.set(Ea,n),o.set(Ba,{editable:()=>U(this,ut)}),o.update(Ti.key,i=>({...i,size:4})),o.update(Pi.key,i=>({...i,uploader:async(a,r,s)=>{let c=We(s).get().includes(M.ImageBlock),h=c?r.nodes["image-block"]:r.nodes.image;if(!h)return[];let g=c?s.get(h1.key).onUpload:void 0,k=[];for(let d=0;d<a.length;d++){let m=a.item(d);m&&m.type.includes("image")&&k.push(m)}return await Promise.all(k.map(async d=>{let m=g?await g(d):URL.createObjectURL(d);return h.createAndFill({src:m})}))}}))}).use(Qa).use(Ei).use(xi).use(Si).use(Bi).use(Mi).use(Ai).use(li))}get editor(){return U(this,z)}get readonly(){return!U(this,ut)}};z=new WeakMap;Ft=new WeakMap;ut=new WeakMap;var Bn=class extends En{constructor({features:e={},featureConfigs:n={},...l}={}){super(l);let o=ma(n,is);Object.entries({...Vi,...e}).filter(([,a])=>a).map(([a])=>a).forEach(a=>{let r=o[a];Sr(a,this.editor,r)})}};Bn.Feature=M;export{Bn as Crepe,En as CrepeBuilder,M as CrepeFeature,ds as useCrepe,We as useCrepeFeatures};
+//# sourceMappingURL=crepe.mjs.map

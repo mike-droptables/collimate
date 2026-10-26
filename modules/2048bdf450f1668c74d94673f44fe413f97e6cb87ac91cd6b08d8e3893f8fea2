@@ -1,0 +1,3 @@
+/* esm.sh - es-toolkit@1.53.0/dist/function/partialRight */
+function g(t,...e){return m(t,a,...e)}function m(t,e,...l){let r=function(...o){let c=l.filter(n=>n===e).length,i=Math.max(o.length-c,0),p=o.slice(0,i),h=i,s=l.slice().map(n=>n===e?o[h++]:n);return t.apply(this,p.concat(s))};return t.prototype&&(r.prototype=Object.create(t.prototype)),r}var a=Symbol("partialRight.placeholder");g.placeholder=a;export{g as partialRight,m as partialRightImpl};
+//# sourceMappingURL=partialRight.mjs.map

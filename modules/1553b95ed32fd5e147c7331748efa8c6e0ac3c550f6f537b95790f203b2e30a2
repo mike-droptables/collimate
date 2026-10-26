@@ -1,0 +1,9 @@
+/* esm.sh - micromark-extension-gfm@3.0.0 */
+import "./micromark-extension-gfm-autolink-literal@^2.0.0?target=es2022";
+import "./micromark-extension-gfm-footnote@^2.0.0?target=es2022";
+import "./micromark-extension-gfm-strikethrough@^2.0.0?target=es2022";
+import "./micromark-extension-gfm-table@^2.0.0?target=es2022";
+import "./micromark-extension-gfm-tagfilter@^2.0.0?target=es2022";
+import "./micromark-extension-gfm-task-list-item@^2.0.0?target=es2022";
+import "./micromark-util-combine-extensions@^2.0.0?target=es2022";
+export * from "./micromark-extension-gfm@3.0.0/es2022/micromark-extension-gfm.mjs";

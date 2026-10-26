@@ -1,0 +1,3 @@
+/* esm.sh - @assistant-ui/core@0.3.31/dist/runtimes/remote-thread-list/adapter-changed */
+import{SILENT_RUNTIME_ACTION as r}from"../../utils/silent-runtime-action.mjs";var a=class extends Error{[r]=!0;constructor(){super("Thread list adapter changed while an operation was pending."),this.name="ThreadListAdapterChangedError"}};export{a as ThreadListAdapterChangedError};
+//# sourceMappingURL=adapter-changed.mjs.map

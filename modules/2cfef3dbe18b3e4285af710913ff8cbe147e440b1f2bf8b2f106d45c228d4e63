@@ -1,0 +1,5 @@
+/* esm.sh - @ungap/structured-clone@1.4.0 */
+import "./structured-clone@1.4.0/es2022/esm/deserialize.mjs";
+import "./structured-clone@1.4.0/es2022/esm/serialize.mjs";
+export * from "./structured-clone@1.4.0/es2022/structured-clone.mjs";
+export { default } from "./structured-clone@1.4.0/es2022/structured-clone.mjs";

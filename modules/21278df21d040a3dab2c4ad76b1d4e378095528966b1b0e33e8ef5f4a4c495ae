@@ -1,0 +1,4 @@
+/* esm.sh - micromark-factory-title@2.0.1 */
+import "./micromark-factory-space@^2.0.0?target=es2022";
+import "./micromark-util-character@^2.0.0?target=es2022";
+export * from "./micromark-factory-title@2.0.1/es2022/micromark-factory-title.mjs";

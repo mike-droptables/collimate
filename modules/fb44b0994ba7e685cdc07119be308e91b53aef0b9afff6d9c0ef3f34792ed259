@@ -1,0 +1,3 @@
+/* esm.sh - @assistant-ui/store@0.3.22/dist/utils/tap-client-stack-context */
+import{c}from"../../../../../tap@0.9.24/X-ZHJlYWN0QDE5LjMuMQ/es2022/react-shim/compiler-runtime.mjs";import{createContext as i,use as u}from"../../../../../tap@0.9.24/X-ZHJlYWN0QDE5LjMuMQ/es2022/react-shim.mjs";import{useContextProvider as C}from"../../../../../tap@0.9.24/X-ZHJlYWN0QDE5LjMuMQ/es2022/tap.mjs";var a=Symbol("assistant-ui.store.clientIndex"),d=e=>e[a],n=i([]),m=()=>u(n),f=(e,s)=>{let t=c(3),r=m(),o;return t[0]!==e||t[1]!==r?(o=[...r,e],t[0]=e,t[1]=r,t[2]=o):o=t[2],C(n,o,s)};export{a as SYMBOL_CLIENT_INDEX,d as getClientIndex,m as useClientStack,f as useClientStackProvider};
+//# sourceMappingURL=tap-client-stack-context.mjs.map

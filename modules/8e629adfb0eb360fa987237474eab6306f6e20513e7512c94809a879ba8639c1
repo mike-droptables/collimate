@@ -1,0 +1,5 @@
+/* esm.sh - prosemirror-view@1.42.8 */
+import "./prosemirror-model@1.25.12/es2022/prosemirror-model.mjs";
+import "./prosemirror-state@^1.0.0?deps=prosemirror-model@1.25.12&target=es2022";
+import "./prosemirror-transform@^1.1.0?deps=prosemirror-model@1.25.12&target=es2022";
+export * from "./prosemirror-view@1.42.8/X-ZHByb3NlbWlycm9yLW1vZGVsQDEuMjUuMTI/es2022/prosemirror-view.mjs";

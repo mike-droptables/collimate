@@ -1,0 +1,9 @@
+/* esm.sh - mdast-util-from-markdown@2.1.0 */
+import "./decode-named-character-reference@^1.0.0?target=es2022";
+import "./mdast-util-to-string@^4.0.0?target=es2022";
+import "./micromark-util-decode-numeric-character-reference@^2.0.0?target=es2022";
+import "./micromark-util-decode-string@^2.0.0?target=es2022";
+import "./micromark-util-normalize-identifier@^2.0.0?target=es2022";
+import "./micromark@^4.0.0?target=es2022";
+import "./unist-util-stringify-position@^4.0.0?target=es2022";
+export * from "./mdast-util-from-markdown@2.1.0/es2022/mdast-util-from-markdown.mjs";

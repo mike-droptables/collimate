@@ -1,0 +1,15 @@
+/* esm.sh - @chevrotain/cst-dts-gen@13.2.0 */
+import{GAstVisitor as y,NonTerminal as v}from"../../gast@13.2.0/es2022/gast.mjs";function u(t){let e=new c;return Object.values(t).map(i=>e.visitRule(i))}var c=class extends y{visitRule(e){let n=this.visitEach(e.definition),i=Object.groupBy(n,s=>s.propertyName),h=Object.entries(i).map(([s,r])=>{let N=!r.some(o=>!o.canBeNull),p=r[0].type;return r.length>1&&(p=r.map(o=>o.type)),{name:s,type:p,optional:N}});return{name:e.name,properties:h}}visitAlternative(e){return this.visitEachAndOverrideWith(e.definition,{canBeNull:!0})}visitOption(e){return this.visitEachAndOverrideWith(e.definition,{canBeNull:!0})}visitRepetition(e){return this.visitEachAndOverrideWith(e.definition,{canBeNull:!0})}visitRepetitionMandatory(e){return this.visitEach(e.definition)}visitRepetitionMandatoryWithSeparator(e){return this.visitEach(e.definition).concat({propertyName:e.separator.name,canBeNull:!0,type:a(e.separator)})}visitRepetitionWithSeparator(e){return this.visitEachAndOverrideWith(e.definition,{canBeNull:!0}).concat({propertyName:e.separator.name,canBeNull:!0,type:a(e.separator)})}visitAlternation(e){return this.visitEachAndOverrideWith(e.definition,{canBeNull:!0})}visitTerminal(e){return[{propertyName:e.label||e.terminalType.name,canBeNull:!1,type:a(e)}]}visitNonTerminal(e){return[{propertyName:e.label||e.nonTerminalName,canBeNull:!1,type:a(e)}]}visitEachAndOverrideWith(e,n){return this.visitEach(e).map(i=>Object.assign(Object.assign({},i),n))}visitEach(e){return e.flatMap(n=>this.visit(n))}};function a(t){return t instanceof v?{kind:"rule",name:t.referencedRule.name}:{kind:"token"}}function f(t,e){let n=[];return n=n.concat('import type { CstNode, ICstVisitor, IToken } from "chevrotain";'),n=n.concat(t.flatMap(i=>g(i))),e.includeVisitorInterface&&(n=n.concat(C(e.visitorInterfaceName,t))),n.join(`
+
+`)+`
+`}function g(t){let e=O(t),n=T(t);return[e,n]}function O(t){let e=d(t.name),n=l(t.name);return`export interface ${e} extends CstNode {
+  name: "${t.name}";
+  children: ${n};
+}`}function T(t){return`export type ${l(t.name)} = {
+  ${t.properties.map(n=>I(n)).join(`
+  `)}
+};`}function I(t){let e=A(t.type);return`${t.name}${t.optional?"?":""}: ${e}[];`}function C(t,e){return`export interface ${t}<IN, OUT> extends ICstVisitor<IN, OUT> {
+  ${e.map(n=>b(n)).join(`
+  `)}
+}`}function b(t){let e=l(t.name);return`${t.name}(children: ${e}, param?: IN): OUT;`}function A(t){return Array.isArray(t)?"("+[...new Set(t.map(i=>m(i)))].join(" | ")+")":m(t)}function m(t){return t.kind==="token"?"IToken":d(t.name)}function d(t){return t.charAt(0).toUpperCase()+t.slice(1)+"CstNode"}function l(t){return t.charAt(0).toUpperCase()+t.slice(1)+"CstChildren"}var E={includeVisitorInterface:!0,visitorInterfaceName:"ICstNodeVisitor"};function V(t,e){let n=Object.assign(Object.assign({},E),e),i=u(t);return f(i,n)}export{V as generateCstDts};
+//# sourceMappingURL=cst-dts-gen.mjs.map

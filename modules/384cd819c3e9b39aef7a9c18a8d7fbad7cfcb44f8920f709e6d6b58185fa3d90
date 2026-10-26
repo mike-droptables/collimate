@@ -1,0 +1,3 @@
+/* esm.sh - @floating-ui/core@1.8.0 */
+import "./utils@^0.2.12?target=es2022";
+export * from "./core@1.8.0/es2022/core.mjs";

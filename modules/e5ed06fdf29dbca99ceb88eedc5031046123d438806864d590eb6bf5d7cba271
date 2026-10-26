@@ -1,0 +1,3 @@
+/* esm.sh - d3-transition@3.0.1/src/transition/transition */
+import{Transition as l,newId as u}from"./index.mjs";import v,{get as _}from"./schedule.mjs";function w(){for(var m=this._name,f=this._id,s=u(),e=this._groups,i=e.length,r=0;r<i;++r)for(var d=e[r],o=d.length,n,t=0;t<o;++t)if(n=d[t]){var a=_(n,f);v(n,m,s,t,d,{time:a.time+a.delay+a.duration,delay:0,duration:a.duration,ease:a.ease})}return new l(e,this._parents,m,s)}export{w as default};
+//# sourceMappingURL=transition.mjs.map

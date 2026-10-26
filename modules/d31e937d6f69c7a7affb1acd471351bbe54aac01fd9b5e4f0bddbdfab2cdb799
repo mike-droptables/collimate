@@ -1,0 +1,3 @@
+/* esm.sh - @assistant-ui/core@0.3.31/dist/react/runtimes/useRuntimeAdapters */
+import{createContext as n,useContext as o}from"../../../../../../tap@0.9.24/X-ZHJlYWN0QDE5LjMuMQ/es2022/react-shim.mjs";import{useContextProvider as s}from"../../../../../../tap@0.9.24/X-ZHJlYWN0QDE5LjMuMQ/es2022/tap.mjs";import{useShallowStable as u}from"../../../../../../store@0.3.22/X-ZEBhc3Npc3RhbnQtdWkvdGFwQDAuOS4yNCxyZWFjdEAxOS4zLjE/es2022/internal.mjs";var r=n(null),c=(t,e)=>s(r,t,e),p=()=>o(r),l={},A=t=>{let e=u(t??l);return t==null?null:e};export{r as RuntimeAdaptersContext,p as useRuntimeAdapters,c as useRuntimeAdaptersProvider,A as useStableRuntimeAdapters};
+//# sourceMappingURL=useRuntimeAdapters.mjs.map

@@ -1,0 +1,3 @@
+/* esm.sh - assistant-stream@0.3.54/dist/core/utils/withPromiseOrValue */
+function r(i,t,o){try{let e=i();if(typeof e=="object"&&e!==null&&"then"in e)return e.then(t,o);t(e)}catch(e){o(e)}}export{r as withPromiseOrValue};
+//# sourceMappingURL=withPromiseOrValue.mjs.map

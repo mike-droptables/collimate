@@ -1,0 +1,2 @@
+/* esm.sh - stylis@4.4.0 */
+export * from "./stylis@4.4.0/es2022/stylis.mjs";

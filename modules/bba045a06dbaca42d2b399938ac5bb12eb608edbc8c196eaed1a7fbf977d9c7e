@@ -1,0 +1,4 @@
+/* esm.sh - @codemirror/lang-json@6.0.2 */
+import "./language@^6.0.0?target=es2022";
+import "../@lezer/json@^1.0.0?target=es2022";
+export * from "./lang-json@6.0.2/es2022/lang-json.mjs";

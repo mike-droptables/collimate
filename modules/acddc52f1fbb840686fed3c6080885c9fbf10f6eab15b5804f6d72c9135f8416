@@ -1,0 +1,3 @@
+/* esm.sh - @assistant-ui/tap@0.9.24/dist/react-hooks/utils/hookErrors */
+var e=()=>{throw new Error("Rendered more hooks than during the previous render. Hooks must be called in the exact same order in every render.")},r=()=>{throw new Error("Hook order changed between renders")};export{r as throwHookOrderChanged,e as throwRenderedMoreHooks};
+//# sourceMappingURL=hookErrors.mjs.map

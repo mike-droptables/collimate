@@ -1,0 +1,3 @@
+/* esm.sh - @milkdown/prose@7.22.3/view */
+export*from"../../../../prosemirror-view@^1.41.3?deps=prosemirror-model@1.25.12&target=es2022";
+//# sourceMappingURL=view.mjs.map

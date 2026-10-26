@@ -1,0 +1,5 @@
+/* esm.sh - remark-gfm@4.0.1 */
+import "./mdast-util-gfm@^3.0.0?target=es2022";
+import "./micromark-extension-gfm@^3.0.0?target=es2022";
+export * from "./remark-gfm@4.0.1/es2022/remark-gfm.mjs";
+export { default } from "./remark-gfm@4.0.1/es2022/remark-gfm.mjs";

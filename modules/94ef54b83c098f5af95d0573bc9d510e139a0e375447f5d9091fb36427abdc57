@@ -1,0 +1,3 @@
+/* esm.sh - @iconify/utils@3.1.7/lib/icon-set/get-icon */
+import{mergeIconData as s}from"../icon/merge.mjs";import{getIconsTree as f}from"./tree.mjs";function i(r,o,n){let u=r.icons,l=r.aliases||Object.create(null),t={};function c(e){t=s(u[e]||l[e],t)}return c(o),n.forEach(c),s(r,t)}function g(r,o){if(r.icons[o])return i(r,o,[]);let n=f(r,[o])[o];return n?i(r,o,n):null}export{g as getIconData,i as internalGetIconData};
+//# sourceMappingURL=get-icon.mjs.map

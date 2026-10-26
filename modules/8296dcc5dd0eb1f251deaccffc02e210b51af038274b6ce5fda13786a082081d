@@ -1,0 +1,3 @@
+/* esm.sh - @radix-ui/react-use-size@1.1.0 */
+import*as h from"../../../../react@19.3.1/es2022/react.mjs";import{useLayoutEffect as c}from"../../../react-use-layout-effect@1.1.0/X-ZHJlYWN0QDE5LjMuMQ/es2022/react-use-layout-effect.mjs";function u(r){let[z,e]=h.useState(void 0);return c(()=>{if(r){e({width:r.offsetWidth,height:r.offsetHeight});let f=new ResizeObserver(i=>{if(!Array.isArray(i)||!i.length)return;let b=i[0],o,t;if("borderBoxSize"in b){let s=b.borderBoxSize,d=Array.isArray(s)?s[0]:s;o=d.inlineSize,t=d.blockSize}else o=r.offsetWidth,t=r.offsetHeight;e({width:o,height:t})});return f.observe(r,{box:"border-box"}),()=>f.unobserve(r)}else e(void 0)},[r]),z}export{u as useSize};
+//# sourceMappingURL=react-use-size.mjs.map

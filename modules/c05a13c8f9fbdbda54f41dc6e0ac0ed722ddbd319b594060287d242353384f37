@@ -1,0 +1,3 @@
+/* esm.sh - es-toolkit@1.53.0/dist/function/once */
+function l(n){let e=!1,t;return function(...c){return e||(e=!0,t=n.apply(this,c)),t}}export{l as once};
+//# sourceMappingURL=once.mjs.map

@@ -1,0 +1,3 @@
+/* esm.sh - vue@3.5.44 */
+import "./@vue/runtime-dom@3.5.44/es2022/runtime-dom.mjs";
+export * from "./vue@3.5.44/es2022/vue.mjs";

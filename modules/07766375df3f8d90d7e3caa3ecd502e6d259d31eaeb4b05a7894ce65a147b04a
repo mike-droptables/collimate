@@ -1,0 +1,4 @@
+/* esm.sh - cytoscape-fcose@2.2.0 */
+import "./cose-base@^2.2.0?target=es2022";
+export * from "./cytoscape-fcose@2.2.0/es2022/cytoscape-fcose.mjs";
+export { default } from "./cytoscape-fcose@2.2.0/es2022/cytoscape-fcose.mjs";

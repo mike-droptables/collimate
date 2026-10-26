@@ -1,0 +1,16 @@
+/* esm.sh - micromark-core-commonmark@2.0.4 */
+import "./decode-named-character-reference@^1.0.0?target=es2022";
+import "./micromark-factory-destination@^2.0.0?target=es2022";
+import "./micromark-factory-label@^2.0.0?target=es2022";
+import "./micromark-factory-space@^2.1.0?target=es2022";
+import "./micromark-factory-title@^2.0.0?target=es2022";
+import "./micromark-factory-whitespace@^2.0.0?target=es2022";
+import "./micromark-util-character@^2.0.0?target=es2022";
+import "./micromark-util-chunked@^2.0.0?target=es2022";
+import "./micromark-util-classify-character@^2.0.0?target=es2022";
+import "./micromark-util-edit-map@^1.0.0?target=es2022";
+import "./micromark-util-html-tag-name@^2.0.0?target=es2022";
+import "./micromark-util-normalize-identifier@^2.0.0?target=es2022";
+import "./micromark-util-resolve-all@^2.0.0?target=es2022";
+import "./micromark-util-subtokenize@^2.0.0?target=es2022";
+export * from "./micromark-core-commonmark@2.0.4/es2022/micromark-core-commonmark.mjs";

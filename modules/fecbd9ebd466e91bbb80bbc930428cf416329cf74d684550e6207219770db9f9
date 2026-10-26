@@ -1,0 +1,3 @@
+/* esm.sh - @assistant-ui/store@0.3.22/dist/attachTransformScopes */
+var o=Symbol("assistant-ui.transform-scopes");function i(s,t){let r=s;if(r[o])throw new Error("transformScopes is already attached to this resource");r[o]=t}function m(s,t){let r=f(t);if(!r)return;let n=s,c=n[o];c?n[o]=(e,a)=>{r(e,a),c(e,a)}:n[o]=r}function f(s){return s[o]}export{i as attachTransformScopes,m as forwardTransformScopes,f as getTransformScopes};
+//# sourceMappingURL=attachTransformScopes.mjs.map

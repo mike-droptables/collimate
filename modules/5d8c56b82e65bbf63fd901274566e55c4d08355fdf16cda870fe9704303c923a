@@ -1,0 +1,3 @@
+/* esm.sh - es-toolkit@1.53.0/dist/math/range */
+function u(e,o,r=1){if(o==null&&(o=e,e=0),!Number.isInteger(r)||r===0)throw new Error("The step value must be a non-zero integer.");let i=Math.max(Math.ceil((o-e)/r),0),l=new Array(i);for(let n=0;n<i;n++)l[n]=e+n*r;return l}export{u as range};
+//# sourceMappingURL=range.mjs.map

@@ -1,0 +1,2 @@
+/* esm.sh - @lezer/common@1.5.4 */
+export * from "./common@1.5.4/es2022/common.mjs";

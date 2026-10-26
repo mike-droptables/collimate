@@ -1,0 +1,3 @@
+/* esm.sh - use-sidecar@1.1.3 */
+import{sidecar as o}from"./dist/es2015/hoc.mjs";import{useSidecar as m}from"./dist/es2015/hook.mjs";import{setConfig as d}from"./dist/es2015/config.mjs";import{createMedium as i,createSidecarMedium as p}from"./dist/es2015/medium.mjs";import{renderCar as c}from"./dist/es2015/renderProp.mjs";import{exportSidecar as u}from"./dist/es2015/exports.mjs";export{i as createMedium,p as createSidecarMedium,u as exportSidecar,c as renderCar,d as setConfig,o as sidecar,m as useSidecar};
+//# sourceMappingURL=use-sidecar.mjs.map

@@ -1,0 +1,3 @@
+/* esm.sh - es-toolkit@1.53.0/dist/math/random */
+function t(r,e){if(e==null&&(e=r,r=0),r>=e)throw new Error("Invalid input: The maximum value must be greater than the minimum value.");return Math.random()*(e-r)+r}export{t as random};
+//# sourceMappingURL=random.mjs.map

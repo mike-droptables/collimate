@@ -1,0 +1,4 @@
+/* esm.sh - style-to-js@1.1.21 */
+import "./style-to-object@1.0.14/es2022/style-to-object.mjs";
+export * from "./style-to-js@1.1.21/es2022/style-to-js.mjs";
+export { default } from "./style-to-js@1.1.21/es2022/style-to-js.mjs";

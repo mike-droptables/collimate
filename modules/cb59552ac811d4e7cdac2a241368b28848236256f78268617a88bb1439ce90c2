@@ -1,0 +1,3 @@
+/* esm.sh - es-toolkit@1.53.0/dist/function/rest */
+function o(i,e=i.length-1){return function(...n){let l=n.slice(e),t=n.slice(0,e);for(;t.length<e;)t.push(void 0);return i.apply(this,[...t,l])}}export{o as rest};
+//# sourceMappingURL=rest.mjs.map

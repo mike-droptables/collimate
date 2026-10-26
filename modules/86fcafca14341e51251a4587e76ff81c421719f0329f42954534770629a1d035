@@ -1,0 +1,3 @@
+/* esm.sh - es-toolkit@1.53.0/dist/array/zip */
+function f(...n){let o=0;for(let t=0;t<n.length;t++)n[t].length>o&&(o=n[t].length);let l=n.length,u=Array(o);for(let t=0;t<o;++t){let c=Array(l);for(let e=0;e<l;++e)c[e]=n[e][t];u[t]=c}return u}export{f as zip};
+//# sourceMappingURL=zip.mjs.map

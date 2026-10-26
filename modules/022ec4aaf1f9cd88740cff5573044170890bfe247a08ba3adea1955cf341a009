@@ -1,0 +1,4 @@
+/* esm.sh - mdast-util-gfm-task-list-item@2.0.0 */
+import "./devlop@^1.0.0?target=es2022";
+import "./mdast-util-to-markdown@^2.0.0?target=es2022";
+export * from "./mdast-util-gfm-task-list-item@2.0.0/es2022/mdast-util-gfm-task-list-item.mjs";

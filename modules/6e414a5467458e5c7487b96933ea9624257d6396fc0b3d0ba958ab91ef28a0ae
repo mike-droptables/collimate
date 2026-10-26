@@ -1,0 +1,3 @@
+/* esm.sh - style-to-object@1.0.14 */
+import s from"../../inline-style-parser@0.2.7/es2022/inline-style-parser.mjs";function i(e,n){let t=null;if(!e||typeof e!="string")return t;let c=s(e),p=typeof n=="function";return c.forEach(r=>{if(r.type!=="declaration")return;let{property:f,value:o}=r;p?n(f,o,r):o&&(t=t||{},t[f]=o)}),t}export{i as default};
+//# sourceMappingURL=style-to-object.mjs.map

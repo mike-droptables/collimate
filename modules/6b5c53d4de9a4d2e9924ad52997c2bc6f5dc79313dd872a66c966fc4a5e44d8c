@@ -1,0 +1,3 @@
+/* esm.sh - jotai@3.0.1/vanilla */
+var a=0;function f(e,r){let o=`atom${++a}`,t={toString(){return o}};return typeof e=="function"?t.read=e:(t.init=e,t.read=_,t.write=s),r&&(t.write=r),t}function _(e){return e(this)}function s(e,r,o){return r(this,typeof o=="function"?o(e(this)):o)}import{INTERNAL_buildStoreRev4 as c}from"./vanilla/internals.mjs";var i;function l(e){i=e(i)}function u(){return i?i():c()}var n;function d(){var e;return n||(n=u()),n}export{l as INTERNAL_overrideCreateStore,f as atom,u as createStore,d as getDefaultStore};
+//# sourceMappingURL=vanilla.mjs.map

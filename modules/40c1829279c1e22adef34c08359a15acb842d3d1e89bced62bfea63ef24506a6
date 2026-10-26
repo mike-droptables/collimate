@@ -1,0 +1,3 @@
+/* esm.sh - d3-transition@3.0.1 */
+import"./src/selection/index.mjs";import{default as e}from"./src/transition/index.mjs";import{default as f}from"./src/active.mjs";import{default as p}from"./src/interrupt.mjs";export{f as active,p as interrupt,e as transition};
+//# sourceMappingURL=d3-transition.mjs.map

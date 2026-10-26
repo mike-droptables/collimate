@@ -1,0 +1,3 @@
+/* esm.sh - @assistant-ui/core@0.3.31/dist/runtimes/local/should-continue */
+var l=(t,e)=>t.status?.type!=="requires-action"||t.status.reason!=="tool-calls"||t.content.some(o=>o.type==="tool-call"&&o.result===void 0&&o.approval!==void 0&&o.approval.approved===void 0&&o.approval.resolution===void 0)?!1:e===void 0?t.content.every(o=>o.type!=="tool-call"||o.result!==void 0||o.approval!==void 0):t.content.every(o=>o.type!=="tool-call"||o.result!==void 0||o.approval!==void 0||!e.includes(o.toolName));export{l as shouldContinue};
+//# sourceMappingURL=should-continue.mjs.map

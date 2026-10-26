@@ -1,0 +1,4 @@
+/* esm.sh - unist-util-visit-parents@6.1.0 */
+import "./unist-util-is@^6.0.0?target=es2022";
+import "./unist-util-visit-parents@6.1.0/es2022/do-not-use-color.mjs";
+export * from "./unist-util-visit-parents@6.1.0/es2022/unist-util-visit-parents.mjs";

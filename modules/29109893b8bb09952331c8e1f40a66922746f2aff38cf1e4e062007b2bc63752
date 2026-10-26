@@ -1,0 +1,4 @@
+/* esm.sh - @assistant-ui/tap@0.9.24/dist/core/helpers/env */
+import __Process$ from "../../../../../../../node/process.mjs";
+var e=typeof __Process$<"u"&&!1;export{e as isDevelopment};
+//# sourceMappingURL=env.mjs.map

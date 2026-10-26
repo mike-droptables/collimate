@@ -1,0 +1,3 @@
+/* esm.sh - @assistant-ui/core@0.3.31/dist/runtimes/remote-thread-list/thread-list-destroyed */
+import{SILENT_RUNTIME_ACTION as r}from"../../utils/silent-runtime-action.mjs";var s=class extends Error{[r]=!0;constructor(){super("Thread list was destroyed while an operation was pending."),this.name="ThreadListDestroyedError"}};export{s as ThreadListDestroyedError};
+//# sourceMappingURL=thread-list-destroyed.mjs.map

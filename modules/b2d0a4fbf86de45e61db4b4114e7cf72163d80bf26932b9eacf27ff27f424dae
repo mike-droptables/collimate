@@ -1,0 +1,3 @@
+/* esm.sh - @assistant-ui/core@0.3.31/dist/runtime/queue/queue-item */
+var e=Object.freeze([]);export{e as EMPTY_QUEUE_ITEMS};
+//# sourceMappingURL=queue-item.mjs.map

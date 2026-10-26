@@ -1,0 +1,3 @@
+/* esm.sh - @assistant-ui/tap@0.9.24/dist/react-hooks/useEffectEvent */
+import{getCurrentResourceFiber as f,peekResourceFiber as u}from"../core/helpers/execution-context.mjs";import{isDevelopment as i}from"../core/helpers/env.mjs";import{addCommit as c}from"../core/helpers/root.mjs";import{useRef as t}from"./useRef.mjs";function E(e){let n=f(),r=t(e);return r.current!==e&&c(n,()=>{r.current=e}),t(((...o)=>{if(i&&u())throw new Error("useEffectEvent cannot be called during render");return r.current(...o)})).current}export{E as useEffectEvent};
+//# sourceMappingURL=useEffectEvent.mjs.map

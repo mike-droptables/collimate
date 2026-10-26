@@ -1,0 +1,3 @@
+/* esm.sh - @assistant-ui/core@0.3.31/dist/runtimes/external-store/thread-message-converter */
+var c=class{cache=new WeakMap;convertMessages(a,r){return a.map((e,t)=>{let s=r(this.cache.get(e),e,t);return this.cache.set(e,s),s})}};export{c as ThreadMessageConverter};
+//# sourceMappingURL=thread-message-converter.mjs.map

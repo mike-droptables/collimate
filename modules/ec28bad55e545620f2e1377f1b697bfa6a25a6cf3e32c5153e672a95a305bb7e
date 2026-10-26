@@ -1,0 +1,3 @@
+/* esm.sh - @assistant-ui/store@0.3.22/dist/utils/optional-client-view */
+import{BaseProxyHandler as o,handleIntrospectionProp as s}from"./BaseProxyHandler.mjs";import{isScopeAvailable as a}from"./client-accessor.mjs";import{clientScopeKeys as l,isIgnoredClientKey as r}from"./client-keys.mjs";var c=class extends o{#e;constructor(t){super(),this.#e=t}get(t,e){let n=s(e,"OptionalAssistantClient");if(n!==!1)return n;if(r(e))return;let i=this.#e[e];return a(i)?i:void 0}ownKeys(){return l(this.#e)}has(t,e){return!r(e)&&e in this.#e}},f=t=>new Proxy({},new c(t));export{f as createOptionalClientView};
+//# sourceMappingURL=optional-client-view.mjs.map

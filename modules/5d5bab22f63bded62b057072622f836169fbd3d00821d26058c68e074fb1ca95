@@ -1,0 +1,3 @@
+/* esm.sh - es-toolkit@1.53.0/dist/compat/util/eq */
+function e(N,r){return N===r||Number.isNaN(N)&&Number.isNaN(r)}export{e as eq};
+//# sourceMappingURL=eq.mjs.map

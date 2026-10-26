@@ -1,0 +1,3 @@
+/* esm.sh - @assistant-ui/tap@0.9.24/dist/core/helpers/thenable */
+var o=e=>e!==null&&typeof e=="object"&&typeof e.then=="function",n=()=>{},u=e=>{let t=e;switch(typeof t.status!="string"?(t.status="pending",e.then(s=>{t.status==="pending"&&(t.status="fulfilled",t.value=s)},s=>{t.status==="pending"&&(t.status="rejected",t.reason=s)})):t.status!=="fulfilled"&&t.status!=="rejected"&&e.then(n,n),t.status){case"fulfilled":return t.value;case"rejected":throw t.reason;default:throw e}};export{o as isThenable,u as trackThenable};
+//# sourceMappingURL=thenable.mjs.map

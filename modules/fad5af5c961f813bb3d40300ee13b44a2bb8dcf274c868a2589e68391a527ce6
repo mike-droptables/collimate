@@ -1,0 +1,4 @@
+/* esm.sh - d3-sankey@0.12.3 */
+import "./d3-array@^2.12.1?target=es2022";
+import "./d3-shape@^1.2.0?target=es2022";
+export * from "./d3-sankey@0.12.3/es2022/d3-sankey.mjs";

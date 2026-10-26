@@ -1,0 +1,3 @@
+/* esm.sh - @assistant-ui/core@0.3.31/dist/runtimes/remote-thread-list/empty-thread-core */
+import{InertThreadRuntimeCore as r,createInertComposer as t}from"../inert/InertThreadRuntimeCore.mjs";var e=new Error("This is the empty thread, a placeholder for the main thread. You cannot perform any actions on this thread instance. This error is probably because you tried to call a thread method in your render function. Call the method inside a `useEffect` hook instead."),o=class extends r{get error(){return e}messages=[];composer=t(e,!0);isLoading=!0;getMessageById(){}getBranches(){return[]}export(){return{messages:[]}}subscribe(){return()=>{}}waitForUpdate(){return Promise.reject(e)}},a=new o;export{a as EMPTY_THREAD_CORE};
+//# sourceMappingURL=empty-thread-core.mjs.map

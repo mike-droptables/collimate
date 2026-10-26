@@ -1,0 +1,25 @@
+/* esm.sh - yaml@2.9.1/browser/dist/stringify/stringifyString */
+import{Scalar as g}from"../nodes/Scalar.mjs";import{foldFlowLines as D,FOLD_FLOW as U,FOLD_QUOTED as A,FOLD_BLOCK as I}from"./foldFlowLines.mjs";var y=(i,e)=>({indentAtStart:e?i.indent.length:i.indentAtStart,lineWidth:i.options.lineWidth,minContentWidth:i.options.minContentWidth}),F=i=>/^(%|---|\.\.\.)/m.test(i);function P(i,e,n){if(!e||e<0)return!1;let r=e-n,c=i.length;if(c<=r)return!1;for(let l=0,t=0;l<c;++l)if(i[l]===`
+`){if(l-t>r)return!0;if(t=l+1,c-t<=r)return!1}return!0}function S(i,e){let n=JSON.stringify(i);if(e.options.doubleQuotedAsJSON)return n;let{implicitKey:r}=e,c=e.options.doubleQuotedMinMultiLineLength,l=e.indent||(F(i)?"  ":""),t="",f=0;for(let s=0,o=n[s];o;o=n[++s])if(o===" "&&n[s+1]==="\\"&&n[s+2]==="n"&&(t+=n.slice(f,s)+"\\ ",s+=1,f=s,o="\\"),o==="\\")switch(n[s+1]){case"u":{t+=n.slice(f,s);let u=n.substr(s+2,4);switch(u){case"0000":t+="\\0";break;case"0007":t+="\\a";break;case"000b":t+="\\v";break;case"001b":t+="\\e";break;case"0085":t+="\\N";break;case"00a0":t+="\\_";break;case"2028":t+="\\L";break;case"2029":t+="\\P";break;default:u.substr(0,2)==="00"?t+="\\x"+u.substr(2):t+=n.substr(s,6)}s+=5,f=s+1}break;case"n":if(r||n[s+2]==='"'||n.length<c)s+=1;else{for(t+=n.slice(f,s)+`
+
+`;n[s+2]==="\\"&&n[s+3]==="n"&&n[s+4]!=='"';)t+=`
+`,s+=2;t+=l,n[s+2]===" "&&(t+="\\"),s+=1,f=s+1}break;default:s+=1}return t=f?t+n.slice(f):n,r?t:D(t,l,A,y(e,!1))}function Q(i,e){if(e.options.singleQuote===!1||e.implicitKey&&i.includes(`
+`)||/[ \t]\n|\n[ \t]/.test(i))return S(i,e);let n=e.indent||(F(i)?"  ":""),r="'"+i.replace(/'/g,"''").replace(/\n+/g,`$&
+${n}`)+"'";return e.implicitKey?r:D(r,n,U,y(e,!1))}function h(i,e){let{singleQuote:n}=e.options,r;if(n===!1)r=S;else{let c=i.includes('"'),l=i.includes("'");c&&!l?r=Q:l&&!c?r=S:r=n?Q:S}return r(i,e)}var B;try{B=new RegExp(`(^|(?<!
+))
++(?!
+|$)`,"g")}catch{B=/\n+(?!\n|$)/g}function E({comment:i,type:e,value:n},r,c,l){let{blockQuote:t,commentString:f,lineWidth:s}=r.options;if(!t||/\n[\t ]+$/.test(n))return h(n,r);let o=r.indent||(r.forceBlockIndent||F(n)?"  ":""),u=t==="literal"?!0:t==="folded"||e===g.BLOCK_FOLDED?!1:e===g.BLOCK_LITERAL?!0:!P(n,s,o.length);if(!n)return u?`|
+`:`>
+`;let b,d;for(d=n.length;d>0;--d){let p=n[d-1];if(p!==`
+`&&p!=="	"&&p!==" ")break}let a=n.substring(d),k=a.indexOf(`
+`);k===-1?b="-":n===a||k!==a.length-1?(b="+",l&&l()):b="",a&&(n=n.slice(0,-a.length),a[a.length-1]===`
+`&&(a=a.slice(0,-1)),a=a.replace(B,`$&${o}`));let $=!1,L,_=-1;for(L=0;L<n.length;++L){let p=n[L];if(p===" ")$=!0;else if(p===`
+`)_=L;else break}let O=n.substring(0,_<L?_+1:L);O&&(n=n.substring(O.length),O=O.replace(/\n+/g,`$&${o}`));let w=($?o?"2":"1":"")+b;if(i&&(w+=" "+f(i.replace(/ ?[\r\n]+/g," ")),c&&c()),!u){let p=n.replace(/\n+/g,`
+$&`).replace(/(?:^|\n)([\t ].*)(?:([\n\t ]*)\n(?![\n\t ]))?/g,"$1$2").replace(/\n+/g,`$&${o}`),N=!1,T=y(r,!0);t!=="folded"&&e!==g.BLOCK_FOLDED&&(T.onOverflow=()=>{N=!0});let K=D(`${O}${p}${a}`,o,I,T);if(!N)return`>${w}
+${o}${K}`}return n=n.replace(/\n+/g,`$&${o}`),`|${w}
+${o}${O}${n}${a}`}function W(i,e,n,r){let{type:c,value:l}=i,{actualString:t,implicitKey:f,indent:s,indentStep:o,inFlow:u}=e;if(f&&l.includes(`
+`)||u&&/[[\]{},]/.test(l))return h(l,e);if(/^[\n\t ,[\]{}#&*!|>'"%@`]|^[?-]$|^[?-][ \t]|[\n:][ \t]|[ \t]\n|[\n\t ]#|[\n\t :]$/.test(l))return f||u||!l.includes(`
+`)?h(l,e):E(i,e,n,r);if(!f&&!u&&c!==g.PLAIN&&l.includes(`
+`))return E(i,e,n,r);if(F(l)){if(s==="")return e.forceBlockIndent=!0,E(i,e,n,r);if(f&&s===o)return h(l,e)}let b=l.replace(/\n+/g,`$&
+${s}`);if(t){let d=$=>$.default&&$.tag!=="tag:yaml.org,2002:str"&&$.test?.test(b),{compat:a,tags:k}=e.doc.schema;if(k.some(d)||a?.some(d))return h(l,e)}return f?b:D(b,s,U,y(e,!1))}function j(i,e,n,r){let{implicitKey:c,inFlow:l}=e,t=typeof i.value=="string"?i:Object.assign({},i,{value:String(i.value)}),{type:f}=i;f!==g.QUOTE_DOUBLE&&/[\x00-\x08\x0b-\x1f\x7f-\x9f\u{D800}-\u{DFFF}]/u.test(t.value)&&(f=g.QUOTE_DOUBLE);let s=u=>{switch(u){case g.BLOCK_FOLDED:case g.BLOCK_LITERAL:return c||l?h(t.value,e):E(t,e,n,r);case g.QUOTE_DOUBLE:return S(t.value,e);case g.QUOTE_SINGLE:return Q(t.value,e);case g.PLAIN:return W(t,e,n,r);default:return null}},o=s(f);if(o===null){let{defaultKeyType:u,defaultStringType:b}=e.options,d=c&&u||b;if(o=s(d),o===null)throw new Error(`Unsupported default string type ${d}`)}return o}export{j as stringifyString};
+//# sourceMappingURL=stringifyString.mjs.map

@@ -1,0 +1,4 @@
+/* esm.sh - @codemirror/lang-cpp@6.0.3 */
+import "./language@^6.0.0?target=es2022";
+import "../@lezer/cpp@^1.0.0?target=es2022";
+export * from "./lang-cpp@6.0.3/es2022/lang-cpp.mjs";

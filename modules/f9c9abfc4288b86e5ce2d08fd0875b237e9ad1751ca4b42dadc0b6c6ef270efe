@@ -1,0 +1,4 @@
+/* esm.sh - use-composed-ref@1.4.0 */
+import "./react@19.3.1/es2022/react.mjs";
+export * from "./use-composed-ref@1.4.0/X-ZHJlYWN0QDE5LjMuMQ/es2022/use-composed-ref.mjs";
+export { default } from "./use-composed-ref@1.4.0/X-ZHJlYWN0QDE5LjMuMQ/es2022/use-composed-ref.mjs";

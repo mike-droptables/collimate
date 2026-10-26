@@ -1,0 +1,4 @@
+/* esm.sh - detect-node-es@1.1.0 */
+import __Process$ from "../../node/process.mjs";
+var e=Object.prototype.toString.call(typeof __Process$<"u"?__Process$:0)==="[object process]";export{e as isNode};
+//# sourceMappingURL=detect-node-es.mjs.map

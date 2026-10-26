@@ -1,0 +1,24 @@
+/* esm.sh - yaml@2.9.1 */
+import "./yaml@2.9.1/es2022/browser/dist/doc/anchors.mjs";
+import "./yaml@2.9.1/es2022/browser/dist/doc/applyReviver.mjs";
+import "./yaml@2.9.1/es2022/browser/dist/doc/createNode.mjs";
+import "./yaml@2.9.1/es2022/browser/dist/log.mjs";
+import "./yaml@2.9.1/es2022/browser/dist/nodes/Alias.mjs";
+import "./yaml@2.9.1/es2022/browser/dist/nodes/Collection.mjs";
+import "./yaml@2.9.1/es2022/browser/dist/nodes/Pair.mjs";
+import "./yaml@2.9.1/es2022/browser/dist/nodes/Scalar.mjs";
+import "./yaml@2.9.1/es2022/browser/dist/nodes/YAMLMap.mjs";
+import "./yaml@2.9.1/es2022/browser/dist/nodes/YAMLSeq.mjs";
+import "./yaml@2.9.1/es2022/browser/dist/nodes/identity.mjs";
+import "./yaml@2.9.1/es2022/browser/dist/nodes/toJS.mjs";
+import "./yaml@2.9.1/es2022/browser/dist/schema/common/map.mjs";
+import "./yaml@2.9.1/es2022/browser/dist/schema/common/seq.mjs";
+import "./yaml@2.9.1/es2022/browser/dist/schema/common/string.mjs";
+import "./yaml@2.9.1/es2022/browser/dist/schema/yaml-1.1/merge.mjs";
+import "./yaml@2.9.1/es2022/browser/dist/stringify/stringify.mjs";
+import "./yaml@2.9.1/es2022/browser/dist/stringify/stringifyComment.mjs";
+import "./yaml@2.9.1/es2022/browser/dist/stringify/stringifyNumber.mjs";
+import "./yaml@2.9.1/es2022/browser/dist/stringify/stringifyString.mjs";
+import "./yaml@2.9.1/es2022/browser/dist/visit.mjs";
+export * from "./yaml@2.9.1/es2022/yaml.mjs";
+export { default } from "./yaml@2.9.1/es2022/yaml.mjs";

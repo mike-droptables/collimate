@@ -1,0 +1,5 @@
+/* esm.sh - @iconify/utils@3.1.7/lib/svg/pretty */
+var O=["script","style"];function a(i,s="	",t=0){let l="",r=0;for(i=i.replace(/(\s)*\/>/g," />");i.length>0;){let f=i.indexOf("<"),e=i.indexOf(">");if(f===-1&&e===-1)return l;if(f===-1||e===-1||e<f)return null;let n=i.slice(0,f),c=n.trim();c.length&&(n.trimStart()!==n&&n.trimEnd()!==n?l+=c+`
+`+s.repeat(r+t):l=l.trim()+n),i=i.slice(f),e-=f;let p=i.slice(e-1,e),u=i.slice(0,2)==="</",x=p==="/"||p==="?";if(u&&x)return null;let h=i.slice(u?2:1).split(/[\s>]/).shift(),m=!x&&!u&&O.includes(h);if(!m){let g=i.indexOf("<",1);if(g!==-1&&g<e)return null}if(u&&s.length&&l.slice(0-s.length)===s&&(l=l.slice(0,l.length-s.length)),l+=i.slice(0,e+1),i=i.slice(e+1),m){let g=i.indexOf("</"+h),d=i.indexOf(">",g);if(g<0||d<0)return null;l+=i.slice(0,d+1),i=i.slice(d+1),x=!0}if(u){if(r--,r<0)return null}else x||r++;l+=`
+`+s.repeat(r+t)}return r===0?l:null}export{a as prettifySVG};
+//# sourceMappingURL=pretty.mjs.map

@@ -1,0 +1,3 @@
+/* esm.sh - es-toolkit@1.53.0/dist/function/partial */
+function s(t,...e){return d(t,a,...e)}function d(t,e,...n){let o=function(...r){let p=0,c=n.slice().map(l=>l===e?r[p++]:l),i=r.slice(p);return t.apply(this,c.concat(i))};return t.prototype&&(o.prototype=Object.create(t.prototype)),o}var a=Symbol("partial.placeholder");s.placeholder=a;export{s as partial,d as partialImpl};
+//# sourceMappingURL=partial.mjs.map

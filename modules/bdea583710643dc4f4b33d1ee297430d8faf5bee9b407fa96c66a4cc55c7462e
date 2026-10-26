@@ -1,0 +1,3 @@
+/* esm.sh - d3-transition@3.0.1/src/active */
+import{Transition as o}from"./transition/index.mjs";import{SCHEDULED as u}from"./transition/schedule.mjs";var f=[null];function a(l,r){var t=l.__transition,n,i;if(t){r=r==null?null:r+"";for(i in t)if((n=t[i]).state>u&&n.name===r)return new o([[l]],f,r,+i)}return null}export{a as default};
+//# sourceMappingURL=active.mjs.map

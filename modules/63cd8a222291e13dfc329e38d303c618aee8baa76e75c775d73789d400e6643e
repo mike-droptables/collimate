@@ -1,0 +1,3 @@
+/* esm.sh - @iconify/utils@3.1.7/lib/customisations/defaults */
+import{defaultIconTransformations as t}from"../icon/defaults.mjs";var e=Object.freeze({width:null,height:null}),n=Object.freeze({...e,...t});export{n as defaultIconCustomisations,e as defaultIconSizeCustomisations};
+//# sourceMappingURL=defaults.mjs.map

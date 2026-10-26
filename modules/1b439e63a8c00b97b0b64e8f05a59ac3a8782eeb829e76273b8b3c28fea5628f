@@ -1,0 +1,3 @@
+/* esm.sh - es-toolkit@1.53.0/dist/_internal/isUnsafeProperty */
+function o(r){return r==="__proto__"}export{o as isUnsafeProperty};
+//# sourceMappingURL=isUnsafeProperty.mjs.map

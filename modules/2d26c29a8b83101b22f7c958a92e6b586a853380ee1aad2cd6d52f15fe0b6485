@@ -1,0 +1,3 @@
+/* esm.sh - @iconify/utils@3.1.7/lib/svg/inner-html */
+var c;function r(){try{c=window.trustedTypes.createPolicy("iconify",{createHTML:e=>e})}catch{c=null}}function t(e){return c===void 0&&r(),c?c.createHTML(e):e}export{t as cleanUpInnerHTML};
+//# sourceMappingURL=inner-html.mjs.map

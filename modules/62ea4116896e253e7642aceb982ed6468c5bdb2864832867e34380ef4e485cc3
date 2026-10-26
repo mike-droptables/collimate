@@ -1,0 +1,3 @@
+/* esm.sh - @assistant-ui/core@0.3.31/dist/runtimes/assistant-transport/utils */
+async function o(e){let n=typeof e=="function"?await e():e,t=new Headers(n);return t.set("Content-Type","application/json"),t}export{o as createRequestHeaders};
+//# sourceMappingURL=utils.mjs.map

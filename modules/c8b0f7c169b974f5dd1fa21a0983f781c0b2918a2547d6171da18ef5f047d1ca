@@ -1,0 +1,7 @@
+/* esm.sh - @embedpdf/plugin-interaction-manager@2.15.1/react */
+import "../core@2.15.1/X-ZHJlYWN0LWRvbUAxOS4zLjEscmVhY3RAMTkuMy4x/es2022/react.mjs";
+import "../models@2.15.1/es2022/models.mjs";
+import "./X-ZHJlYWN0LWRvbUAxOS4zLjEscmVhY3RAMTkuMy4x/es2022/plugin-interaction-manager.mjs";
+import "../../react@19.3.1/es2022/jsx-runtime.mjs";
+import "../../react@19.3.1/es2022/react.mjs";
+export * from "./X-ZHJlYWN0LWRvbUAxOS4zLjEscmVhY3RAMTkuMy4x/es2022/react.mjs";

@@ -1,0 +1,2 @@
+/* esm.sh - @codemirror/legacy-modes@6.5.5/mode/asciiarmor */
+export * from "../../legacy-modes@6.5.5/es2022/mode/asciiarmor.mjs";

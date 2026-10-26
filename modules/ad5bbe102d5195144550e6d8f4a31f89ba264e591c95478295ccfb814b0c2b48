@@ -1,0 +1,3 @@
+/* esm.sh - @assistant-ui/core@0.3.31/dist/react/model-context/define-mcp-toolkit */
+function c(r){return Object.fromEntries(Object.entries(r).map(([v,e])=>{let d="server"in e?e.server:e,i="server"in e?e.disabled:void 0,o="server"in e?e.prefix:void 0,s="server"in e?e.tools:void 0;return[v,{type:"mcp",server:d,...i!==void 0&&{disabled:i},...o!==void 0&&{prefix:o},...s!==void 0&&{tools:s}}]}))}export{c as defineMcpToolkit};
+//# sourceMappingURL=define-mcp-toolkit.mjs.map

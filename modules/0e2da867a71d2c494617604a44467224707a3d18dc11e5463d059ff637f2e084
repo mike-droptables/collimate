@@ -1,0 +1,3 @@
+/* esm.sh - @assistant-ui/core@0.3.31/dist/utils/getMessagePartKeys */
+var i=new WeakMap,k=o=>{let y=i.get(o);if(y)return y;let s=new Map,d=o.map(e=>{let n=e.type==="tool-call"?e.toolCallId:"id"in e?e.id:void 0;if(!n)return;let t=`${e.type}:${n}`;return s.set(t,(s.get(t)??0)+1),t}),c=o.map((e,n)=>{let t=d[n];return t&&s.get(t)===1?t:`${e.type}@${n}`});return i.set(o,c),c};export{k as getMessagePartKeys};
+//# sourceMappingURL=getMessagePartKeys.mjs.map

@@ -1,0 +1,4 @@
+/* esm.sh - @lezer/lr@1.4.11 */
+import "./common@^1.0.0?target=es2022";
+import "../node/process.mjs";
+export * from "./lr@1.4.11/es2022/lr.mjs";

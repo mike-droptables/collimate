@@ -1,0 +1,3 @@
+/* esm.sh - assistant-stream@0.3.54/dist/utils/promiseWithResolvers */
+var i=()=>{let e,r,o=new Promise((t,s)=>{e=t,r=s});if(!e||!r)throw new Error("Failed to create promise");return{promise:o,resolve:e,reject:r}};export{i as promiseWithResolvers};
+//# sourceMappingURL=promiseWithResolvers.mjs.map

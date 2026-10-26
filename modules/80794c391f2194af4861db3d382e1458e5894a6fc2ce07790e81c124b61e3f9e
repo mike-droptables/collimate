@@ -1,0 +1,3 @@
+/* esm.sh - @iconify/utils@3.1.7/lib/emoji/test/similar */
+import{vs16Emoji as r}from"../data.mjs";import{emojiSequenceWithComponentsToString as c,mapEmojiTestDataComponents as m}from"./components.mjs";import{splitEmojiNameVariations as u}from"./name.mjs";function f(e,o){let t=u(e.name,e.sequence,o),s=[...e.sequence];t.variations?.forEach(n=>{typeof n!="string"&&(s[n.index]=n.type)});let i=c(s.filter(n=>n!==r));return{...e,name:t,sequenceKey:i,sequence:s}}function l(e,o){let t=Object.create(null);o=o||m(e);for(let s in e){let i=e[s];if(i.status!=="component"){let n=f(i,o);t[n.sequenceKey]=n}}return t}export{l as combineSimilarEmojiTestData,f as findComponentsInEmojiTestItem};
+//# sourceMappingURL=similar.mjs.map

@@ -1,0 +1,3 @@
+/* esm.sh - assistant-stream@0.3.54/dist/core/utils/stream/controller-guards */
+var t=r=>r instanceof TypeError,n=(r,e,c)=>{try{r.enqueue(e)}catch(o){if(!t(o))throw o;c?.(o)}},s=r=>{try{r.close()}catch(e){if(!t(e))throw e}};export{s as closeIfOpen,n as enqueueIfOpen};
+//# sourceMappingURL=controller-guards.mjs.map

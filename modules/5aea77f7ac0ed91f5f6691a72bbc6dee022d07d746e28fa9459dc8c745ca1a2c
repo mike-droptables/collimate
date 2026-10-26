@@ -1,0 +1,3 @@
+/* esm.sh - micromark-util-combine-extensions@2.0.1 */
+import "./micromark-util-chunked@^2.0.0?target=es2022";
+export * from "./micromark-util-combine-extensions@2.0.1/es2022/micromark-util-combine-extensions.mjs";

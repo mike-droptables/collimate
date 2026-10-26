@@ -1,0 +1,3 @@
+/* esm.sh - points-on-curve@0.2.0/lib/curve-to-bezier */
+function c(t){return[...t]}function a(t,f=0){let s=t.length;if(s<3)throw new Error("A curve must have at least three points.");let l=[];if(s===3)l.push(c(t[0]),c(t[1]),c(t[2]),c(t[2]));else{let r=[];r.push(t[0],t[0]);for(let e=1;e<t.length;e++)r.push(t[e]),e===t.length-1&&r.push(t[e]);let u=[],h=1-f;l.push(c(r[0]));for(let e=1;e+2<r.length;e++){let o=r[e];u[0]=[o[0],o[1]],u[1]=[o[0]+(h*r[e+1][0]-h*r[e-1][0])/6,o[1]+(h*r[e+1][1]-h*r[e-1][1])/6],u[2]=[r[e+1][0]+(h*r[e][0]-h*r[e+2][0])/6,r[e+1][1]+(h*r[e][1]-h*r[e+2][1])/6],u[3]=[r[e+1][0],r[e+1][1]],l.push(u[1],u[2],u[3])}}return l}export{a as curveToBezier};
+//# sourceMappingURL=curve-to-bezier.mjs.map

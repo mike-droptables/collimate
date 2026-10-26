@@ -1,0 +1,3 @@
+/* esm.sh - @assistant-ui/core@0.3.31/dist/types/attachment */
+var e=t=>"content"in t&&!("lastModified"in t),n=t=>t.status.type==="complete";export{n as isAttachmentComplete,e as isCreateAttachment};
+//# sourceMappingURL=attachment.mjs.map

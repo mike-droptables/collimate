@@ -1,0 +1,3 @@
+/* esm.sh - @assistant-ui/core@0.3.31/dist/react/model-context/define-toolkit */
+function n(e){return e}export{n as defineToolkit};
+//# sourceMappingURL=define-toolkit.mjs.map

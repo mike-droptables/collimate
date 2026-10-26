@@ -1,0 +1,4 @@
+/* esm.sh - @lezer/java@1.1.5 */
+import "./highlight@^1.0.0?target=es2022";
+import "./lr@^1.0.0?target=es2022";
+export * from "./java@1.1.5/es2022/java.mjs";

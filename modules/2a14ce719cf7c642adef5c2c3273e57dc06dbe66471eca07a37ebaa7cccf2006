@@ -1,0 +1,3 @@
+/* esm.sh - es-toolkit@1.53.0/dist/string/trimStart */
+function n(t,i){if(i===void 0)return t.trimStart();let e=0;switch(typeof i){case"string":if(i.length!==1)throw new Error("The 'chars' parameter should be a single character string.");for(;e<t.length&&t[e]===i;)e++;break;case"object":for(;e<t.length&&i.includes(t[e]);)e++}return t.substring(e)}export{n as trimStart};
+//# sourceMappingURL=trimStart.mjs.map

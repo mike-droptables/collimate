@@ -1,0 +1,5 @@
+/* esm.sh - @codemirror/autocomplete@6.20.4 */
+import "./language@^6.0.0?target=es2022";
+import "./state@^6.0.0?target=es2022";
+import "./view@^6.17.0?target=es2022";
+export * from "./autocomplete@6.20.4/es2022/autocomplete.mjs";

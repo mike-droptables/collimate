@@ -1,0 +1,7 @@
+/* esm.sh - micromark-extension-gfm-footnote@2.1.0 */
+import "./micromark-core-commonmark@^2.0.0?target=es2022";
+import "./micromark-factory-space@^2.0.0?target=es2022";
+import "./micromark-util-character@^2.0.0?target=es2022";
+import "./micromark-util-normalize-identifier@^2.0.0?target=es2022";
+import "./micromark-util-sanitize-uri@^2.0.0?target=es2022";
+export * from "./micromark-extension-gfm-footnote@2.1.0/es2022/micromark-extension-gfm-footnote.mjs";

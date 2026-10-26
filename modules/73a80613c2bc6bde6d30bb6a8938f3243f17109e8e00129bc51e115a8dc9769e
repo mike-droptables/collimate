@@ -1,0 +1,3 @@
+/* esm.sh - @milkdown/prose@7.22.3/inputrules */
+export*from"../../../../prosemirror-inputrules@^1.5.1?deps=prosemirror-model@1.25.12&target=es2022";
+//# sourceMappingURL=inputrules.mjs.map

@@ -1,0 +1,2 @@
+/* esm.sh - trough@2.2.0 */
+export * from "./trough@2.2.0/es2022/trough.mjs";

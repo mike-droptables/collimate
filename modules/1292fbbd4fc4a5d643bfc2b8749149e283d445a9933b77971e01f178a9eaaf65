@@ -1,0 +1,3 @@
+/* esm.sh - @assistant-ui/core@0.3.31/dist/utils/getSuggestionKeys */
+var o=c=>{let r=new Map;return c.map(e=>{let t=JSON.stringify([e.title,e.label,e.prompt]),n=r.get(t)??0;return r.set(t,n+1),n===0?t:`${t}:${n}`})};export{o as getSuggestionKeys};
+//# sourceMappingURL=getSuggestionKeys.mjs.map

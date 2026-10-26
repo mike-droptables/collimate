@@ -1,0 +1,3 @@
+/* esm.sh - @iconify/utils@3.1.7/lib/svg/encode-svg-for-css */
+import{encodeSVGforURL as n}from"./url.mjs";function r(e){let s=e.startsWith("<svg>")?e.replace("<svg>","<svg >"):e;return!s.includes(" xmlns:xlink=")&&s.includes(" xlink:")&&(s=s.replace("<svg ",'<svg xmlns:xlink="http://www.w3.org/1999/xlink" ')),s.includes(" xmlns=")||(s=s.replace("<svg ",'<svg xmlns="http://www.w3.org/2000/svg" ')),n(s)}export{r as encodeSvgForCss};
+//# sourceMappingURL=encode-svg-for-css.mjs.map

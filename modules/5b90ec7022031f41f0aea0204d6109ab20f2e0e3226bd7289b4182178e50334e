@@ -1,0 +1,3 @@
+/* esm.sh - remark-stringify@11.0.0 */
+import{toMarkdown as i}from"../../mdast-util-to-markdown@^2.0.0?target=es2022";function o(n){let t=this;t.compiler=r;function r(e){return i(e,{...t.data("settings"),...n,extensions:t.data("toMarkdownExtensions")||[]})}}export{o as default};
+//# sourceMappingURL=remark-stringify.mjs.map

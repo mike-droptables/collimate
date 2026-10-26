@@ -1,0 +1,3 @@
+/* esm.sh - es-toolkit@1.53.0/dist/string/upperFirst */
+function t(r){return r.substring(0,1).toUpperCase()+r.substring(1)}export{t as upperFirst};
+//# sourceMappingURL=upperFirst.mjs.map

@@ -1,0 +1,3 @@
+/* esm.sh - @iconify/utils@3.1.7/lib/misc/objects */
+function c(n,r,t=n){for(let e in t)if(n[e]!==r[e])return!1;return Object.keys(n).length===Object.keys(r).length}function s(n,r){let t={...n};for(let e in r)t[e]===r[e]&&delete t[e];return t}function o(n,r){let t=Object.create(null);for(let e in r)e in n&&(t[e]=n[e]);return t}export{o as commonObjectProps,c as compareObjects,s as unmergeObjects};
+//# sourceMappingURL=objects.mjs.map

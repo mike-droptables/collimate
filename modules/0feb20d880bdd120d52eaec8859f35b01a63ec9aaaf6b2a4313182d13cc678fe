@@ -1,0 +1,3 @@
+/* esm.sh - assistant-stream@0.3.54/dist/core/utils/stream/createControllerStream */
+var c=(t,e)=>new ReadableStream({start(r){return t.start?.(e(r))},pull(r){return t.pull?.(e(r))},cancel(r){return t.cancel?.(r)}}),l=(t,e)=>{let r;return[c({start(n){r=n},cancel(n){return e?.(r,n)}},t),r]};export{c as createControllerStream,l as createControllerStreamPair};
+//# sourceMappingURL=createControllerStream.mjs.map

@@ -1,0 +1,4 @@
+/* esm.sh - @lezer/xml@1.0.6 */
+import "./highlight@^1.0.0?target=es2022";
+import "./lr@^1.0.0?target=es2022";
+export * from "./xml@1.0.6/es2022/xml.mjs";

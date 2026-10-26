@@ -1,0 +1,3 @@
+/* esm.sh - @assistant-ui/core@0.3.31/dist/utils/resolveToolRender */
+import{isMcpAppUri as o}from"../types/message.mjs";var i=(r,e,p)=>{let n=r.toolUIs[e.toolName]?.[0]?.render??null;return n||p||(o(e.mcp?.app?.resourceUri)&&r.mcpApp?r.mcpApp.render:null)};export{i as resolveToolRender};
+//# sourceMappingURL=resolveToolRender.mjs.map

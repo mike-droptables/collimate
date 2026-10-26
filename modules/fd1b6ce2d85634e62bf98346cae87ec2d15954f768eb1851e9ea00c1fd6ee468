@@ -1,0 +1,4 @@
+/* esm.sh - @lezer/python@1.1.19 */
+import "./highlight@^1.0.0?target=es2022";
+import "./lr@^1.0.0?target=es2022";
+export * from "./python@1.1.19/es2022/python.mjs";

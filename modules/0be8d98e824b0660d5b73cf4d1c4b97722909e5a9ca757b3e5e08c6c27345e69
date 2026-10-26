@@ -1,0 +1,3 @@
+/* esm.sh - remark-math@6.0.0 */
+import{mathFromMarkdown as e,mathToMarkdown as d}from"../../mdast-util-math@^3.0.0?target=es2022";import{math as k}from"../../micromark-extension-math@^3.0.0?target=es2022";var c={};function t(s){let r=this,n=s||c,o=r.data(),a=o.micromarkExtensions||(o.micromarkExtensions=[]),m=o.fromMarkdownExtensions||(o.fromMarkdownExtensions=[]),i=o.toMarkdownExtensions||(o.toMarkdownExtensions=[]);a.push(k(n)),m.push(e()),i.push(d(n))}export{t as default};
+//# sourceMappingURL=remark-math.mjs.map

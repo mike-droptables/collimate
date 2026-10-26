@@ -1,0 +1,10 @@
+/* esm.sh - @assistant-ui/core@0.3.31/dist/adapters/suggestion */
+import{getThreadMessageText as u}from"../utils/text.mjs";var p=async(t,o)=>{let{signal:r,onUpdate:s}=o;if(Symbol.asyncIterator in t)for await(let n of t){if(r.aborted)break;s(n)}else{let n=await t;if(r.aborted)return;s(n)}},g=t=>{let o=t.count??3,r=t.maxMessages??10;return{...t.key!==void 0&&{key:t.key},async generate({messages:s,signal:n}){let a=Math.max(0,Math.floor(r)),l=(a===0?[]:s.slice(-a)).map(e=>{let c=u(e).trim();return c?`${e.role}: ${c}`:null}).filter(e=>e!=null).join(`
+`),i=`Based on the following conversation, suggest exactly ${o} short follow-up prompts that the USER would plausibly send next. Write each prompt in the user's voice as something they would type. Return only the prompts, one per line, with no numbering or extra commentary.
+
+Conversation:
+${l}`;return t.instructions&&(i+=`
+
+Additional instructions:
+${t.instructions}`),(await t.complete({prompt:i,...n!==void 0&&{signal:n}})).map(e=>e.trim()).filter(e=>e.length>0).slice(0,o).map(e=>({prompt:e}))}}};export{p as consumeSuggestionResult,g as createSuggestionAdapter};
+//# sourceMappingURL=suggestion.mjs.map

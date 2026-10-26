@@ -1,0 +1,3 @@
+/* esm.sh - react-remove-scroll@2.7.2 */
+import "./react-remove-scroll@2.7.2/X-ZHJlYWN0QDE5LjMuMQ/es2022/dist/es2015/Combination.mjs";
+export * from "./react-remove-scroll@2.7.2/X-ZHJlYWN0QDE5LjMuMQ/es2022/react-remove-scroll.mjs";

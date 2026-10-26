@@ -1,0 +1,3 @@
+/* esm.sh - mdast-util-definitions@6.0.0 */
+import "./unist-util-visit@^5.0.0?target=es2022";
+export * from "./mdast-util-definitions@6.0.0/es2022/mdast-util-definitions.mjs";

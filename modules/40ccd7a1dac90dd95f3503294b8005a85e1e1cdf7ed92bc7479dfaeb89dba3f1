@@ -1,0 +1,3 @@
+/* esm.sh - is-plain-obj@4.1.0 */
+export * from "./is-plain-obj@4.1.0/es2022/is-plain-obj.mjs";
+export { default } from "./is-plain-obj@4.1.0/es2022/is-plain-obj.mjs";

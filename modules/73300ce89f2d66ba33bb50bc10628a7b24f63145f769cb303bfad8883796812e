@@ -1,0 +1,4 @@
+/* esm.sh - mdast-util-math@3.0.0 */
+import "./devlop@^1.0.0?target=es2022";
+import "./longest-streak@^3.0.0?target=es2022";
+export * from "./mdast-util-math@3.0.0/es2022/mdast-util-math.mjs";

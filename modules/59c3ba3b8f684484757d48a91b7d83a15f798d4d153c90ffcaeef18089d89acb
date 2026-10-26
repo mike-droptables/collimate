@@ -1,0 +1,3 @@
+/* esm.sh - @iconify/utils@3.1.7/lib/svg/defs */
+function l(e,i="defs"){let f="",s=e.indexOf("<"+i);for(;s>=0;){let d=e.indexOf(">",s),r=e.indexOf("</"+i);if(d===-1||r===-1)break;let n=e.indexOf(">",r);if(n===-1)break;f+=e.slice(d+1,r).trim(),e=e.slice(0,s).trim()+e.slice(n+1)}return{defs:f,content:e}}function t(e,i){return e?"<defs>"+e+"</defs>"+i:i}function u(e,i,f){let s=l(e);return t(s.defs,i+s.content+f)}export{t as mergeDefsAndContent,l as splitSVGDefs,u as wrapSVGContent};
+//# sourceMappingURL=defs.mjs.map

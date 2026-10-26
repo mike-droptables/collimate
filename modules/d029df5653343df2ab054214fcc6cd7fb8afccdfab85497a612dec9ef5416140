@@ -1,0 +1,3 @@
+/* esm.sh - @assistant-ui/store@0.3.22/dist/utils/derived-hook */
+var e=Symbol("assistant-ui.derived-hook"),t=o=>{o[e]=!0},r=o=>o[e]===!0;export{r as isDerivedHook,t as markDerivedHook};
+//# sourceMappingURL=derived-hook.mjs.map

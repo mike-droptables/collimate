@@ -1,0 +1,3 @@
+/* esm.sh - d3-transition@3.0.1/src/transition/end */
+import{set as h}from"./schedule.mjs";function d(){var i,n,e=this,r=e._id,t=e.size();return new Promise(function(o,f){var u={value:f},s={value:function(){--t===0&&o()}};e.each(function(){var c=h(this,r),a=c.on;a!==i&&(n=(i=a).copy(),n._.cancel.push(u),n._.interrupt.push(u),n._.end.push(s)),c.on=n}),t===0&&o()})}export{d as default};
+//# sourceMappingURL=end.mjs.map

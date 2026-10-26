@@ -1,0 +1,3 @@
+/* esm.sh - @assistant-ui/tap@0.9.24/dist/react-hooks/useId */
+import{useRef as r}from"./useRef.mjs";var t=0,u=()=>{let e=r(null);return e.current??=`:tap${t++}:`,e.current};export{u as useId};
+//# sourceMappingURL=useId.mjs.map

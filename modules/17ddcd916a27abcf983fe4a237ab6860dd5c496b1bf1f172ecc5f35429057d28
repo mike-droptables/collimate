@@ -1,0 +1,11 @@
+/* esm.sh - mdast-util-to-markdown@2.2.0 */
+import "./longest-streak@^3.0.0?target=es2022";
+import "./mdast-util-phrasing@^4.0.0?target=es2022";
+import "./mdast-util-to-string@^4.0.0?target=es2022";
+import "./micromark-util-character@^2.0.0?target=es2022";
+import "./micromark-util-classify-character@^2.0.0?target=es2022";
+import "./micromark-util-decode-string@^2.0.0?target=es2022";
+import "./micromark-util-html-tag-name@^2.0.0?target=es2022";
+import "./unist-util-visit@^5.0.0?target=es2022";
+import "./zwitch@^2.0.0?target=es2022";
+export * from "./mdast-util-to-markdown@2.2.0/es2022/mdast-util-to-markdown.mjs";

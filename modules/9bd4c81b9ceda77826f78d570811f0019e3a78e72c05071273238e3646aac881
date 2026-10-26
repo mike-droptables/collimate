@@ -1,0 +1,3 @@
+/* esm.sh - micromark@4.0.3/lib/postprocess */
+import{subtokenize as r}from"../../../micromark-util-subtokenize@^2.0.0?target=es2022";function e(o){for(;!r(o););return o}export{e as postprocess};
+//# sourceMappingURL=postprocess.mjs.map

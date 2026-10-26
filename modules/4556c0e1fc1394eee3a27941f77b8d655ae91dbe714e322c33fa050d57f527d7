@@ -1,0 +1,2 @@
+/* esm.sh - bail@2.0.2 */
+export * from "./bail@2.0.2/es2022/bail.mjs";

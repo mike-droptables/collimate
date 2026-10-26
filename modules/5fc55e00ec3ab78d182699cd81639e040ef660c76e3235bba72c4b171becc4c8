@@ -1,0 +1,3 @@
+/* esm.sh - @embedpdf/engines@2.15.1/pdfium-direct-engine */
+import"../../../pdfium@2.15.1/es2022/pdfium.mjs";import{d as m}from"./dist/direct-engine-C8xTbxym.mjs";import"./dist/pdf-engine-D9v0RfKe.mjs";import"./dist/browser-BKLM0ThC.mjs";export{m as createPdfiumEngine};
+//# sourceMappingURL=pdfium-direct-engine.mjs.map

@@ -1,0 +1,2 @@
+/* esm.sh - micromark-util-resolve-all@2.0.1 */
+export * from "./micromark-util-resolve-all@2.0.1/es2022/micromark-util-resolve-all.mjs";

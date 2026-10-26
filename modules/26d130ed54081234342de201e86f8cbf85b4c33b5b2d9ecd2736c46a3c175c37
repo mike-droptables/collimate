@@ -1,0 +1,2 @@
+/* esm.sh - uuid@14.0.3 */
+export * from "./uuid@14.0.3/es2022/uuid.mjs";

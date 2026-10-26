@@ -1,0 +1,2 @@
+/* esm.sh - @codemirror/legacy-modes@6.5.5/mode/textile */
+export * from "../../legacy-modes@6.5.5/es2022/mode/textile.mjs";

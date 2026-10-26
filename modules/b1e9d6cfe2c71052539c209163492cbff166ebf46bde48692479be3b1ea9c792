@@ -1,0 +1,3 @@
+/* esm.sh - @assistant-ui/core@0.3.31/dist/utils/json/is-json-equal */
+import{isJSONValue as f,isRecord as i}from"./is-json.mjs";var y=100,n=(e,r,t)=>{if(e===r)return!0;if(t>y||e==null||r==null)return!1;if(Array.isArray(e))return!Array.isArray(r)||e.length!==r.length?!1:e.every((s,a)=>n(s,r[a],t+1));if(Array.isArray(r)||!i(e)||!i(r))return!1;let l=Object.keys(e),u=Object.keys(r);return l.length!==u.length?!1:l.every(s=>Object.hasOwn(r,s)&&n(e[s],r[s],t+1))},A=(e,r)=>!f(e)||!f(r)?!1:n(e,r,0);export{A as isJSONValueEqual};
+//# sourceMappingURL=is-json-equal.mjs.map

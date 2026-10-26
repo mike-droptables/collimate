@@ -1,0 +1,3 @@
+/* esm.sh - @assistant-ui/tap@0.9.24/dist/react-hooks/useState */
+import{useReducerImpl as o}from"./useReducer.mjs";var u=(e,t)=>typeof t=="function"?t(e):t,r=e=>e===void 0?void 0:typeof e=="function"?e():e;function s(e){return o(u,e,r,!0)}export{s as useState};
+//# sourceMappingURL=useState.mjs.map

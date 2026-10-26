@@ -1,0 +1,3 @@
+/* esm.sh - @iconify/utils@3.1.7/lib/loader/loader */
+import{getCustomIcon as o}from"./custom.mjs";import{searchForIcon as u}from"./modern.mjs";var i=async(a,r,e)=>{let s=e?.customCollections?.[a];if(s)if(typeof s=="function"){let t;try{t=await s(r)}catch(f){console.warn(`Failed to load custom icon "${r}" in "${a}":`,f);return}if(t){if(typeof t=="string")return await o(()=>t,a,r,e);if("icons"in t){let f=[r,r.replace(/([a-z])([A-Z])/g,"$1-$2").toLowerCase(),r.replace(/([a-z])(\d+)/g,"$1-$2")];return await u(t,a,f,e)}}}else return await o(s,a,r,e)};export{i as loadIcon};
+//# sourceMappingURL=loader.mjs.map

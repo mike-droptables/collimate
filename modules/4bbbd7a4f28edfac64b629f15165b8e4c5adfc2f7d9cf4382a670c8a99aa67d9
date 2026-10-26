@@ -1,0 +1,6 @@
+/* esm.sh - @codemirror/lang-less@6.0.2 */
+import "./lang-css@^6.2.0?target=es2022";
+import "./language@^6.0.0?target=es2022";
+import "../@lezer/highlight@^1.0.0?target=es2022";
+import "../@lezer/lr@^1.0.0?target=es2022";
+export * from "./lang-less@6.0.2/es2022/lang-less.mjs";

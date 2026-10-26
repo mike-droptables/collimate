@@ -1,0 +1,4 @@
+/* esm.sh - @lezer/yaml@1.0.4 */
+import "./highlight@^1.0.0?target=es2022";
+import "./lr@^1.4.0?target=es2022";
+export * from "./yaml@1.0.4/es2022/yaml.mjs";

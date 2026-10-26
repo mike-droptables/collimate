@@ -1,0 +1,4 @@
+/* esm.sh - mdast-util-gfm-footnote@2.1.0 */
+import "./devlop@^1.1.0?target=es2022";
+import "./micromark-util-normalize-identifier@^2.0.0?target=es2022";
+export * from "./mdast-util-gfm-footnote@2.1.0/es2022/mdast-util-gfm-footnote.mjs";

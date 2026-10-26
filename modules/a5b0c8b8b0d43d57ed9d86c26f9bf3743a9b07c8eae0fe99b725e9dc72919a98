@@ -1,0 +1,3 @@
+/* esm.sh - @assistant-ui/core@0.3.31/dist/runtimes/remote-thread-list/title */
+import{AssistantMessageStream as o}from"../../../../../../../assistant-stream@^0.3.54?target=es2022";var m=t=>t.status?.type!=="running",c=async(t,e)=>{let a=o.fromAssistantStream(t);for await(let r of a){let s=r.parts.filter(i=>i.type==="text")[0]?.text;s?.trim()&&await e(s)}};export{c as applyTitleStream,m as isTitleSourceMessage};
+//# sourceMappingURL=title.mjs.map

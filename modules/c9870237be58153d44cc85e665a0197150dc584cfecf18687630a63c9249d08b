@@ -1,0 +1,3 @@
+/* esm.sh - unist-util-visit@5.2.0 */
+import{visitParents as l}from"../../unist-util-visit-parents@^6.1.0?target=es2022";import{CONTINUE as I,EXIT as m,SKIP as N}from"../../unist-util-visit-parents@^6.1.0?target=es2022";function x(f,o,n,c){let t,e,u;typeof n=="function"||n&&typeof n=="object"?(t=o,e=n,u=c):(e=o,u=n),typeof e=="function"?l(f,t,p(e),u):l(f,t,y(e),u)}function y(f){return!f||typeof f!="object"?f:{enter:typeof f.enter=="function"?p(f.enter):f.enter,exit:typeof f.exit=="function"?p(f.exit):f.exit}}function p(f){return o;function o(n,c,t){return f(n,t,c[c.length-1])}}export{I as CONTINUE,m as EXIT,N as SKIP,x as visit};
+//# sourceMappingURL=unist-util-visit.mjs.map

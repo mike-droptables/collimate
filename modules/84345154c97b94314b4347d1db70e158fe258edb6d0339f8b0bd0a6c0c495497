@@ -1,0 +1,3 @@
+/* esm.sh - @assistant-ui/store@0.3.22/dist/utils/useIsomorphicLayoutEffect */
+import{useEffect as r,useLayoutEffect as n,useSyncExternalStore as o}from"../../../../../tap@0.9.24/X-ZHJlYWN0QDE5LjMuMQ/es2022/react-shim.mjs";var u=()=>()=>{},s=()=>o(u,c,f),m=(e,t)=>{(s()?r:n)(e,t)};function c(){return!1}function f(){return typeof document>"u"}export{s as useIsServerRender,m as useIsomorphicLayoutEffect};
+//# sourceMappingURL=useIsomorphicLayoutEffect.mjs.map

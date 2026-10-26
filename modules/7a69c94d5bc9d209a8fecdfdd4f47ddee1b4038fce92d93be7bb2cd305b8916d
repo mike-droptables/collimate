@@ -1,0 +1,3 @@
+/* esm.sh - @assistant-ui/tap@0.9.24/dist/react-hooks/useRef */
+import{getCurrentResourceFiber as f}from"../core/helpers/execution-context.mjs";import{throwHookOrderChanged as i,throwRenderedMoreHooks as c}from"./utils/hookErrors.mjs";function d(n){let e=f(),t=e.currentIndex++,r=e.cells[t];if(r===void 0){e.isFirstRender||c();let o={current:n};return e.cells[t]={type:"ref",ref:o},o}return r.type!=="ref"?i():r.ref}export{d as useRef};
+//# sourceMappingURL=useRef.mjs.map

@@ -1,0 +1,3 @@
+/* esm.sh - ts-dedent@2.3.0 */
+export * from "./ts-dedent@2.3.0/es2022/ts-dedent.mjs";
+export { default } from "./ts-dedent@2.3.0/es2022/ts-dedent.mjs";

@@ -1,0 +1,3 @@
+/* esm.sh - assistant-stream@0.3.54/dist/core/utils/stream/PipeableTransformStream */
+var a=class extends TransformStream{constructor(e){super();let r=e(super.readable);Object.defineProperty(this,"readable",{value:r,writable:!1})}};export{a as PipeableTransformStream};
+//# sourceMappingURL=PipeableTransformStream.mjs.map

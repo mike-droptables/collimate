@@ -1,0 +1,8 @@
+/* esm.sh - unified@11.0.5 */
+import "./bail@^2.0.0?target=es2022";
+import "./devlop@^1.0.0?target=es2022";
+import "./extend@^3.0.0?target=es2022";
+import "./is-plain-obj@^4.0.0?target=es2022";
+import "./trough@^2.0.0?target=es2022";
+import "./vfile@^6.0.0?target=es2022";
+export * from "./unified@11.0.5/es2022/unified.mjs";

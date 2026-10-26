@@ -1,0 +1,4 @@
+/* esm.sh - @lezer/markdown@1.8.1 */
+import "./common@^1.5.0?target=es2022";
+import "./highlight@^1.0.0?target=es2022";
+export * from "./markdown@1.8.1/es2022/markdown.mjs";

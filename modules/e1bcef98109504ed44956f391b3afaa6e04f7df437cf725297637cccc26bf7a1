@@ -1,0 +1,3 @@
+/* esm.sh - d3-transition@3.0.1/src/transition/on */
+import{get as c,set as f,init as a}from"./schedule.mjs";function h(i){return(i+"").trim().split(/^|\s+/).every(function(n){var t=n.indexOf(".");return t>=0&&(n=n.slice(0,t)),!n||n==="start"})}function d(i,n,t){var o,r,u=h(n)?a:f;return function(){var e=u(this,i),s=e.on;s!==o&&(r=(o=s).copy()).on(n,t),e.on=r}}function v(i,n){var t=this._id;return arguments.length<2?c(this.node(),t).on.on(i):this.each(d(t,i,n))}export{v as default};
+//# sourceMappingURL=on.mjs.map

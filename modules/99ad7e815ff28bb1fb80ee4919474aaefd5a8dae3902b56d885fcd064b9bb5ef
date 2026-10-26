@@ -1,0 +1,3 @@
+/* esm.sh - @iconify/utils@3.1.7/lib/icon/name */
+var h=/^[a-z0-9]+(-[a-z0-9]+)*$/,a=(t,l,c,s="")=>{let n=t.split(":");if(t.slice(0,1)==="@"){if(n.length<2||n.length>3)return null;s=n.shift().slice(1)}if(n.length>3||!n.length)return null;if(n.length>1){let e=n.pop(),i=n.pop(),o={provider:n.length>0?n[0]:s,prefix:i,name:e};return l&&!u(o)?null:o}let f=n[0],r=f.split("-");if(r.length>1){let e={provider:s,prefix:r.shift(),name:r.join("-")};return l&&!u(e)?null:e}if(c&&s===""){let e={provider:s,prefix:"",name:f};return l&&!u(e,c)?null:e}return null},u=(t,l)=>t?!!((l&&t.prefix===""||t.prefix)&&t.name):!1;export{h as matchIconName,a as stringToIcon,u as validateIconName};
+//# sourceMappingURL=name.mjs.map

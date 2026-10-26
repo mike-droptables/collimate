@@ -1,0 +1,3 @@
+/* esm.sh - @assistant-ui/core@0.3.31/dist/runtime/utils/append-message */
+var r=(n,t)=>typeof t=="string"?{createdAt:new Date,parentId:n.at(-1)?.id??null,sourceId:null,runConfig:{},role:"user",content:[{type:"text",text:t}],attachments:[],metadata:{custom:{}}}:{createdAt:t.createdAt??new Date,parentId:t.parentId===void 0?n.at(-1)?.id??null:t.parentId,sourceId:t.sourceId??null,role:t.role??"user",content:t.content,attachments:t.attachments??[],metadata:t.metadata??{custom:{}},runConfig:t.runConfig??{},startRun:t.startRun};export{r as toAppendMessage};
+//# sourceMappingURL=append-message.mjs.map

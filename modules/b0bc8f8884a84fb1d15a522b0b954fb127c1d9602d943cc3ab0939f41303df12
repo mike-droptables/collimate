@@ -1,0 +1,3 @@
+/* esm.sh - @assistant-ui/core@0.3.31/dist/utils/report-run-failure */
+import{isMessageNotSentError as s}from"../types/error.mjs";var i=(e,o)=>{Promise.resolve(o).catch(r=>{s(r)||console.error(`[assistant-ui] ${e} failed`,r)})};export{i as reportRunFailure};
+//# sourceMappingURL=report-run-failure.mjs.map

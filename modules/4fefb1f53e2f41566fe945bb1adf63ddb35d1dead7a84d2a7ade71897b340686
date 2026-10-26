@@ -1,0 +1,3 @@
+/* esm.sh - d3-transition@3.0.1/src/transition/easeVarying */
+import{set as e}from"./schedule.mjs";function i(t,n){return function(){var r=n.apply(this,arguments);if(typeof r!="function")throw new Error;e(this,t).ease=r}}function f(t){if(typeof t!="function")throw new Error;return this.each(i(this._id,t))}export{f as default};
+//# sourceMappingURL=easeVarying.mjs.map

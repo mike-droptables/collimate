@@ -1,0 +1,8 @@
+/* esm.sh - @codemirror/lang-html@6.4.12 */
+import "./lang-css@^6.0.0?target=es2022";
+import "./lang-javascript@^6.0.0?target=es2022";
+import "./language@^6.4.0?target=es2022";
+import "./state@^6.0.0?target=es2022";
+import "./view@^6.17.0?target=es2022";
+import "../@lezer/html@^1.3.12?target=es2022";
+export * from "./lang-html@6.4.12/es2022/lang-html.mjs";

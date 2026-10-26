@@ -1,0 +1,3 @@
+/* esm.sh - @iconify/utils@3.1.7/lib/icon-set/get-icons */
+import{defaultIconDimensions as p}from"../icon/defaults.mjs";import{getIconsTree as m}from"./tree.mjs";var O=Object.keys(p).concat(["provider"]);function x(o,n,i){let c=Object.create(null),t=Object.create(null),s={prefix:o.prefix,icons:c},r=o.icons,u=o.aliases||Object.create(null);o.lastModified&&(s.lastModified=o.lastModified);let l=m(o,n),f=!0;for(let e in l)l[e]?r[e]?(c[e]={...r[e]},f=!1):(t[e]={...u[e]},s.aliases=t):i&&n.indexOf(e)!==-1&&(s.not_found||(s.not_found=[])).push(e);return O.forEach(e=>{e in o&&(s[e]=o[e])}),f&&i!==!0?null:s}export{x as getIcons,O as propsToCopy};
+//# sourceMappingURL=get-icons.mjs.map

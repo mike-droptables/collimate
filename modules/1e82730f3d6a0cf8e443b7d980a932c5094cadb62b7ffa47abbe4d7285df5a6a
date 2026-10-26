@@ -1,0 +1,3 @@
+/* esm.sh - tunnel-rat@0.1.2 */
+import r from"../../../react@19.3.1/es2022/react.mjs";import{create as f}from"../../../zustand@^4.3.2?deps=react@19.3.1&target=es2022";var u,c,i=typeof window<"u"&&((u=window.document)!=null&&u.createElement||((c=window.navigator)==null?void 0:c.product)==="ReactNative")?r.useLayoutEffect:r.useEffect;function d(){let o=f(t=>({current:new Array,version:0,set:t}));return{In:({children:t})=>{let n=o(e=>e.set),s=o(e=>e.version);return i(()=>{n(e=>({version:e.version+1}))},[]),i(()=>(n(({current:e})=>({current:[...e,t]})),()=>n(({current:e})=>({current:e.filter(a=>a!==t)}))),[t,s]),null},Out:()=>{let t=o(n=>n.current);return r.createElement(r.Fragment,null,t)}}}export{d as default};
+//# sourceMappingURL=tunnel-rat.mjs.map

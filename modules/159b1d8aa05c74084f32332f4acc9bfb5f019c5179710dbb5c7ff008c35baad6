@@ -1,0 +1,3 @@
+/* esm.sh - mdast-util-phrasing@4.1.0 */
+import{convert as e}from"../../unist-util-is@^6.0.0?target=es2022";var t=e(["break","delete","emphasis","footnote","footnoteReference","image","imageReference","inlineCode","inlineMath","link","linkReference","mdxJsxTextElement","mdxTextExpression","strong","text","textDirective"]);export{t as phrasing};
+//# sourceMappingURL=mdast-util-phrasing.mjs.map

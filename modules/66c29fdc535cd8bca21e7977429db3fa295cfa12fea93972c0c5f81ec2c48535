@@ -1,0 +1,2 @@
+/* esm.sh - html-url-attributes@3.0.1 */
+export * from "./html-url-attributes@3.0.1/es2022/html-url-attributes.mjs";

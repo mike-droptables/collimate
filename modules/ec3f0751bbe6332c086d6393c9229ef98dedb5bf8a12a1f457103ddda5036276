@@ -1,0 +1,3 @@
+/* esm.sh - @iconify/utils@3.1.7/lib/icon-set/validate-basic */
+import{defaultExtendedIconProps as f,defaultIconDimensions as l}from"../icon/defaults.mjs";var u={provider:"",aliases:{},not_found:{},...l};function s(n,t){for(let o in t)if(o in n&&typeof n[o]!=typeof t[o])return!1;return!0}function p(n){if(typeof n!="object"||n===null)return null;let t=n;if(typeof t.prefix!="string"||!n.icons||typeof n.icons!="object"||!s(n,u))return null;let o=t.icons;for(let e in o){let r=o[e];if(!e||typeof r.body!="string"||!s(r,f))return null}let i=t.aliases||Object.create(null);for(let e in i){let r=i[e],c=r.parent;if(!e||typeof c!="string"||!o[c]&&!i[c]||!s(r,f))return null}return t}export{p as quicklyValidateIconSet};
+//# sourceMappingURL=validate-basic.mjs.map

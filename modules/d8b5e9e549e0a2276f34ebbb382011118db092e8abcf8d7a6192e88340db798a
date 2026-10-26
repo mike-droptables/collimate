@@ -1,0 +1,3 @@
+/* esm.sh - remark-inline-links@7.0.0 */
+import{definitions as c}from"../../mdast-util-definitions@^6.0.0?target=es2022";import{SKIP as l,visit as m}from"../../unist-util-visit@^5.0.0?target=es2022";function n(){return function(f){let u=c(f);m(f,function(e,i,r){if(e.type==="definition"&&r!==void 0&&typeof i=="number")return r.children.splice(i,1),[l,i];if(e.type==="imageReference"||e.type==="linkReference"){let t=u(e.identifier);if(t&&r&&typeof i=="number")return r.children[i]=e.type==="imageReference"?{type:"image",url:t.url,title:t.title,alt:e.alt}:{type:"link",url:t.url,title:t.title,children:e.children},[l,i]}})}}export{n as default};
+//# sourceMappingURL=remark-inline-links.mjs.map

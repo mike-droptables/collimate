@@ -1,0 +1,5 @@
+/* esm.sh - jotai@3.0.1/react */
+import "../jotai@3.0.1/X-ZHJlYWN0QDE5LjMuMQ/es2022/vanilla.mjs";
+import "../jotai@3.0.1/X-ZHJlYWN0QDE5LjMuMQ/es2022/vanilla/internals.mjs";
+import "../react@19.3.1/es2022/react.mjs";
+export * from "../jotai@3.0.1/X-ZHJlYWN0QDE5LjMuMQ/es2022/react.mjs";

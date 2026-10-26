@@ -1,0 +1,3 @@
+/* esm.sh - @assistant-ui/store@0.3.22/dist/utils/destroy-signal-context */
+import{createContext as s,use as e}from"../../../../../tap@0.9.24/X-ZHJlYWN0QDE5LjMuMQ/es2022/react-shim.mjs";import{useContextProvider as i}from"../../../../../tap@0.9.24/X-ZHJlYWN0QDE5LjMuMQ/es2022/tap.mjs";var t=s(void 0),u=(o,r)=>{let n=e(t);return i(t,o??n,r)},d=()=>e(t);export{t as DestroySignalContext,d as useAssistantClientDestroySignal,u as useDestroySignalProvider};
+//# sourceMappingURL=destroy-signal-context.mjs.map

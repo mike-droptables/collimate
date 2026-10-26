@@ -1,0 +1,2 @@
+/* esm.sh - mdast-util-gfm-strikethrough@2.0.1 */
+export * from "./mdast-util-gfm-strikethrough@2.0.1/es2022/mdast-util-gfm-strikethrough.mjs";

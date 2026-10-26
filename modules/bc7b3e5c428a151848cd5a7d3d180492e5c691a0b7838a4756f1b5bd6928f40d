@@ -1,0 +1,4 @@
+/* esm.sh - micromark-extension-gfm-table@2.1.2 */
+import "./micromark-factory-space@^2.0.0?target=es2022";
+import "./micromark-util-character@^2.0.0?target=es2022";
+export * from "./micromark-extension-gfm-table@2.1.2/es2022/micromark-extension-gfm-table.mjs";

@@ -1,0 +1,4 @@
+/* esm.sh - cose-base@2.2.0 */
+import "./layout-base@^2.0.0?target=es2022";
+export * from "./cose-base@2.2.0/es2022/cose-base.mjs";
+export { default } from "./cose-base@2.2.0/es2022/cose-base.mjs";

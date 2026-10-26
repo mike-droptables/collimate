@@ -1,0 +1,2 @@
+/* esm.sh - @upsetjs/venn.js@2.0.0 */
+export * from "./venn.js@2.0.0/es2022/venn.mjs";

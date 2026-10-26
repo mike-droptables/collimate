@@ -1,0 +1,4 @@
+/* esm.sh - delaunator@5.1.0 */
+import "./robust-predicates@^3.0.2?target=es2022";
+export * from "./delaunator@5.1.0/es2022/delaunator.mjs";
+export { default } from "./delaunator@5.1.0/es2022/delaunator.mjs";

@@ -1,0 +1,3 @@
+/* esm.sh - @ungap/structured-clone@1.4.0/esm/types */
+var o=-1,t=0,c=1,e=2,n=3,p=4,r=5,s=6,x=7,E=8;export{c as ARRAY,E as BIGINT,n as DATE,x as ERROR,r as MAP,e as OBJECT,t as PRIMITIVE,p as REGEXP,s as SET,o as VOID};
+//# sourceMappingURL=types.mjs.map

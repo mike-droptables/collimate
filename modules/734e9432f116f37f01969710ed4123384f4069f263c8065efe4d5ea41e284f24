@@ -1,0 +1,3 @@
+/* esm.sh - @assistant-ui/store@0.3.22/dist/utils/client-keys */
+var s=o=>o==="optional"||o==="subscribe"||o==="on"||o==="__proto__"||typeof o=="symbol",e=o=>{let n=[];for(let t in o)s(t)||n.push(t);return n};export{e as clientScopeKeys,s as isIgnoredClientKey};
+//# sourceMappingURL=client-keys.mjs.map

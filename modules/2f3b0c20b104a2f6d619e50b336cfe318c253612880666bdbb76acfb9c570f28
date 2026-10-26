@@ -1,0 +1,3 @@
+/* esm.sh - @iconify/utils@3.1.7/lib/icon-set/parse */
+import{getIconsTree as s}from"./tree.mjs";import{internalGetIconData as c}from"./get-icon.mjs";function p(o,r){let e=[];if(typeof o!="object"||typeof o.icons!="object")return e;o.not_found instanceof Array&&o.not_found.forEach(n=>{r(n,null),e.push(n)});let f=s(o);for(let n in f){let t=f[n];t&&(r(n,c(o,n,t)),e.push(n))}return e}async function m(o,r){let e=[];if(typeof o!="object"||typeof o.icons!="object")return e;if(o.not_found instanceof Array)for(let n=0;n<o.not_found.length;n++){let t=o.not_found[n];await r(t,null),e.push(t)}let f=s(o);for(let n in f){let t=f[n];t&&(await r(n,c(o,n,t)),e.push(n))}return e}export{p as parseIconSet,m as parseIconSetAsync};
+//# sourceMappingURL=parse.mjs.map

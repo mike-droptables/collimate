@@ -1,0 +1,6 @@
+/* esm.sh - prosemirror-gapcursor@1.4.1 */
+import "./prosemirror-keymap@^1.0.0?deps=prosemirror-model@1.25.12&target=es2022";
+import "./prosemirror-model@1.25.12/es2022/prosemirror-model.mjs";
+import "./prosemirror-state@^1.0.0?deps=prosemirror-model@1.25.12&target=es2022";
+import "./prosemirror-view@^1.0.0?deps=prosemirror-model@1.25.12&target=es2022";
+export * from "./prosemirror-gapcursor@1.4.1/X-ZHByb3NlbWlycm9yLW1vZGVsQDEuMjUuMTI/es2022/prosemirror-gapcursor.mjs";

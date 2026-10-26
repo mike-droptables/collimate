@@ -1,0 +1,3 @@
+/* esm.sh - @iconify/utils@3.1.7/lib/customisations/bool */
+function t(r,e,s){switch(typeof e){case"boolean":return e;case"number":return!!e;case"string":switch(e.toLowerCase()){case"1":case"true":case r.toLowerCase():return!0;case"0":case"false":case"":return!1}}return s}export{t as toBoolean};
+//# sourceMappingURL=bool.mjs.map

@@ -1,0 +1,2 @@
+/* esm.sh - marked@16.4.2 */
+export * from "./marked@16.4.2/es2022/marked.mjs";

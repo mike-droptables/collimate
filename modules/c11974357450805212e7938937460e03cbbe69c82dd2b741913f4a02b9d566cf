@@ -1,0 +1,3 @@
+/* esm.sh - @assistant-ui/tap@0.9.24/dist/react-hooks/useInsertionEffect */
+import{useEffectImpl as f}from"./useEffect.mjs";function o(e,t){f(e,t,"insertion")}export{o as useInsertionEffect};
+//# sourceMappingURL=useInsertionEffect.mjs.map

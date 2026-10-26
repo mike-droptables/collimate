@@ -1,0 +1,4 @@
+/* esm.sh - secure-json-parse@4.1.1 */
+import "./node/buffer.mjs";
+export * from "./secure-json-parse@4.1.1/es2022/secure-json-parse.mjs";
+export { default } from "./secure-json-parse@4.1.1/es2022/secure-json-parse.mjs";

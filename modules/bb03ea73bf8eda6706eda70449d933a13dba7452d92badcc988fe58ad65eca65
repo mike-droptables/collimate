@@ -1,0 +1,3 @@
+/* esm.sh - es-toolkit@1.53.0/dist/array/takeRight */
+function i(e,t){return t<=0||e.length===0?[]:e.slice(-t)}export{i as takeRight};
+//# sourceMappingURL=takeRight.mjs.map

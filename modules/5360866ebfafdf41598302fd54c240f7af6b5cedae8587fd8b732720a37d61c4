@@ -1,0 +1,5 @@
+/* esm.sh - remark-math@6.0.0 */
+import "./mdast-util-math@^3.0.0?target=es2022";
+import "./micromark-extension-math@^3.0.0?target=es2022";
+export * from "./remark-math@6.0.0/es2022/remark-math.mjs";
+export { default } from "./remark-math@6.0.0/es2022/remark-math.mjs";

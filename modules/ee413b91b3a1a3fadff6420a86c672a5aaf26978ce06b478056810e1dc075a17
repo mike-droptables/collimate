@@ -1,0 +1,4 @@
+/* esm.sh - micromark-util-decode-string@2.0.1 */
+import "./decode-named-character-reference@^1.0.0?target=es2022";
+import "./micromark-util-decode-numeric-character-reference@^2.0.0?target=es2022";
+export * from "./micromark-util-decode-string@2.0.1/es2022/micromark-util-decode-string.mjs";

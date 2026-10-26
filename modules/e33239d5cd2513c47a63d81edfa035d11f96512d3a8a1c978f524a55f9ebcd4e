@@ -1,0 +1,3 @@
+/* esm.sh - browser-fs-access@0.29.1/dist/directory-open-01563666 */
+var y=async(e=[{}])=>(Array.isArray(e)||(e=[e]),e[0].recursive=e[0].recursive||!1,new Promise((s,l)=>{let r=document.createElement("input");r.type="file",r.webkitdirectory=!0;let a=t=>{typeof i=="function"&&i(),s(t)},i=e[0].legacySetup&&e[0].legacySetup(a,()=>i(l),r);r.addEventListener("change",()=>{let t=Array.from(r.files);e[0].recursive?e[0].recursive&&e[0].skipDirectory&&(t=t.filter(c=>c.webkitRelativePath.split("/").every(n=>!e[0].skipDirectory({name:n,kind:"directory"})))):t=t.filter(c=>c.webkitRelativePath.split("/").length===2),a(t)}),r.click()}));export{y as default};
+//# sourceMappingURL=directory-open-01563666.mjs.map

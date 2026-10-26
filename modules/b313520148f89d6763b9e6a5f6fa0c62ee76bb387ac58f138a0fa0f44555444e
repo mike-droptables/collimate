@@ -1,0 +1,9 @@
+/* esm.sh - @codemirror/lang-jinja@6.0.1 */
+import "./lang-html@^6.0.0?target=es2022";
+import "./language@^6.0.0?target=es2022";
+import "./state@^6.0.0?target=es2022";
+import "./view@^6.0.0?target=es2022";
+import "../@lezer/common@^1.2.0?target=es2022";
+import "../@lezer/highlight@^1.2.0?target=es2022";
+import "../@lezer/lr@^1.4.0?target=es2022";
+export * from "./lang-jinja@6.0.1/es2022/lang-jinja.mjs";

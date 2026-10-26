@@ -1,0 +1,3 @@
+/* esm.sh - d3-transition@3.0.1/src/transition/text */
+import{tweenValue as e}from"./tween.mjs";function o(t){return function(){this.textContent=t}}function i(t){return function(){var n=t(this);this.textContent=n??""}}function r(t){return this.tween("text",typeof t=="function"?i(e(this,"text",t)):o(t==null?"":t+""))}export{r as default};
+//# sourceMappingURL=text.mjs.map

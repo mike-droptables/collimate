@@ -1,0 +1,6 @@
+/* esm.sh - @assistant-ui/tap@0.9.24/dist/hooks/utils/depsShallowEqual */
+import{isDevelopment as o}from"../../core/helpers/env.mjs";var i=(n,r)=>{o&&n.length!==r.length&&console.error(`The final argument passed to a hook changed size between renders. The order and size of this array must remain constant.
+
+Previous: [${n.join(", ")}]
+Incoming: [${r.join(", ")}]`);for(let e=0;e<n.length&&e<r.length;e++)if(!Object.is(n[e],r[e]))return!1;return!0};export{i as depsShallowEqual};
+//# sourceMappingURL=depsShallowEqual.mjs.map

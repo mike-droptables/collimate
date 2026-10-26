@@ -1,0 +1,3 @@
+/* esm.sh - @assistant-ui/tap@0.9.24/dist/core/helpers/execution-context */
+var r=null;function o(e,n){e.currentIndex=0,e.wipContextDeps=null,e.wipCommitCallbacks=[];let t=r;r=e;try{if(n(),e.isFirstRender=!1,e.cells.length!==e.currentIndex)throw new Error(`Rendered ${e.currentIndex} hooks but expected ${e.cells.length}. Hooks must be called in the exact same order in every render.`)}finally{r=t}}function l(){if(!r)throw new Error("No resource fiber available");return r}function u(){return r}export{l as getCurrentResourceFiber,u as peekResourceFiber,o as withResourceFiber};
+//# sourceMappingURL=execution-context.mjs.map

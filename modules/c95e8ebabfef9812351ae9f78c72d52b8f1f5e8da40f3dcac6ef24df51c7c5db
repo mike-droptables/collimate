@@ -1,0 +1,3 @@
+/* esm.sh - vfile@6.0.3 */
+import "./vfile-message@^4.0.0?target=es2022";
+export * from "./vfile@6.0.3/es2022/vfile.mjs";

@@ -1,0 +1,3 @@
+/* esm.sh - nanoid@6.0.2 */
+import{urlAlphabet as h}from"./url-alphabet/index.mjs";var m=t=>crypto.getRandomValues(new Uint8Array(t)),y=(t,r,u)=>{let f=256-256%t.length;if(f===256){let o=t.length-1;return(e=r)=>{if(!e)return"";let l="";for(;;){let i=u(e),n=e|=0;for(;n--;)if(l+=t[i[n]&o],l.length>=e)return l}}}return(o=r)=>{if(!o)return"";let e="",l=Math.ceil(1.6*256*o/f);for(;;){let i=u(l),n=l;for(;n--;)if(i[n]<f&&(e+=t[i[n]%t.length],e.length>=o))return e}}},w=(t,r=21)=>y(t,r|0,m),a=(t=21)=>{for(var r="",u=crypto.getRandomValues(new Uint8Array(t|=0));t--;)r+=h[u[t]&63];return r};export{w as customAlphabet,y as customRandom,a as nanoid,m as random,h as urlAlphabet};
+//# sourceMappingURL=nanoid.mjs.map

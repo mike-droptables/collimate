@@ -1,0 +1,3 @@
+/* esm.sh - nanoid@6.0.2/non-secure */
+import{urlAlphabet as n}from"./url-alphabet/index.mjs";var h=(t,e=21)=>(r=e)=>{let l="",i=r|0;for(;i-- >0;)l+=t[Math.random()*t.length|0];return l},a=(t=21)=>{let e="",r=t|0;for(;r-- >0;)e+=n[Math.random()*64|0];return e};export{h as customAlphabet,a as nanoid};
+//# sourceMappingURL=non-secure.mjs.map

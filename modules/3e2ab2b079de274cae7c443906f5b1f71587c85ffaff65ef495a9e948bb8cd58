@@ -1,0 +1,3 @@
+/* esm.sh - mdast-util-definitions@6.0.0 */
+import{visit as f}from"../../unist-util-visit@^5.0.0?target=es2022";function c(i){let e=new Map;if(!i||!i.type)throw new Error("mdast-util-definitions expected node");return f(i,"definition",function(t){let n=o(t.identifier);n&&!e.get(n)&&e.set(n,t)}),r;function r(t){let n=o(t);return e.get(n)}}function o(i){return String(i||"").toUpperCase()}export{c as definitions};
+//# sourceMappingURL=mdast-util-definitions.mjs.map

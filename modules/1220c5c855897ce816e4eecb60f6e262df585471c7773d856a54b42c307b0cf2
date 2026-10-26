@@ -1,0 +1,3 @@
+/* esm.sh - @milkdown/kit@7.22.3/prose/view */
+import "../../prose@7.22.3/X-ZHByb3NlbWlycm9yLW1vZGVsQDEuMjUuMTI/es2022/view.mjs";
+export * from "../X-ZEBtaWxrZG93bi9jb3JlQDcuMjIuMyxAbWlsa2Rvd24vY3JlcGVANy4yMi4zLEBtaWxrZG93bi9jdHhANy4yMi4zLEBtaWxrZG93bi9wbHVnaW4tbGlzdGVuZXJANy4yMi4zLEBtaWxrZG93bi9wcm9zZUA3LjIyLjMsY29kZW1pcnJvckA2LjAuMixwcm9zZW1pcnJvci1tb2RlbEAxLjI1LjEy/es2022/prose/view.mjs";

@@ -1,0 +1,3 @@
+/* esm.sh - layout-base@1.0.2 */
+export * from "./layout-base@1.0.2/es2022/layout-base.mjs";
+export { default } from "./layout-base@1.0.2/es2022/layout-base.mjs";

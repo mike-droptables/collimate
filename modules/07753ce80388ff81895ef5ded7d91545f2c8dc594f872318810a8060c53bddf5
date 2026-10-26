@@ -1,0 +1,5 @@
+/* esm.sh - @floating-ui/react-dom@2.1.9 */
+import "./dom@^1.8.0?target=es2022";
+import "../react-dom@19.3.1/X-ZHJlYWN0QDE5LjMuMQ/es2022/react-dom.mjs";
+import "../react@19.3.1/es2022/react.mjs";
+export * from "./react-dom@2.1.9/X-ZHJlYWN0LWRvbUAxOS4zLjEscmVhY3RAMTkuMy4x/es2022/react-dom.mjs";

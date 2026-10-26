@@ -1,0 +1,3 @@
+/* esm.sh - @assistant-ui/core@0.3.31/dist/store/runtime-clients/useSubscribable */
+import{unstable_useClientSource as r}from"../../../../../../store@0.3.22/X-ZEBhc3Npc3RhbnQtdWkvdGFwQDAuOS4yNCxyZWFjdEAxOS4zLjE/es2022/client.mjs";import{useSyncExternalStore as o}from"../../../../../../tap@0.9.24/X-ZHJlYWN0QDE5LjMuMQ/es2022/react-shim.mjs";var u=(e,t)=>(r(t?.live?e.subscribe:void 0),o(e.subscribe,e.getState,e.getServerSnapshot));export{u as useSubscribable};
+//# sourceMappingURL=useSubscribable.mjs.map

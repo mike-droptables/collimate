@@ -1,0 +1,6 @@
+/* esm.sh - d3-transition@3.0.1 */
+import "./d3-transition@3.0.1/es2022/src/active.mjs";
+import "./d3-transition@3.0.1/es2022/src/interrupt.mjs";
+import "./d3-transition@3.0.1/es2022/src/selection/index.mjs";
+import "./d3-transition@3.0.1/es2022/src/transition/index.mjs";
+export * from "./d3-transition@3.0.1/es2022/d3-transition.mjs";

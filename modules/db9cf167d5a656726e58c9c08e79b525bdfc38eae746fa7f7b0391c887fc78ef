@@ -1,0 +1,5 @@
+/* esm.sh - mdast-util-find-and-replace@3.0.4 */
+import "./escape-string-regexp@^5.0.0?target=es2022";
+import "./unist-util-is@^6.0.0?target=es2022";
+import "./unist-util-visit-parents@^6.1.0?target=es2022";
+export * from "./mdast-util-find-and-replace@3.0.4/es2022/mdast-util-find-and-replace.mjs";

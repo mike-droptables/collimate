@@ -1,0 +1,3 @@
+/* esm.sh - @assistant-ui/core@0.3.31/dist/react/model-context/toolbox */
+import{resolveToolCallText as e}from"../../model-context/tool-call-text.mjs";var a=o=>o.display!==void 0?o.display==="standalone":o.type==="human",r=o=>function(n){return e(o,n)};export{a as isStandaloneToolDisplay,r as makeToolCallTextComponent};
+//# sourceMappingURL=toolbox.mjs.map

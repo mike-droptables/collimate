@@ -1,0 +1,2 @@
+/* esm.sh - hachure-fill@0.5.2 */
+export * from "./hachure-fill@0.5.2/es2022/hachure-fill.mjs";

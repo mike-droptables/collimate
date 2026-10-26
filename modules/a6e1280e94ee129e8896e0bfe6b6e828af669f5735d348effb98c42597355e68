@@ -1,0 +1,3 @@
+/* esm.sh - d3-transition@3.0.1/src/selection/interrupt */
+import r from"../interrupt.mjs";function n(t){return this.each(function(){r(this,t)})}export{n as default};
+//# sourceMappingURL=interrupt.mjs.map

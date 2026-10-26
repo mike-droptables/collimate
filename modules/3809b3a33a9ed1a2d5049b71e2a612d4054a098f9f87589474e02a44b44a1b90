@@ -1,0 +1,2 @@
+/* esm.sh - micromark-util-normalize-identifier@2.0.1 */
+export * from "./micromark-util-normalize-identifier@2.0.1/es2022/micromark-util-normalize-identifier.mjs";

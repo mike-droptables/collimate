@@ -1,0 +1,3 @@
+/* esm.sh - assistant-stream@0.3.54/dist/core/tool/ToolResponse */
+var r=Symbol.for("aui.tool-response"),i="<no result>",a=class t{get[r](){return!0}artifact;result;isError;isPreliminary;modelContent;messages;constructor(e){e.artifact!==void 0&&(this.artifact=e.artifact);let s=e.result;this.result=s===void 0?i:s,this.isError=e.isError??!1,e.isPreliminary&&(this.isPreliminary=!0),e.modelContent!==void 0&&(this.modelContent=e.modelContent),e.messages!==void 0&&(this.messages=e.messages)}static[Symbol.hasInstance](e){return typeof e=="object"&&e!==null&&r in e}static toResponse(e){return e instanceof t?e:new t({result:e===void 0?i:e})}};export{i as NO_RESULT,a as ToolResponse};
+//# sourceMappingURL=ToolResponse.mjs.map

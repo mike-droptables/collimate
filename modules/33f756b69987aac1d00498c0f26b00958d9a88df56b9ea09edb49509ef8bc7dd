@@ -1,0 +1,9 @@
+/* esm.sh - @codemirror/lang-markdown@6.5.2 */
+import "./autocomplete@^6.7.1?target=es2022";
+import "./lang-html@^6.0.0?target=es2022";
+import "./language@^6.3.0?target=es2022";
+import "./state@^6.0.0?target=es2022";
+import "./view@^6.0.0?target=es2022";
+import "../@lezer/common@^1.2.1?target=es2022";
+import "../@lezer/markdown@^1.0.0?target=es2022";
+export * from "./lang-markdown@6.5.2/es2022/lang-markdown.mjs";

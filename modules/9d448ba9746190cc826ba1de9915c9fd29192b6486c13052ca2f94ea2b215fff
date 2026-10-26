@@ -1,0 +1,5 @@
+/* esm.sh - use-sync-external-store@1.7.0/shim/with-selector */
+import "../../react@19.3.1/es2022/react.mjs";
+import "../../use-sync-external-store@1.7.0/X-ZHJlYWN0QDE5LjMuMQ/es2022/shim.mjs";
+export * from "../../use-sync-external-store@1.7.0/X-ZHJlYWN0QDE5LjMuMQ/es2022/shim/with-selector.mjs";
+export { default } from "../../use-sync-external-store@1.7.0/X-ZHJlYWN0QDE5LjMuMQ/es2022/shim/with-selector.mjs";

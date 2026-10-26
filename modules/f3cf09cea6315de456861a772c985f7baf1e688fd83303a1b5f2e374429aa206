@@ -1,0 +1,3 @@
+/* esm.sh - micromark@4.0.3 */
+import{compile as e}from"./lib/compile.mjs";import{parse as m}from"./lib/parse.mjs";import{postprocess as t}from"./lib/postprocess.mjs";import{preprocess as f}from"./lib/preprocess.mjs";import{compile as k}from"./lib/compile.mjs";import{parse as y}from"./lib/parse.mjs";import{postprocess as d}from"./lib/postprocess.mjs";import{preprocess as j}from"./lib/preprocess.mjs";function x(p,r,o){return typeof r!="string"&&(o=r,r=void 0),e(o)(t(m(o).document().write(f()(p,r,!0))))}export{k as compile,x as micromark,y as parse,d as postprocess,j as preprocess};
+//# sourceMappingURL=micromark.mjs.map

@@ -1,0 +1,3 @@
+/* esm.sh - remark-gfm@4.0.1 */
+import{gfmFromMarkdown as e,gfmToMarkdown as f}from"../../mdast-util-gfm@^3.0.0?target=es2022";import{gfm as d}from"../../micromark-extension-gfm@^3.0.0?target=es2022";var k={};function s(t){let r=this,n=t||k,o=r.data(),m=o.micromarkExtensions||(o.micromarkExtensions=[]),a=o.fromMarkdownExtensions||(o.fromMarkdownExtensions=[]),i=o.toMarkdownExtensions||(o.toMarkdownExtensions=[]);m.push(d(n)),a.push(e()),i.push(f(n))}export{s as default};
+//# sourceMappingURL=remark-gfm.mjs.map

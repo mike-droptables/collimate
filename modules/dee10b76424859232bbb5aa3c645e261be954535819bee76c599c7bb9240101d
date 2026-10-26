@@ -1,0 +1,3 @@
+/* esm.sh - @assistant-ui/core@0.3.31/dist/model-context/tool-call-text */
+var r=(u,n)=>{if(!(n.status?.type==="running"||n.status?.type==="requires-action")){let t=u.complete;return typeof t!="function"?t??null:t({args:n.args,result:n.result})}let e=u.running;return typeof e!="function"?e??null:e({args:n.args})};export{r as resolveToolCallText};
+//# sourceMappingURL=tool-call-text.mjs.map

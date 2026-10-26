@@ -1,0 +1,2 @@
+/* esm.sh - micromark-util-html-tag-name@2.0.1 */
+export * from "./micromark-util-html-tag-name@2.0.1/es2022/micromark-util-html-tag-name.mjs";

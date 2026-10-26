@@ -1,0 +1,4 @@
+/* esm.sh - remark-rehype@11.1.2 */
+import "./mdast-util-to-hast@^13.0.0?target=es2022";
+export * from "./remark-rehype@11.1.2/es2022/remark-rehype.mjs";
+export { default } from "./remark-rehype@11.1.2/es2022/remark-rehype.mjs";

@@ -1,0 +1,4 @@
+/* esm.sh - crc-32@0.3.0 */
+import "./node/buffer.mjs";
+export * from "./crc-32@0.3.0/es2022/crc-32.mjs";
+export { default } from "./crc-32@0.3.0/es2022/crc-32.mjs";

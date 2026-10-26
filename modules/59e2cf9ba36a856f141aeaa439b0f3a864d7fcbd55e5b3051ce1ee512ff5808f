@@ -1,0 +1,2 @@
+/* esm.sh - prosemirror-changeset@2.4.4 */
+export * from "./prosemirror-changeset@2.4.4/X-ZHByb3NlbWlycm9yLW1vZGVsQDEuMjUuMTI/es2022/prosemirror-changeset.mjs";

@@ -1,0 +1,2 @@
+/* esm.sh - @floating-ui/utils@0.2.12/dom */
+export * from "../utils@0.2.12/es2022/dom.mjs";

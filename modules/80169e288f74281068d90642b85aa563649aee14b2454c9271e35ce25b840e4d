@@ -1,0 +1,6 @@
+/* esm.sh - @codemirror/lang-python@6.2.1 */
+import "./autocomplete@^6.3.2?target=es2022";
+import "./language@^6.8.0?target=es2022";
+import "../@lezer/common@^1.2.1?target=es2022";
+import "../@lezer/python@^1.1.4?target=es2022";
+export * from "./lang-python@6.2.1/es2022/lang-python.mjs";

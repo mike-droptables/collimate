@@ -1,0 +1,5 @@
+/* esm.sh - micromark-extension-gfm-strikethrough@2.1.0 */
+import "./micromark-util-chunked@^2.0.0?target=es2022";
+import "./micromark-util-classify-character@^2.0.0?target=es2022";
+import "./micromark-util-resolve-all@^2.0.0?target=es2022";
+export * from "./micromark-extension-gfm-strikethrough@2.1.0/es2022/micromark-extension-gfm-strikethrough.mjs";

@@ -1,0 +1,22 @@
+/* esm.sh - @assistant-ui/react@0.15.31 */
+import "./core@0.3.31/X-ZEBhc3Npc3RhbnQtdWkvc3RvcmVAMC4zLjIyLEBhc3Npc3RhbnQtdWkvdGFwQDAuOS4yNCxyZWFjdEAxOS4zLjE/es2022/core.mjs";
+import "./core@0.3.31/X-ZEBhc3Npc3RhbnQtdWkvc3RvcmVAMC4zLjIyLEBhc3Npc3RhbnQtdWkvdGFwQDAuOS4yNCxyZWFjdEAxOS4zLjE/es2022/internal.mjs";
+import "./core@0.3.31/X-ZEBhc3Npc3RhbnQtdWkvc3RvcmVAMC4zLjIyLEBhc3Npc3RhbnQtdWkvdGFwQDAuOS4yNCxyZWFjdEAxOS4zLjE/es2022/react.mjs";
+import "./core@0.3.31/X-ZEBhc3Npc3RhbnQtdWkvc3RvcmVAMC4zLjIyLEBhc3Npc3RhbnQtdWkvdGFwQDAuOS4yNCxyZWFjdEAxOS4zLjE/es2022/store.mjs";
+import "./store@0.3.22/X-ZEBhc3Npc3RhbnQtdWkvdGFwQDAuOS4yNCxyZWFjdEAxOS4zLjE/es2022/client.mjs";
+import "./store@0.3.22/X-ZEBhc3Npc3RhbnQtdWkvdGFwQDAuOS4yNCxyZWFjdEAxOS4zLjE/es2022/internal.mjs";
+import "./store@0.3.22/X-ZEBhc3Npc3RhbnQtdWkvdGFwQDAuOS4yNCxyZWFjdEAxOS4zLjE/es2022/store.mjs";
+import "./tap@0.9.24/X-ZHJlYWN0QDE5LjMuMQ/es2022/react-shim.mjs";
+import "./tap@0.9.24/X-ZHJlYWN0QDE5LjMuMQ/es2022/react-shim/compiler-runtime.mjs";
+import "./tap@0.9.24/X-ZHJlYWN0QDE5LjMuMQ/es2022/tap.mjs";
+import "../assistant-cloud@^0.2.8?target=es2022";
+import "../assistant-stream@^0.3.54?target=es2022";
+import "../node/process.mjs";
+import "../radix-ui@1.8.1/X-ZHJlYWN0LWRvbUAxOS4zLjEscmVhY3RAMTkuMy4x/es2022/internal.mjs";
+import "../radix-ui@1.8.1/X-ZHJlYWN0LWRvbUAxOS4zLjEscmVhY3RAMTkuMy4x/es2022/radix-ui.mjs";
+import "../react-dom@19.3.1/X-ZHJlYWN0QDE5LjMuMQ/es2022/react-dom.mjs";
+import "../react-textarea-autosize@^8.5.9?deps=react@19.3.1&target=es2022";
+import "../react@19.3.1/es2022/jsx-runtime.mjs";
+import "../safe-content-frame@^0.0.34?target=es2022";
+import "../zustand@^5.0.15?deps=react@19.3.1&target=es2022";
+export * from "./react@0.15.31/X-ZEBhc3Npc3RhbnQtdWkvY29yZUAwLjMuMzEsQGFzc2lzdGFudC11aS9zdG9yZUAwLjMuMjIsQGFzc2lzdGFudC11aS90YXBAMC45LjI0LHJhZGl4LXVpQDEuOC4xLHJlYWN0LWRvbUAxOS4zLjEscmVhY3RAMTkuMy4x/es2022/react.mjs";

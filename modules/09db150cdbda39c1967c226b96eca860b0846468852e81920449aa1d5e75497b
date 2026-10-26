@@ -1,0 +1,3 @@
+/* esm.sh - @assistant-ui/store@0.3.22/dist/utils/env */
+var e=(()=>{try{return!1}catch{return!1}})();export{e as isDevelopment};
+//# sourceMappingURL=env.mjs.map

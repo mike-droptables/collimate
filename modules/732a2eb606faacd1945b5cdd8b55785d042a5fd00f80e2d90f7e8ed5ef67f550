@@ -1,0 +1,3 @@
+/* esm.sh - @assistant-ui/core@0.3.31/dist/runtime/utils/external-store-message */
+var l=Symbol("innerMessage"),a=Symbol("innerMessages"),c=[],d=(e,s)=>{l in e||(e[l]=s)},i=e=>{let s="messages"in e&&!("type"in e&&e.type==="tool-call")?e.messages:e,n=s[a]||s[l];return n?Array.isArray(n)?n:(s[a]=[n],s[a]):c},g="__external_store_fallback_",y=(e,s)=>{let n=new Set,r=[];for(let o=e.length-1;o>=0;o--){let t=e[o];if(n.has(t.id)){s(t.id);continue}n.add(t.id),r.push(t)}return r.length===e.length?e:r.reverse()};export{g as FALLBACK_ID_PREFIX,d as bindExternalStoreMessage,y as dedupeMessagesById,i as getExternalStoreMessages,l as symbolInnerMessage};
+//# sourceMappingURL=external-store-message.mjs.map

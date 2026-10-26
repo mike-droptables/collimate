@@ -1,0 +1,3 @@
+/* esm.sh - d3-transition@3.0.1/src/transition/styleTween */
+function s(n,e,r){return function(t){this.style.setProperty(n,e.call(this,t),r)}}function f(n,e,r){var t,i;function l(){var u=e.apply(this,arguments);return u!==i&&(t=(i=u)&&s(n,u,r)),t}return l._value=e,l}function o(n,e,r){var t="style."+(n+="");if(arguments.length<2)return(t=this.tween(t))&&t._value;if(e==null)return this.tween(t,null);if(typeof e!="function")throw new Error;return this.tween(t,f(n,e,r??""))}export{o as default};
+//# sourceMappingURL=styleTween.mjs.map

@@ -1,0 +1,2 @@
+/* esm.sh - trim-lines@3.0.1 */
+export * from "./trim-lines@3.0.1/es2022/trim-lines.mjs";

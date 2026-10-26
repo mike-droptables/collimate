@@ -1,0 +1,2 @@
+/* esm.sh - internmap@1.0.1 */
+export * from "./internmap@1.0.1/es2022/internmap.mjs";

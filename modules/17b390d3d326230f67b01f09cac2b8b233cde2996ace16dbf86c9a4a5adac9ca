@@ -1,0 +1,3 @@
+/* esm.sh - @assistant-ui/core@0.3.31/dist/utils/abortable-promise */
+var i=(r,o="The operation was aborted")=>{if(r.reason!==void 0)return r.reason;let e=new Error(o);return e.name="AbortError",e},m=(r,o)=>{if(!r)try{return Promise.resolve(o())}catch(e){return Promise.reject(e)}return r.aborted?Promise.reject(i(r)):new Promise((e,b)=>{let n=!1,s=()=>r.removeEventListener("abort",u),d=t=>{n||(n=!0,s(),e(t))},c=t=>{n||(n=!0,s(),b(t))},u=()=>c(i(r));r.addEventListener("abort",u,{once:!0});let a;try{a=o()}catch(t){c(t);return}Promise.resolve(a).then(d,c)})};export{i as getAbortReason,m as raceWithAbortSignal};
+//# sourceMappingURL=abortable-promise.mjs.map

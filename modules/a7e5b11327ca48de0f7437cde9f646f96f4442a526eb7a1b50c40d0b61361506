@@ -1,0 +1,3 @@
+/* esm.sh - es-toolkit@1.53.0/dist/array/drop */
+function c(a,r){return r=Math.max(r,0),a.slice(r)}export{c as drop};
+//# sourceMappingURL=drop.mjs.map

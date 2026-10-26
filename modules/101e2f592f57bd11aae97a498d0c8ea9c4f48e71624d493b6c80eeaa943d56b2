@@ -1,0 +1,4 @@
+/* esm.sh - remark-parse@11.0.0 */
+import "./mdast-util-from-markdown@^2.0.0?target=es2022";
+export * from "./remark-parse@11.0.0/es2022/remark-parse.mjs";
+export { default } from "./remark-parse@11.0.0/es2022/remark-parse.mjs";

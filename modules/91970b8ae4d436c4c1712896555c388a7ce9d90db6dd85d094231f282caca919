@@ -1,0 +1,2 @@
+/* esm.sh - hast-util-whitespace@3.0.0 */
+export * from "./hast-util-whitespace@3.0.0/es2022/hast-util-whitespace.mjs";

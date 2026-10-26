@@ -1,0 +1,3 @@
+/* esm.sh - detect-node-es@1.1.0 */
+import "./node/process.mjs";
+export * from "./detect-node-es@1.1.0/es2022/detect-node-es.mjs";

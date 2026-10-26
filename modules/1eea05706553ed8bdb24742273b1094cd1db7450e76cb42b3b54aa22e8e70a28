@@ -1,0 +1,4 @@
+/* esm.sh - prosemirror-drop-indicator@0.1.4 */
+import "./@ocavue/utils@^1.6.0?target=es2022";
+import "./prosemirror-state@^1.4.4?deps=prosemirror-model@1.25.12&target=es2022";
+export * from "./prosemirror-drop-indicator@0.1.4/X-ZHByb3NlbWlycm9yLW1vZGVsQDEuMjUuMTI/es2022/prosemirror-drop-indicator.mjs";

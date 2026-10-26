@@ -1,0 +1,2 @@
+/* esm.sh - estree-util-is-identifier-name@3.0.0 */
+export * from "./estree-util-is-identifier-name@3.0.0/es2022/estree-util-is-identifier-name.mjs";

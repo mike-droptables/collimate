@@ -1,0 +1,7 @@
+/* esm.sh - mdast-util-gfm@3.1.0 */
+import "./mdast-util-gfm-autolink-literal@^2.0.0?target=es2022";
+import "./mdast-util-gfm-footnote@^2.0.0?target=es2022";
+import "./mdast-util-gfm-strikethrough@^2.0.0?target=es2022";
+import "./mdast-util-gfm-table@^2.0.0?target=es2022";
+import "./mdast-util-gfm-task-list-item@^2.0.0?target=es2022";
+export * from "./mdast-util-gfm@3.1.0/es2022/mdast-util-gfm.mjs";

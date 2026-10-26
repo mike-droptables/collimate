@@ -1,0 +1,6 @@
+/* esm.sh - micromark@4.0.3 */
+import "./micromark@4.0.3/es2022/lib/compile.mjs";
+import "./micromark@4.0.3/es2022/lib/parse.mjs";
+import "./micromark@4.0.3/es2022/lib/postprocess.mjs";
+import "./micromark@4.0.3/es2022/lib/preprocess.mjs";
+export * from "./micromark@4.0.3/es2022/micromark.mjs";

@@ -1,0 +1,17 @@
+/* esm.sh - use-sync-external-store@1.7.0/shim */
+import*as __0$ from"../../../react@19.3.1/es2022/react.mjs";var require=n=>{const e=m=>typeof m.default<"u"?m.default:m,c=m=>Object.assign({__esModule:true},m);switch(n){case"react":return e(__0$);default:console.error('module "'+n+'" not found');return null;}};
+var v=Object.create;var i=Object.defineProperty;var E=Object.getOwnPropertyDescriptor;var m=Object.getOwnPropertyNames;var y=Object.getPrototypeOf,h=Object.prototype.hasOwnProperty;var j=(e=>typeof require<"u"?require:typeof Proxy<"u"?new Proxy(e,{get:(t,n)=>(typeof require<"u"?require:t)[n]}):e)(function(e){if(typeof require<"u")return require.apply(this,arguments);throw Error('Dynamic require of "'+e+'" is not supported')});var f=(e,t)=>()=>{try{return t||e((t={exports:{}}).exports,t),t.exports}catch(n){throw t=0,n}};var x=(e,t,n,u)=>{if(t&&typeof t=="object"||typeof t=="function")for(let r of m(t))!h.call(e,r)&&r!==n&&i(e,r,{get:()=>t[r],enumerable:!(u=E(t,r))||u.enumerable});return e};var w=(e,t,n)=>(n=e!=null?v(y(e)):{},x(t||!e||!e.__esModule?i(n,"default",{value:e,enumerable:!0}):n,e));var d=f(l=>{"use strict";var o=j("react");function b(e,t){return e===t&&(e!==0||1/e===1/t)||e!==e&&t!==t}var g=typeof Object.is=="function"?Object.is:b,q=o.useState,D=o.useEffect,O=o.useLayoutEffect,V=o.useDebugValue;function I(e,t){var n=t(),u=q({inst:{value:n,getSnapshot:t}}),r=u[0].inst,c=u[1];return O(function(){r.value=n,r.getSnapshot=t,a(r)&&c({inst:r})},[e,n,t]),D(function(){return a(r)&&c({inst:r}),e(function(){a(r)&&c({inst:r})})},[e]),V(n),n}function a(e){var t=e.getSnapshot;e=e.value;try{var n=t();return!g(e,n)}catch{return!0}}function L(e,t){return t()}var N=typeof window>"u"||typeof window.document>"u"||typeof window.document.createElement>"u"?L:I;l.useSyncExternalStore=o.useSyncExternalStore!==void 0?o.useSyncExternalStore:N});var p=f((k,S)=>{"use strict";S.exports=d()});var s=w(p()),{useSyncExternalStore:C}=s,G=s.default??s;export{G as default,C as useSyncExternalStore};
+/*! Bundled license information:
+
+use-sync-external-store/cjs/use-sync-external-store-shim.production.js:
+  (**
+   * @license React
+   * use-sync-external-store-shim.production.js
+   *
+   * Copyright (c) Meta Platforms, Inc. and affiliates.
+   *
+   * This source code is licensed under the MIT license found in the
+   * LICENSE file in the root directory of this source tree.
+   *)
+*/
+//# sourceMappingURL=shim.mjs.map

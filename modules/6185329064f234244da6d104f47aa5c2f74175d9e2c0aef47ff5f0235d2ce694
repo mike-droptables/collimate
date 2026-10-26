@@ -1,0 +1,3 @@
+/* esm.sh - @assistant-ui/core@0.3.31/dist/utils/invoke-user-callback */
+function f(o,n,e,...c){if(!e)return;let t=r=>{try{console.error(`[${o}] ${n} callback threw an error`,r)}catch{}};try{let r=e(...c);if(r!==null&&(typeof r=="object"||typeof r=="function")&&"then"in r&&typeof r.then=="function")return Promise.resolve(r).then(()=>{},i=>t(i))}catch(r){t(r)}}export{f as invokeUserCallback};
+//# sourceMappingURL=invoke-user-callback.mjs.map

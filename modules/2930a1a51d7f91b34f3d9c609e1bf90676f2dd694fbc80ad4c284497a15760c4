@@ -1,0 +1,3 @@
+/* esm.sh - @iconify/utils@3.1.7/lib/icon-set/minify */
+import{defaultIconDimensions as m}from"../icon/defaults.mjs";function j(t){let y=Object.keys(t.icons);Object.keys(m).forEach(e=>{t[e]===m[e]&&delete t[e];let s=m[e],M=typeof s,h=typeof t[e]===M&&t[e]!==s,f=0,u=null,c=new Map;for(let l=0;l<y.length;l++){let i=t.icons[y[l]],n;if(typeof i[e]===M?n=i[e]:h?n=t[e]:n=m[e],l===0){f=1,u=n,c.set(n,1);continue}if(!c.has(n)){c.set(n,1);continue}let x=c.get(n)+1;c.set(n,x),x>f&&(f=x,u=n)}let D=u!==null&&f>1,b=h?t[e]:null,o=D?u:b;o===s?delete t[e]:D&&(t[e]=o),y.forEach(l=>{let i=t.icons[l],n=e in i?i[e]:h?b:s;if(n===o||o===null&&n===s){delete i[e];return}D&&!(e in i)&&(i[e]=n)})})}export{j as minifyIconSet};
+//# sourceMappingURL=minify.mjs.map

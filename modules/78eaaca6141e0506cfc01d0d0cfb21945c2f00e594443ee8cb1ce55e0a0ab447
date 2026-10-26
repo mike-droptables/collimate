@@ -1,0 +1,3 @@
+/* esm.sh - unist-util-visit-parents@6.1.0/do-not-use-color */
+function r(o){return o}export{r as color};
+//# sourceMappingURL=do-not-use-color.mjs.map

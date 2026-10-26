@@ -1,0 +1,8 @@
+/* esm.sh - mdast-util-to-hast@13.2.1 */
+import "./@ungap/structured-clone@^1.0.0?target=es2022";
+import "./devlop@^1.0.0?target=es2022";
+import "./micromark-util-sanitize-uri@^2.0.0?target=es2022";
+import "./trim-lines@^3.0.0?target=es2022";
+import "./unist-util-position@^5.0.0?target=es2022";
+import "./unist-util-visit@^5.0.0?target=es2022";
+export * from "./mdast-util-to-hast@13.2.1/es2022/mdast-util-to-hast.mjs";

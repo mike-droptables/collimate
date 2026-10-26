@@ -1,0 +1,3 @@
+/* esm.sh - @assistant-ui/core@0.3.31/dist/store/runtime-clients/handle-thread-list-action */
+import{handleRuntimeAction as i}from"./handle-runtime-action.mjs";var o=(t,e)=>i(`thread list ${t}`,e);export{o as handleThreadListAction};
+//# sourceMappingURL=handle-thread-list-action.mjs.map

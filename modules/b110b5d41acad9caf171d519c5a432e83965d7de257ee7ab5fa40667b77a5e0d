@@ -1,0 +1,3 @@
+/* esm.sh - assistant-stream@0.3.54/dist/core/utils/stream/AssistantMetaTransformStream */
+var p=class extends TransformStream{constructor(){let a=[];super({transform(t,e){if(t.type==="part-start"){if(t.path.length!==0){e.error(new Error("Nested parts are not supported"));return}a.push(t.part),e.enqueue(t);return}if(t.type==="text-delta"||t.type==="result"||t.type==="part-finish"||t.type==="tool-call-args-text-finish"){if(t.path.length!==1){e.error(new Error(`${t.type} chunks must have a path of length 1`));return}let r=t.path[0];if(r<0||r>=a.length){e.error(new Error(`Invalid path index: ${r}`));return}let s=a[r];e.enqueue({...t,meta:s});return}e.enqueue(t)}})}};export{p as AssistantMetaTransformStream};
+//# sourceMappingURL=AssistantMetaTransformStream.mjs.map

@@ -1,0 +1,3 @@
+/* esm.sh - @assistant-ui/store@0.3.22/dist/types/events */
+var n=e=>typeof e=="string"?{scope:e.split(".")[0],event:e}:{scope:e.scope,event:e.event};export{n as normalizeEventSelector};
+//# sourceMappingURL=events.mjs.map

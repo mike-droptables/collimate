@@ -1,0 +1,6 @@
+/* esm.sh - @codemirror/lang-xml@6.1.0 */
+import "./language@^6.4.0?target=es2022";
+import "./state@^6.0.0?target=es2022";
+import "./view@^6.0.0?target=es2022";
+import "../@lezer/xml@^1.0.0?target=es2022";
+export * from "./lang-xml@6.1.0/es2022/lang-xml.mjs";

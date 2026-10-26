@@ -1,0 +1,3 @@
+/* esm.sh - @assistant-ui/tap@0.9.24/dist/react-hooks/useCallback */
+import{useMemo as r}from"./useMemo.mjs";var m=(e,o)=>r(()=>e,o);export{m as useCallback};
+//# sourceMappingURL=useCallback.mjs.map

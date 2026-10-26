@@ -1,0 +1,3 @@
+/* esm.sh - es-toolkit@1.53.0/dist/string/unescape */
+var n={"&amp;":"&","&lt;":"<","&gt;":">","&quot;":'"',"&#39;":"'"};function p(t){return t.replace(/&(?:amp|lt|gt|quot|#(0+)?39);/g,e=>n[e]||"'")}export{p as unescape};
+//# sourceMappingURL=unescape.mjs.map

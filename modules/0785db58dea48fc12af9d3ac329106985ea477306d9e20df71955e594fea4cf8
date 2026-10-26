@@ -1,0 +1,3 @@
+/* esm.sh - @radix-ui/react-direction@1.2.0 */
+"use client";import*as t from"../../../../react@19.3.1/es2022/react.mjs";import{jsx as a}from"../../../../react@19.3.1/es2022/jsx-runtime.mjs";var c=Object.defineProperty,i=(r,e)=>c(r,"name",{value:e,configurable:!0}),v={LTR:"ltr",RTL:"rtl"},o=t.createContext(void 0),s=i(r=>{let{dir:e,children:n}=r;return a(o.Provider,{value:e,children:n})},"DirectionProvider");function u(r){let e=t.useContext(o);return r||e||v.LTR}i(u,"useDirection");export{s as DirectionProvider,s as Provider,u as useDirection};
+//# sourceMappingURL=react-direction.mjs.map

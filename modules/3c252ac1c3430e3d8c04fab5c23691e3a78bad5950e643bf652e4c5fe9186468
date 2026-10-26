@@ -1,0 +1,3 @@
+/* esm.sh - d3-transition@3.0.1/src/transition/merge */
+import{Transition as v}from"./index.mjs";function A(a){if(a._id!==this._id)throw new Error;for(var n=this._groups,f=a._groups,h=n.length,w=f.length,l=Math.min(h,w),i=new Array(h),r=0;r<l;++r)for(var e=n[r],d=f[r],_=e.length,s=i[r]=new Array(_),o,t=0;t<_;++t)(o=e[t]||d[t])&&(s[t]=o);for(;r<h;++r)i[r]=n[r];return new v(i,this._parents,this._name,this._id)}export{A as default};
+//# sourceMappingURL=merge.mjs.map

@@ -1,0 +1,6 @@
+/* esm.sh - mdast-util-gfm-autolink-literal@2.0.1 */
+import "./ccount@^2.0.0?target=es2022";
+import "./devlop@^1.0.0?target=es2022";
+import "./mdast-util-find-and-replace@^3.0.0?target=es2022";
+import "./micromark-util-character@^2.0.0?target=es2022";
+export * from "./mdast-util-gfm-autolink-literal@2.0.1/es2022/mdast-util-gfm-autolink-literal.mjs";
