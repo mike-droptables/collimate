@@ -1,0 +1,5 @@
+entrypoint: main.py
+id: example
+main_config: settings.set_yaml
+name: Example
+summary: A simple generator

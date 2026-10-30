@@ -1,0 +1,77 @@
+name: SDK CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: sdk-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Test (Python 3.13, workspace)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+      - uses: ./.github/actions/setup-toolchain
+      - name: Fetch the module snapshot bodies
+        run: |
+          set -euo pipefail
+          git fetch --depth=1 origin module-snapshot
+          python3 build/snapshot_store.py fetch
+      # First, before any test: every committed generated file matches its
+      # source (the toolchain pins among them). setup-toolchain only installs
+      # tooling, so this checks the files as committed.
+      - name: Generated files match their sources
+        run: python3 scripts/generate.py --check
+      - name: Lint
+        run: uv run ruff check sdk
+      - name: Run tests
+        run: uv run pytest sdk/tests -q
+
+  # The generators' PEP 723 headers accept Python 3.12 and the workspace lock
+  # resolves at 3.13, so this leg installs the built wheel and the dev group
+  # into an isolated 3.12 venv and runs sdk/tests against it, checkout present.
+  wheel-312:
+    name: Installed wheel (Python 3.12)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v7
+      - uses: ./.github/actions/setup-toolchain
+      - name: Fetch the module snapshot bodies
+        run: |
+          set -euo pipefail
+          git fetch --depth=1 origin module-snapshot
+          python3 build/snapshot_store.py fetch
+      - name: Build the SDK wheel
+        # An sdist needs all four native payloads, which no single runner has.
+        run: uv build --package collimate-sdk --wheel --out-dir "$RUNNER_TEMP/dist"
+      - name: Install the wheel and the dev group into a Python 3.12 venv
+        run: |
+          set -euo pipefail
+          uv venv --no-project --python 3.12 "$RUNNER_TEMP/venv312"
+          uv pip install --python "$RUNNER_TEMP/venv312/bin/python" "$RUNNER_TEMP"/dist/collimate_sdk-*.whl --group sdk/pyproject.toml:dev
+          npm ci --prefix "$("$RUNNER_TEMP/venv312/bin/python" -m collimate._host.renderer_bundle --tool-dir)"
+      - name: Prove the SDK imports from the venv, not sdk/src
+        run: |
+          set -euo pipefail
+          cd "$RUNNER_TEMP"
+          "$RUNNER_TEMP/venv312/bin/python" -c 'import collimate, gen, sys, sysconfig; from pathlib import Path; site = Path(sysconfig.get_path("platlib")).resolve(); paths = [Path(module.__file__).resolve() for module in (collimate, gen)]; assert sys.version_info[:2] == (3, 12), sys.version; assert all(path.is_relative_to(site) for path in paths), paths; print(*paths)'
+      - name: Run sdk/tests against the installed wheel
+        run: |
+          set -euo pipefail
+          cd "$RUNNER_TEMP"
+          "$RUNNER_TEMP/venv312/bin/python" -m pytest --rootdir "$GITHUB_WORKSPACE/sdk" -c "$GITHUB_WORKSPACE/sdk/pyproject.toml" -p no:cacheprovider -q "$GITHUB_WORKSPACE/sdk/tests"
+
+  build:
+    name: Build and execute all native wheels
+    uses: ./.github/workflows/sdk-native-wheels.yml

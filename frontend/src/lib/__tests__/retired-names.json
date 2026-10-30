@@ -1,0 +1,278 @@
+{
+  "about": "Retired names on the app side of the repo: each scan's files may not name any of them, not even to assert their absence. src/lib/__tests__/retiredSurfaces.test.ts reads this file, the one file every scan skips. `matches` are strings a scan must hit and `spares` its live neighbours it must not. Historical plan records (docs/plan*) and scratch (tmp/) are outside every scan.",
+  "file_sets": {
+    "app": {
+      "about": "The app, its desktop shell, its agent notes and the README.",
+      "roots": [
+        "frontend/src",
+        "api",
+        "desktop/src",
+        "docs/ai_tools",
+        "README.md"
+      ]
+    },
+    "app-and-frontend-tests": {
+      "about": "The app set, plus the frontend's Playwright tests and its vitest config, where retired fixtures lived.",
+      "roots": [
+        "frontend/src",
+        "api",
+        "desktop/src",
+        "docs/ai_tools",
+        "README.md",
+        "frontend/tests",
+        "frontend/vitest.config.ts"
+      ]
+    },
+    "app-and-sandbox": {
+      "about": "The app set, plus the sandbox shell and the other files the frontend serves as they are.",
+      "roots": [
+        "frontend/src",
+        "api",
+        "desktop/src",
+        "docs/ai_tools",
+        "README.md",
+        "frontend/public"
+      ]
+    },
+    "app-code": {
+      "about": "The app's code, its desktop shell, its frontend tests and the sandbox shell (not the vendored third-party files beside it), without its agent notes: docs/ai_tools keeps the historical names, and the rename note spells them.",
+      "roots": [
+        "frontend/src",
+        "frontend/public/sandbox.html",
+        "frontend/index.html",
+        "frontend/tests",
+        "frontend/vitest.config.ts",
+        "api",
+        "desktop/src",
+        "README.md"
+      ]
+    }
+  },
+  "skipped": [
+    "^api/static/",
+    "^api/\\.venv/",
+    "(?:^|/)__pycache__/",
+    "(?:^|/)node_modules/",
+    "^docs/plan",
+    "^tmp/"
+  ],
+  "text": "\\.(?:ts|tsx|js|mjs|cjs|css|html|json|md|py|toml|ya?ml|txt|sh|ini|cfg)$",
+  "scans": [
+    {
+      "id": "TR-14",
+      "about": "The transfer plan's exit grep: the local browse, backup, Drive and archive surfaces. Matched ignoring case.",
+      "files": "app",
+      "ignore_case": true,
+      "names": [
+        "gdrive",
+        "colllibrary",
+        "collcells",
+        "collchannel",
+        "collsettings",
+        "collgen",
+        "collren",
+        "LocalFolderView",
+        "BackupFolderView",
+        "DriveFolderView",
+        "DriveBackupView",
+        "fileSystems",
+        "useGdriveAuthStore",
+        "refresh_default_bundles",
+        "/api/backup",
+        "/api/fs/",
+        "backupTransfer",
+        "localFsTransfer",
+        "gdriveTransfer"
+      ],
+      "spares": [
+        "collimate .collrun .collkeep collection",
+        "drive the app"
+      ]
+    },
+    {
+      "id": "GN-02",
+      "about": "The package paths and definition files of the three agent packages the one Agent generator replaced, never the runtime's private log folders under _agent/. Matched ignoring case.",
+      "files": "app",
+      "ignore_case": true,
+      "patterns": [
+        "(?<![_\\w])agent\\/todo\\b",
+        "\\btodo\\.generator\\b",
+        "(?<![_\\w])agent\\/chat\\b",
+        "\\bchat\\.generator\\b",
+        "(?<![_\\w])agent\\/terminal\\b",
+        "\\bterminal\\.generator\\b"
+      ],
+      "matches": [
+        "generators/agent/todo/x.py",
+        "generators/agent/chat/x.py",
+        "generators/agent/terminal/x.py",
+        "x todo.generator y",
+        "x chat.generator y",
+        "x terminal.generator y"
+      ],
+      "spares": [
+        "_agent/terminal/transcript.json",
+        "generators/agent/agent/agent.generator",
+        "builtin/live/terminal/main.tsx"
+      ]
+    },
+    {
+      "id": "capabilities-stack",
+      "about": "The Capabilities stack replaced the Generators and Renderers stacks: their pills, the in-cell Manage tab and its runner list, the per-kind add dialog and route client, the special-stack toggle, the index-addressed front-cell helpers and the in-cell handler build run. Each name starts a word.",
+      "files": "app",
+      "word_start": true,
+      "names": [
+        "SpecialPill",
+        "ManagementView",
+        "RunnerManagement",
+        "SourceStackAddDialog",
+        "addToSourceStack",
+        "focusManageTab",
+        "toggleSpecialStack",
+        "kind: 'manage'",
+        "frontIndexOf",
+        "visibleCellOf",
+        "handler_build_scope"
+      ],
+      "spares": [
+        "CapabilitiesPill",
+        "HandlerManagement",
+        "frontCellIndexOf",
+        "frontCellOf",
+        "kind: 'runner'"
+      ]
+    },
+    {
+      "id": "AN-01",
+      "about": "The annotation system replaced the status document machinery: its document and comment sidecar, the comment tool, the surface recipe and the shipped Status cell, the handoff and Conclude, the surface lock and the agent's document surface, the status-variable skin block and the page-scheme backing.",
+      "files": "app-and-frontend-tests",
+      "names": [
+        ".todo_html",
+        ".todo_comments",
+        "status.todo",
+        "status-document",
+        "comment_on_file",
+        "comments_for",
+        "surface_recipe",
+        "how-to-write-status",
+        "status_contract",
+        "install_status_cell",
+        "todo_surface",
+        "TodoSurface",
+        "status-handoff",
+        "read_handoff",
+        "discard_queued_turns",
+        "agent-document",
+        "pageScheme",
+        "STATUS_THEME_VARS",
+        "related_paths",
+        "locked_paths",
+        "surface_lock",
+        "mergeComments",
+        "droppedLogLines",
+        "RunsPaneTab",
+        "CellRunsSection",
+        "fixture-step6-todo",
+        "todo-session"
+      ],
+      "spares": [
+        "generators/agent/agent/agent.generator",
+        "frontend/src/lib/cellLog.ts",
+        "agent-annotation.runner",
+        "notes.llm_summary",
+        "RunsPaneState",
+        "status-view",
+        "colorScheme"
+      ]
+    },
+    {
+      "id": "P5-renderer-hosts",
+      "about": "Phase 4 P5: the sibling messages before their qualified rename (a leftover is a renderer that hangs on its 10 s timeout in exactly one host), the local-edit notice every primary edit replaced with an immediate document snapshot, the editor's autosave debounce, and the draft writer sibling writes replaced with conditional file mutations.",
+      "files": "app-and-sandbox",
+      "names": [
+        "SIBLING_REQUEST",
+        "SIBLING_RESULT",
+        "LOCAL_EDIT",
+        "noteLocalEdit",
+        "AUTOSAVE_DEBOUNCE",
+        "saveDraft"
+      ],
+      "spares": [
+        "SIBLING_READ",
+        "SIBLING_WRITE",
+        "SIBLING_READ_RESULT",
+        "SIBLING_WRITE_RESULT",
+        "saveSnapshot",
+        "saveSiblingFile"
+      ]
+    },
+    {
+      "id": "SDK-10",
+      "about": "Phase 5 (D10): the authoring contract's one rename break, as the app spells it: gen's update, ui_file, ui_files, terminal and environment_exec under their family names, status deleted, the six session verbs under gen.session (in the generators the app's tests embed); the renderer api's onChange command, its Changed subscriptions, its two CSS names and its preview members, the mirror URL helper; the SDK host plumbing's public module paths, now collimate._host.<module>.",
+      "files": "app-code",
+      "word_start": true,
+      "names": [
+        "onSurfaceChanged",
+        "onFilesChanged",
+        "injectStyle",
+        "loadCSS",
+        "prepareRendererDependencies",
+        "mirrorURL",
+        "environment_exec"
+      ],
+      "patterns": [
+        "\\bcompileRenderer\\b",
+        "\\b(?:gen|native)\\.update\\b(?!_)",
+        "\\b(?:gen|native)\\.ui_files?\\b",
+        "\\bgen\\.terminal\\b(?!_)",
+        "\\b(?:gen|native)\\.status\\b",
+        "\\bgen\\.(?:chat_busy|emit_stream_event|interrupt_turn|pop_config_request|request_finish|submit_turn)\\b",
+        "\\bapi\\??\\.onChange\\b",
+        "\\bcollimate\\.(?:channel_events|ipc|renderer_bundle|module_mirror|module_bump|esm_lexer|packaging|verification|package_hash|_verifier_engine)\\b",
+        "\\bfrom collimate import [^\\n#]*\\b(?:channel_events|ipc|renderer_bundle|module_mirror|module_bump|esm_lexer|packaging|verification|package_hash|_verifier_engine)\\b",
+        "\\bcollimate\\._host\\.[A-Z]",
+        "\\bfrom collimate\\._host import [A-Z]"
+      ],
+      "matches": [
+        "compileRenderer(files, entry)",
+        "await gen.update()",
+        "gen.ui_file(path, text)",
+        "gen.ui_files()",
+        "gen.terminal(cid, argv)",
+        "gen.status('pulling')",
+        "gen.request_finish()",
+        "api.onChange(body)",
+        "from collimate.ipc import OPS",
+        "from collimate import channel_events",
+        "collimate._host.HostBridge",
+        "from collimate._host import HostBridge"
+      ],
+      "spares": [
+        "compileRendererFiles",
+        "compileRendererPackage",
+        "api.preview.compile(files, entry)",
+        "preparePreviewDependencies",
+        "await gen.commit()",
+        "gen.update_file(path, text)",
+        "gen.update_ui_file(path, text)",
+        "gen.list_ui_files()",
+        "gen.start_terminal(cid, argv)",
+        "gen.terminal_status(tid)",
+        "gen.exec_environment(env, argv)",
+        "res.status",
+        "gen.session.request_finish()",
+        "api.reportChange(body)",
+        "onSurfaceChange",
+        "onFilesChange",
+        "injectCss",
+        "loadCss",
+        "mirrorUrl(url, base)",
+        "from collimate._host.ipc import OPS",
+        "from collimate._host import channel_events",
+        "from collimate._host.bridge import HostBridge",
+        "process_manager/ipc.py",
+        "collimate:files-changed-broadcast"
+      ]
+    }
+  ]
+}

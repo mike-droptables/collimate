@@ -1,0 +1,430 @@
+{
+  "about": "Retired names on the SDK side of the repo: each scan's files may not name any of them, not even to assert their absence. sdk/scripts/scan_retired_tokens.py reads this file (run by sdk/tests/test_retired_token_scan.py); it is the one file every scan skips. `matches` are strings a scan must hit and `spares` its live neighbours it must not.",
+  "file_sets": {
+    "sources": {
+      "about": "The renderers and built-ins, the SDK's runtime packages, shared docs and runtime, scripts and sources: tracked or new files with a source suffix.",
+      "roots": [
+        "content/renderers",
+        "builtins",
+        "sdk/packages",
+        "sdk/shared",
+        "sdk/scripts",
+        "sdk/src"
+      ],
+      "suffixes": [
+        ".css",
+        ".handler",
+        ".html",
+        ".js",
+        ".json",
+        ".jsx",
+        ".md",
+        ".mjs",
+        ".py",
+        ".renderer",
+        ".ts",
+        ".tsx"
+      ]
+    },
+    "repo": {
+      "about": "Every tracked or new file of the SDK member and the first-party trees beside it, tests, workflows and the README included, but scratch. The module snapshot's index and LICENSES files are scanned; its third-party bodies are git-ignored (module-snapshot/modules/<sha256>, stored on the orphan branch module-snapshot), so never listed.",
+      "roots": [
+        "sdk",
+        "content",
+        "builtins",
+        "module-snapshot"
+      ],
+      "exclude": [
+        "sdk/tmp/"
+      ]
+    }
+  },
+  "scans": [
+    {
+      "id": "R05",
+      "about": "Plan 1006, row R05: the pre-skin CSS variables and their camelCase tokens members, the old theme ids, the forwarded-subset map, the Monaco theme helpers, and the private palettes of the chat and todo renderers with the old near-black ground. Monaco's defineTheme requires a built-in base, kept only as a container, so the Monaco renderer and the renderer guide (and its generated mirrors) may name it.",
+      "files": "sources",
+      "names": [
+        "void-main",
+        "obsidian-plate",
+        "glass-panel",
+        "filament-amber",
+        "filament-hot",
+        "electric-teal",
+        "plasma-pink",
+        "tungsten-dim",
+        "tungsten-cursor",
+        "signal-white",
+        "comment-grey",
+        "bg-glow",
+        "renderer-surface",
+        "renderer-text",
+        "voidMain",
+        "obsidianPlate",
+        "glassPanel",
+        "filamentAmber",
+        "filamentHot",
+        "electricTeal",
+        "plasmaPink",
+        "tungstenDim",
+        "signalWhite",
+        "commentGrey",
+        "bgImage",
+        "bgBase",
+        "bgGlow",
+        "tube-amp",
+        "sequential-dark",
+        "sequential-light",
+        "paper-light",
+        "linear-light",
+        "RENDERER_THEME_VAR_MAP",
+        "resolveThemeVars",
+        "PALETTES",
+        "paletteVars",
+        "#050505",
+        "vs-dark"
+      ],
+      "patterns": [
+        "\\bmonacoTheme\\b"
+      ],
+      "allowed": {
+        "vs-dark": {
+          "under": [
+            "content/renderers/documents/monaco/"
+          ],
+          "ending": [
+            "/how-to-write-a-renderer.md"
+          ]
+        }
+      },
+      "matches": [
+        "monacoTheme("
+      ],
+      "spares": [
+        "monacoThemeData"
+      ]
+    },
+    {
+      "id": "TR-14",
+      "about": "Plan 1011, row TR-14: the import/export archive types and their library cache, and the packaging API that read and wrote them. Matched ignoring case.",
+      "files": "repo",
+      "ignore_case": true,
+      "names": [
+        "collcells",
+        "collchannel",
+        "collsettings",
+        "collgen",
+        "collren",
+        "colllibrary",
+        "build_asset_bundle",
+        "install_archives",
+        "PackageManifest",
+        "PACKAGE_FORMAT_VERSION"
+      ],
+      "spares": [
+        "collimate .collrun .collkeep collection"
+      ]
+    },
+    {
+      "id": "GN-02",
+      "about": "Plan 1011, row GN-02: the package paths and generator definition files of the three agent packages the one Agent generator replaced; the runtime's private log folders under _agent/ are another name and stay. Matched ignoring case.",
+      "files": "repo",
+      "ignore_case": true,
+      "patterns": [
+        "(?<![_\\w])agent/todo\\b",
+        "(?<![_\\w])agent/chat\\b",
+        "(?<![_\\w])agent/terminal\\b",
+        "\\btodo\\.generator\\b",
+        "\\bchat\\.generator\\b",
+        "\\bterminal\\.generator\\b"
+      ],
+      "matches": [
+        "generators/agent/todo/x.py",
+        "generators/agent/chat/x.py",
+        "generators/agent/terminal/x.py",
+        "x todo.generator y",
+        "x chat.generator y",
+        "x terminal.generator y"
+      ],
+      "spares": [
+        "_agent/terminal/transcript.json",
+        "generators/agent/agent/agent.generator",
+        "builtins/live/terminal/main.tsx",
+        "agent/todos",
+        "todo.generators_list"
+      ]
+    },
+    {
+      "id": "capabilities-stack",
+      "about": "The stacks and the per-cell tab the one Capabilities stack replaced. Matched ignoring case, so the Guide skill and the tutorial are covered too.",
+      "files": "repo",
+      "ignore_case": true,
+      "names": [
+        "Generators stack",
+        "Renderers stack",
+        "Manage tab",
+        "renderer-stack cell",
+        "generator-stack cell",
+        "special stack",
+        "source stack",
+        "source-stack"
+      ],
+      "spares": [
+        "the Capabilities stack",
+        "a work stack",
+        "the Manage view",
+        "manage the tabs"
+      ]
+    },
+    {
+      "id": "AN-01",
+      "about": "The status document, comment, conclusion and surface-lock machinery the run's annotation context replaced: the status document's types, handler, guide and contract, file comments and their journal, surface recipes, registered file surfaces and their locks, the Agent's file, one-shot output, orient and conclude sessions and the TTY end marker, and the status renderer's dark-mode helpers. Case-sensitive but the prose phrase.",
+      "files": "repo",
+      "names": [
+        ".todo_html",
+        ".todo_comments",
+        "status-document",
+        "status_document",
+        "StatusDocument",
+        "status-handoff",
+        "read_handoff",
+        "HANDOFF",
+        "how-to-write-status",
+        "status_contract",
+        "shared/status/",
+        "comment_on_file",
+        "comments_for",
+        "CommentLimiter",
+        "ack_comment",
+        "pending_comment",
+        "@file-comments",
+        "surface_recipe",
+        "assets/surface.json",
+        "register_surface",
+        "surface_lock",
+        "answer_route",
+        "_primary_surface",
+        "todo_surface",
+        "discard_queued_turns",
+        "{against}",
+        "CONCLUDE",
+        "@conclude",
+        "/conclude",
+        "conclude_",
+        "_conclude",
+        "@orient",
+        "orient_file",
+        "ORIENT_",
+        "_agent/output.md",
+        "agent-document",
+        "ONESHOT_OUTPUT",
+        "unloaded_note",
+        "one_turn_note",
+        "ONE_TURN_NOTES",
+        "TTY_MARKER",
+        "tty_container",
+        "adopt_tty_session",
+        "file_directive",
+        "oneshot_directive",
+        "@output-correction",
+        "@file-correction",
+        "pageScheme",
+        "STATUS_THEME_VARS",
+        "statusVariableDecls",
+        "STATUS_DARKREADER_FIXES",
+        "statusVariablesRule",
+        "DarkReaderFixes",
+        "darkReaderFixes"
+      ],
+      "patterns": [
+        "\\.todo(?![\\w-])",
+        "\\b(?:gen|native)\\.comment\\b",
+        "\\brelated_paths\\b",
+        "\\bend_tty\\b",
+        "(?i:status\\s+document)"
+      ],
+      "matches": [
+        "status.todo",
+        "gen.comment(",
+        "self.related_paths",
+        "A Status  Document",
+        "cli_container.end_tty()"
+      ],
+      "spares": [
+        "unrelated_paths",
+        "surface_register",
+        "transport_only",
+        "queued_turns",
+        "agent/todos",
+        "TodoWrite",
+        "TODO(michael)",
+        "gen.commentary",
+        "the status pane",
+        "concludes",
+        "handoff",
+        ".todos",
+        "send_tty_input",
+        "annotation_directive"
+      ]
+    },
+    {
+      "id": "RS-01",
+      "about": "Plan 1011, row RS-01: the per-browser keys and the members renderer styles replaced: the html and todo dark override, its event and its pill, and the markdown reader zoom, its size control and the top-right insert button. Whole names only, so a longer identifier that merely starts with one is not a hit.",
+      "files": "repo",
+      "whole_names": [
+        "collimate.html.darkreader",
+        "collimate.milkdown.readerZoom",
+        "collimate:document-dark-override",
+        "DocumentDarkPill",
+        "useDarkOverride",
+        "parseDarkOverride",
+        "DARK_OVERRIDE_KEY",
+        "ReaderSizeControl",
+        "readStoredZoom",
+        "InsertControl"
+      ],
+      "spares": [
+        "useDocumentView DocumentView darkReaderOptions collimate.milkdown.readerWidth",
+        "insertAt insertCandidates InsertCandidates StyleControl readStoredZoomLevel"
+      ]
+    },
+    {
+      "id": "P5-edit-snapshots",
+      "about": "Phase 4 P5: the local-edit notice every primary edit replaced with an immediate document snapshot (the renderer types and runtime name it nowhere; the app side scans its hosts).",
+      "files": "repo",
+      "names": [
+        "LOCAL_EDIT",
+        "noteLocalEdit"
+      ],
+      "spares": [
+        "onChange",
+        "saveSnapshot",
+        "a local edit"
+      ]
+    },
+    {
+      "id": "SDK-10",
+      "about": "Phase 5 (D10): the one rename break of the authoring contract (docs/ai_tools/notes/2026-10-26/project_sdk_rename_table.md). gen's update, ui_file, ui_files, terminal and environment_exec under their family names, status deleted, the six session verbs under gen.session; the renderer api's onChange command, its Changed subscriptions, its two CSS names and its preview members, the runtime's mirror URL helper; the host plumbing's public module paths (now collimate._host.<module>), the bridge's old module and packaging.runtime.",
+      "files": "repo",
+      "whole_names": [
+        "onSurfaceChanged",
+        "onFilesChanged",
+        "injectStyle",
+        "loadCSS",
+        "prepareRendererDependencies",
+        "compileRenderer",
+        "mirrorURL",
+        "environment_exec"
+      ],
+      "patterns": [
+        "\\b(?:gen|native)\\.update\\b(?!_)",
+        "\\b(?:gen|native)\\.ui_files?\\b",
+        "\\bgen\\.terminal\\b(?!_)",
+        "\\bnative\\.terminal\\(",
+        "\\b(?:gen|native)\\.status\\b",
+        "\\bgen\\.(?:chat_busy|emit_stream_event|interrupt_turn|pop_config_request|request_finish|submit_turn)\\b",
+        "\\bapi\\??\\.onChange\\b",
+        "\\bcollimate\\.(?:channel_events|ipc|renderer_bundle|module_mirror|module_bump|esm_lexer|packaging|verification|package_hash|_verifier_engine)\\b",
+        "\\bfrom collimate import [^\\n#]*\\b(?:channel_events|ipc|renderer_bundle|module_mirror|module_bump|esm_lexer|packaging|verification|package_hash|_verifier_engine)\\b",
+        "\\bsrc/collimate/(?:(?:channel_events|ipc|renderer_bundle|module_mirror|module_bump|esm_lexer|verification|package_hash|_verifier_engine|_host)\\.py\\b|packaging/)",
+        "\\bcollimate\\._host\\.[A-Z]",
+        "\\bfrom collimate\\._host import [A-Z]",
+        "\\bpackaging(?:\\.| import )runtime\\b"
+      ],
+      "matches": [
+        "await gen.update()",
+        "native.update(name='x')",
+        "gen.ui_file(path, text)",
+        "gen.ui_files()",
+        "gen.terminal(cid, argv)",
+        "native.terminal(cid, argv)",
+        "gen.status('pulling')",
+        "gen.submit_turn(text)",
+        "gen.request_finish()",
+        "api.onChange(body)",
+        "api?.onChange(body)",
+        "from collimate.ipc import OPS",
+        "import collimate.channel_events",
+        "collimate.packaging.layout",
+        "from collimate import channel_events, ipc",
+        "from collimate import fs, renderer_bundle",
+        "sdk/src/collimate/ipc.py",
+        "src/collimate/_host.py",
+        "src/collimate/packaging/layout.py",
+        "collimate._host.HostBridge",
+        "from collimate._host import HostBridge",
+        "from collimate.packaging import runtime",
+        "collimate.packaging.runtime"
+      ],
+      "spares": [
+        "await gen.commit()",
+        "gen.update_file(path, text)",
+        "gen.update_ui_file(path, text)",
+        "gen.list_ui_files()",
+        "gen.delete_ui_file(path)",
+        "the manifest's ui_files",
+        "gen.start_terminal(cid, argv)",
+        "gen.terminal_status(tid)",
+        "gen.serve_terminal(cid, argv)",
+        "terminal/native.terminal",
+        "gen.exec_environment(env, argv)",
+        "gen.phase('running', 'pulling')",
+        "res.status",
+        "gen.session.submit_turn(text)",
+        "native.submit_turn(text)",
+        "api.reportChange(body)",
+        "useTheme(api).onChange(cb)",
+        "onSurfaceChange",
+        "onFilesChange",
+        "injectCss",
+        "loadCss",
+        "api.preview.compile(files, entry)",
+        "api.preview.prepareDependencies(files, entry)",
+        "compileRendererPackage",
+        "mirrorUrl(url)",
+        "from collimate._host.ipc import OPS",
+        "from collimate._host import channel_events, ipc",
+        "collimate._host.packaging.layout",
+        "src/collimate/_host/bridge.py",
+        "src/collimate/_host/ipc.py",
+        "collimate._host.bridge.HostBridge",
+        "from collimate._host.bridge import HostBridge",
+        "from collimate.shared import sdk_distribution",
+        "renderer_bundle_contract.json",
+        "api/process_manager/ipc.py"
+      ]
+    },
+    {
+      "id": "GP-01",
+      "about": "2026-10-29: the Git account and checkout became provider-neutral (docs/ai_tools/notes/2026-10-29/project_git_accounts_and_checkout.md): the GitHub-only checkout type, handler, generator path and runner ids, the role helpers, the noreply derivation, the Launch login, the runner author settings and their fixtures. The copilot service's github_token login validator and upstream's github_token keyword are live and spared.",
+      "files": "repo",
+      "names": [
+        "github-checkout",
+        "github-sync",
+        "github-push",
+        "GitHub Clone / Update",
+        "generators/github",
+        "_env_shared.github",
+        "github_user",
+        "noreply_identity",
+        "github_account_token",
+        "github_environment",
+        "_GITHUB_ENV_EXCLUDED",
+        "_GitHubLogin",
+        "_github_login",
+        "COLLIMATE_GH_CRED",
+        "FakeGitHub",
+        "fake_github",
+        "git_user_name",
+        "git_user_email",
+        "Fallback author"
+      ],
+      "spares": [
+        "git-checkout git-sync git-push",
+        "github_token LoginValidator GITHUB_TOKEN",
+        "generators/git/git/git.py _env_shared.git_account",
+        "GIT_USER_NAME GIT_USER_EMAIL author_name"
+      ]
+    }
+  ]
+}

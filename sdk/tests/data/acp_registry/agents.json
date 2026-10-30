@@ -1,0 +1,356 @@
+{
+ "antigravity-acp": {
+  "authors": [
+   "Google LLC"
+  ],
+  "description": "Google\u2019s AI coding agent",
+  "distribution": {
+   "binary": {
+    "darwin-aarch64": {
+     "archive": "https://dl.google.com/agy-extensions/releases/macos/agy-acp-server-1.4.3-darwin-arm64.zip",
+     "cmd": "./agy_acp_server.par",
+     "sha256": "c57db0a9b8b712daa9c3c17cdb990a61842ea569f279e8bd79d7aa85a303b20b"
+    },
+    "darwin-x86_64": {
+     "archive": "https://dl.google.com/agy-extensions/releases/macos/agy-acp-server-1.4.3-darwin-x86_64.zip",
+     "cmd": "./agy_acp_server.par",
+     "sha256": "9392dbbdad7f0663dbfb5a0bf641297b0cf80d2ee9cd2d49a616bbbc7378731d"
+    },
+    "linux-aarch64": {
+     "archive": "https://dl.google.com/agy-extensions/releases/linux/agy-acp-server-1.4.3-linux-arm64.zip",
+     "args": [
+      "--uid="
+     ],
+     "cmd": "./agy_acp_server.par",
+     "sha256": "05c153443b0b1175151c760eeddea538950bc9843e317d54786a1f03670182bc"
+    },
+    "linux-x86_64": {
+     "archive": "https://dl.google.com/agy-extensions/releases/linux/agy-acp-server-1.4.3-linux-x86_64.zip",
+     "args": [
+      "--uid="
+     ],
+     "cmd": "./agy_acp_server.par",
+     "sha256": "0634ce5306ba92c932945455e7a83fda78e2d99c33fa8aa6ee0566206a382714"
+    },
+    "windows-aarch64": {
+     "archive": "https://dl.google.com/agy-extensions/releases/windows/agy-acp-server-1.4.3-windows-arm64.zip",
+     "cmd": "./agy_acp_server.exe",
+     "sha256": "fcd46431ad33d3b510ce0b98fe7b43d095bd8b3f1c363ee2d57faa7ee981c7bb"
+    },
+    "windows-x86_64": {
+     "archive": "https://dl.google.com/agy-extensions/releases/windows/agy-acp-server-1.4.3-windows-x86_64.zip",
+     "cmd": "./agy_acp_server.exe",
+     "sha256": "54c2e16378d9a4952e1da70e355f3c33c4f284308d6de48ab3e6e34a127bd325"
+    }
+   }
+  },
+  "id": "antigravity-acp",
+  "license": "proprietary",
+  "license_url": "https://antigravity.google/terms",
+  "name": "Google Antigravity",
+  "version": "1.4.3",
+  "website": "https://antigravity.google/docs/ide/extensions"
+ },
+ "claude-acp": {
+  "authors": [
+   "Anthropic",
+   "Zed Industries",
+   "JetBrains"
+  ],
+  "description": "ACP wrapper for Anthropic's Claude",
+  "distribution": {
+   "npx": {
+    "package": "@agentclientprotocol/claude-agent-acp@0.95.0"
+   }
+  },
+  "id": "claude-acp",
+  "license": "proprietary",
+  "license_url": "https://github.com/agentclientprotocol/claude-agent-acp/blob/main/LICENSE",
+  "name": "Claude Agent",
+  "preview": {
+   "distribution": {
+    "npx": {
+     "package": "@agentclientprotocol/claude-agent-acp@0.95.1-preview.2"
+    }
+   },
+   "version": "0.95.1-preview.2"
+  },
+  "repository": "https://github.com/agentclientprotocol/claude-agent-acp",
+  "version": "0.95.0"
+ },
+ "cline": {
+  "authors": [
+   "Cline Bot Inc."
+  ],
+  "description": "Autonomous coding agent CLI - capable of creating/editing files, running commands, using the browser, and more",
+  "distribution": {
+   "npx": {
+    "args": [
+     "--acp"
+    ],
+    "package": "cline@3.0.73"
+   }
+  },
+  "icon": "./icon.svg",
+  "id": "cline",
+  "license": "Apache-2.0",
+  "license_url": "https://github.com/cline/cline/blob/main/LICENSE",
+  "name": "Cline",
+  "repository": "https://github.com/cline/cline",
+  "version": "3.0.73",
+  "website": "https://cline.bot/cli"
+ },
+ "codex-acp": {
+  "authors": [
+   "OpenAI",
+   "JetBrains s.r.o",
+   "Zed Industries"
+  ],
+  "description": "ACP adapter for OpenAI's coding assistant",
+  "distribution": {
+   "npx": {
+    "package": "@agentclientprotocol/codex-acp@2.2.2"
+   }
+  },
+  "id": "codex-acp",
+  "license": "Apache-2.0",
+  "license_url": "https://github.com/agentclientprotocol/codex-acp/blob/main/LICENSE",
+  "name": "Codex",
+  "preview": {
+   "distribution": {
+    "npx": {
+     "package": "@agentclientprotocol/codex-acp@2.2.3-preview.27"
+    }
+   },
+   "version": "2.2.3-preview.27"
+  },
+  "repository": "https://github.com/agentclientprotocol/codex-acp",
+  "version": "2.2.2"
+ },
+ "github-copilot-cli": {
+  "authors": [
+   "GitHub"
+  ],
+  "description": "GitHub's AI pair programmer",
+  "distribution": {
+   "npx": {
+    "args": [
+     "--acp"
+    ],
+    "package": "@github/copilot@1.0.103"
+   }
+  },
+  "id": "github-copilot-cli",
+  "license": "proprietary",
+  "license_url": "https://github.com/github/copilot-cli/blob/main/LICENSE.md",
+  "name": "Copilot",
+  "repository": "https://github.com/github/copilot-cli",
+  "version": "1.0.103",
+  "website": "https://github.com/features/copilot/cli/"
+ },
+ "goose": {
+  "authors": [
+   "Block"
+  ],
+  "description": "A local, extensible, open source AI agent that automates engineering tasks",
+  "distribution": {
+   "binary": {
+    "darwin-aarch64": {
+     "archive": "https://github.com/block/goose/releases/download/v1.56.0/goose-aarch64-apple-darwin.tar.bz2",
+     "args": [
+      "acp"
+     ],
+     "cmd": "./goose",
+     "sha256": "62d806417b19be167474297eaaec7783ff9917f4fa772e781e977f2bdc155163"
+    },
+    "darwin-x86_64": {
+     "archive": "https://github.com/block/goose/releases/download/v1.56.0/goose-x86_64-apple-darwin.tar.bz2",
+     "args": [
+      "acp"
+     ],
+     "cmd": "./goose",
+     "sha256": "0dabf1bc691a1855bc06d2bb5445d27d9c7c08f7ea5af49d32e460a85b98a2ad"
+    },
+    "linux-aarch64": {
+     "archive": "https://github.com/block/goose/releases/download/v1.56.0/goose-aarch64-unknown-linux-gnu.tar.bz2",
+     "args": [
+      "acp"
+     ],
+     "cmd": "./goose",
+     "sha256": "30b60a49a534ca7af062ec94b752367494ad3a2824744a6d1e8ec3e1040d9922"
+    },
+    "linux-x86_64": {
+     "archive": "https://github.com/block/goose/releases/download/v1.56.0/goose-x86_64-unknown-linux-gnu.tar.bz2",
+     "args": [
+      "acp"
+     ],
+     "cmd": "./goose",
+     "sha256": "e29544421a6e698aab0fe4becda96096218ff36abe85b83785519d41c555c714"
+    },
+    "windows-x86_64": {
+     "archive": "https://github.com/block/goose/releases/download/v1.56.0/goose-x86_64-pc-windows-msvc.zip",
+     "args": [
+      "acp"
+     ],
+     "cmd": "./goose-package\\goose.exe",
+     "sha256": "76fbb942579f5851b6593ab0f97b7bd7317d700132443dfa37aa1cddb8af04da"
+    }
+   }
+  },
+  "id": "goose",
+  "license": "Apache-2.0",
+  "license_url": "https://github.com/block/goose/blob/main/LICENSE",
+  "name": "goose",
+  "repository": "https://github.com/block/goose",
+  "version": "1.56.0",
+  "website": "https://block.github.io/goose/"
+ },
+ "mistral-vibe": {
+  "authors": [
+   "Mistral AI"
+  ],
+  "description": "Mistral's open-source coding assistant",
+  "distribution": {
+   "binary": {
+    "darwin-aarch64": {
+     "archive": "https://github.com/mistralai/mistral-vibe/releases/download/v3.0.1/vibe-acp-darwin-aarch64-3.0.1.tar.gz",
+     "cmd": "./vibe-acp",
+     "sha256": "9da1f65d5d233ad0f79efd8abf1f5c1b258059c2cf58af8c1c3be3d7831d0e89"
+    },
+    "darwin-x86_64": {
+     "archive": "https://github.com/mistralai/mistral-vibe/releases/download/v3.0.1/vibe-acp-darwin-x86_64-3.0.1.tar.gz",
+     "cmd": "./vibe-acp",
+     "sha256": "94cba80888c24e509aa96182c6d8d38656d3da8ff72eae64a1ee396c5586d4b6"
+    },
+    "linux-aarch64": {
+     "archive": "https://github.com/mistralai/mistral-vibe/releases/download/v3.0.1/vibe-acp-linux-aarch64-3.0.1.tar.gz",
+     "cmd": "./vibe-acp",
+     "sha256": "7ef82101b23d286fb43eb911a6f2d75cf67cbb0ca3d026e7ff1db9d8ccaf32e0"
+    },
+    "linux-x86_64": {
+     "archive": "https://github.com/mistralai/mistral-vibe/releases/download/v3.0.1/vibe-acp-linux-x86_64-3.0.1.tar.gz",
+     "cmd": "./vibe-acp",
+     "sha256": "0771544f32f64132731e3d40ca1fdfa628c6076dae1ad4d273fdc31562a13062"
+    },
+    "windows-x86_64": {
+     "archive": "https://github.com/mistralai/mistral-vibe/releases/download/v3.0.1/vibe-acp-windows-x86_64-3.0.1.zip",
+     "cmd": "./vibe-acp.exe",
+     "sha256": "63398f233948da074a3e0c00aa78c3709aed11847b8d4b403cdbdc325883bc52"
+    }
+   }
+  },
+  "icon": "./icon.svg",
+  "id": "mistral-vibe",
+  "license": "Apache-2.0",
+  "license_url": "https://github.com/mistralai/mistral-vibe/blob/main/LICENSE",
+  "name": "Mistral Vibe",
+  "repository": "https://github.com/mistralai/mistral-vibe",
+  "version": "3.0.1",
+  "website": "https://mistral.ai/products/vibe"
+ },
+ "opencode": {
+  "authors": [
+   "Anomaly"
+  ],
+  "description": "The open source coding agent",
+  "distribution": {
+   "binary": {
+    "darwin-aarch64": {
+     "archive": "https://github.com/anomalyco/opencode/releases/download/v1.19.4/opencode-darwin-arm64.zip",
+     "args": [
+      "acp"
+     ],
+     "cmd": "./opencode",
+     "sha256": "c400a2f8c8ab7e99478a7f4dd1a466b57bf33888e520d85c55780a5464c4b689"
+    },
+    "darwin-x86_64": {
+     "archive": "https://github.com/anomalyco/opencode/releases/download/v1.19.4/opencode-darwin-x64.zip",
+     "args": [
+      "acp"
+     ],
+     "cmd": "./opencode",
+     "sha256": "123ebd72609c4f8dbae0485cdac39b9aedfeb6576b2eef64f2e73152b1de82f4"
+    },
+    "linux-aarch64": {
+     "archive": "https://github.com/anomalyco/opencode/releases/download/v1.19.4/opencode-linux-arm64.tar.gz",
+     "args": [
+      "acp"
+     ],
+     "cmd": "./opencode",
+     "sha256": "8568230ccd847dc93e95b9f6894379077d3e014a16b48040743573e77c23e85f"
+    },
+    "linux-x86_64": {
+     "archive": "https://github.com/anomalyco/opencode/releases/download/v1.19.4/opencode-linux-x64.tar.gz",
+     "args": [
+      "acp"
+     ],
+     "cmd": "./opencode",
+     "sha256": "849bd6b3d959a1d2ef200ed1634a51c79a45ca236aa26665d75debd694805cce"
+    },
+    "windows-aarch64": {
+     "archive": "https://github.com/anomalyco/opencode/releases/download/v1.19.4/opencode-windows-arm64.zip",
+     "args": [
+      "acp"
+     ],
+     "cmd": "./opencode.exe",
+     "sha256": "36e696fd1d275b469ab02a1ccc00d161bfdcc0a4ffa93c2b7a4e57399f3ff347"
+    },
+    "windows-x86_64": {
+     "archive": "https://github.com/anomalyco/opencode/releases/download/v1.19.4/opencode-windows-x64.zip",
+     "args": [
+      "acp"
+     ],
+     "cmd": "./opencode.exe",
+     "sha256": "93b899277bd6f68803009e32bf71772ce43c34b18adf1e93b9b4d8780fdf62e5"
+    }
+   }
+  },
+  "icon": "./icon.svg",
+  "id": "opencode",
+  "license": "MIT",
+  "license_url": "https://github.com/anomalyco/opencode/blob/dev/LICENSE",
+  "name": "OpenCode",
+  "repository": "https://github.com/anomalyco/opencode",
+  "version": "1.19.4",
+  "website": "https://opencode.ai"
+ },
+ "pi-acp": {
+  "authors": [
+   "Sergii Kozak <svkozak@gmail.com>"
+  ],
+  "description": "ACP adapter for pi coding agent",
+  "distribution": {
+   "npx": {
+    "package": "pi-acp@0.0.34"
+   }
+  },
+  "id": "pi-acp",
+  "license": "MIT",
+  "license_url": "https://github.com/svkozak/pi-acp/blob/main/LICENSE",
+  "name": "pi ACP",
+  "repository": "https://github.com/svkozak/pi-acp",
+  "version": "0.0.34"
+ },
+ "qwen-code": {
+  "authors": [
+   "Alibaba Qwen Team"
+  ],
+  "description": "Alibaba's Qwen coding assistant",
+  "distribution": {
+   "npx": {
+    "args": [
+     "--acp",
+     "--experimental-skills"
+    ],
+    "package": "@qwen-code/qwen-code@0.26.1"
+   }
+  },
+  "id": "qwen-code",
+  "license": "Apache-2.0",
+  "license_url": "https://github.com/QwenLM/qwen-code/blob/main/LICENSE",
+  "name": "Qwen Code",
+  "repository": "https://github.com/QwenLM/qwen-code",
+  "version": "0.26.1",
+  "website": "https://qwenlm.github.io/qwen-code-docs/en/users/overview"
+ }
+}

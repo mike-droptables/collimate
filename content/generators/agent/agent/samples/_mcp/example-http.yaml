@@ -1,0 +1,15 @@
+# A worked example of an MCP server declaration a runner can drop into the
+# agent's `_mcp` config folder. One server per file.
+#
+# transport: http (remote/hosted — the primary case) or stdio (a command server;
+#   stdio needs a container, so mcp: http_stdio + a containerized harness).
+# env / headers values MUST be ${account:role.secret_name} references — runner files
+#   are versioned and shareable, so a literal secret would leak; a literal drops
+#   that key with a warning.
+# Declare example_mcp under the generator account_requirements, then bind it
+# to a Key Manager option in the runner.
+transport: http
+url: https://mcp.example.com/mcp
+headers:
+  Authorization: "${account:example_mcp.api_key}"
+allowed_tools: [search, fetch]   # optional allow-list; omit to expose all tools

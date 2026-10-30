@@ -1,0 +1,52 @@
+id: "monaco"
+name: "Monaco Editor"
+version: "1.1.0"
+summary: "VS Code editor and diff viewer. Powered by React SDK."
+entrypoint: "main.tsx"
+embed: "iframe"
+
+extensions:
+  - ".js"
+  - ".mjs"
+  - ".cjs"
+  - ".ts"
+  - ".tsx"
+  - ".jsx"
+  - ".py"
+  - ".go"
+  - ".rs"
+  - ".java"
+  - ".c"
+  - ".cpp"
+  - ".h"
+  - ".hpp"
+  - ".css"
+  - ".scss"
+  - ".less"
+  # No ".html"/".htm": the `html` renderer owns those — a page opens AS a page,
+  # not as source (the editor is one click away under "Open with", which
+  # offers it for any text file: `default_for` below). Two renderers claiming
+  # one extension without a `default_for` also makes the default a
+  # registry-order accident rather than a decision.
+  - ".xml"
+  - ".svg"
+  - ".json"
+  - ".jsonc"
+  - ".yaml"
+  - ".yml"
+  - ".toml"
+  - ".sh"
+  - ".bash"
+  - ".zsh"
+  - ".fish"
+  - ".sql"
+  - ".graphql"
+  - ".gql"
+  - ".tex"
+
+# The code editor opens any text file: "Open with" offers it for every text
+# file, whether or not it claims the extension.
+default_for:
+  - "*"
+
+supports_diff: true

@@ -1,0 +1,11 @@
+id: "table"
+name: "Table"
+version: "1.0.0"
+summary: "Sortable table viewer for CSV files and Judge scoreboards."
+entrypoint: "main.tsx"
+embed: "native"
+extensions:
+  - ".csv"
+  - ".tsv"
+  - ".scoreboard.json"
+supports_diff: false

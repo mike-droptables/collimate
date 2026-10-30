@@ -1,0 +1,30 @@
+name: Set up toolchain
+description: Set up Node and uv, then prepare sdk/ and sync the workspace
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-python@v7
+      with:
+        python-version: '3.13'
+    - uses: actions/setup-node@v7
+      with:
+        node-version: '>=24.15.0 <25'
+    - name: Install uv
+      id: uv
+      shell: bash
+      run: |
+        set -euo pipefail
+        python -m pip install uv
+        printf 'cache-path=%s\n' "$(uv cache dir)" >> "$GITHUB_OUTPUT"
+        uv_version="$(uv --version)"
+        printf 'version=%s\n' "${uv_version#uv }" >> "$GITHUB_OUTPUT"
+    - name: Cache uv packages
+      uses: actions/cache@v6
+      with:
+        path: ${{ steps.uv.outputs.cache-path }}
+        key: ${{ runner.os }}-${{ runner.arch }}-uv-${{ steps.uv.outputs.version }}-${{ hashFiles('uv.lock', 'pyproject.toml', 'sdk/pyproject.toml', 'api/pyproject.toml', 'build/prepare_sdk_checkout.sh') }}
+    - name: Prepare sdk/ and sync the workspace
+      shell: bash
+      run: |
+        set -euo pipefail
+        bash build/prepare_sdk_checkout.sh

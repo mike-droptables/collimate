@@ -1,0 +1,173 @@
+appId: com.collimate.app
+productName: Collimate
+copyright: Collimate contributors
+
+directories:
+  output: release
+
+# Only the bundle ships. There are no runtime node_modules (esbuild
+# inlines everything but `electron` itself — electron-updater included,
+# see desktop/build.mjs) and no frontend assets — the UI is served by the
+# Collimate server the shell starts, which is fetched from PyPI with uvx
+# on first launch (see desktop/src/main/server.ts). package.json is added
+# by electron-builder itself; app-update.yml is added by electron-builder
+# from `publish:` below; nothing else is needed.
+files:
+  - dist/**
+
+# The one dependency is `electron`, which is the runtime rather than
+# something to link against, and nothing in the tree is native. Skipping
+# the rebuild pass keeps CI off node-gyp/python entirely.
+npmRebuild: false
+
+# dist/ is a few hundred KB of already-bundled CJS; asar is still worth it
+# for the single-file read and to keep the app tree tidy.
+asar: true
+
+# Version in the filename so a downloads page, a GitHub release, and a
+# user's ~/Downloads all stay unambiguous. ${os} disambiguates the two
+# x64 builds (mac and win) that would otherwise collide by arch alone.
+artifactName: ${productName}-${version}-${os}-${arch}.${ext}
+
+# The three pre-rendered icons live in desktop/icons/ — the shell is the
+# only thing that has an app identity to brand; the server package is a
+# plain CLI with no window and no launcher entry.
+mac:
+  category: public.app-category.developer-tools
+  icon: icons/app-icon.icns
+  # BOTH targets, and the zip is not the optional one: Squirrel.Mac
+  # updates from a zip, latest-mac.yml lists zips, and a dmg-only build
+  # produces a feed file pointing at an artifact that doesn't exist —
+  # every mac install then downloads a 404 forever, silently. The dmg is
+  # for humans, the zip is for the updater.
+  target:
+    - target: dmg
+      arch:
+        - arm64
+        - x64
+    - target: zip
+      arch:
+        - arm64
+        - x64
+  # Signing is a hard prerequisite for updating on macOS, not a nicety
+  # about Gatekeeper warnings: Squirrel.Mac validates the *downloaded*
+  # app's code signature against the running app's before it swaps them,
+  # so an ad-hoc-signed (or differently-signed) build cannot update itself
+  # at all. CI supplies a Developer ID Application cert as base64 in
+  # CSC_LINK + CSC_KEY_PASSWORD; `notarize: true` then runs notarytool,
+  # which reads APPLE_ID / APPLE_APP_SPECIFIC_PASSWORD / APPLE_TEAM_ID
+  # from the environment (all three, or none of it works).
+  #
+  # hardenedRuntime stays at electron-builder's default (on, with its
+  # default entitlements). Nothing here needs a JIT or library-validation
+  # exception, and the child processes the shell spawns — uv, python, the
+  # generators below them — are separate executables that the hardened
+  # runtime does not constrain.
+  #
+  # A release's config (build/desktop_packaging.py) sets this to whether
+  # the signing secrets exist. An unsigned build has nothing to notarize;
+  # it is ad-hoc signed instead (identity "-", hardened runtime off, so a
+  # quarantined download opens through Privacy & Security rather than
+  # reading as damaged), and its packaged package.json says
+  # `collimate.signed: false`, which the shell's updater reads to stay off
+  # (Squirrel.Mac refuses to swap in an app it cannot validate).
+  notarize: true
+
+linux:
+  category: Development
+  icon: icons/app-icon.png
+  # Nothing to sign, and nothing to change here for updates — but note
+  # that electron-builder stamps app-update.yml into *every* linux target,
+  # deb included, so the packaged deb looks update-capable from the
+  # inside. It isn't: only the AppImage can rewrite itself, and a process
+  # that swapped files under a dpkg-managed prefix would leave the package
+  # manager lying about what's installed. The guard is in
+  # desktop/src/main/updater.ts (`supported` requires $APPIMAGE), because
+  # this file has no way to express it.
+  #
+  # Match WM_CLASS to the .desktop entry so taskbars group windows under
+  # the app icon (electron-builder's desktopName warning otherwise). The
+  # entry's filename comes from package.json desktopName and must equal
+  # profile.ts's stable desktopName (collimate.desktop): index.ts sets that
+  # as the Wayland app_id, and compositors match it case-sensitively.
+  syncDesktopName: true
+  # electron-builder would derive StartupWMClass from desktopName
+  # ("collimate"), which is only the instance half of X11's WM_CLASS;
+  # keep the class half, as build/build_desktop.sh's launcher does.
+  desktop:
+    entry:
+      StartupWMClass: Collimate
+  synopsis: Local workbench for LLM generators and renderers
+  description: >-
+    Collimate is a local-first workbench for building, running and
+    rendering LLM generators. This desktop shell supervises the Collimate
+    server and hosts its UI.
+  # deb refuses to build without a maintainer, and package.json's `author`
+  # has no email to derive one from.
+  maintainer: Collimate contributors <michael@collimate.dev>
+  target:
+    - target: AppImage
+      arch:
+        - x64
+    - target: deb
+      arch:
+        - x64
+
+win:
+  icon: icons/app-icon.ico
+  target:
+    - target: nsis
+      arch:
+        - x64
+  # No signing here: this file describes the unsigned build. A release
+  # packages with build/desktop_packaging.py's config, which extends this
+  # one and, when the Windows signing secrets are set, adds azureSignOptions
+  # from the AZURE_SIGN_* repository variables (Azure Trusted Signing;
+  # electron-builder authenticates with EnvironmentCredential,
+  # AZURE_TENANT_ID / AZURE_CLIENT_ID / AZURE_CLIENT_SECRET, no cert file).
+  #
+  # Signed, app-update.yml carries azureSignOptions.publisherName and
+  # electron-updater compares the *downloaded* installer's Authenticode
+  # publisher against it. One character off the certificate's subject CN —
+  # a trailing period, "Inc" vs "Inc.", the wrong casing — and every
+  # Windows update fails after a successful download, with an error nobody
+  # sees because it arrives in the log rather than in a dialog. Read the
+  # exact CN off the issued certificate; don't retype it from an invoice.
+  # Unsigned, no publisher name is written and nothing is verified.
+
+nsis:
+  # A developer tool, not a consumer app: an assisted installer that lets
+  # people choose the install directory beats a one-click drop into
+  # %LOCALAPPDATA%. Per-user (perMachine stays false) so no UAC prompt.
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+  perMachine: false
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  # Keep the userData dir (%APPDATA%\Collimate: settings.json with saved
+  # servers, logs) on uninstall. On Windows the shell is connect-only, so it
+  # holds no channel data, but a reinstall should keep the saved servers.
+  deleteAppDataOnUninstall: false
+
+# The update feed: GitHub Releases on the public mirror.
+#
+# This block is here for what electron-builder *generates* from it, not
+# for any publishing it does. Two things come out of it regardless of
+# publish policy: app-update.yml, baked inside the app bundle, which is
+# the only thing the shipped shell reads to know where to look; and the
+# latest.yml / latest-mac.yml / latest-linux.yml feed files written beside
+# the installers. Set this to null and both disappear — that is what the
+# previous "no auto-update, deliberately" comment was buying.
+#
+# CI still packages with `--publish never` and uploads separately with
+# `gh release upload` (see .github/workflows/release.yml), because of the
+# ordering. That job creates the release as a draft, uploads the binaries,
+# then the feed files, and only then publishes it as Latest, which every
+# running install polls. electron-builder's own publisher uploads
+# per-artifact as each one finishes, on the three runners at once, so the
+# feed could advertise an installer that is not there yet; and it cannot
+# hold Latest back until all three platforms' feeds are up.
+publish:
+  provider: github
+  owner: mike-droptables
+  repo: collimate

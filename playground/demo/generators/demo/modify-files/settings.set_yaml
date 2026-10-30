@@ -1,0 +1,26 @@
+fields:
+- key: pace
+  type: dropdown
+  label: Pace
+  description: How quickly the edits play out. The edits are the same at every pace.
+  default: normal
+  options:
+  - value: relaxed
+    label: Relaxed
+  - value: normal
+    label: Normal
+  - value: brisk
+    label: Brisk
+  advanced: false
+- key: add_summary
+  type: checkbox
+  label: Add a summary to markdown files
+  description: Insert a one-line summary block under the title of every markdown file.
+  default: true
+  advanced: false
+- key: checklist_items
+  type: checkbox
+  label: Turn list files into checklists
+  description: In markdown files whose name says list or todo, turn plain bullets into unchecked checkboxes.
+  default: true
+  advanced: false

@@ -1,0 +1,158 @@
+Metadata-Version: 2.5
+Name: collimate-sdk
+Version: 0.1.0
+Summary: SDK for building Collimate generators and renderers
+Project-URL: Homepage, https://github.com/mike-droptables/collimate
+Project-URL: Repository, https://github.com/mike-droptables/collimate/tree/main/sdk
+Project-URL: Issues, https://github.com/mike-droptables/collimate/issues
+Project-URL: Documentation, https://github.com/mike-droptables/collimate-sdk/tree/main/shared/docs
+Author: Collimate SDK contributors
+License-Expression: MIT
+License-File: LICENSE
+Keywords: codegen,collimate,generator,llm,renderer,sdk
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Topic :: Software Development :: Code Generators
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Python: >=3.12
+Requires-Dist: pyyaml>=6.0
+Description-Content-Type: text/markdown
+
+# Collimate SDK
+
+[![PyPI](https://img.shields.io/pypi/v/collimate-sdk.svg)](https://pypi.org/project/collimate-sdk/)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Python](https://img.shields.io/badge/python-3.12%2B-blue)](https://www.python.org/downloads/)
+
+Build **generators** (Python scripts that read files, run logic, and write files — often with an LLM in the loop) and **renderers** (ES-module UIs that display those files) for the [Collimate](https://collimate.dev) platform.
+
+The SDK handles the messy parts — workspace isolation, implicit commits, chat-history plumbing, progress reporting, lifecycle signals — so generators stay focused on logic and renderers stay focused on UI.
+
+## Install
+
+```bash
+pip install collimate-sdk
+```
+
+Requires ordinary GIL-enabled CPython 3.12+. Published wheels carry the private verifier binding for glibc Linux and macOS 11+ on x64 and ARM64; installation needs no C compiler or Xcode.
+
+## Quick start — a generator
+
+The runtime API is a single top-level package, `gen`. The host sets it up before your `run()` is called — there is no class to instantiate and no `ctx` argument:
+
+```python
+import gen
+
+async def run():
+    files = {path: gen.read_file(path) for path in gen.list_files()}  # this cell
+    text = files.get("input.txt", "hello world")
+    gen.update_file("output.txt", str(text).upper())
+    await gen.commit(name="Uppercase")
+    # Staged writes are committed when run() returns.
+
+if __name__ == "__main__":
+    gen.main(run)
+```
+
+Run a generator locally against a scratch workspace — with `COLLIMATE_IPC_PORT` unset the SDK runs in dev mode with an unrestricted grant, logging cell/chat operations instead of committing them:
+
+```bash
+mkdir scratch && cd scratch
+COLLIMATE_WORKSPACE=. python ../my_generator.py
+```
+
+For tests, `collimate.testing.run_generator` runs a generator in-process and returns what it produced (see [`shared/docs/testing-generators.md`](shared/docs/testing-generators.md)).
+
+Validate manifests with the shipped linter:
+
+```bash
+collimate-lint content/generators content/renderers builtins
+```
+
+See [`shared/docs/how-to-write-a-generator.md`](shared/docs/how-to-write-a-generator.md) for the full generator API.
+
+## Quick start — a renderer
+
+```tsx
+import React from 'https://esm.sh/react@18?target=es2022';
+import { defineRenderer, useCollimateFile } from '/api/sdk/react.js';
+
+function TextEditor() {
+    const { content, saveContent, isReadOnly, fileName } = useCollimateFile();
+    // Native renderers run in Shadow DOM — use inline styles, not classes.
+    return (
+        <div style={{ height: '100%', padding: 16, boxSizing: 'border-box', display: 'flex', flexDirection: 'column' }}>
+            <h1>{fileName}</h1>
+            <textarea
+                value={content}
+                disabled={isReadOnly}
+                onChange={e => saveContent(e.target.value)}
+                style={{ flex: 1, width: '100%', resize: 'none' }}
+            />
+        </div>
+    );
+}
+
+export default defineRenderer({ component: TextEditor });
+```
+
+See [`shared/docs/how-to-write-a-renderer.md`](shared/docs/how-to-write-a-renderer.md) for the full renderer API, including diff views and sibling-file loading.
+
+## What's in this repo
+
+Paths are from the repository root.
+
+| Path                       | Contents                                                                       |
+| -------------------------- | ------------------------------------------------------------------------------ |
+| `sdk/src/collimate/`       | The Python SDK (the `gen` runtime API, lint, testing; plumbing in `_host/`).   |
+| `sdk/shared/docs/`         | Generator and renderer authoring guides.                                       |
+| `content/generators/`      | The shipped generators (the Agent cell's `agent`; `git` for GitHub, GitLab and any Git server; `launch`; `web`), their named configs and shared cells. |
+| `content/renderers/`       | Optional cells a channel seeds: renderers (milkdown, monaco, excalidraw, image, table…) and the `.llm_summary` handler the Agent writes summaries with. |
+| `content/suggested/`       | Suggested channel setups (`<id>.json`: its generator, renderer and tutorial cells) and the tutorial cells. |
+| `builtins/`                | The app's built-in cells: the definition handlers, the live surfaces (run, chat, terminal, website, webview) and the text renderer. |
+| `module-snapshot/`         | The shipped renderers' frozen module graph, which the app's module mirror serves: `index.json` committed, its bodies (`modules/`) on the orphan branch `module-snapshot`. |
+
+## Shipping generators and renderers
+
+The `content/` trees (`generators/`, `renderers/`, `suggested/`), `builtins/` and `module-snapshot/` ship in the app's `collimate` wheel, not in this one, as the package data `collimate_content/`, `collimate_builtins/` and `collimate_module_snapshot/`; the app reads them where they are installed, and a checkout reads the workspace trees in place. The host reads a tree's cells with the SDK's asset-tree reader: each parent folder is a cell, described by its optional `cell.yaml` (see [`src/collimate/_host/packaging/layout.py`](src/collimate/_host/packaging/layout.py)). A new channel starts from a suggestion: `suggested/*.json`, each naming the generator, renderer and tutorial cells it seeds as `[name, folder]` pairs (see [`src/collimate/_host/packaging/suggested.py`](src/collimate/_host/packaging/suggested.py)). A runner package inside a suggested generator cell is offered as a draft runner. Suggestions use `quick_fields` to identify inline controls by runner ID, for example `{"agent-chat": [{"account": "model"}]}`; omit runners without inline controls. No suggestion lists `builtins/`: the app serves its cells for every channel. The release is the wheel and sdist, built with `python -m build`.
+
+## Development
+
+The SDK is the `sdk/` member of the [Collimate](https://github.com/mike-droptables/collimate) uv workspace, beside the app. From the repository root, with Node >=24.15.0 <25 and uv:
+
+```bash
+bash build/prepare_sdk_checkout.sh   # tooling: npm ci in sdk/scripts and sdk/packages/renderer-hooks,
+                                     # the built renderer runtime and verifier prelude, the compiler
+                                     # and verifier payloads (both Linux targets plus this host),
+                                     # uv sync --all-packages --all-groups, then the module
+                                     # snapshot's bodies (python3 build/snapshot_store.py fetch)
+python3 scripts/generate.py --check  # every committed generated file matches its source
+uv run pytest sdk/tests -q
+uv run ruff check sdk
+```
+
+`scripts/generate.py` is the one command for generated files, and its `--check` is CI's first step. Its steps, in order, are the harness catalog, the runtime metadata, the skill references, the app's built-in list, the contracts, the toolchain pins, the mirror hosts, the app's constants and case-fold table, the renderer runtime and the verifier prelude, then four checks only: the native payloads, the module snapshot's bodies, its graph and the retired-token scan. The renderer runtime and the verifier prelude are build outputs, git-ignored: their committed manifests (`shared/renderer-runtime/index.json`, `shared/verify/prelude.json`) pin their sources and bytes, and the build hook and the preparation build them (`scripts/build_outputs.py`). The module snapshot's bodies are git-ignored too, stored on the orphan branch `module-snapshot`: after a freeze, `python3 build/snapshot_store.py publish` commits the new ones there, and the branch is pushed with main. After editing a source of any of them (a guide in `shared/docs`, a contract, a harness adapter, `packages/renderer-hooks`), `python3 scripts/generate.py` writes every step in order and then checks them all; `--only <step>` runs one and `--list` prints each step's commands. The preparation writes no committed file, so the check reads the tree as committed.
+
+Preparation is explicit and verifies pinned archive/resource hashes; editable installs and build hooks never download or compile an engine. On Intel macOS, provision the prepared private payload from a published SDK wheel before the editable install, then rerun normal preparation to stage Linux payloads for containers:
+
+```bash
+pip download --only-binary=:all: --no-deps --dest build/sdk-wheel collimate-sdk==0.1.0
+python scripts/prepare_verifier_engine.py --from-sdk-wheel build/sdk-wheel/collimate_sdk-0.1.0-cp312-abi3-macosx_11_0_x86_64.whl
+python scripts/prepare_verifier_engine.py
+```
+
+For an unpublished candidate, use its CI-built wheel with the same command. Missing or mismatched payloads fail early with a preparation diagnostic. Only native release CI explicitly builds the missing Intel Mac binding from the pinned source; routine source setup never invokes that build. A complete source distribution contains all four prepared payloads and can assemble its host wheel without a native compiler or Node.
+
+## Contributing
+
+Issues and pull requests are welcome.
+
+Report security issues privately to <michael@collimate.dev> rather than filing them publicly.
+
+## License
+
+MIT — see [`LICENSE`](LICENSE), a byte-identical copy of the repository's one license.

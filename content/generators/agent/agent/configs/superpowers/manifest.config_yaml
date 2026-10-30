@@ -1,0 +1,22 @@
+name: Superpowers
+description: Interactive chat, open until you stop it; run-and-verify work happens in a sandboxed container
+tags:
+- superpowers
+prompt: ''
+settings:
+  agent-config.set_yaml:
+    surface: chat
+    session: interactive
+    backend: pydantic-ai
+    system_prompt: ''
+    mcp: 'off'
+    approvals: auto
+    selected_file_first: false
+folders:
+- _skills
+accounts: {}
+permissions:
+  docker: full
+  internet: full
+  commands: allow
+packages: {}

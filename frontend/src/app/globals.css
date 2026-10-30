@@ -1,0 +1,123 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:where([data-scheme="dark"], [data-scheme="dark"] *));
+
+/* The skin tokens as Tailwind utilities. `inline` makes each utility read the
+   runtime variable ThemeContext writes on <html> (bg-sheet-2 is
+   background-color: var(--sheet-2)), so a skin change repaints every utility,
+   opacity modifiers included. */
+@theme inline {
+  --color-canvas: var(--canvas);
+  --color-sheet: var(--sheet);
+  --color-sheet-2: var(--sheet-2);
+  --color-sheet-3: var(--sheet-3);
+  --color-line: var(--line);
+  --color-line-2: var(--line-2);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-brass: var(--brass);
+  --color-brass-soft: var(--brass-soft);
+  --color-teal: var(--teal);
+  --color-teal-soft: var(--teal-soft);
+  --color-teal-sheet: var(--teal-sheet);
+  --color-red: var(--red);
+  --color-red-soft: var(--red-soft);
+  --color-green: var(--green);
+  --color-code-bg: var(--code-bg);
+  --color-prose-ink: var(--prose-ink);
+
+  --font-ui: var(--font-ui);
+  --font-mono: var(--font-mono);
+  --font-prose: var(--font-prose);
+  /* The page's default face is the interface face. */
+  --font-sans: var(--font-ui);
+
+  /* The mock's four radii: cards and menus, rows and fields, buttons, kbd. */
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 3px);
+  --radius-xs: calc(var(--radius) - 4px);
+}
+
+/* The pre-theme paint: night's tokens, until ThemeContext writes the active
+   skin's on <html>. */
+:root {
+  /* The interface's native size. Typography, controls and spacing use rem;
+     desktop interface zoom is a separate user preference, neutral at 100%. */
+  font-size: 110%;
+  color-scheme: dark;
+  --canvas: #151311;
+  --sheet: #1c1a17;
+  --sheet-2: #23201c;
+  --sheet-3: #2a2621;
+  --line: #494641;
+  --line-2: #3f3931;
+  --ink: #e2ddd4;
+  --ink-2: #a39d92;
+  --ink-3: #6f695f;
+  --brass: #c69d64;
+  --brass-soft: rgba(198, 157, 100, 0.16);
+  --teal: #7fb0ab;
+  --teal-soft: rgba(127, 176, 171, 0.14);
+  --teal-sheet: #1a211f;
+  --red: #cf8b7c;
+  --red-soft: rgba(207, 139, 124, 0.16);
+  --green: #90b893;
+  --code-bg: #121008;
+  --prose-ink: #e9e4da;
+  --shadow: 0 1px 0 rgba(0, 0, 0, 0.4), 0 8px 24px -16px rgba(0, 0, 0, 0.65);
+  --lift: rgba(0, 0, 0, 0.8);
+  --font-ui: "Hanken Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --font-prose: "Lora", Georgia, "Times New Roman", serif;
+  --radius: 8px;
+}
+
+/* A channel switch swaps the whole skin in one frame: ThemeContext stamps
+   this attribute for the swap so tokens snap instead of every transition
+   cross-fading at once. */
+[data-theme-swapping] *,
+[data-theme-swapping] *::before,
+[data-theme-swapping] *::after {
+  transition: none !important;
+}
+
+@layer base {
+  * {
+    border-color: var(--line);
+    outline-color: var(--teal);
+  }
+  body {
+    background: var(--canvas);
+    color: var(--ink);
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+  /* Native select popups take the UA's grey; the expanded list keeps the
+     colours of its collapsed control. */
+  select option,
+  select optgroup {
+    background-color: var(--sheet);
+    color: var(--ink);
+  }
+
+  /* Selected text takes the selection accent; code takes the live tint,
+     so a selection inside a code block still reads against --code-bg. */
+  ::selection {
+    background: var(--brass-soft);
+    color: var(--ink);
+  }
+  code ::selection,
+  code::selection,
+  pre ::selection,
+  pre::selection {
+    background: var(--teal-soft);
+  }
+
+}
+
+/* The keyboard cursor on a row that is selected but not focused. */
+.nav-cursor {
+  border-color: var(--line-2) !important;
+}

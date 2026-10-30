@@ -1,0 +1,11 @@
+description: A titled note
+examples:
+- description: A titled note
+  expect: valid
+  feedback: Title is present.
+  folder: simple
+guidance: Start with a title.
+id: note
+name: Note
+types:
+- ext: .note

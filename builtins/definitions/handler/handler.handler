@@ -1,0 +1,18 @@
+id: handler
+name: File handlers
+description: Author guidance and example folders with explicit expected verdicts and feedback.
+  Omit `derived/` when authoring a handler package. Add it to Capabilities, then Build
+  it from its card (it opens a work stack); add the result back, then review and accept
+  the build on the card.
+types:
+- ext: .handler
+guidance: Author guidance and example folders with explicit expected verdicts and feedback.
+  Omit `derived/` when authoring a handler package. Add it to Capabilities, then Build
+  it from its card (it opens a work stack); add the result back, then review and accept
+  the build on the card.
+examples:
+- folder: basic
+  description: A minimal complete declaration and its referenced files.
+  expect: valid
+  feedback: The declaration matches its package and current paths.
+derived: 8c24b47bd6a5808e56a8b533f8c551cbbdbaca1a33c3502ace4fc6f79df77315

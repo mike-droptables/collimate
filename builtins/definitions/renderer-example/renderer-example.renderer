@@ -1,0 +1,8 @@
+id: renderer_example
+name: Renderer Preview
+version: "1.0.0"
+summary: Sealed preview of a local renderer package and sample file.
+entrypoint: main.tsx
+embed: native
+extensions: [.renderer_example]
+supports_diff: false

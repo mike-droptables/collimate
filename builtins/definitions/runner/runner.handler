@@ -1,0 +1,16 @@
+id: runner
+name: Saved runners
+description: 'A runner is one complete saved invocation: selected generator, complete settings,
+  permissions, account option IDs and supplemental config folders. Never include credential
+  values.'
+types:
+- ext: .runner
+guidance: 'A runner is one complete saved invocation: selected generator, complete settings,
+  permissions, account option IDs and supplemental config folders. Never include credential
+  values.'
+examples:
+- folder: basic
+  description: A minimal complete declaration and its referenced files.
+  expect: valid
+  feedback: The declaration matches its package and current paths.
+derived: 0195baed348e709139900549a4db1ec19a188e487c28c16da6a833178f29db5d

@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "compiler": "0.28.2",
+  "inputs": {
+    "packages/renderer-hooks/src/color.ts": "642ff6b73bdb04b20d0b012fcab236a73feed3ad8582168937d28a120d6f6e9c",
+    "packages/renderer-hooks/src/document-view.tsx": "45cb1e1866512324441696912101168f75089ad5b51dce6132945999b98d8abf",
+    "packages/renderer-hooks/src/index.tsx": "03a5025bfe8b9c38e697fd746a387b6583c44acec426e88b61920761195ba54c",
+    "packages/renderer-hooks/src/media.tsx": "ea7da5df86e34b072a119822968f7f056dc57ccdb09687a624f64bbc1d72469f",
+    "packages/renderer-hooks/src/mirror.ts": "1a8eea4b9890d140a321522b5171514bff470e0038a3c8dda14cf5ad9a5791a1",
+    "packages/renderer-hooks/src/platform.tsx": "0d5660fa486fd214274cb2f8bce04f1a78bd6356ef93f8bba746f7810cfe39f9",
+    "packages/renderer-hooks/src/runtime.tsx": "179121c894b23ff8d70d614ca356499fe3eb88281fa77de6595235804755d2ca",
+    "packages/renderer-hooks/src/session.ts": "7a7527a3bbde72a9c78e07dc39ecdb3f05b3562913692e1b4079e65a166f2e2c",
+    "packages/renderer-hooks/src/style-control.tsx": "d8055034fcd8575700885533ae4f39fde3aafeb06982535d939d6a3bfce02485",
+    "packages/renderer-hooks/src/syntax.ts": "406cc0ce899c41cfb0dbe760a56e1c7852b00cb5e8f42d4dc51c25177faee225",
+    "packages/renderer-hooks/src/types.ts": "0e385e8ffc97d39517374fe6cc7a6390294e3cd2a6a1b14c1f88b4e346a19960",
+    "scripts/build_renderer_runtime.mjs": "9261be0cf7510ff7ecfa7863cb26ad3c7b0fe88dd2482981350b427c093465be",
+    "scripts/build_snapshot_codecs.mjs": "408bb33654bc96a1b311bd471bbbad06db7725cfba106feb2b6c7a8b333447ce",
+    "scripts/package-lock.json": "1b5213bde481fe5ad7da781c3ca6ca5729bda22efe90c289587ffb8d149da7bd",
+    "scripts/package.json": "f2b4782f7f1c7b4291586e577fae01535a479610b6f04e6ca7407b1d3e651780",
+    "scripts/snapshot-codecs/embed-markdown.ts": "7fc0d4c1e9fba1777fa1420acfd686141a23d42c35489dadad0cbf2146fced44",
+    "scripts/snapshot-codecs/milkdown.ts": "2e5ca271772481c7c07fcf617f207db9585b7439fc508b05ca5e39c252489cc0",
+    "scripts/snapshot-codecs/snapshot-model.ts": "c97a102a7bee24d468737761f10517e031d565669669cec3d0b84d2104aadabb",
+    "shared/contracts/toolchain.json": "15c1895c6655a12d7039e8c01ce37386f62cb98bc4bbbc8e0a474548584d78ea",
+    "src/collimate/renderer_bundle_contract.json": "44778b108c5c4784702fe47a61cac2e8146040e6780a9055179fd92f163d56d9"
+  },
+  "outputs": {
+    "react.js": "27d7b3a405a8b3d0fbe54556bff7661d9321c97d4f1ad1172f8a0f1c9531d678",
+    "session.js": "6a4a48d08496d11edda5acf0bedc7b47fc2712878aabc9a2e50a92fa1c626688",
+    "common.json": "1dd232a08e5104f5879e638884c198324e214db2eab02cd65b429fe7d24bf7c6",
+    "snapshot-codecs.json": "0cbdf283e33ac8d6fa03d2c9769079ef1881fe2d09cd3497b9162326a9aaa1e4"
+  }
+}

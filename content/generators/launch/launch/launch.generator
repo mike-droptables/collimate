@@ -1,0 +1,53 @@
+id: launch
+name: Launch
+version: 0.3.0
+summary: 'One containerised runner behind every environment surface. A `mode` picks the shape: a one-shot command
+  over the cell''s files, a live terminal app, or a daemon web app (VS Code-style).'
+entrypoint: run.py
+daemon: true
+ui_files:
+- .terminal
+- .website
+live_files_mode: manual
+requires_docker: true
+draft_files:
+- settings.set_yaml
+config_folders:
+- name: build
+  description: A Dockerfile + build context to build a custom image for the run. When present the image is built
+    lazily (tagged by the folder's content) instead of pulled; declare `ARG BASE=collimate-linux-small:v3` then
+    `FROM ${BASE}` to layer on the shared base (the generator injects its content-addressed tag).
+  sample: samples/build
+- name: scripts
+  description: Setup scripts staged into the container and run (sorted by filename) before startup_commands and
+    the main command / app. Built-in images use a writable per-user Python venv for scripts and their prepared command; custom images own their Python install policy. Use for apt/pip installs, fetches, or environment bootstrap that should version with
+    the cell.
+  sample: samples/scripts
+main_config: settings.set_yaml
+configs:
+- id: default
+  name: Default
+  path: configs/default/manifest.config_yaml
+- id: git-clone
+  name: Git Clone
+  path: configs/git-clone/manifest.config_yaml
+- id: vscode
+  name: VS Code
+  path: configs/vscode/manifest.config_yaml
+- id: code-runner
+  name: Code Runner
+  path: configs/code-runner/manifest.config_yaml
+- id: terminal
+  name: Terminal
+  path: configs/terminal/manifest.config_yaml
+- id: lazygit
+  name: Lazygit
+  path: configs/lazygit/manifest.config_yaml
+required_files: []
+account_requirements:
+  git:
+    label: Git account
+    kind: git
+    capabilities:
+    - git
+    required: false

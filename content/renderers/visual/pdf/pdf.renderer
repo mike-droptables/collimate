@@ -1,0 +1,15 @@
+id: "pdf"
+name: "PDF"
+version: "2.1.0"
+summary: "Renders PDF documents with EmbedPDF (PDFium in WebAssembly): continuous pages that a press and drag pans, with page, zoom, fit and text selection (the Select pointer) in the corner menu."
+entrypoint: "main.tsx"
+embed: "native"
+
+extensions:
+  - ".pdf"
+
+# A PDF opens here; without a default for it, it opens in the binary view.
+default_for:
+  - ".pdf"
+
+supports_diff: false

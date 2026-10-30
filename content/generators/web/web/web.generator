@@ -1,0 +1,37 @@
+id: web
+name: Web
+version: 3.3.0
+summary: 'Open a URL as a live page in a cell: the desktop app hosts it in its own webview, each tab''s New tab opens
+  more tabs of the same browser, the profile setting keeps you logged in across runs, and Capture on each tab''s
+  toolbar snapshots the page (or runs a runner-provided per-host capture script) into this cell''s files, one dated
+  folder per capture. The device setting (and each tab''s toolbar toggle) presents the page as a desktop, phone or
+  tablet browser.'
+prompt_intent: Starting URL to open (e.g. https://example.com) — optional; blank starts on a blank page
+prompt_required: false
+entrypoint: web.py
+daemon: true
+ui_files:
+- .webview
+opens:
+- path: '{run}/tab-1.webview'
+draft_files:
+- settings.set_yaml
+config_folders:
+- name: capture_scripts
+  description: Per-host page-capture scripts, one flat `<host-pattern>.py` file each (`_default.py` = fallback).
+    Each defines `async def capture(ctx)` and runs against the live page in the desktop app's webview when the current
+    page's host matches, on the Capture button press; it writes its result with `ctx.save(relpath, content)`, into
+    that capture's own folder in this cell.
+  sample: samples/capture_scripts
+main_config: settings.set_yaml
+configs:
+- id: default
+  name: Default
+  path: configs/default/manifest.config_yaml
+- id: web
+  name: Web
+  path: configs/web/manifest.config_yaml
+- id: web--capture-chat
+  name: Capture chat
+  path: configs/web--capture-chat/manifest.config_yaml
+required_files: []

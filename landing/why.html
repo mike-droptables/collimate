@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Worth Throwing Away — Collimate</title>
+  <meta name="description" content="Why Collimate exists: the model drafts and you approve, at every scale. On hard problems that costs you the encounter where judgment forms. Fork, see, challenge, pick: the four moves a tool has to make easy.">
+  <meta name="theme-color" content="#151311">
+  <meta name="color-scheme" content="dark">
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+  <link rel="preload" href="./fonts/hanken-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="./fonts/fraunces-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="./fonts/fonts.css">
+  <style>
+    :root {
+      /* Night palette (the app's default theme) */
+      --canvas: #151311;
+      --sheet: #1c1a17;
+      --sheet-2: #23201c;
+      --sheet-3: #2a2621;
+      --line: #312d27;
+      --line-2: #3f3931;
+      --ink: #e2ddd4;
+      --ink-2: #a39d92;
+      --ink-3: #6f695f;
+      --brass: #c69d64;
+      --brass-soft: rgba(198,157,100,0.16);
+      --teal: #7fb0ab;
+      --teal-soft: rgba(127,176,171,0.14);
+      --red: #cf8b7c;
+      --green: #90b893;
+      --code-bg: #121008;
+      --prose-ink: #e9e4da;
+      --shadow: 0 1px 0 rgba(0,0,0,0.4), 0 8px 24px -16px rgba(0,0,0,0.65);
+      --radius: 8px;
+      /* aliases shared with the front page */
+      --gold-soft: var(--brass-soft);
+      --gold-line: rgba(198,157,100,0.45);
+      --text: var(--ink);
+      --text-faint: var(--ink-2);
+
+      --pad-x: clamp(16px, 5vw, 40px);
+      --serif: "Fraunces", Georgia, "Times New Roman", serif;
+      --sans: "Hanken Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+      --mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { background: var(--canvas); -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+
+    body {
+      font-family: var(--sans);
+      background: var(--canvas);
+      background-image: radial-gradient(ellipse 120% 520px at 50% -160px, rgba(198,157,100,0.05), transparent 70%);
+      background-repeat: no-repeat;
+      color: var(--ink);
+      min-height: 100vh;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-wrap: break-word;
+    }
+
+    a { color: inherit; }
+    ::selection { background: rgba(198,157,100,0.32); color: var(--prose-ink); }
+    :focus-visible { outline: 2px solid var(--brass); outline-offset: 3px; border-radius: 2px; }
+
+    .skip {
+      position: absolute; left: var(--pad-x); top: -60px; z-index: 10;
+      font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase;
+      background: var(--sheet-2); color: var(--ink); border: 1px solid var(--line-2); border-radius: 6px;
+      padding: 8px 12px; text-decoration: none;
+    }
+    .skip:focus { top: 12px; }
+
+    /* nav */
+    .site-nav {
+      max-width: 1000px; margin: 0 auto; padding: 28px var(--pad-x);
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    }
+    .brand {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-family: var(--serif); font-optical-sizing: auto; font-weight: 600;
+      font-size: 1.4rem; letter-spacing: -0.01em; line-height: 1;
+      color: var(--ink); text-decoration: none;
+    }
+    .nav-mark { width: 22px; height: 22px; flex: none; color: var(--brass); }
+    .nav-links { display: flex; align-items: center; gap: 28px; list-style: none; }
+    .nav-links li { display: flex; }
+    .nav-links a {
+      display: inline-flex; align-items: center; gap: 7px;
+      font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--ink-2); text-decoration: none; transition: color 0.15s;
+    }
+    .nav-links a:hover { color: var(--ink); }
+    .nav-links svg { width: 14px; height: 14px; fill: currentColor; flex: none; }
+    /* the last link is Essay on one page and Home on the other: same box, so GitHub stays put */
+    .nav-links li:last-child a { min-width: 40px; justify-content: flex-end; }
+
+    /* essay column */
+    main { max-width: 760px; margin: 0 auto; padding: 0 var(--pad-x); }
+
+    .essay-head { padding: 56px 0 8px; }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 12px;
+      font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--ink-2);
+    }
+    .eyebrow::before { content: ""; width: 24px; height: 1px; background: var(--brass); flex: none; }
+    .essay-head h1 {
+      margin-top: 20px;
+      font-family: var(--serif); font-optical-sizing: auto; font-weight: 500;
+      font-size: clamp(2.3rem, 5.6vw, 3.4rem); line-height: 1.08; letter-spacing: -0.02em;
+      color: var(--prose-ink);
+    }
+
+    .essay { margin-top: 40px; }
+    .essay p {
+      font-size: 1.05rem; line-height: 1.8; color: var(--prose-ink);
+      margin-bottom: 1.15em;
+    }
+    .essay strong { font-weight: 600; color: var(--prose-ink); }
+    .essay hr { border: 0; border-top: 1px solid var(--line); margin: 48px 0 44px; }
+    .essay h2 {
+      font-family: var(--serif); font-optical-sizing: auto; font-weight: 500;
+      font-size: 1.6rem; line-height: 1.25; letter-spacing: -0.015em;
+      color: var(--prose-ink); margin: 0 0 16px;
+    }
+
+    .back-link {
+      display: inline-block; margin-top: 28px; padding-bottom: 3px;
+      font-family: var(--mono); font-size: 0.8rem; letter-spacing: 0.02em;
+      color: var(--ink-2); text-decoration: none; border-bottom: 1px solid var(--line-2);
+      transition: color 0.15s, border-color 0.15s;
+    }
+    .back-link:hover { color: var(--ink); border-color: var(--gold-line); }
+
+    /* footer */
+    .site-footer {
+      margin-top: 96px; border-top: 1px solid var(--line);
+      padding: 56px var(--pad-x) 56px; text-align: center;
+      font-family: var(--mono); font-size: 0.78rem; letter-spacing: 0.03em; line-height: 1.9;
+      color: var(--ink-2);
+    }
+    .footer-links { display: flex; flex-wrap: wrap; justify-content: center; align-items: baseline; column-gap: 12px; row-gap: 4px; }
+    .footer-links a { color: var(--ink-2); text-decoration: none; transition: color 0.15s; }
+    .footer-links a:hover { color: var(--ink); }
+    .footer-links .sep { color: var(--ink-3); }
+    .footer-def {
+      margin-top: 24px; font-family: var(--serif); font-style: italic; font-size: 0.95rem;
+      letter-spacing: 0; color: var(--ink-2);
+    }
+    .footer-legal { margin-top: 10px; }
+
+    @media (max-width: 600px) {
+      .site-nav { padding-top: 20px; padding-bottom: 20px; }
+      .brand { font-size: 1.25rem; gap: 8px; }
+      .nav-links { gap: 20px; }
+      .essay-head { padding-top: 32px; }
+      .essay { margin-top: 32px; }
+      .essay p { font-size: 1.02rem; line-height: 1.75; }
+      .essay hr { margin: 40px 0 36px; }
+      .essay h2 { font-size: 1.45rem; }
+      .site-footer { margin-top: 72px; padding-top: 44px; }
+      .footer-links { column-gap: 20px; }
+      .footer-links .sep { display: none; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <a class="skip" href="#content">Skip to the essay</a>
+
+  <nav class="site-nav" aria-label="Site">
+    <a class="brand" href="./"><svg class="nav-mark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6 8.11 7.56M17.7 10.49 21 11.5M3 12 6.1 12M17.9 12 21 12M3 18 7.89 16.23M17.87 12.63 21 11.5"/><circle cx="12" cy="12" r="3.2"/></svg>Collimate</a>
+    <ul class="nav-links">
+      <li>
+        <a href="https://github.com/mike-droptables/collimate" target="_blank" rel="noopener">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+          GitHub
+        </a>
+      </li>
+      <li>
+        <a href="./">Home</a>
+      </li>
+    </ul>
+  </nav>
+
+  <main id="content">
+    <article>
+      <header class="essay-head">
+        <p class="eyebrow">Collimate · Why it exists</p>
+        <h1>Worth Throwing Away</h1>
+      </header>
+      <div class="essay">
+        <p>I started getting quietly irritated every time autocomplete text showed up next to my half-formed sentences.</p>
+        <p>It was hard to say why, because it was right. Grammatical. Plausible. Ready to go. The tool was doing exactly what it promised, and accepting took one keystroke.</p>
+        <p>Before I'd finished deciding what I meant, the tool had concluded that my contribution was approval. A half-formed thought had become a request for a verdict.</p>
+        <p>Writing is one of the ways I find out what I think. I start a sentence, get stuck, change a word, and discover I believe something slightly different. There is work happening in that hesitation. The tool treated it as latency.</p>
+        <p>A small annoyance, at the smallest scale. But scale it up and the shape reappears. An agent that refactors a module, a chat that drafts a strategy, a pipeline that produces a whole deck: at every size the tool hands over a finished thing and waits for the same keystroke. The model drafts, and I approve.</p>
+        <hr>
+        <h2>The working style we fell into</h2>
+        <p>Making the draft used to be the hard part. So we worked straight toward the thing someone else would consume: the diff that merges, the deck that gets presented, the essay that gets read. Every tool we had was built around one precious artifact, and the only sensible question was how far along it was. That is how we were trained to work, and now it is what we ask the model to do.</p>
+        <p>An agent works through your codebase making optimizations. A chat hands you a compelling essay for a viewpoint. The onboarding copy says to treat it like a junior employee: the same way of working you have always had, except now you are the supervisor.</p>
+        <p>You can manage the junior by giving precise instructions and specifications. You can manage it by having it redo the work against your feedback, over and over. These are presented as the two ends of a spectrum. They are the same position.</p>
+        <p>Both cast your judgment as something to supply: in the spec before the work, or in the verdict afterward. You can learn while writing a spec, or be surprised into a different view by a draft. The interface still asks what you want and whether this is it.</p>
+        <p>That is useful when you know what you want well enough to hand it over, and much of the time you do. Most tasks have a right answer, or a good-enough one, and the oracle is the fastest way to it. I'm not arguing against that. I'm arguing about the other case, the one where finding out what you want is still part of the work, and about what happens when a tool built for the first case is the only tool you have for the second.</p>
+        <hr>
+        <h2>Hard problems</h2>
+        <p>A hard problem rarely has one right answer waiting for a smarter system to find it. It has trade-offs. Every good approach spends something: maintenance risk, downtime, performance, compatibility, someone's convenience at the cost of someone else's. A trade-off has no solution, only a chosen point on a curve.</p>
+        <p>When the model hands you one answer to a problem like that, it hasn't found the answer. It has picked a point, on axes it chose, and presented the result as the destination. And the more convincing the answer, the harder those choices are to see, and the easier it is to begin thinking inside its account of the problem.</p>
+        <p>The same thing happens to whatever you brought in. Offer a tentative framing, or a spec, and ask whether you're on the right track. What comes back is a developed argument for your premise, with very little in it about whether the premise holds. Refine it together. With each exchange the idea grows more coherent and more familiar, and you can travel a long way like this while learning nothing.</p>
+        <hr>
+        <h2>Accidental thinking</h2>
+        <p>Drafting was where judgment used to come from. Judgment forms in response to what you encounter. A comparison forces a preference. A failed experiment sharpens a question. Working on a detail exposes an assumption you'd never have thought to check. None of this was designed. Thinking was a byproduct of drudgery, and the drudgery was mandatory, so the thinking was too.</p>
+        <p>The tool decides which of those encounters happen. A tool built for a supervisor gives you one encounter, over and over: here it is, yes or no. And once you're holding the thing, every reaction becomes an edit to it rather than a decision among things.</p>
+        <p>It is a choice to work this way, to ask the model to solve. You could ask it for the possibilities instead. You'll throw most of them away, and that's how you find the one worth keeping.</p>
+        <hr>
+        <h2>Moves to make easy</h2>
+        <p>It starts with taking temporary artifacts seriously. Real effort that exists to be thrown away, because it moves you along the problem you actually care about. Not the app, but a set of scaffolds to think about the architecture with. Not the game with the new mechanic, but a single level with a dozen jump variants on it, to find the feel. Not the essay, but the major camps of thought on the subject and how each would react to the argument you're considering. You might go into that level comparing jump heights and come out caring more about control in the air.</p>
+        <p>A hundred-widget page can cost more than a first draft of the app and still be worth making. These artifacts are lopsided: maximal along the axis of your question and absent everywhere else. Spend attention where the answer changes the most downstream, where the consequence is highest and what you know is lowest.</p>
+        <p>What that asks for is exploration, and exploration has a shape. You make artifacts in different directions. You widen what you can see. You attack what you found, to learn whether it holds. And you leave with what you found, from wherever on the journey it turned up. A tool that supports this has to make four moves easy.</p>
+        <p><strong>Forking.</strong> Some tools already fork: run the same task on several models, lay the results side by side, keep the best. That helps find a good result within one framing. The prompt stays fixed and only the solver changes. Picking a winner can end the comparison before you've learned much from the alternatives.</p>
+        <p>Forking in the middle varies the framing itself: a different assumption, a different axis, a different idea of what counts as a cost. Say you're building a demand forecast for thousands of products. Fork there three ways: one model minimizes average error across products; one treats underestimating demand as more costly than overestimating it; one learns only from recent sales and updates often. Test all three on the same test periods, comparing their errors, stability, and upkeep. One kind of fork reduces variance around an answer. The other widens the question on purpose.</p>
+        <p><strong>Seeing.</strong> Take a philosophy essay. You could look at a map of the major lines of thought, see where your argument sits and who it's arguing with. You could overlay the essay with a heatmap of the claims most likely to be contested, and find that the premise you've taken for granted is where the argument is weakest. Yet the interface gives you a single document and a place to add comments that spawn more text.</p>
+        <p>A tool that offers one view has already decided what matters. It has to make it easy to ask for a useful view in the middle of the work, and to return to it without rebuilding it.</p>
+        <p><strong>Challenging.</strong> It should be the easiest thing to do with a model, and it is made hard. Ask about latency just to understand a choice, and latency becomes a design pillar. Question one claim, and the whole answer grows hedges. Your curiosity gets filed as a requirement.</p>
+        <p>Seeing describes the work; challenging takes a side against it. A challenge fails by never being an adversary at all: either it inherits the session's premises and argues from inside them, or it concedes on contact and starts fixing. It needs a position outside the session, with no obligations to the artifact and one brief, to oppose. A question can stay a question there until you decide what to do with it.</p>
+        <p><strong>Picking.</strong> There is always another variation available, so leaving takes its own judgment: what more exploring would plausibly yield, what the work needs now, what you'll only learn by putting it into use. Often the cut comes not because the answer revealed itself but because none was going to.</p>
+        <p>And the pick is often from history: the version that seemed not good enough at the time, or the revision before you smoothed over the text and lost your voice. Anyone who has worked on something for a while knows the sinking feeling of realizing the best version was three steps back, overwritten by its own improvements.</p>
+        <p>The tools that do keep history can still make you work to use it this way. Git keeps commits; document editors keep revisions. You can go back, compare, and recover pieces of an earlier idea, but those possibilities often sit apart from the work in front of you. Earlier versions should be easy to browse alongside the current one, and their useful parts easy to bring forward.</p>
+        <p>A tool that lets you generate variations cheaply but doesn't let you manage them has only built half of the move.</p>
+        <hr>
+        <h2>Won't better models solve this?</h2>
+        <p>The obvious objection: isn't this scaffolding for immature technology? Once the models are good enough, won't they explore the alternatives, flag the weak assumptions, test, and hand you the proven solution?</p>
+        <p>They should. A model that explores on its own is exactly what I want in the loop. Nothing here is an argument about what is uniquely human. The argument is about where the result of that exploration lands, and the answer doesn't change with the model.</p>
+        <p>Some of what matters only becomes clear through the work. A comparison can change what you care about. The preference an explorer would need in order to pick for you may only emerge when you see what it found. If the interface hides the alternatives, you lose access to the differences that might have changed your mind. A perfect explorer behind a yes-or-no gate is still a gate.</p>
+        <p>The work I care about is knowing what you don't know and figuring out what matters: being confronted with the piece that doesn't fit and reworking what you brought in, rather than bending the new piece until it looks like the old shape. For that, I want a cadre of explorers: mapping the frontier, eliminating the dominated options, surfacing the trade-offs, and making visible what each assumed and where it settled for good enough.</p>
+        <p>Then the direction is yours, and it doesn't have to be one the map showed. You may finish with a different problem than the one you started with.</p>
+        <hr>
+        <h2>Out of the gate</h2>
+        <p>Collimate is a verb. It means taking divergent rays and making them parallel, so they run side by side.</p>
+        <p>That is what I want from an AI tool: a place where the model's abundance gets aligned into something I can see across, compare, challenge, and cut. What I gain is a better result and a better understanding of why I chose it.</p>
+        <p>Judgment develops through a way of working: what you get to look at, and what you are asked to think about. Change that structure and you change the judgment that comes out of it.</p>
+        <p>I'm building Collimate for that.</p>
+      </div>
+    </article>
+    <a class="back-link" href="./">← Back to the front page</a>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-links">
+      <a href="https://github.com/mike-droptables/collimate" target="_blank" rel="noopener">GitHub</a>
+      <span class="sep" aria-hidden="true">·</span>
+      <a href="https://github.com/mike-droptables/collimate/tree/main/sdk" target="_blank" rel="noopener">SDK</a>
+      <span class="sep" aria-hidden="true">·</span>
+      <a href="./">Home</a>
+      <span class="sep" aria-hidden="true">·</span>
+      <a href="https://discord.gg/collimate" target="_blank" rel="noopener">Discord</a>
+      <span class="sep" aria-hidden="true">·</span>
+      <a href="mailto:michael@collimate.dev">michael@collimate.dev</a>
+    </div>
+    <p class="footer-def">col·li·mate, v. — to make divergent rays parallel.</p>
+    <p class="footer-legal">© 2026 Collimate · MIT</p>
+  </footer>
+
+</body>
+</html>

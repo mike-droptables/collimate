@@ -1,0 +1,23 @@
+name: Code Runner
+description: Runs the command once over the cell's files; a serve command leaves a server up until stopped
+tags:
+- code-runner
+prompt: ''
+settings:
+  settings.set_yaml:
+    mode: oneshot
+    image: ''
+    command: python3 main.py
+    serve_command: ''
+    serve_port: 0
+    expose_port: 8080
+    startup_commands: ''
+    mount_mode: rw
+    sudo: false
+    start_claude_code: true
+folders: []
+accounts: {}
+permissions:
+  docker: full
+  internet: full
+packages: {}

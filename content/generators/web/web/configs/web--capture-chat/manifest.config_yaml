@@ -1,0 +1,17 @@
+name: Capture chat
+description: Adds real conversation capture for claude.ai and aistudio.google.com; generic snapshot elsewhere
+tags:
+- web
+- capture-chat
+prompt: ''
+settings:
+  settings.set_yaml:
+    profile: default
+    device: desktop
+folders:
+- capture_scripts
+accounts: {}
+permissions:
+  internet: full
+  docker: none
+packages: {}

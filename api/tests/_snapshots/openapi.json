@@ -1,0 +1,1973 @@
+{
+  "components": {
+    "AddExampleRequest": {
+      "properties": [
+        "description",
+        "expect",
+        "feedback",
+        "paths",
+        "source_cell_id"
+      ],
+      "required": [
+        "description",
+        "expect",
+        "feedback",
+        "paths",
+        "source_cell_id"
+      ],
+      "type": "object"
+    },
+    "AnnotationBarRequest": {
+      "properties": [
+        "on"
+      ],
+      "required": [
+        "on"
+      ],
+      "type": "object"
+    },
+    "BuiltinSkillsOffer": {
+      "properties": [
+        "folder",
+        "source_cell_id"
+      ],
+      "required": [
+        "folder",
+        "source_cell_id"
+      ],
+      "type": "object"
+    },
+    "CapabilityBuildRequest": {
+      "properties": [
+        "cell_id",
+        "folder"
+      ],
+      "required": [
+        "cell_id",
+        "folder"
+      ],
+      "type": "object"
+    },
+    "CapabilityCatalogAdd": {
+      "properties": [
+        "folder",
+        "suggestion_id"
+      ],
+      "required": [
+        "folder",
+        "suggestion_id"
+      ],
+      "type": "object"
+    },
+    "CapabilityCreateRequest": {
+      "properties": [
+        "answers",
+        "make",
+        "related",
+        "title"
+      ],
+      "required": [
+        "answers",
+        "title"
+      ],
+      "type": "object"
+    },
+    "CellDisplay": {
+      "properties": [
+        "activeLeafId",
+        "filesPane",
+        "history",
+        "pinnedTabCompact",
+        "root",
+        "runsPane",
+        "version"
+      ],
+      "required": [
+        "activeLeafId",
+        "filesPane",
+        "history",
+        "pinnedTabCompact",
+        "root",
+        "runsPane",
+        "version"
+      ],
+      "type": "object"
+    },
+    "CellMetaPatch": {
+      "properties": [
+        "icon",
+        "name",
+        "pinned",
+        "settings",
+        "tags"
+      ],
+      "required": [],
+      "type": "object"
+    },
+    "ChannelRef": {
+      "properties": [
+        "channel_id"
+      ],
+      "required": [
+        "channel_id"
+      ],
+      "type": "object"
+    },
+    "ClientHandshake": {
+      "properties": [
+        "bridge",
+        "capabilities",
+        "client",
+        "shellVersion"
+      ],
+      "required": [
+        "client"
+      ],
+      "type": "object"
+    },
+    "CompareSide": {
+      "properties": [
+        "cellId",
+        "channel",
+        "fileName",
+        "label"
+      ],
+      "required": [
+        "cellId",
+        "channel",
+        "fileName",
+        "label"
+      ],
+      "type": "object"
+    },
+    "CompareTab": {
+      "properties": [
+        "base",
+        "current",
+        "id",
+        "kind"
+      ],
+      "required": [
+        "base",
+        "current",
+        "id",
+        "kind"
+      ],
+      "type": "object"
+    },
+    "ConfigSelection": {
+      "properties": [
+        "history_cells",
+        "main_cells",
+        "packages",
+        "settings"
+      ],
+      "required": [],
+      "type": "object"
+    },
+    "ContextItemIn": {
+      "properties": [
+        "anchor",
+        "label",
+        "path",
+        "renderer_id",
+        "text"
+      ],
+      "required": [
+        "label",
+        "path",
+        "renderer_id",
+        "text"
+      ],
+      "type": "object"
+    },
+    "CreateAnswer": {
+      "properties": [
+        "answer",
+        "question"
+      ],
+      "required": [
+        "answer",
+        "question"
+      ],
+      "type": "object"
+    },
+    "CreateChannelBody": {
+      "properties": [
+        "config",
+        "suggested"
+      ],
+      "required": [],
+      "type": "object"
+    },
+    "DisplayLeaf": {
+      "properties": [
+        "activeTabId",
+        "id",
+        "tabs",
+        "type"
+      ],
+      "required": [
+        "activeTabId",
+        "id",
+        "tabs",
+        "type"
+      ],
+      "type": "object"
+    },
+    "DisplaySplit": {
+      "properties": [
+        "children",
+        "dir",
+        "id",
+        "type"
+      ],
+      "required": [
+        "children",
+        "dir",
+        "id",
+        "type"
+      ],
+      "type": "object"
+    },
+    "DuplicateRequest": {
+      "properties": [
+        "anchor_stack_id"
+      ],
+      "required": [],
+      "type": "object"
+    },
+    "EmptyTab": {
+      "properties": [
+        "id",
+        "kind"
+      ],
+      "required": [
+        "id",
+        "kind"
+      ],
+      "type": "object"
+    },
+    "EnabledPatch": {
+      "properties": [
+        "enabled"
+      ],
+      "required": [
+        "enabled"
+      ],
+      "type": "object"
+    },
+    "ExamplePatch": {
+      "properties": [
+        "description",
+        "expect",
+        "feedback"
+      ],
+      "required": [],
+      "type": "object"
+    },
+    "FileMove": {
+      "properties": [
+        "edit_seq",
+        "files",
+        "operation_id",
+        "source_cell_id",
+        "target_cell_id",
+        "writer_id"
+      ],
+      "required": [
+        "edit_seq",
+        "files",
+        "operation_id",
+        "source_cell_id",
+        "target_cell_id",
+        "writer_id"
+      ],
+      "type": "object"
+    },
+    "FileMutation": {
+      "properties": [
+        "base_revision",
+        "blob_hash",
+        "content_text",
+        "edit_seq",
+        "encoding",
+        "kind",
+        "language",
+        "path",
+        "writer_id"
+      ],
+      "required": [
+        "base_revision",
+        "edit_seq",
+        "kind",
+        "path",
+        "writer_id"
+      ],
+      "type": "object"
+    },
+    "FileOperation": {
+      "properties": [
+        "mutations",
+        "operation_id",
+        "resolves"
+      ],
+      "required": [
+        "mutations",
+        "operation_id"
+      ],
+      "type": "object"
+    },
+    "FileTab": {
+      "properties": [
+        "id",
+        "kind",
+        "path",
+        "rendererId"
+      ],
+      "required": [
+        "id",
+        "kind",
+        "path"
+      ],
+      "type": "object"
+    },
+    "FilesPane": {
+      "properties": [
+        "collapsed",
+        "height",
+        "panelFilters",
+        "side",
+        "viewMode",
+        "width"
+      ],
+      "required": [
+        "collapsed",
+        "height",
+        "panelFilters",
+        "side",
+        "viewMode",
+        "width"
+      ],
+      "type": "object"
+    },
+    "ForkRequest": {
+      "properties": [
+        "target_cell_id"
+      ],
+      "required": [
+        "target_cell_id"
+      ],
+      "type": "object"
+    },
+    "HTTPValidationError": {
+      "properties": [
+        "detail"
+      ],
+      "required": [],
+      "type": "object"
+    },
+    "HandlerAcceptRequest": {
+      "properties": [
+        "expected_content_hash",
+        "folder"
+      ],
+      "required": [
+        "expected_content_hash",
+        "folder"
+      ],
+      "type": "object"
+    },
+    "HandlerBuildRequest": {
+      "properties": [
+        "folder"
+      ],
+      "required": [
+        "folder"
+      ],
+      "type": "object"
+    },
+    "HistorySections": {
+      "properties": [
+        "config",
+        "files",
+        "logs"
+      ],
+      "required": [
+        "config",
+        "files",
+        "logs"
+      ],
+      "type": "object"
+    },
+    "HistorySelection": {
+      "properties": [
+        "nodeId",
+        "sectionsOpen",
+        "versionId"
+      ],
+      "required": [
+        "nodeId",
+        "sectionsOpen",
+        "versionId"
+      ],
+      "type": "object"
+    },
+    "HistoryTab": {
+      "properties": [
+        "category",
+        "id",
+        "kind",
+        "path",
+        "rendererId"
+      ],
+      "required": [
+        "category",
+        "id",
+        "kind",
+        "path"
+      ],
+      "type": "object"
+    },
+    "HistoryZip": {
+      "properties": [
+        "cells",
+        "tag"
+      ],
+      "required": [
+        "cells",
+        "tag"
+      ],
+      "type": "object"
+    },
+    "ImportCell": {
+      "properties": [
+        "dirs",
+        "files",
+        "name"
+      ],
+      "required": [
+        "name"
+      ],
+      "type": "object"
+    },
+    "ImportFile": {
+      "properties": [
+        "blob_hash",
+        "path"
+      ],
+      "required": [
+        "blob_hash",
+        "path"
+      ],
+      "type": "object"
+    },
+    "ImportRequest": {
+      "properties": [
+        "insert_index",
+        "stacks"
+      ],
+      "required": [],
+      "type": "object"
+    },
+    "ImportStack": {
+      "properties": [
+        "cells",
+        "name"
+      ],
+      "required": [
+        "name"
+      ],
+      "type": "object"
+    },
+    "InsertBlankCellRequest": {
+      "properties": [
+        "id",
+        "name"
+      ],
+      "required": [],
+      "type": "object"
+    },
+    "InterruptAnnotationsRequest": {
+      "properties": [
+        "ids"
+      ],
+      "required": [
+        "ids"
+      ],
+      "type": "object"
+    },
+    "MainZip": {
+      "properties": [
+        "stacks"
+      ],
+      "required": [
+        "stacks"
+      ],
+      "type": "object"
+    },
+    "MergeRequest": {
+      "properties": [
+        "stack_id"
+      ],
+      "required": [
+        "stack_id"
+      ],
+      "type": "object"
+    },
+    "MoveFile": {
+      "properties": [
+        "source_path",
+        "source_revision",
+        "target_path",
+        "target_revision"
+      ],
+      "required": [
+        "source_path",
+        "source_revision",
+        "target_path",
+        "target_revision"
+      ],
+      "type": "object"
+    },
+    "OrderAnnotationsRequest": {
+      "properties": [
+        "held_from",
+        "ids"
+      ],
+      "required": [
+        "ids"
+      ],
+      "type": "object"
+    },
+    "PackageAddRequest": {
+      "properties": [
+        "definition_path",
+        "expected_content_hash",
+        "expected_target_revision",
+        "replace",
+        "source_cell_id",
+        "target_cell_id"
+      ],
+      "required": [
+        "definition_path",
+        "expected_content_hash",
+        "expected_target_revision",
+        "source_cell_id"
+      ],
+      "type": "object"
+    },
+    "PackagePreviewRequest": {
+      "properties": [
+        "definition_path",
+        "source_cell_id",
+        "target_cell_id"
+      ],
+      "required": [
+        "definition_path",
+        "source_cell_id"
+      ],
+      "type": "object"
+    },
+    "PackagesZip": {
+      "properties": [
+        "cells"
+      ],
+      "required": [
+        "cells"
+      ],
+      "type": "object"
+    },
+    "PanelFilters": {
+      "properties": [
+        "runsOnly",
+        "sortByRecency"
+      ],
+      "required": [
+        "runsOnly",
+        "sortByRecency"
+      ],
+      "type": "object"
+    },
+    "PatchAnnotationRequest": {
+      "properties": [
+        "body",
+        "context_items",
+        "expected_revision",
+        "mode"
+      ],
+      "required": [
+        "expected_revision"
+      ],
+      "type": "object"
+    },
+    "PostAnnotationRequest": {
+      "properties": [
+        "body",
+        "context_id",
+        "context_items",
+        "held",
+        "mode",
+        "operation_id",
+        "parent_id"
+      ],
+      "required": [
+        "body",
+        "context_id",
+        "mode",
+        "operation_id"
+      ],
+      "type": "object"
+    },
+    "RelatedCapability": {
+      "properties": [
+        "id",
+        "kind"
+      ],
+      "required": [
+        "id",
+        "kind"
+      ],
+      "type": "object"
+    },
+    "RemoveCellBody": {
+      "properties": [
+        "add_tags",
+        "remove_tags"
+      ],
+      "required": [],
+      "type": "object"
+    },
+    "RemovedTagsPut": {
+      "properties": [
+        "tags"
+      ],
+      "required": [
+        "tags"
+      ],
+      "type": "object"
+    },
+    "RendererActionRequest": {
+      "properties": [
+        "action_id",
+        "payload",
+        "source"
+      ],
+      "required": [
+        "action_id"
+      ],
+      "type": "object"
+    },
+    "RendererBundleUpload": {
+      "properties": [
+        "code",
+        "source_hash"
+      ],
+      "required": [
+        "code",
+        "source_hash"
+      ],
+      "type": "object"
+    },
+    "RunRequest": {
+      "properties": [
+        "cell_id",
+        "new_cell",
+        "runner",
+        "runner_revision",
+        "selected_file"
+      ],
+      "required": [
+        "cell_id",
+        "runner"
+      ],
+      "type": "object"
+    },
+    "RunnerDraft": {
+      "properties": [
+        "cell_id",
+        "files",
+        "new_cell",
+        "revision",
+        "runner"
+      ],
+      "required": [
+        "runner"
+      ],
+      "type": "object"
+    },
+    "RunsPane": {
+      "properties": [
+        "height",
+        "open",
+        "side",
+        "width"
+      ],
+      "required": [
+        "height",
+        "open",
+        "side",
+        "width"
+      ],
+      "type": "object"
+    },
+    "SendAnnotationRequest": {
+      "properties": [
+        "run_id"
+      ],
+      "required": [
+        "run_id"
+      ],
+      "type": "object"
+    },
+    "SettingsDoc": {
+      "properties": [
+        "doc"
+      ],
+      "required": [
+        "doc"
+      ],
+      "type": "object"
+    },
+    "SplitRequest": {
+      "properties": [
+        "cell_id"
+      ],
+      "required": [
+        "cell_id"
+      ],
+      "type": "object"
+    },
+    "SuggestedSelection": {
+      "properties": [
+        "id",
+        "runners",
+        "tutorial"
+      ],
+      "required": [
+        "id"
+      ],
+      "type": "object"
+    },
+    "SuggestedSource": {
+      "properties": [
+        "path"
+      ],
+      "required": [
+        "path"
+      ],
+      "type": "object"
+    },
+    "TagRef": {
+      "properties": [
+        "channel_id",
+        "tag"
+      ],
+      "required": [
+        "channel_id",
+        "tag"
+      ],
+      "type": "object"
+    },
+    "ValidationError": {
+      "properties": [
+        "ctx",
+        "input",
+        "loc",
+        "msg",
+        "type"
+      ],
+      "required": [
+        "loc",
+        "msg",
+        "type"
+      ],
+      "type": "object"
+    },
+    "ValidationRequest": {
+      "properties": [
+        "path",
+        "verifier"
+      ],
+      "required": [
+        "path"
+      ],
+      "type": "object"
+    }
+  },
+  "paths": {
+    "/api/accounts": {
+      "get": {
+        "parameters": [],
+        "requestBody": null
+      },
+      "post": {
+        "parameters": [],
+        "requestBody": "object"
+      }
+    },
+    "/api/accounts/check": {
+      "post": {
+        "parameters": [],
+        "requestBody": "object"
+      }
+    },
+    "/api/accounts/{identity}": {
+      "delete": {
+        "parameters": [
+          "identity",
+          "revision"
+        ],
+        "requestBody": null
+      },
+      "get": {
+        "parameters": [
+          "identity"
+        ],
+        "requestBody": null
+      },
+      "put": {
+        "parameters": [
+          "identity"
+        ],
+        "requestBody": "object"
+      }
+    },
+    "/api/accounts/{identity}/models": {
+      "post": {
+        "parameters": [
+          "identity"
+        ],
+        "requestBody": null
+      }
+    },
+    "/api/blob": {
+      "post": {
+        "parameters": [],
+        "requestBody": null
+      }
+    },
+    "/api/blob/stream": {
+      "post": {
+        "parameters": [],
+        "requestBody": null
+      }
+    },
+    "/api/blob/{blob_hash}": {
+      "get": {
+        "parameters": [
+          "blob_hash"
+        ],
+        "requestBody": null
+      }
+    },
+    "/api/channels": {
+      "get": {
+        "parameters": [],
+        "requestBody": null
+      },
+      "post": {
+        "parameters": [
+          "name"
+        ],
+        "requestBody": null
+      }
+    },
+    "/api/channels/{channel_id}": {
+      "delete": {
+        "parameters": [
+          "channel_id"
+        ],
+        "requestBody": null
+      }
+    },
+    "/api/channels/{channel_id}/rename": {
+      "put": {
+        "parameters": [
+          "channel_id",
+          "name"
+        ],
+        "requestBody": null
+      }
+    },
+    "/api/channels/{channel_id}/select": {
+      "post": {
+        "parameters": [
+          "channel_id"
+        ],
+        "requestBody": null
+      }
+    },
+    "/api/channels/{channel}/builtin/handlers/{handler_id}/examples": {
+      "post": {
+        "parameters": [
+          "channel",
+          "handler_id"
+        ],
+        "requestBody": "#/components/schemas/AddExampleRequest"
+      }
+    },
+    "/api/channels/{channel}/builtin/handlers/{handler_id}/examples/{folder}": {
+      "delete": {
+        "parameters": [
+          "channel",
+          "folder",
+          "handler_id"
+        ],
+        "requestBody": null
+      },
+      "patch": {
+        "parameters": [
+          "channel",
+          "folder",
+          "handler_id"
+        ],
+        "requestBody": "#/components/schemas/ExamplePatch"
+      }
+    },
+    "/api/channels/{channel}/builtin/handlers/{handler_id}/skills": {
+      "delete": {
+        "parameters": [
+          "channel",
+          "handler_id"
+        ],
+        "requestBody": null
+      },
+      "post": {
+        "parameters": [
+          "channel",
+          "handler_id"
+        ],
+        "requestBody": "#/components/schemas/BuiltinSkillsOffer"
+      }
+    },
+    "/api/channels/{channel}/capabilities/add": {
+      "post": {
+        "parameters": [
+          "channel"
+        ],
+        "requestBody": "#/components/schemas/CapabilityCatalogAdd"
+      }
+    },
+    "/api/channels/{channel}/capabilities/build": {
+      "post": {
+        "parameters": [
+          "channel"
+        ],
+        "requestBody": "#/components/schemas/CapabilityBuildRequest"
+      }
+    },
+    "/api/channels/{channel}/capabilities/catalog": {
+      "get": {
+        "parameters": [
+          "channel"
+        ],
+        "requestBody": null
+      }
+    },
+    "/api/channels/{channel}/capabilities/create": {
+      "post": {
+        "parameters": [
+          "channel"
+        ],
+        "requestBody": "#/components/schemas/CapabilityCreateRequest"
+      }
+    },
+    "/api/channels/{channel}/capabilities/problems": {
+      "get": {
+        "parameters": [
+          "channel"
+        ],
+        "requestBody": null
+      }
+    },
+    "/api/channels/{channel}/cell_display": {
+      "get": {
+        "parameters": [
+          "channel"
+        ],
+        "requestBody": null
+      }
+    },
+    "/api/channels/{channel}/cell_display/{cell_id}": {
+      "delete": {
+        "parameters": [
+          "cell_id",
+          "channel"
+        ],
+        "requestBody": null
+      },
+      "put": {
+        "parameters": [
+          "cell_id",
+          "channel"
+        ],
+        "requestBody": "#/components/schemas/CellDisplay"
+      }
+    },
+    "/api/channels/{channel}/cells/removed": {
+      "get": {
+        "parameters": [
+          "channel",
+          "dir",
+          "q",
+          "sort"
+        ],
+        "requestBody": null
+      }
+    },
+    "/api/channels/{channel}/cells/removed/{cell_id}/tags": {
+      "put": {
+        "parameters": [
+          "cell_id",
+          "channel"
+        ],
+        "requestBody": "#/components/schemas/RemovedTagsPut"
+      }
+    },
+    "/api/channels/{channel}/cells/{cell_id}/actions": {
+      "post": {
+        "parameters": [
+          "cell_id",
+          "channel"
+        ],
+        "requestBody": "#/components/schemas/RendererActionRequest"
+      }
+    },
+    "/api/channels/{channel}/cells/{cell_id}/annotations": {
+      "get": {
+        "parameters": [
+          "cell_id",
+          "channel"
+        ],
+        "requestBody": null
+      },
+      "post": {
+        "parameters": [
+          "cell_id",
+          "channel"
+        ],
+        "requestBody": "#/components/schemas/PostAnnotationRequest"
+      }
+    },
+    "/api/channels/{channel}/cells/{cell_id}/annotations/{annotation_id}": {
+      "delete": {
+        "parameters": [
+          "annotation_id",
+          "cell_id",
+          "channel",
+          "expected_revision"
+        ],
+        "requestBody": null
+      },
+      "patch": {
+        "parameters": [
+          "annotation_id",
+          "cell_id",
+          "channel"
+        ],
+        "requestBody": "#/components/schemas/PatchAnnotationRequest"
+      }
+    },
+    "/api/channels/{channel}/cells/{cell_id}/annotations/{annotation_id}/send": {
+      "post": {
+        "parameters": [
+          "annotation_id",
+          "cell_id",
+          "channel"
+        ],
+        "requestBody": "#/components/schemas/SendAnnotationRequest"
+      }
+    },
+    "/api/channels/{channel}/cells/{cell_id}/annotations/{context_id}": {
+      "get": {
+        "parameters": [
+          "cell_id",
+          "channel",
+          "context_id"
+        ],
+        "requestBody": null
+      }
+    },
+    "/api/channels/{channel}/cells/{cell_id}/annotations/{context_id}/bar": {
+      "put": {
+        "parameters": [
+          "cell_id",
+          "channel",
+          "context_id"
+        ],
+        "requestBody": "#/components/schemas/AnnotationBarRequest"
+      }
+    },
+    "/api/channels/{channel}/cells/{cell_id}/annotations/{context_id}/interrupt": {
+      "post": {
+        "parameters": [
+          "cell_id",
+          "channel",
+          "context_id"
+        ],
+        "requestBody": "#/components/schemas/InterruptAnnotationsRequest"
+      }
+    },
+    "/api/channels/{channel}/cells/{cell_id}/annotations/{context_id}/order": {
+      "put": {
+        "parameters": [
+          "cell_id",
+          "channel",
+          "context_id"
+        ],
+        "requestBody": "#/components/schemas/OrderAnnotationsRequest"
+      }
+    },
+    "/api/channels/{channel}/cells/{cell_id}/checkpoint": {
+      "post": {
+        "parameters": [
+          "cell_id",
+          "channel"
+        ],
+        "requestBody": null
+      }
+    },
+    "/api/channels/{channel}/cells/{cell_id}/duplicate": {
+      "post": {
+        "parameters": [
+          "cell_id",
+          "channel"
+        ],
+        "requestBody": null
+      }
+    },
+    "/api/channels/{channel}/cells/{cell_id}/file-paths": {
+      "get": {
+        "parameters": [
+          "cell_id",
+          "channel",
+          "version_id"
+        ],
+        "requestBody": null
+      }
+    },
+    "/api/channels/{channel}/cells/{cell_id}/file_cap": {
+      "get": {
+        "parameters": [
+          "cell_id",
+          "channel"
+        ],
+        "requestBody": null
+      }
+    },
+    "/api/channels/{channel}/cells/{cell_id}/files": {
+      "get": {
+        "parameters": [
+          "cell_id",
+          "channel"
+        ],
+        "requestBody": null
+      }
+    },
+    "/api/channels/{channel}/cells/{cell_id}/files-tree": {
+      "get": {
+        "parameters": [
+          "cell_id",
+          "channel"
+        ],
+        "requestBody": null
+      }
+    },
+    "/api/channels/{channel}/cells/{cell_id}/files/conflicts": {
+      "get": {
+        "parameters": [
+          "cell_id",
+          "channel"
+        ],
+        "requestBody": null
+      }
+    },
+    "/api/channels/{channel}/cells/{cell_id}/files/mutate": {
+      "post": {
+        "parameters": [
+          "cell_id",
+          "channel"
+        ],
+        "requestBody": "#/components/schemas/FileOperation"
+      }
+    },
+    "/api/channels/{channel}/cells/{cell_id}/files/{filepath}": {
+      "get": {
+        "parameters": [
+          "cell_id",
+          "channel",
+          "filepath",
+          "revision"
+        ],
+        "requestBody": null
+      }
+    },
+    "/api/channels/{channel}/cells/{cell_id}/fork": {
+      "post": {
+        "parameters": [
+          "cell_id",
+          "channel"
+        ],
+        "requestBody": "#/components/schemas/ForkRequest"
+      }
+    },
+    "/api/channels/{channel}/cells/{cell_id}/handler-build/accept": {
+      "post": {
+        "parameters": [
+          "cell_id",
+          "channel"
+        ],
+        "requestBody": "#/components/schemas/HandlerAcceptRequest"
+      }
+    },
+    "/api/channels/{channel}/cells/{cell_id}/handler-build/inspect": {
+      "post": {
+        "parameters": [
+          "cell_id",
+          "channel"
+        ],
+        "requestBody": "#/components/schemas/HandlerBuildRequest"
+      }
+    },
+    "/api/channels/{channel}/cells/{cell_id}/history": {
+      "get": {
+        "parameters": [
+          "cell_id",
+          "channel"
+        ],
+        "requestBody": null
+      }
+    },
+    "/api/channels/{channel}/cells/{cell_id}/journal": {
+      "get": {
+        "parameters": [
+          "before",
+          "cell_id",
+          "channel",
+          "limit"
+        ],
+        "requestBody": null
+      }
+    },
+    "/api/channels/{channel}/cells/{cell_id}/meta": {
+      "patch": {
+        "parameters": [
+          "cell_id",
+          "channel"
+        ],
+        "requestBody": "#/components/schemas/CellMetaPatch"
+      }
+    },
+    "/api/channels/{channel}/cells/{cell_id}/options-map": {
+      "get": {
+        "parameters": [
+          "cell_id",
+          "channel",
+          "path",
+          "version_id"
+        ],
+        "requestBody": null
+      }
+    },
+    "/api/channels/{channel}/cells/{cell_id}/provenance": {
+      "get": {
+        "parameters": [
+          "cell_id",
+          "channel"
+        ],
+        "requestBody": null
+      }
+    },
+    "/api/channels/{channel}/cells/{cell_id}/remove": {
+      "post": {
+        "parameters": [
+          "cell_id",
+          "channel"
+        ],
+        "requestBody": null
+      }
+    },
+    "/api/channels/{channel}/cells/{cell_id}/restore": {
+      "post": {
+        "parameters": [
+          "cell_id",
+          "channel"
+        ],
+        "requestBody": null
+      }
+    },
+    "/api/channels/{channel}/cells/{cell_id}/surfaces/{filepath}": {
+      "get": {
+        "parameters": [
+          "cell_id",
+          "channel",
+          "filepath"
+        ],
+        "requestBody": null
+      }
+    },
+    "/api/channels/{channel}/cells/{cell_id}/validate": {
+      "post": {
+        "parameters": [
+          "cell_id",
+          "channel"
+        ],
+        "requestBody": "#/components/schemas/ValidationRequest"
+      }
+    },
+    "/api/channels/{channel}/cells/{cell_id}/validation": {
+      "get": {
+        "parameters": [
+          "cell_id",
+          "channel"
+        ],
+        "requestBody": null
+      }
+    },
+    "/api/channels/{channel}/export.zip": {
+      "get": {
+        "parameters": [
+          "cell_id",
+          "channel",
+          "scope",
+          "stack_id",
+          "tag"
+        ],
+        "requestBody": null
+      }
+    },
+    "/api/channels/{channel}/export/manifest": {
+      "get": {
+        "parameters": [
+          "cell_id",
+          "channel",
+          "scope",
+          "stack_id",
+          "tag"
+        ],
+        "requestBody": null
+      }
+    },
+    "/api/channels/{channel}/files/move": {
+      "post": {
+        "parameters": [
+          "channel"
+        ],
+        "requestBody": "#/components/schemas/FileMove"
+      }
+    },
+    "/api/channels/{channel}/import": {
+      "post": {
+        "parameters": [
+          "channel"
+        ],
+        "requestBody": "#/components/schemas/ImportRequest"
+      }
+    },
+    "/api/channels/{channel}/journal": {
+      "get": {
+        "parameters": [
+          "before",
+          "channel",
+          "limit"
+        ],
+        "requestBody": null
+      }
+    },
+    "/api/channels/{channel}/lineage": {
+      "get": {
+        "parameters": [
+          "channel"
+        ],
+        "requestBody": null
+      }
+    },
+    "/api/channels/{channel}/merge": {
+      "post": {
+        "parameters": [
+          "channel"
+        ],
+        "requestBody": "#/components/schemas/MergeRequest"
+      }
+    },
+    "/api/channels/{channel}/outline": {
+      "get": {
+        "parameters": [
+          "channel"
+        ],
+        "requestBody": null
+      }
+    },
+    "/api/channels/{channel}/packages/add": {
+      "post": {
+        "parameters": [
+          "channel"
+        ],
+        "requestBody": "#/components/schemas/PackageAddRequest"
+      }
+    },
+    "/api/channels/{channel}/packages/preview": {
+      "post": {
+        "parameters": [
+          "channel"
+        ],
+        "requestBody": "#/components/schemas/PackagePreviewRequest"
+      }
+    },
+    "/api/channels/{channel}/pick_sessions": {
+      "get": {
+        "parameters": [
+          "channel"
+        ],
+        "requestBody": null
+      }
+    },
+    "/api/channels/{channel}/pick_sessions/{cell_id}": {
+      "delete": {
+        "parameters": [
+          "cell_id",
+          "channel"
+        ],
+        "requestBody": null
+      },
+      "put": {
+        "parameters": [
+          "cell_id",
+          "channel"
+        ],
+        "requestBody": null
+      }
+    },
+    "/api/channels/{channel}/runs": {
+      "get": {
+        "parameters": [
+          "channel",
+          "limit"
+        ],
+        "requestBody": null
+      },
+      "post": {
+        "parameters": [
+          "channel"
+        ],
+        "requestBody": "#/components/schemas/RunRequest"
+      }
+    },
+    "/api/channels/{channel}/runs/active": {
+      "get": {
+        "parameters": [
+          "channel"
+        ],
+        "requestBody": null
+      }
+    },
+    "/api/channels/{channel}/runs/{run_id}": {
+      "delete": {
+        "parameters": [
+          "channel",
+          "force",
+          "run_id"
+        ],
+        "requestBody": null
+      },
+      "get": {
+        "parameters": [
+          "channel",
+          "run_id"
+        ],
+        "requestBody": null
+      }
+    },
+    "/api/channels/{channel}/runs/{run_id}/artifacts": {
+      "get": {
+        "parameters": [
+          "channel",
+          "run_id"
+        ],
+        "requestBody": null
+      }
+    },
+    "/api/channels/{channel}/runs/{run_id}/events_since": {
+      "get": {
+        "parameters": [
+          "channel",
+          "run_id",
+          "since_id"
+        ],
+        "requestBody": null
+      }
+    },
+    "/api/channels/{channel}/runs/{run_id}/file_touches": {
+      "get": {
+        "parameters": [
+          "channel",
+          "run_id"
+        ],
+        "requestBody": null
+      }
+    },
+    "/api/channels/{channel}/runs/{run_id}/inbox": {
+      "get": {
+        "parameters": [
+          "channel",
+          "run_id"
+        ],
+        "requestBody": null
+      }
+    },
+    "/api/channels/{channel}/settings": {
+      "get": {
+        "parameters": [
+          "channel"
+        ],
+        "requestBody": null
+      },
+      "put": {
+        "parameters": [
+          "channel"
+        ],
+        "requestBody": "object"
+      }
+    },
+    "/api/channels/{channel}/split": {
+      "post": {
+        "parameters": [
+          "channel"
+        ],
+        "requestBody": "#/components/schemas/SplitRequest"
+      }
+    },
+    "/api/channels/{channel}/state/stream": {
+      "get": {
+        "parameters": [
+          "channel"
+        ],
+        "requestBody": null
+      }
+    },
+    "/api/channels/{channel}/tags": {
+      "get": {
+        "parameters": [
+          "channel"
+        ],
+        "requestBody": null
+      }
+    },
+    "/api/channels/{channel}/versions/{version_id}/files/{filepath}": {
+      "get": {
+        "parameters": [
+          "channel",
+          "filepath",
+          "version_id"
+        ],
+        "requestBody": null
+      }
+    },
+    "/api/config.js": {
+      "get": {
+        "parameters": [],
+        "requestBody": null
+      }
+    },
+    "/api/generators": {
+      "get": {
+        "parameters": [],
+        "requestBody": null
+      }
+    },
+    "/api/handlers": {
+      "get": {
+        "parameters": [],
+        "requestBody": null
+      }
+    },
+    "/api/import/zip": {
+      "post": {
+        "parameters": [],
+        "requestBody": null
+      }
+    },
+    "/api/maintenance/disk_usage": {
+      "get": {
+        "parameters": [],
+        "requestBody": null
+      }
+    },
+    "/api/maintenance/gc": {
+      "post": {
+        "parameters": [
+          "grace_seconds"
+        ],
+        "requestBody": null
+      }
+    },
+    "/api/mirror/{host}/{path}": {
+      "get": {
+        "parameters": [
+          "host",
+          "path"
+        ],
+        "requestBody": null
+      }
+    },
+    "/api/renderer_availability/{renderer_id}": {
+      "put": {
+        "parameters": [
+          "renderer_id"
+        ],
+        "requestBody": "#/components/schemas/EnabledPatch"
+      }
+    },
+    "/api/renderer_preferences": {
+      "get": {
+        "parameters": [],
+        "requestBody": null
+      },
+      "put": {
+        "parameters": [],
+        "requestBody": "object"
+      }
+    },
+    "/api/renderers": {
+      "get": {
+        "parameters": [
+          "include_disabled"
+        ],
+        "requestBody": null
+      }
+    },
+    "/api/renderers/{renderer_id}/bundle": {
+      "put": {
+        "parameters": [
+          "renderer_id"
+        ],
+        "requestBody": "#/components/schemas/RendererBundleUpload"
+      }
+    },
+    "/api/renderers/{renderer_id}/package": {
+      "get": {
+        "parameters": [
+          "renderer_id",
+          "v"
+        ],
+        "requestBody": null
+      }
+    },
+    "/api/renderers/{renderer_id}/source": {
+      "get": {
+        "parameters": [
+          "renderer_id",
+          "v"
+        ],
+        "requestBody": null
+      }
+    },
+    "/api/runner_generators": {
+      "get": {
+        "parameters": [],
+        "requestBody": null
+      }
+    },
+    "/api/runner_generators/{generator_id}/configs/{config_id}": {
+      "get": {
+        "parameters": [
+          "config_id",
+          "generator_id"
+        ],
+        "requestBody": null
+      }
+    },
+    "/api/runner_vocabulary": {
+      "get": {
+        "parameters": [],
+        "requestBody": null
+      }
+    },
+    "/api/runners": {
+      "get": {
+        "parameters": [],
+        "requestBody": null
+      },
+      "post": {
+        "parameters": [],
+        "requestBody": "#/components/schemas/RunnerDraft"
+      }
+    },
+    "/api/runners/{runner_id}": {
+      "delete": {
+        "parameters": [
+          "runner_id"
+        ],
+        "requestBody": null
+      },
+      "get": {
+        "parameters": [
+          "runner_id"
+        ],
+        "requestBody": null
+      },
+      "put": {
+        "parameters": [
+          "runner_id"
+        ],
+        "requestBody": "#/components/schemas/RunnerDraft"
+      }
+    },
+    "/api/runs/active": {
+      "get": {
+        "parameters": [],
+        "requestBody": null
+      }
+    },
+    "/api/sdk/preview-common.json": {
+      "get": {
+        "parameters": [],
+        "requestBody": null
+      }
+    },
+    "/api/sdk/react.js": {
+      "get": {
+        "parameters": [],
+        "requestBody": null
+      }
+    },
+    "/api/sdk/session.js": {
+      "get": {
+        "parameters": [],
+        "requestBody": null
+      }
+    },
+    "/api/sdk/snapshot-codecs.json": {
+      "get": {
+        "parameters": [],
+        "requestBody": null
+      }
+    },
+    "/api/stacks/{channel}/create": {
+      "post": {
+        "parameters": [
+          "channel"
+        ],
+        "requestBody": null
+      }
+    },
+    "/api/stacks/{channel}/{stack_id}/duplicate_cell_in_stack/{cell_index}": {
+      "post": {
+        "parameters": [
+          "cell_index",
+          "channel",
+          "stack_id"
+        ],
+        "requestBody": null
+      }
+    },
+    "/api/stacks/{channel}/{stack_id}/duplicate_stack": {
+      "post": {
+        "parameters": [
+          "channel",
+          "stack_id"
+        ],
+        "requestBody": null
+      }
+    },
+    "/api/stacks/{channel}/{stack_id}/insert_blank_cell": {
+      "post": {
+        "parameters": [
+          "channel",
+          "stack_id"
+        ],
+        "requestBody": "#/components/schemas/InsertBlankCellRequest"
+      }
+    },
+    "/api/stacks/{channel}/{stack_id}/minimize": {
+      "post": {
+        "parameters": [
+          "channel",
+          "stack_id"
+        ],
+        "requestBody": null
+      }
+    },
+    "/api/stacks/{channel}/{stack_id}/move_cell_to/{target_stack_index}/{mode}": {
+      "post": {
+        "parameters": [
+          "cell_id",
+          "channel",
+          "mode",
+          "stack_id",
+          "target_stack_index",
+          "tgt_cell_index"
+        ],
+        "requestBody": null
+      }
+    },
+    "/api/stacks/{channel}/{stack_id}/move_stack_to/{target_index}/{mode}": {
+      "post": {
+        "parameters": [
+          "channel",
+          "mode",
+          "stack_id",
+          "target_index"
+        ],
+        "requestBody": null
+      }
+    },
+    "/api/stacks/{channel}/{stack_id}/remove": {
+      "post": {
+        "parameters": [
+          "channel",
+          "stack_id"
+        ],
+        "requestBody": null
+      }
+    },
+    "/api/stacks/{channel}/{stack_id}/rename": {
+      "put": {
+        "parameters": [
+          "channel",
+          "name",
+          "stack_id"
+        ],
+        "requestBody": null
+      }
+    },
+    "/api/stacks/{channel}/{stack_id}/restore_minimized": {
+      "post": {
+        "parameters": [
+          "after",
+          "channel",
+          "stack_id"
+        ],
+        "requestBody": null
+      }
+    },
+    "/api/state": {
+      "get": {
+        "parameters": [],
+        "requestBody": null
+      }
+    },
+    "/api/status": {
+      "get": {
+        "parameters": [],
+        "requestBody": null
+      }
+    },
+    "/api/suggested": {
+      "get": {
+        "parameters": [
+          "refresh"
+        ],
+        "requestBody": null
+      }
+    },
+    "/api/suggested/source": {
+      "put": {
+        "parameters": [],
+        "requestBody": "#/components/schemas/SuggestedSource"
+      }
+    },
+    "/api/system/client": {
+      "post": {
+        "parameters": [],
+        "requestBody": "#/components/schemas/ClientHandshake"
+      }
+    },
+    "/api/system/instance": {
+      "get": {
+        "parameters": [],
+        "requestBody": null
+      }
+    },
+    "/api/system/shutdown": {
+      "post": {
+        "parameters": [],
+        "requestBody": null
+      }
+    },
+    "/api/system/stop_all": {
+      "post": {
+        "parameters": [],
+        "requestBody": null
+      }
+    },
+    "/health": {
+      "get": {
+        "parameters": [],
+        "requestBody": null
+      }
+    },
+    "/proxy/{channel}/{run_id}/{port}/{path}": {
+      "delete": {
+        "parameters": [
+          "channel",
+          "path",
+          "port",
+          "run_id"
+        ],
+        "requestBody": null
+      },
+      "get": {
+        "parameters": [
+          "channel",
+          "path",
+          "port",
+          "run_id"
+        ],
+        "requestBody": null
+      },
+      "head": {
+        "parameters": [
+          "channel",
+          "path",
+          "port",
+          "run_id"
+        ],
+        "requestBody": null
+      },
+      "options": {
+        "parameters": [
+          "channel",
+          "path",
+          "port",
+          "run_id"
+        ],
+        "requestBody": null
+      },
+      "patch": {
+        "parameters": [
+          "channel",
+          "path",
+          "port",
+          "run_id"
+        ],
+        "requestBody": null
+      },
+      "post": {
+        "parameters": [
+          "channel",
+          "path",
+          "port",
+          "run_id"
+        ],
+        "requestBody": null
+      },
+      "put": {
+        "parameters": [
+          "channel",
+          "path",
+          "port",
+          "run_id"
+        ],
+        "requestBody": null
+      }
+    },
+    "/ready": {
+      "get": {
+        "parameters": [],
+        "requestBody": null
+      }
+    }
+  }
+}

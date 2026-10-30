@@ -1,0 +1,11 @@
+id: "webview"
+name: "Live Browser"
+version: "0.4.0"
+summary: "Live browser view for the web generator's tabs (one tab-<n>.webview file each): the desktop app hosts the page in its own native guest view (an iframe fallback in a browser tab), driven over the session RPC, with an address bar and the generator's action buttons."
+entrypoint: "main.tsx"
+embed: "native"
+
+extensions:
+  - ".webview"
+
+supports_diff: false

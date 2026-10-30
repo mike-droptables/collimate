@@ -1,0 +1,20 @@
+id: git-push
+generator: git
+name: Git Push
+description: Push a repository folder's edits as one commit; needs a Git account that can write to the repository
+tags:
+- git
+prompt: ''
+settings:
+  settings.set_yaml:
+    action: push
+    folder: ''
+    branch: ''
+    commit_message: ''
+    push_branch: ''
+folders: []
+accounts: {}
+permissions:
+  docker: none
+  internet: full
+packages: {}

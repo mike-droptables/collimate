@@ -1,0 +1,9 @@
+{
+ "renderer": {"type":"object","required":["id","name","summary","entrypoint"],"additionalProperties":false,"properties":{
+  "id":{"type":"string","minLength":1},"name":{"type":"string","minLength":1},"summary":{"type":"string","minLength":1},
+  "entrypoint":{"type":"string","minLength":1},"version":{"type":"string"},"embed":{"enum":["native","iframe"]},
+  "extensions":{"type":"array","items":{"type":"string","pattern":"^\\."}},
+  "default_for":{"type":"array","items":{"type":"string","pattern":"^(\\*$|\\.)"}},"supports_diff":{"type":"boolean"},"live_refresh":{"type":"boolean"}}},
+ "example":{"type":"object","required":["renderer","file"],"additionalProperties":false,"properties":{
+  "renderer":{"type":"string","minLength":1},"file":{"type":"string","minLength":1}}}
+}

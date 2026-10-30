@@ -1,0 +1,10 @@
+id: "mermaid"
+name: "Mermaid Diagram"
+version: "1.1.0"
+summary: "Renders Mermaid flowcharts, sequence diagrams, and graphs."
+entrypoint: "main.tsx"
+embed: "native"
+extensions:
+  - ".mmd"
+  - ".mermaid"
+supports_diff: false

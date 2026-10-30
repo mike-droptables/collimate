@@ -1,0 +1,597 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <!--
+      The shell's only file:// document. Everything here is inline and
+      self-contained on purpose: no fonts, images, or scripts are fetched,
+      so this page renders identically offline, on a first launch, and
+      when the server is the thing that's broken.
+    -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; img-src data:;"
+    />
+    <title>Collimate</title>
+    <style>
+      :root {
+        /* The night skin (frontend/src/lib/themes.ts), fixed: the splash
+           paints before any server, and so before any chosen skin. */
+        --canvas: #151311;
+        --sheet: #1c1a17;
+        --sheet-2: #23201c;
+        --line: #494641;
+        --line-2: #3f3931;
+        --ink: #e2ddd4;
+        --ink-2: #a39d92;
+        --ink-3: #6f695f;
+        --brass: #c69d64;
+        --teal: #7fb0ab;
+        --teal-soft: rgba(127, 176, 171, 0.14);
+        --red: #cf8b7c;
+        --radius: 8px;
+        --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      html,
+      body {
+        height: 100%;
+      }
+
+      body {
+        background: var(--canvas);
+        color: var(--ink);
+        font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+        font-size: 13px;
+        line-height: 1.55;
+        -webkit-font-smoothing: antialiased;
+        user-select: none;
+        overflow: hidden;
+      }
+
+      .frame {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        border: 1px solid var(--line-2);
+        border-radius: var(--radius);
+        overflow: hidden;
+        background: var(--canvas);
+      }
+
+      /* Frameless window: this strip is the title bar. */
+      header {
+        -webkit-app-region: drag;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 16px;
+        border-bottom: 1px solid var(--line);
+        color: var(--ink-3);
+        font-family: var(--mono);
+        font-size: 10px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        flex: none;
+      }
+
+      header .mark {
+        width: 13px;
+        height: 13px;
+        flex: none;
+        color: var(--brass);
+      }
+
+      main {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+        padding: 18px 20px 16px;
+        gap: 14px;
+      }
+
+      h1 {
+        font-size: 15px;
+        font-weight: 600;
+        letter-spacing: -0.01em;
+        color: var(--ink);
+      }
+
+      p {
+        color: var(--ink-2);
+      }
+
+      section {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      section[hidden] {
+        display: none;
+      }
+
+      /* --- status --- */
+      .beam {
+        position: relative;
+        height: 2px;
+        border-radius: 2px;
+        background: var(--teal-soft);
+        overflow: hidden;
+        flex: none;
+      }
+
+      .beam span {
+        position: absolute;
+        inset: 0 auto 0 0;
+        width: 38%;
+        border-radius: 2px;
+        background: linear-gradient(90deg, transparent, var(--teal), transparent);
+        animation: sweep 1.5s ease-in-out infinite;
+      }
+
+      @keyframes sweep {
+        0% {
+          transform: translateX(-100%);
+        }
+        100% {
+          transform: translateX(363%);
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .beam span {
+          animation: none;
+          width: 100%;
+          background: var(--teal);
+        }
+      }
+
+      #status-message {
+        color: var(--ink);
+        font-size: 14px;
+      }
+
+      #status-detail,
+      .hint {
+        font-family: var(--mono);
+        font-size: 11px;
+        color: var(--ink-2);
+        word-break: break-all;
+      }
+
+      /* --- failure --- */
+      #failure-title {
+        color: var(--red);
+      }
+
+      #failure-message {
+        color: var(--ink);
+        user-select: text;
+      }
+
+      .command {
+        font-family: var(--mono);
+        font-size: 11px;
+        color: var(--ink);
+        background: var(--sheet);
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        padding: 8px 10px;
+        white-space: pre-wrap;
+        word-break: break-all;
+        user-select: text;
+      }
+
+      /* --- connect --- */
+      form {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      #connect-token {
+        flex-basis: 100%;
+      }
+
+      .servers {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        max-height: 96px;
+        overflow-y: auto;
+      }
+
+      .servers[hidden] {
+        display: none;
+      }
+
+      .servers button {
+        text-align: left;
+        font-family: var(--mono);
+        font-size: 11px;
+        color: var(--ink-2);
+        background: var(--sheet);
+        border-color: var(--line);
+        padding: 6px 10px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .servers button:hover {
+        filter: none;
+        color: var(--ink);
+        border-color: var(--line-2);
+        background: var(--sheet-2);
+      }
+
+      input {
+        flex: 1;
+        min-width: 0;
+        font-family: var(--mono);
+        font-size: 12px;
+        color: var(--ink);
+        background: var(--sheet);
+        border: 1px solid var(--line-2);
+        border-radius: 6px;
+        padding: 8px 10px;
+        user-select: text;
+        -webkit-app-region: no-drag;
+      }
+
+      input:focus {
+        outline: none;
+        border-color: var(--teal);
+        box-shadow: 0 0 0 2px var(--teal-soft);
+      }
+
+      .error {
+        color: var(--red);
+        user-select: text;
+      }
+
+      .error:empty {
+        display: none;
+      }
+
+      /* --- buttons --- */
+      .actions {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+
+      button {
+        -webkit-app-region: no-drag;
+        font-family: inherit;
+        font-size: 12px;
+        font-weight: 500;
+        color: var(--canvas);
+        background: var(--brass);
+        border: 1px solid var(--brass);
+        border-radius: 6px;
+        padding: 7px 14px;
+        cursor: pointer;
+      }
+
+      button:hover {
+        filter: brightness(1.08);
+      }
+
+      button:disabled {
+        opacity: 0.5;
+        cursor: default;
+      }
+
+      button.ghost {
+        color: var(--ink-2);
+        background: transparent;
+        border-color: var(--line-2);
+      }
+
+      button.ghost:hover {
+        filter: none;
+        color: var(--ink);
+        background: var(--sheet-2);
+        border-color: var(--line-2);
+      }
+
+      /* --- log tail --- */
+      details {
+        margin-top: auto;
+        flex: none;
+        min-height: 0;
+        display: flex;
+        flex-direction: column;
+      }
+
+      details[hidden] {
+        display: none;
+      }
+
+      summary {
+        -webkit-app-region: no-drag;
+        cursor: pointer;
+        list-style: none;
+        font-family: var(--mono);
+        font-size: 10px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--ink-3);
+        padding-top: 10px;
+        border-top: 1px solid var(--line);
+      }
+
+      summary::-webkit-details-marker {
+        display: none;
+      }
+
+      summary::before {
+        content: "▸ ";
+        color: var(--ink-3);
+      }
+
+      details[open] summary::before {
+        content: "▾ ";
+      }
+
+      details[open] {
+        min-height: 0;
+        overflow: hidden;
+      }
+
+      pre {
+        margin-top: 8px;
+        max-height: 190px;
+        overflow: auto;
+        font-family: var(--mono);
+        font-size: 10.5px;
+        line-height: 1.5;
+        color: var(--ink-2);
+        background: var(--sheet);
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        padding: 8px 10px;
+        white-space: pre-wrap;
+        word-break: break-all;
+        user-select: text;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="frame">
+      <header>
+        <svg class="mark" viewBox="0 0 16 16" aria-hidden="true">
+          <path
+            fill="currentColor"
+            d="M8 0.8 1.2 8 8 15.2 14.8 8 8 0.8Zm0 3.1L11.7 8 8 12.1 4.3 8 8 3.9Z"
+          />
+        </svg>
+        <span>Collimate</span>
+      </header>
+
+      <main>
+        <section id="view-status">
+          <div class="beam"><span></span></div>
+          <p id="status-message">Starting Collimate…</p>
+          <p id="status-detail"></p>
+        </section>
+
+        <section id="view-failure" hidden>
+          <h1 id="failure-title"></h1>
+          <p id="failure-message"></p>
+          <p class="command" id="failure-command" hidden></p>
+          <div class="actions">
+            <button id="retry">Try again</button>
+            <button id="quit" class="ghost">Quit</button>
+          </div>
+        </section>
+
+        <section id="view-connect" hidden>
+          <h1 id="connect-title">Connect to a Collimate server</h1>
+          <p class="hint">Start one with <code>collimate</code>, then give this app its address.</p>
+          <form id="connect-form">
+            <input
+              id="connect-url"
+              type="text"
+              spellcheck="false"
+              autocomplete="off"
+              placeholder="http://127.0.0.1:5001"
+            />
+            <button id="connect-submit" type="submit">Connect</button>
+            <input
+              id="connect-token"
+              type="password"
+              spellcheck="false"
+              autocomplete="off"
+              placeholder="Access token (only if the server requires one)"
+            />
+          </form>
+          <div class="servers" id="connect-servers" hidden></div>
+          <p class="error" id="connect-error"></p>
+          <div class="actions">
+            <button id="connect-use-local" class="ghost" hidden>Start local server</button>
+            <button id="connect-quit" class="ghost">Quit</button>
+          </div>
+        </section>
+
+        <details id="log">
+          <summary>Server log</summary>
+          <pre id="log-lines"></pre>
+        </details>
+      </main>
+    </div>
+
+    <script>
+      (function () {
+        "use strict";
+
+        var MAX_LINES = 250;
+        var lines = [];
+
+        var el = {
+          status: document.getElementById("view-status"),
+          statusMessage: document.getElementById("status-message"),
+          statusDetail: document.getElementById("status-detail"),
+          failure: document.getElementById("view-failure"),
+          failureTitle: document.getElementById("failure-title"),
+          failureMessage: document.getElementById("failure-message"),
+          failureCommand: document.getElementById("failure-command"),
+          retry: document.getElementById("retry"),
+          quit: document.getElementById("quit"),
+          connect: document.getElementById("view-connect"),
+          connectTitle: document.getElementById("connect-title"),
+          connectForm: document.getElementById("connect-form"),
+          connectUrl: document.getElementById("connect-url"),
+          connectToken: document.getElementById("connect-token"),
+          connectServers: document.getElementById("connect-servers"),
+          connectSubmit: document.getElementById("connect-submit"),
+          connectError: document.getElementById("connect-error"),
+          connectUseLocal: document.getElementById("connect-use-local"),
+          connectQuit: document.getElementById("connect-quit"),
+          log: document.getElementById("log"),
+          logLines: document.getElementById("log-lines")
+        };
+
+        var bridge = window.collimateSplash || null;
+
+        function send(action) {
+          if (bridge) bridge.send(action);
+        }
+
+        function renderLog() {
+          el.logLines.textContent = lines.join("\n");
+          el.log.hidden = lines.length === 0;
+          el.logLines.scrollTop = el.logLines.scrollHeight;
+        }
+
+        function pushLine(line) {
+          lines.push(line);
+          if (lines.length > MAX_LINES) lines.splice(0, lines.length - MAX_LINES);
+          renderLog();
+        }
+
+        function show(which) {
+          el.status.hidden = which !== "status";
+          el.failure.hidden = which !== "failure";
+          el.connect.hidden = which !== "connect";
+        }
+
+        function renderServers(servers) {
+          el.connectServers.textContent = "";
+          el.connectServers.hidden = servers.length === 0;
+          servers.forEach(function (server) {
+            if (!server || typeof server.url !== "string" || typeof server.id !== "string") return;
+            var row = document.createElement("button");
+            row.type = "button";
+            row.className = "ghost";
+            row.textContent = server.name ? server.name + " — " + server.url : server.url;
+            row.addEventListener("click", function () {
+              // No token in the action: main resolves it from the saved
+              // entry by id, so the secret never round-trips through this page.
+              send({ type: "connect", url: server.url, serverId: server.id });
+            });
+            el.connectServers.appendChild(row);
+          });
+        }
+
+        function applyView(view) {
+          if (!view || typeof view !== "object") return;
+
+          if (view.kind === "status") {
+            el.statusMessage.textContent = view.message || "";
+            el.statusDetail.textContent = view.detail || "";
+            show("status");
+            return;
+          }
+
+          if (view.kind === "failure") {
+            el.failureTitle.textContent = view.title || "Something went wrong";
+            el.failureMessage.textContent = view.message || "";
+            if (view.command) {
+              el.failureCommand.textContent = view.command;
+              el.failureCommand.hidden = false;
+            } else {
+              el.failureCommand.hidden = true;
+            }
+            if (Array.isArray(view.tail) && view.tail.length) {
+              lines = view.tail.slice(-MAX_LINES);
+              renderLog();
+            }
+            // On a failure the log tail is the answer, not a detail.
+            el.log.open = true;
+            show("failure");
+            return;
+          }
+
+          if (view.kind === "connect") {
+            if (document.activeElement !== el.connectUrl) {
+              el.connectUrl.value = view.url || "";
+            }
+            if (typeof view.token === "string" && document.activeElement !== el.connectToken) {
+              el.connectToken.value = view.token;
+            }
+            renderServers(view.servers || []);
+            el.connectTitle.textContent = view.title || "Connect to a Collimate server";
+            el.connectError.textContent = view.error || "";
+            el.connectSubmit.disabled = view.busy === true;
+            el.connectSubmit.textContent = view.busy ? "Connecting…" : "Connect";
+            el.connectUrl.disabled = view.busy === true;
+            el.connectToken.disabled = view.busy === true;
+            el.connectUseLocal.hidden = view.canUseLocal !== true;
+            el.connectUseLocal.disabled = view.busy === true;
+            show("connect");
+            if (!view.busy) {
+              el.connectUrl.focus();
+              el.connectUrl.select();
+            }
+          }
+        }
+
+        el.retry.addEventListener("click", function () {
+          send({ type: "retry" });
+        });
+
+        el.quit.addEventListener("click", function () {
+          send({ type: "quit" });
+        });
+
+        el.connectForm.addEventListener("submit", function (event) {
+          event.preventDefault();
+          var url = el.connectUrl.value.trim();
+          if (!url) return;
+          var token = el.connectToken.value.trim();
+          var action = { type: "connect", url: url };
+          if (token) action.token = token;
+          send(action);
+        });
+
+        el.connectUseLocal.addEventListener("click", function () {
+          send({ type: "spawn" });
+        });
+
+        el.connectQuit.addEventListener("click", function () {
+          send({ type: "quit" });
+        });
+
+        if (bridge) {
+          bridge.onEvent(function (event) {
+            if (!event || typeof event !== "object") return;
+            if (event.type === "view") applyView(event.view);
+            else if (event.type === "log") pushLine(event.line);
+          });
+        }
+
+        renderLog();
+      })();
+    </script>
+  </body>
+</html>

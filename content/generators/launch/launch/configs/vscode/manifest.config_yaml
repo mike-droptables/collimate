@@ -1,0 +1,26 @@
+name: VS Code
+description: A long-running container serving VS Code Server on port 8080 until you stop it
+tags:
+- vscode
+prompt: ''
+settings:
+  settings.set_yaml:
+    mode: app
+    image: ''
+    command: ''
+    serve_command: ''
+    serve_port: 0
+    expose_port: 8080
+    startup_commands: ''
+    mount_mode: rw
+    sudo: false
+    start_claude_code: true
+folders:
+- build
+accounts: {}
+permissions:
+  docker: full
+  internet: full
+packages:
+  claude-code: latest
+  uv: latest

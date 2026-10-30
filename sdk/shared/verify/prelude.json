@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "compiler": "0.28.2",
+  "inputs": {
+    "scripts/build_verify_prelude.mjs": "560a13be3a224c91b5b717d6eaf6e5e6dc478e5f825b702911917922ef24976d",
+    "scripts/package-lock.json": "1b5213bde481fe5ad7da781c3ca6ca5729bda22efe90c289587ffb8d149da7bd",
+    "scripts/package.json": "f2b4782f7f1c7b4291586e577fae01535a479610b6f04e6ca7407b1d3e651780",
+    "shared/verify/prelude.ts": "96cf31cdd5fb398e249a4313e0aadc0ea3ba7b685b619195004eecccf7f02c49",
+    "src/collimate/renderer_bundle_contract.json": "44778b108c5c4784702fe47a61cac2e8146040e6780a9055179fd92f163d56d9"
+  },
+  "outputs": {
+    "prelude.js": "0da84bc014582576c009262cef77a6e6104c6cedad3c05504b70bf442aefe526",
+    "dependency-licenses.txt": "6f14a4f1dc724a529d76079667021089a1bea4581d930c9904e755f282b3db95"
+  }
+}

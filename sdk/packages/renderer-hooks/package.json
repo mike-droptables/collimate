@@ -1,0 +1,65 @@
+{
+  "name": "@collimate/renderer-hooks",
+  "version": "0.1.0",
+  "description": "Hooks + session sockets for Collimate renderers \u2014 theme, document snapshots, remote module / script loaders, WebSocket session lifecycle.",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./session": {
+      "types": "./dist/session.d.ts",
+      "import": "./dist/session.js",
+      "require": "./dist/session.cjs"
+    },
+    "./platform": {
+      "types": "./platform.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "src",
+    "platform.d.ts",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsup src/index.tsx src/session.ts --format esm,cjs --dts --clean",
+    "dev": "tsup src/index.tsx src/session.ts --format esm,cjs --dts --watch",
+    "typecheck": "tsc --noEmit"
+  },
+  "peerDependencies": {
+    "react": ">=19",
+    "react-dom": ">=19"
+  },
+  "devDependencies": {
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "tsup": "^9.0.0",
+    "typescript": "~6.0.3"
+  },
+  "keywords": [
+    "collimate",
+    "renderer",
+    "react",
+    "hooks"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mike-droptables/collimate-sdk.git",
+    "directory": "packages/renderer-hooks"
+  },
+  "overrides": {
+    "esbuild": "0.28.2"
+  },
+  "allowScripts": {
+    "esbuild@0.28.2": true
+  }
+}

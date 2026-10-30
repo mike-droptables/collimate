@@ -1,0 +1,28 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2022", "DOM"],
+    // esbuild does the emitting; tsc only ever type-checks here, so the
+    // module settings just need to describe how esbuild resolves imports.
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "noEmit": true,
+    "types": ["node"],
+
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "exactOptionalPropertyTypes": true,
+    "isolatedModules": true,
+    "verbatimModuleSyntax": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true
+  },
+  // Tests are type-checked with the same settings as the shell they drive:
+  // a fake that has drifted from the real dependency shape is a test that
+  // has stopped testing anything.
+  "include": ["src/**/*.ts", "tests/**/*.ts"]
+}

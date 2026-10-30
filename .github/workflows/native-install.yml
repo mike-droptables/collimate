@@ -1,0 +1,241 @@
+name: Compiler-free native application install
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  PYTHON_KEYRING_BACKEND: keyring.backends.null.Keyring
+
+jobs:
+  candidate:
+    name: Build native candidate ${{ matrix.target }}
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - target: linux-x64
+            runner: ubuntu-24.04
+          - target: linux-arm64
+            runner: ubuntu-24.04-arm
+          - target: darwin-x64
+            runner: macos-15-intel
+          - target: darwin-arm64
+            runner: macos-15
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.13'
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '>=24.15.0 <25'
+      - name: Provision source checkout and explicit native payload
+        env:
+          TARGET: ${{ matrix.target }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pip install uv==0.13.6 build hatchling
+          if [ "$TARGET" = darwin-x64 ]; then
+            python -m pip install setuptools==80.9.0 wheel==0.45.1
+            python sdk/scripts/prepare_verifier_engine.py --build-source
+          else
+            python sdk/scripts/prepare_verifier_engine.py
+          fi
+          # The normal source seam consumes prepared resources and never compiles.
+          bash build/prepare_sdk_checkout.sh
+      # The app wheel carries module-snapshot/, whose bodies main does not.
+      - name: Fetch the module snapshot bodies
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch --depth=1 origin module-snapshot
+          python3 build/snapshot_store.py fetch
+      - name: Build exact-paired application and native SDK candidates
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import pathlib,tomllib
+          version=lambda path: tomllib.loads(pathlib.Path(path).read_text())['project']['version']
+          assert version('sdk/pyproject.toml') == version('api/pyproject.toml'), 'candidate SDK and app versions differ'
+          PY
+          python -m build --wheel --no-isolation sdk --outdir "$PWD/candidates"
+          npm ci --prefix frontend
+          (cd frontend && npm run build)
+          cp -R frontend/dist api/static
+          python build/release_policy.py pin-sdk
+          python -m build --wheel --no-isolation api --outdir "$PWD/candidates"
+          python - <<'PY'
+          import pathlib,subprocess,sys
+          wheels=list(pathlib.Path('candidates').glob('collimate-*.whl'))
+          assert len(wheels)==1
+          subprocess.run([sys.executable,'build/release_policy.py','check-wheel','--wheel',str(wheels[0])],check=True)
+          PY
+          python sdk/scripts/check_native_wheels.py candidates
+      - uses: actions/upload-artifact@v7
+        with:
+          name: app-native-${{ matrix.target }}
+          path: candidates/*.whl
+          if-no-files-found: error
+
+  install:
+    name: App pip and uvx ${{ matrix.target }} Python ${{ matrix.python }}
+    needs: candidate
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ['3.13', '3.14']
+        target: [linux-x64, linux-arm64, darwin-x64, darwin-arm64]
+        include:
+          - target: linux-x64
+            runner: ubuntu-24.04
+          - target: linux-arm64
+            runner: ubuntu-24.04-arm
+          - target: darwin-x64
+            runner: macos-15-intel
+          - target: darwin-arm64
+            runner: macos-15
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: ${{ matrix.python }}
+      - uses: actions/download-artifact@v8
+        with:
+          name: app-native-${{ matrix.target }}
+          path: candidates
+      - name: Download only existing binary dependencies for the exact candidates
+        shell: bash
+        run: |
+          set -euo pipefail
+          # Explicit first-party wheel inputs prevent any unpublished version lookup.
+          python -m pip download --only-binary=:all: --dest candidates candidates/*.whl
+          python -m pip install uv==0.13.6
+          python -m venv "$RUNNER_TEMP/app-pip"
+      - name: Ordinary pip and uvx resolution, real startup and native verifier
+        shell: bash
+        run: |
+          set -euo pipefail
+          export NATIVE_DENIED_LOG="$RUNNER_TEMP/app-native-denied.log"
+          denied="$RUNNER_TEMP/app-native-denied-bin"
+          mkdir -p "$denied"
+          for command in cc gcc g++ c++ clang clang++ make cmake node npm npx; do
+            # shellcheck disable=SC2016  # the stub expands $0 $* when it runs, not here
+            printf '#!/bin/sh\necho "$0 $*" >> "$NATIVE_DENIED_LOG"\nexit 87\n' > "$denied/$command"
+            chmod +x "$denied/$command"
+          done
+          export PATH="$denied:$PATH"
+          version="$(python -c 'import tomllib;print(tomllib.load(open("api/pyproject.toml","rb"))["project"]["version"])')"
+          "$RUNNER_TEMP/app-pip/bin/python" -m pip install --no-index --find-links candidates "collimate==$version"
+          export UV_TOOL_DIR="$RUNNER_TEMP/app-native-uv-tools"
+          UV_PYTHON="$(command -v python)"
+          export UV_PYTHON
+          export UV_PYTHON_DOWNLOADS=never
+          uv tool run --no-cache --no-index --find-links "$PWD/candidates" --no-build --from "collimate==$version" collimate --help
+          # Probe each installed owner with private roots; no source import path.
+          "$RUNNER_TEMP/app-pip/bin/python" -I - <<'PY'
+          import importlib.metadata,json,os,pathlib,signal,socket,subprocess,sys,tempfile,time,urllib.request
+          from collimate._host.verifier_engine import native_target,payload_directory,verify_payload
+          from collimate._host.verification import run_verifier
+          assert payload_directory(native_target()).parent.name == 'native_verifier'
+          record=verify_payload(payload_directory(native_target()),native_target())
+          result=run_verifier('var __collimate_verifier={default:()=>({valid:true})};',{},deadline=time.monotonic()+5)
+          assert result == {'valid':True}, result
+          version=importlib.metadata.version('collimate')
+          candidates=str(pathlib.Path('candidates').resolve())
+          worker_proof = '''
+          """Fixed installed-artifact proof: real app pool, worker, engine and compiler."""
+          import importlib.metadata
+          import json
+          from pathlib import Path
+          import sys
+          import time
+
+          import verifier_pool
+
+          installed = importlib.metadata.distribution('collimate')
+          assert Path(verifier_pool.__file__).resolve() == Path(installed.locate_file('verifier_pool.py')).resolve()
+          root = Path.cwd() / 'worker-proof'
+          workers = []
+          with verifier_pool.VerifierPool(root=root, cap=1) as pool:
+              assert pool.script == Path(installed.locate_file('_verifier_worker.py')).resolve()
+              with pool.lease(time.monotonic()+20) as lease:
+                  workers.append(lease.worker)
+                  def verify(body, value=None, **kwargs):
+                      return lease.verify('var __collimate_verifier={default:input=>{' + body + '}}', value or {}, **kwargs)
+                  assert verify('globalThis.previous=42;return {valid:true}') == {'valid':True}
+                  assert verify('return {valid:typeof previous==="undefined" && typeof process==="undefined" && typeof fetch==="undefined" && typeof require==="undefined"}') == {'valid':True}
+                  assert verify('return {valid:false,error:"intentional refusal"}') == {'valid':False,'error':'intentional refusal'}
+                  bundle = verify('const b=__collimate_bundle(input.files,input.entrypoint);return {valid:typeof b.entrypoint_js==="string" && b.code.includes("__collimate_renderer__")}',
+                                  {'files':{'main.ts':'export default {__collimate_renderer__:true,component:()=>null}'},'entrypoint':'main.ts'})
+                  assert bundle == {'valid':True}, bundle
+                  for body in ('new ArrayBuffer(70*1024*1024);return {valid:true}',
+                               'function recurse(){recurse()};recurse();return {valid:true}'):
+                      refused = verify(body)
+                      assert refused['valid'] is False and refused['error'] != 'Verifier timed out', refused
+                  timeout = verify('while(true){}', deadline=time.monotonic()+.2)
+                  assert timeout == {'valid':False,'error':'Verifier timed out'}, timeout
+              assert pool.worker_count == 0
+              assert workers[0].process.poll() is not None
+              with pool.lease(time.monotonic()+5) as lease:
+                  workers.append(lease.worker)
+                  assert lease.verify('var __collimate_verifier={default:()=>({valid:true})}',{}) == {'valid':True}
+          assert pool.worker_count == 0
+          assert all(worker.process.poll() is not None for worker in workers)
+          assert not list(root.iterdir())
+          print(json.dumps({'owner_python':sys.executable,'installed_worker':str(pool.script),
+                            'valid_invalid_fresh_context':True,'native_bundle':True,'heap_stack_refusal':True,
+                            'deadline_recovery_reaped':True}))
+          '''
+          for owner in ('pip','uvx'):
+              with tempfile.TemporaryDirectory(prefix='native-app-',dir=os.environ['RUNNER_TEMP']) as scratch:
+                  root=pathlib.Path(scratch)
+                  env={key:os.environ[key] for key in ('PATH','SSL_CERT_FILE','NATIVE_DENIED_LOG','UV_PYTHON','UV_PYTHON_DOWNLOADS') if key in os.environ}
+                  for key in ('HOME','XDG_CONFIG_HOME','XDG_CACHE_HOME','XDG_DATA_HOME','XDG_STATE_HOME','TMPDIR'):
+                      path=root/key;path.mkdir();env[key]=str(path)
+                  env['PYTHON_KEYRING_BACKEND']='keyring.backends.null.Keyring'
+                  env['UV_TOOL_DIR']=str(root/'uv-tools')
+                  env['UV_CACHE_DIR']=str(root/'uv-cache')
+                  proof=root/'worker-proof.py';proof.write_text(worker_proof)
+                  proof_command=([sys.executable] if owner=='pip' else
+                                 ['uv','tool','run','--no-cache','--no-index','--find-links',candidates,'--no-build','--from','collimate=='+version,'python'])
+                  subprocess.run(proof_command+['-I',str(proof)],cwd=root,env=env,check=True,timeout=45)
+                  with socket.socket() as reserved:
+                      reserved.bind(('127.0.0.1',0));port=reserved.getsockname()[1]
+                  arguments=['--port',str(port),'--data-dir',str(root/'data'),'--token','native-ci-synthetic']
+                  command=([str(pathlib.Path(sys.executable).with_name('collimate'))] if owner=='pip' else
+                           ['uv','tool','run','--no-cache','--no-index','--find-links',candidates,'--no-build','--from','collimate=='+version,'collimate'])+arguments
+                  with (root/'server.log').open('w') as log:
+                      child=subprocess.Popen(command,cwd=root,env=env,stdout=log,stderr=log,start_new_session=True)
+                      try:
+                          deadline=time.monotonic()+45
+                          while True:
+                              assert child.poll() is None, (root/'server.log').read_text()
+                              try:
+                                  request=urllib.request.Request(f'http://127.0.0.1:{port}/ready',headers={'Authorization':'Bearer native-ci-synthetic'})
+                                  with urllib.request.urlopen(request,timeout=1) as response:
+                                      readiness=json.load(response)
+                                  assert readiness['status']=='ok',readiness
+                                  break
+                              except (OSError,ValueError):
+                                  if time.monotonic()>=deadline:raise AssertionError((root/'server.log').read_text())
+                                  time.sleep(.1)
+                      finally:
+                          try:os.killpg(child.pid,signal.SIGTERM)
+                          except ProcessLookupError:pass
+                          try:child.wait(timeout=10)
+                          except subprocess.TimeoutExpired:os.killpg(child.pid,signal.SIGKILL);child.wait(timeout=5)
+                  print(json.dumps({'owner':owner,'target':native_target(),'python':sys.version,'ready':readiness,'binary_sha256':record['files']['_quickjs.abi3.so']}))
+          PY
+          test ! -e "$NATIVE_DENIED_LOG"

@@ -1,0 +1,27 @@
+{
+  "totalGzipKb": 543.4,
+  "generatedAt": "2026-10-12T14:54:59.814Z",
+  "previousBaselineGzipKb": 493.9,
+  "openingBaselineGzipKb": 394,
+  "plannedRendererWorkerGzipKb": 22.8,
+  "plannedDefinitionUiGzipBytes": 24975,
+  "reason": "plan1011 close (2026-10-12): the baseline moves to the measured closing size of the 2026-10-11 feature set (the Import / export panel, the four-side files pane and paste, tags and remove zones, renderer styles, the run path's queued start and device mode, the Servers tab and the grouped channel menu), whose per-phase costs are ledgered in docs/plan1011/output/2026-10-12/phase6-servers.md section 4. Keep 10% growth and the 800 KiB ceiling. Later baseline moves still require a landed feature's measured cost recorded in its ledger row; a failing gate alone never permits a baseline change.",
+  "prePreparationBaselineGzipKb": 441.2,
+  "prePreparationMeasuredGzipKb": 479.6,
+  "plannedPreviewPreparationGzipKb": 12.8,
+  "currentMeasuredGzipKb": 493.9,
+  "p6PreviousBaselineGzipKb": 454,
+  "p6ClosingMeasurement": {
+    "app": "2f84f13884a492b66a7490f5ff1ebb276944bd96",
+    "sdk": "71da8673dc3e0651f61a1b520f6efcc7e87b12c1",
+    "gzipBytes": 505710,
+    "chunkCount": 10
+  },
+  "plan1011ClosingMeasurement": {
+    "sdk": "0859484",
+    "app": "the phase 6 commit of plan1011 (2026-10-12)",
+    "gzipKb": 543.4,
+    "prePlanGzipKb": 534.2,
+    "afterPhase1GzipKb": 529.0
+  }
+}

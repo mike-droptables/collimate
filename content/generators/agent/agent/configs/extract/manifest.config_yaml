@@ -1,0 +1,24 @@
+name: Extract
+description: Pull structured data out of the cell's files as JSON — a one-shot agent pass guided by the
+  extract skill. Describe the shape you want in the system prompt.
+tags:
+- extract
+prompt: Run the extract skill over this cell's files and write the structured result to output.json. The
+  target schema — its exact key names and nesting — is pinned in the system prompt.
+settings:
+  agent-config.set_yaml:
+    surface: annotation
+    session: oneshot
+    backend: pydantic-ai
+    system_prompt: ''
+    mcp: 'off'
+    approvals: auto
+    selected_file_first: false
+folders:
+- _skills
+accounts: {}
+permissions:
+  docker: none
+  internet: full
+  commands: deny
+packages: {}

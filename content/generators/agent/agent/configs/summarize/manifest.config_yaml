@@ -1,0 +1,24 @@
+name: Summarize
+description: Summarize the cell's files into a tight, faithful digest — a one-shot agent pass guided by
+  the summarize skill.
+tags:
+- summarize
+prompt: Summarize this cell's files with the summarize skill — read everything first, then write the faithful digest
+  to summary.md.
+settings:
+  agent-config.set_yaml:
+    surface: annotation
+    session: oneshot
+    backend: pydantic-ai
+    system_prompt: ''
+    mcp: 'off'
+    approvals: auto
+    selected_file_first: false
+folders:
+- _skills
+accounts: {}
+permissions:
+  docker: none
+  internet: full
+  commands: deny
+packages: {}

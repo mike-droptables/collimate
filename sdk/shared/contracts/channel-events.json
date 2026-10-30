@@ -1,0 +1,226 @@
+[
+  {
+    "type": "connected"
+  },
+  {
+    "type": "overflow"
+  },
+  {
+    "type": "shutdown"
+  },
+  {
+    "type": "state_snapshot",
+    "revision": "fixture:1",
+    "state": {
+      "active_channel_id": "channel-1",
+      "channel_scope": "channel-1",
+      "channels": [
+        {
+          "id": "channel-1",
+          "name": "Fixture",
+          "nav_stacks": [],
+          "nav_selection_id": null,
+          "main_selection_id": "stack-1",
+          "main_stacks": [
+            {
+              "id": "stack-1",
+              "name": "Fixture",
+              "cells": [
+                {
+                  "id": "cell-1",
+                  "name": "Fixture",
+                  "updated_at": "2026-01-01T00:00:00Z",
+                  "files": [
+                    {
+                      "name": "notes.txt",
+                      "language": "text",
+                      "file_revision": 1,
+                      "body_hash": "6db7d803e74f1ffa7d8f5adc0bf95b3e15bf4c8373fffadf546227cc6c6742cb",
+                      "encoding": "utf-8",
+                      "writer_id": "fixture-writer",
+                      "edit_seq": 1
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "state_delta",
+    "base_revision": "fixture:1",
+    "revision": "fixture:2",
+    "channel_scope": "channel-1",
+    "patches": [
+      {
+        "op": "set",
+        "path": [
+          "channels",
+          {
+            "key": "id",
+            "value": "channel-1"
+          },
+          "main_stacks",
+          {
+            "key": "id",
+            "value": "stack-1"
+          },
+          "cells",
+          {
+            "key": "id",
+            "value": "cell-1"
+          },
+          "files",
+          {
+            "key": "name",
+            "value": "notes.txt"
+          }
+        ],
+        "value": {
+          "name": "notes.txt",
+          "language": "text",
+          "file_revision": 2,
+          "body_hash": "f39592393ef0859cb196a52693d2cea00fb2df784b3c04ae54aa7cadb8e562f8",
+          "encoding": "utf-8",
+          "writer_id": "fixture-writer",
+          "edit_seq": 2
+        }
+      },
+      {
+        "op": "set",
+        "path": [
+          "channels",
+          {
+            "key": "id",
+            "value": "channel-1"
+          },
+          "main_stacks",
+          {
+            "key": "id",
+            "value": "stack-1"
+          },
+          "cells",
+          {
+            "key": "id",
+            "value": "cell-1"
+          },
+          "updated_at"
+        ],
+        "value": "2026-01-01T00:00:01Z"
+      }
+    ]
+  },
+  {
+    "type": "dag_commit",
+    "cell_id": "cell-1",
+    "files": [
+      "notes.md",
+      "deleted.md"
+    ],
+    "run_id": "run-1",
+    "generator_name": "example"
+  },
+  {
+    "type": "run_events",
+    "run_id": "run-1",
+    "events": [
+      {
+        "id": 42,
+        "type": "log",
+        "payload": "hello",
+        "created_at": "2026-10-02T12:00:00Z"
+      },
+      {
+        "id": 43,
+        "type": "stdout",
+        "payload": "second",
+        "created_at": "2026-10-02T12:00:01Z"
+      },
+      {
+        "id": 44,
+        "type": "commit",
+        "payload": "{\"cell_id\": \"cell-2\", \"name\": \"\", \"sequence_num\": 3, \"file_count\": 2, \"changes\": [{\"path\": \"notes.md\", \"op\": \"edit\", \"folder\": false}, {\"path\": \"drafts\", \"op\": \"create\", \"folder\": true}, {\"path\": \"drafts/a.md\", \"op\": \"create\", \"folder\": false}]}",
+        "created_at": "2026-10-02T12:00:02Z"
+      }
+    ]
+  },
+  {
+    "type": "run_status",
+    "run_id": "run-1",
+    "status": "failed",
+    "failure_reason": "fixture failure",
+    "ended_at": "2026-10-06T14:05:00+00:00",
+    "note": "probe failed",
+    "outcome": "fail"
+  },
+  {
+    "type": "run_phase",
+    "run_id": "run-1",
+    "phase": "awaiting_input",
+    "message": "ready"
+  },
+  {
+    "type": "run_started",
+    "run_id": "run-1",
+    "cell_id": "cell-1",
+    "runner_id": "example--main",
+    "runner_name": "Example",
+    "label": "example-11111111",
+    "folder": "_runs/example-11111111",
+    "generator_name": "example",
+    "stack_id": "stack-1",
+    "opens": [
+      "_runs/example-11111111/chat/conversation.chat"
+    ]
+  },
+  {
+    "type": "reveal_file",
+    "run_id": "run-1",
+    "cell_id": "cell-1",
+    "path": "notes.md"
+  },
+  {
+    "type": "surface_changed",
+    "cell_id": "cell-1",
+    "path": "notes/board.panel"
+  },
+  {
+    "type": "lineage_changed",
+    "cell_ids": [
+      "cell-1",
+      "cell-2"
+    ]
+  },
+  {
+    "type": "runs_active_changed",
+    "channel": "fixture"
+  },
+  {
+    "type": "file_changes",
+    "cell_id": "cell-1",
+    "operation_id": "fixture-operation",
+    "outcome": "accepted",
+    "files": [
+      {
+        "path": "notes.txt",
+        "language": "text",
+        "deleted": false,
+        "file_revision": 2,
+        "body_hash": "f39592393ef0859cb196a52693d2cea00fb2df784b3c04ae54aa7cadb8e562f8",
+        "encoding": "utf-8",
+        "writer_id": "fixture-writer",
+        "edit_seq": 2
+      }
+    ],
+    "conflicts": []
+  },
+  {
+    "type": "annotations_changed",
+    "cell_id": "cell-1",
+    "context_id": "run-1",
+    "rev": 3
+  }
+]

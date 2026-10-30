@@ -1,0 +1,36 @@
+id: "image"
+name: "Image Viewer"
+version: "1.0.0"
+summary: "Displays common image formats (PNG, JPEG, GIF, WebP, SVG, BMP, ICO)."
+entrypoint: "main.tsx"
+embed: "native"
+
+extensions:
+  - ".png"
+  - ".jpg"
+  - ".jpeg"
+  - ".gif"
+  - ".webp"
+  - ".svg"
+  - ".bmp"
+  - ".ico"
+  - ".avif"
+  - ".tiff"
+  - ".tif"
+
+# An image opens as an image, not as text, even where another renderer claims
+# the extension too (the code editor claims ".svg").
+default_for:
+  - ".png"
+  - ".jpg"
+  - ".jpeg"
+  - ".gif"
+  - ".webp"
+  - ".svg"
+  - ".bmp"
+  - ".ico"
+  - ".avif"
+  - ".tiff"
+  - ".tif"
+
+supports_diff: false

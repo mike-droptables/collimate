@@ -1,0 +1,23 @@
+name: Hermes
+description: NousResearch's Hermes Agent in its own container, on the Annotation surface. Anthropic, OpenAI,
+  Gemini, Groq, Cerebras, OpenRouter, xAI or Mistral key
+tags:
+- agent
+- hermes
+prompt: ''
+settings:
+  agent-config.set_yaml:
+    surface: annotation
+    session: interactive
+    backend: hermes
+    system_prompt: ''
+    mcp: 'off'
+    approvals: auto
+    selected_file_first: false
+folders: []
+accounts: {}
+permissions:
+  docker: full
+  internet: full
+  commands: allow
+packages: {}

@@ -1,0 +1,20 @@
+# Workspace root. The two members are PyPI distributions at one version:
+# sdk/ is `collimate-sdk` (the generator and renderer contract, built-ins,
+# compilers, native verifier), api/ is `collimate` (the server). One lockfile.
+[tool.uv.workspace]
+members = ["sdk", "api"]
+
+# pyright runs from the repo root (`uv run pyright api`); the api member's
+# checks live here so the workspace venv is the one it resolves against.
+# api/hatch_build.py runs only inside the build backend's own environment.
+[tool.pyright]
+include = ["api"]
+extraPaths = ["api"]
+exclude = ["api/tests", "api/.collimate", "api/build", "api/static", "api/hatch_build.py", ".venv", "**/node_modules", "**/__pycache__"]
+pythonVersion = "3.13"
+typeCheckingMode = "basic"
+venvPath = "."
+venv = ".venv"
+# collimate-sdk imports are function-level; don't fail the check when only
+# a partial/stub SDK is installed.
+reportMissingModuleSource = false

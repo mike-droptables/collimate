@@ -1,0 +1,65 @@
+name: Release guard
+
+# The reactive half of release.yml's Latest invariant. Every installed app
+# downloads whatever GitHub labels Latest (/releases/latest, then its
+# latest*.yml, with no version check and no fallback), and a client whose
+# check fails only logs it. So whenever a release changes, and daily, this
+# checks that Latest is a vX.Y.Z release carrying latest.yml, latest-mac.yml,
+# latest-linux.yml and content.zip; when it is not, it marks the newest
+# complete app release Latest and fails, loudly. It also fails on any
+# release that is not vX.Y.Z yet is a full release, has a tag semver accepts,
+# or carries a latest*.yml (build/release_policy.py latest has the rules).
+#
+# release.yml's own publish raises no event here (a GITHUB_TOKEN's events
+# start no workflow), so it confirms Latest itself; this catches a release
+# made by hand, an edit, a deletion.
+
+on:
+  release:
+    types: [published, released, edited, prereleased, deleted]
+  schedule:
+    - cron: '41 6 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-guard
+  cancel-in-progress: false
+
+jobs:
+  latest:
+    name: Latest is a complete app release
+    # The public repo by name: a scheduled run's event carries no repository,
+    # so `!github.event.repository.private` would hold on the private repo too.
+    if: ${{ github.repository == 'mike-droptables/collimate' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+    steps:
+      # The default branch: a deleted release's tag may be gone.
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.13'
+      - name: Check Latest, and re-mark it when it is wrong
+        shell: bash
+        run: |
+          set -euo pipefail
+          gh api --paginate "repos/$GH_REPO/releases" --jq '.[]' > "$RUNNER_TEMP/releases.json"
+          if ! gh api "repos/$GH_REPO/releases/latest" > "$RUNNER_TEMP/latest.json" 2> "$RUNNER_TEMP/latest.err"; then
+            if ! grep -q 'HTTP 404' "$RUNNER_TEMP/latest.err"; then
+              cat "$RUNNER_TEMP/latest.err" >&2
+              exit 1
+            fi
+            : > "$RUNNER_TEMP/latest.json"
+          fi
+          python build/release_policy.py latest --releases "$RUNNER_TEMP/releases.json" \
+            --latest "$RUNNER_TEMP/latest.json" --remark

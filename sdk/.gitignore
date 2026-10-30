@@ -1,0 +1,72 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg
+*.egg-info/
+.eggs/
+# Root-anchored on purpose: generators legitimately ship folders named
+# `build` (runner Docker build contexts, config-folder samples) and an
+# unanchored `build/` silently keeps them out of git — tests then pass
+# only on machines where the untracked files happen to exist.
+/build/
+/dist/
+/wheels/
+pip-wheel-metadata/
+MANIFEST
+
+# Virtual environments
+.venv/
+venv/
+env/
+.python-version
+
+# Packaging / build caches
+.hatch/
+.tox/
+.nox/
+# uv resolves its own lock on-demand; libraries published to PyPI
+# don't need a committed lockfile (consumers resolve against their
+# own environment). Keeps stray `uv run` / `uv sync` invocations
+# from polluting the tree.
+uv.lock
+
+# Testing / coverage
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+.mypy_cache/
+.ruff_cache/
+
+# Editors / OS
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Local dev workspaces / artifacts
+test_workspace/
+
+# Node (for renderer authoring)
+node_modules/
+
+# Local scratch (pytest temp root, ad-hoc work)
+/tmp/
+
+# Explicitly prepared private engine payloads; included only by packaging hooks.
+/src/collimate/native_verifier/
+
+# Built from their sources by scripts/build_outputs.py (prepare_sdk_checkout.sh,
+# hatch_build.py, generate.py), pinned by the committed manifests
+# shared/renderer-runtime/index.json and shared/verify/prelude.json; the wheel
+# and the sdist carry them.
+/shared/renderer-runtime/react.js
+/shared/renderer-runtime/session.js
+/shared/renderer-runtime/common.json
+/shared/renderer-runtime/snapshot-codecs.json
+/shared/verify/prelude.js

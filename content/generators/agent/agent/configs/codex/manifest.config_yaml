@@ -1,0 +1,23 @@
+name: Codex
+description: 'OpenAI''s Codex CLI in its own container (or this machine''s codex under docker: none),
+  on the Annotation surface. openai, openrouter or groq key, or ChatGPT sign-in'
+tags:
+- agent
+- codex
+prompt: ''
+settings:
+  agent-config.set_yaml:
+    surface: annotation
+    session: interactive
+    backend: codex
+    system_prompt: ''
+    mcp: 'off'
+    approvals: auto
+    selected_file_first: false
+folders: []
+accounts: {}
+permissions:
+  docker: full
+  internet: full
+  commands: allow
+packages: {}

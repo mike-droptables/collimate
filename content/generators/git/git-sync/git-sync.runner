@@ -1,0 +1,20 @@
+id: git-sync
+generator: git
+name: Git Clone / Update
+description: Clone a Git repository into a folder of this cell (its files, never .git, plus a <folder>.git-checkout.json record beside the folder), or bring in its new commits while keeping your edits
+tags:
+- git
+prompt: ''
+settings:
+  settings.set_yaml:
+    action: sync
+    folder: ''
+    branch: ''
+    commit_message: ''
+    push_branch: ''
+folders: []
+accounts: {}
+permissions:
+  docker: none
+  internet: full
+packages: {}

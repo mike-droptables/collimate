@@ -1,0 +1,38 @@
+import { afterEach, expect, it, vi } from 'vitest';
+import { CellDisplayWrites } from './cellDisplayWrites';
+import { encodeCellDisplay } from './cellDisplay';
+import { createDefaultLayout } from './cellLayout';
+const display = (path: string) => encodeCellDisplay(createDefaultLayout({ filePaths: [path], pinnedPath: path }), null);
+afterEach(() => vi.useRealTimers());
+it('debounces per cell, captures UUID and keeps only the latest queued descriptor', async () => {
+    vi.useFakeTimers();
+    let resolve!: () => void;
+    const write = vi.fn<(...args: any[]) => Promise<unknown>>().mockImplementationOnce(() => new Promise(r => { resolve = () => r(undefined); })).mockResolvedValue(undefined);
+    const owner = new CellDisplayWrites(write, 350), notify = vi.fn();
+    owner.schedule('channel-one', 'cell-one', display('first'), notify);
+    owner.schedule('channel-one', 'cell-one', display('second'), notify);
+    await vi.advanceTimersByTimeAsync(350);
+    expect(write).toHaveBeenCalledTimes(1);
+    expect(write.mock.calls[0][2].root.tabs[0].path).toBe('second');
+    owner.schedule('channel-one', 'cell-one', display('third'), notify);
+    owner.schedule('channel-two', 'cell-two', display('independent'), notify);
+    const draining = owner.flush('channel-one', ['cell-one']);
+    resolve();
+    await draining;
+    expect(write.mock.calls[1].slice(0, 2)).toEqual(['channel-one', 'cell-one']);
+    expect(write.mock.calls[1][2].root.tabs[0].path).toBe('third');
+    await owner.flush('channel-two', ['cell-two']);
+    expect(write.mock.calls[2].slice(0, 2)).toEqual(['channel-two', 'cell-two']);
+});
+it('refused flush retains the latest display and exposes retry instead of allowing consumption', async () => {
+    vi.useFakeTimers();
+    const notify = vi.fn(), write = vi.fn().mockRejectedValueOnce(new Error('refused')).mockResolvedValue(undefined);
+    const owner = new CellDisplayWrites(write, 350);
+    owner.schedule('uuid', 'cell', display('latest'), notify);
+    await expect(owner.flush('uuid', ['cell'])).rejects.toThrow('refused');
+    expect(notify).toHaveBeenLastCalledWith('refused');
+    await owner.flush('uuid', ['cell']);
+    expect(write).toHaveBeenCalledTimes(2);
+    expect(write.mock.calls[1][2]).toEqual(write.mock.calls[0][2]);
+    expect(notify).toHaveBeenLastCalledWith(null);
+});

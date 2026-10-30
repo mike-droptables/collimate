@@ -1,0 +1,567 @@
+name: Release
+
+# The one release: a pushed tag vX.Y.Z on the public repo publishes
+# collimate-sdk and collimate to PyPI at that version, then the GitHub
+# release that carries content.zip, the desktop installers and the update
+# feed. The tag comes from `build/push_public.py --push --tag vX.Y.Z`, never
+# from `gh release create`: a release created by hand is Latest at once,
+# before it has a feed (see the Latest invariant below).
+#
+#   guard ──┬── sdk-dist      4 native wheels, sdist, install legs (sdk-native-wheels.yml)
+#           ├── app-dist      frontend, pin-sdk, wheel and sdist, check-wheel
+#           ├── content-zip ──┬── assets    the complete release asset set
+#           └── desktop ──────┘             mac arm64 + x64, linux x64, windows x64
+#   publish-sdk (needs every job above) ── publish-app ── release (draft, assets, feed, Latest)
+#
+# Everything is built before anything is published: PyPI never takes a file
+# name twice, even after a deletion, so a leg that fails after an upload
+# costs a version. The private repo, and a workflow_dispatch rehearsal (its
+# `tag` input names the version it rehearses), run the build jobs only; the
+# publish and release jobs run on a tag push to the public repo.
+#
+# PYPI TRUSTED PUBLISHING
+# -----------------------
+# Both projects trust one publisher record, which PyPI keys on all four of:
+#     owner mike-droptables, repository collimate, workflow release.yml,
+#     environment pypi
+# Settings that differ in any one, even the environment, make two records and
+# a token that covers one project. `collimate` exists on PyPI: add the
+# publisher there (pypi.org, collimate, Manage, Publishing). `collimate-sdk`
+# does not exist yet: add a pending publisher with the same four settings,
+# and delete any pending one that points at the retired collimate-sdk repo.
+# The upload is two top-level jobs, SDK first (the action does not run from
+# a reusable workflow, and one mixed upload stops at its first failure, which
+# could leave collimate==X live without its SDK), with the action's defaults:
+# attestations on, skip-existing off.
+#
+# THE LATEST INVARIANT
+# --------------------
+# Every installed app asks GitHub for /releases/latest and downloads that
+# release's latest*.yml, with no version check and no fallback
+# (electron-updater's GitHubProvider), and the catalog refresh downloads
+# Latest's content.zip. So /releases/latest must at every moment be a vX.Y.Z
+# release that already carries latest.yml, latest-mac.yml, latest-linux.yml
+# and content.zip. The release job creates the release as a draft, uploads
+# the binaries and content.zip, then the three feed files, and only then
+# publishes it as Latest. release-guard.yml re-marks Latest and fails when
+# anything else becomes Latest.
+#
+# A release that is not the app's (a snapshot, a test) is created with
+# --prerelease and a tag semver rejects (snapshot-YYYYMMDD: no dots, no v),
+# and never carries a latest*.yml asset. Creating one any other way makes it
+# Latest, and every installed app then fails its update check silently.
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: The release tag to rehearse (v<version>); the build jobs run, nothing is published
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-${{ inputs.tag || github.ref_name }}
+  # Never cancel: a run cancelled between the PyPI uploads, or mid-upload to
+  # the release, leaves half a release behind.
+  cancel-in-progress: false
+
+jobs:
+  guard:
+    name: Version guard
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    outputs:
+      version: ${{ steps.read.outputs.version }}
+      tag: ${{ steps.read.outputs.tag }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.13'
+      # The desktop version is the PyPI version the shell runs and the tag
+      # names the release its feed points at: one disagreement ships an app
+      # that cannot start, so it fails here.
+      - name: Check the tag names the one version
+        id: read
+        shell: bash
+        # Via env, not `${{ }}` inside the script: a tag name is text from
+        # outside the workflow, and interpolated into bash it would run.
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          DISPATCH_TAG: ${{ inputs.tag }}
+        run: |
+          set -euo pipefail
+          python build/release_policy.py guard
+          version="$(python -c 'import tomllib; print(tomllib.load(open("api/pyproject.toml", "rb"))["project"]["version"])')"
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "tag=v$version" >> "$GITHUB_OUTPUT"
+
+  sdk-dist:
+    name: SDK distributions
+    needs: guard
+    permissions:
+      contents: read
+    uses: ./.github/workflows/sdk-native-wheels.yml
+
+  app-dist:
+    name: App distributions
+    needs: guard
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+      - uses: ./.github/actions/setup-toolchain
+      - name: Fetch the module snapshot bodies
+        run: |
+          set -euo pipefail
+          git fetch --depth=1 origin module-snapshot
+          python3 build/snapshot_store.py fetch
+      - name: Build the frontend into api/static/
+        run: |
+          set -euo pipefail
+          npm ci --prefix frontend
+          (cd frontend && npm run build)
+          rm -rf api/static
+          cp -r frontend/dist api/static
+      - name: Pin the exact SDK
+        run: python build/release_policy.py pin-sdk
+      # The wheel carries content/, builtins/ and module-snapshot/ beside the
+      # server (api/hatch_build.py) and pins collimate-sdk==<the version>.
+      - name: Build wheel + sdist
+        working-directory: api
+        run: |
+          python -m pip install build
+          python -m build
+      - name: Check the wheel's contents and exact SDK pairing
+        run: |
+          set -euo pipefail
+          wheels=(api/dist/*.whl)
+          test "${#wheels[@]}" -eq 1 && test -f "${wheels[0]}"
+          python build/release_policy.py check-wheel --wheel "${wheels[0]}"
+      - uses: actions/upload-artifact@v7
+        with:
+          name: app-dist
+          path: api/dist/
+          if-no-files-found: error
+
+  # The catalog's refresh downloads this from the Latest release; its format
+  # is api/suggested.py's: content/'s three folders at the zip root, nothing
+  # beside them. git archive takes the tracked files only.
+  content-zip:
+    name: content.zip
+    needs: guard
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.13'
+      - name: Zip content/'s three folders at the zip root
+        run: |
+          set -euo pipefail
+          mkdir -p release-assets
+          git archive --format=zip --output=release-assets/content.zip HEAD:content generators renderers suggested
+      - name: Read it back with the app's own reader
+        run: |
+          set -euo pipefail
+          python -m pip install uv==0.13.6
+          uv run --no-project --with httpx --with pyyaml --with pydantic python - <<'PY'
+          import subprocess, sys, tempfile
+          from pathlib import Path
+          sys.path.insert(0, 'api')
+          import suggested
+          with tempfile.TemporaryDirectory() as scratch:
+              suggested._extract(Path('release-assets/content.zip'), Path(scratch))
+              unpacked = sorted(path.relative_to(scratch).as_posix() for path in Path(scratch).rglob('*') if path.is_file())
+          listed = subprocess.run(['git', 'ls-files', 'content/generators', 'content/renderers', 'content/suggested'],
+                                  capture_output=True, text=True, check=True).stdout.split('\n')
+          tracked = sorted(name.removeprefix('content/') for name in listed if name)
+          assert unpacked == tracked, sorted(set(unpacked) ^ set(tracked))[:20]
+          print(f'content.zip: {len(unpacked)} files, accepted by api/suggested.py')
+          PY
+      - uses: actions/upload-artifact@v7
+        with:
+          name: release-content-zip
+          path: release-assets/content.zip
+          if-no-files-found: error
+
+  desktop:
+    name: Desktop ${{ matrix.os }}
+    needs: guard
+    runs-on: ${{ matrix.os }}
+    # Notarization is a round trip to Apple and adds ten-odd minutes on a
+    # bad day.
+    timeout-minutes: 45
+    strategy:
+      # One platform failing shouldn't throw away the other two builds; the
+      # assets job is what refuses the incomplete set.
+      fail-fast: false
+      matrix:
+        include:
+          # macOS 14 is the arm64 runner; electron-builder cross-compiles
+          # the x64 slice from it. The reverse (mac from Linux) is not
+          # possible, which is why this is a matrix and not one job.
+          - os: macos-14
+            platform: --mac
+          - os: ubuntu-24.04
+            platform: --linux
+          - os: windows-2025
+            platform: --win
+    # A platform signs exactly when its signing secrets are set (a job's env
+    # may read secrets; a step's `if` may not, so the two flags live here).
+    # Without them the leg packages unsigned and ships that way: a macOS
+    # user opens the app once through Privacy & Security and gets no
+    # auto-update (the shell says so: Squirrel.Mac refuses an unsigned
+    # swap); a Windows user clicks through SmartScreen. Setting the secrets
+    # (and, for Windows, the AZURE_SIGN_* variables) turns the signed path
+    # on with no other change: the next release is signed and updates.
+    env:
+      MAC_SIGNING: ${{ secrets.CSC_LINK != '' }}
+      WIN_SIGNING: ${{ secrets.AZURE_CLIENT_SECRET != '' }}
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '>=24.15.0 <25'
+          cache: "npm"
+          cache-dependency-path: desktop/package-lock.json
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.13'
+
+      - name: Install
+        working-directory: desktop
+        run: npm ci
+
+      - name: Build shell bundle
+        working-directory: desktop
+        run: npm run build
+
+      # The leg's config extends desktop/electron-builder.yml with what
+      # differs between a signed and an unsigned build (build/desktop_packaging.py):
+      # the `collimate.signed` stamp the updater reads, mac notarization (or,
+      # unsigned, an ad-hoc identity) and, when signing Windows, the Azure
+      # Trusted Signing options from the four AZURE_SIGN_* repository
+      # variables (publisherName exactly the certificate's subject CN, which
+      # electron-updater checks every downloaded installer against).
+      - name: Write the packaging config
+        shell: bash
+        env:
+          PLATFORM: ${{ matrix.platform }}
+          AZURE_SIGN_PUBLISHER_NAME: ${{ vars.AZURE_SIGN_PUBLISHER_NAME }}
+          AZURE_SIGN_ENDPOINT: ${{ vars.AZURE_SIGN_ENDPOINT }}
+          AZURE_SIGN_ACCOUNT_NAME: ${{ vars.AZURE_SIGN_ACCOUNT_NAME }}
+          AZURE_SIGN_CERTIFICATE_PROFILE: ${{ vars.AZURE_SIGN_CERTIFICATE_PROFILE }}
+        run: |
+          set -euo pipefail
+          python build/desktop_packaging.py --platform "${PLATFORM#--}" --out desktop/release.electron-builder.json
+          cat desktop/release.electron-builder.json
+
+      # `--publish never`: this job produces artifacts and signatures, it
+      # never touches the release. See the `publish:` block in
+      # desktop/electron-builder.yml for why the upload is the release job's.
+      #
+      # Signing inputs, all from repo secrets:
+      #   macOS    CSC_LINK (Developer ID Application cert, base64 .p12)
+      #            + CSC_KEY_PASSWORD, then notarytool via APPLE_ID /
+      #            APPLE_APP_SPECIFIC_PASSWORD / APPLE_TEAM_ID. Absent, the
+      #            config above ad-hoc signs (identity "-") and skips
+      #            notarization, and the verify step is skipped.
+      #   Windows  Azure Trusted Signing via EnvironmentCredential:
+      #            AZURE_TENANT_ID / AZURE_CLIENT_ID / AZURE_CLIENT_SECRET,
+      #            with the signing options from the AZURE_SIGN_* variables.
+      #            Absent, the config carries no azureSignOptions and the
+      #            installer is unsigned.
+      #   Linux    nothing to sign; the AppImage's integrity comes from
+      #            the sha512 in latest-linux.yml.
+      #
+      # Each leg sees only its own platform's inputs, and only when that
+      # platform signs. An unset secret renders as '', and electron-builder
+      # reads an empty CSC_LINK as a certificate path (and fails on it), so
+      # the others are unset here rather than left empty; and CSC_LINK is
+      # also the fallback for Windows signtool, so with it present the
+      # Windows leg would sign the installer with the Apple certificate.
+      - name: Package
+        working-directory: desktop
+        shell: bash
+        env:
+          PLATFORM: ${{ matrix.platform }}
+          CSC_IDENTITY_AUTO_DISCOVERY: ${{ env.MAC_SIGNING }}
+          CSC_LINK: ${{ secrets.CSC_LINK }}
+          CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD }}
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+          AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+        run: |
+          set -euo pipefail
+          mac=(CSC_LINK CSC_KEY_PASSWORD APPLE_ID APPLE_APP_SPECIFIC_PASSWORD APPLE_TEAM_ID)
+          win=(AZURE_TENANT_ID AZURE_CLIENT_ID AZURE_CLIENT_SECRET)
+          if [ "$PLATFORM" != --mac ] || [ "$MAC_SIGNING" != true ]; then unset "${mac[@]}"; fi
+          if [ "$PLATFORM" != --win ] || [ "$WIN_SIGNING" != true ]; then unset "${win[@]}"; fi
+          npx electron-builder --config release.electron-builder.json "$PLATFORM" --publish never
+
+      # Squirrel.Mac refuses to install an update whose signature doesn't
+      # validate against the running app's, so a signed build that is
+      # unstapled or mis-signed is not "a build with a Gatekeeper warning":
+      # it is a build that can never update itself, and that ships to
+      # everyone. An unsigned leg (no CSC_LINK), a rehearsal (dispatch) and
+      # the private repo skip this.
+      - name: Verify the macOS signature
+        if: ${{ matrix.os == 'macos-14' && env.MAC_SIGNING == 'true' && !github.event.repository.private && github.event_name == 'push' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          shopt -s nullglob
+          # arm64 lands in release/mac-arm64/, the x64 slice in release/mac/.
+          apps=(desktop/release/mac*/Collimate.app)
+          if [ ${#apps[@]} -eq 0 ]; then
+            echo "::error::no Collimate.app under desktop/release/"
+            exit 1
+          fi
+          for app in "${apps[@]}"; do
+            echo "--- $app"
+            codesign --verify --deep --strict --verbose=2 "$app"
+            spctl --assess --type execute --verbose=2 "$app"
+            xcrun stapler validate "$app"
+          done
+
+      # A signed build's app-update.yml carries AZURE_SIGN_PUBLISHER_NAME,
+      # and electron-updater compares every downloaded installer's
+      # Authenticode publisher against it. A signed .exe whose signature
+      # does not validate fails that check on the user's machine, after
+      # the download, silently. An unsigned leg (no AZURE_CLIENT_SECRET), a
+      # rehearsal and the private repo skip this.
+      - name: Verify the Windows signature
+        if: ${{ matrix.os == 'windows-2025' && env.WIN_SIGNING == 'true' && !github.event.repository.private && github.event_name == 'push' }}
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $installers = Get-ChildItem -Path desktop/release -Filter *.exe
+          if ($installers.Count -eq 0) { throw "no .exe under desktop/release/" }
+          foreach ($file in $installers) {
+            $sig = Get-AuthenticodeSignature $file.FullName
+            Write-Host "$($file.Name): $($sig.Status) — $($sig.SignerCertificate.Subject)"
+            if ($sig.Status -ne 'Valid') {
+              throw "$($file.Name) is not validly signed (status: $($sig.Status))"
+            }
+          }
+
+      # latest*.yml and the .blockmap files are part of the payload, not
+      # build noise: the yml IS the feed, and a blockmap is what lets an
+      # update download the changed blocks instead of the whole installer.
+      - name: Upload installers
+        uses: actions/upload-artifact@v7
+        with:
+          name: release-desktop-${{ matrix.os }}
+          path: |
+            desktop/release/*.dmg
+            desktop/release/*.zip
+            desktop/release/*.AppImage
+            desktop/release/*.deb
+            desktop/release/*.exe
+            desktop/release/*.blockmap
+            desktop/release/latest*.yml
+          if-no-files-found: error
+          retention-days: 14
+
+  assets:
+    name: Check the release asset set
+    needs: [guard, content-zip, desktop]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    env:
+      VERSION: ${{ needs.guard.outputs.version }}
+    steps:
+      - uses: actions/download-artifact@v8
+        with:
+          pattern: release-*
+          path: assets
+          merge-multiple: true
+
+      # Every platform, or nothing. A release missing the mac zips is a
+      # release where mac auto-update 404s; a release missing an installer
+      # is a download page with a hole in it; one missing content.zip breaks
+      # the catalog's refresh. All are worse than a release that never
+      # happened, because Latest makes them everyone's problem within the hour.
+      #
+      # Prerelease versions are deliberately not handled: electron-builder
+      # writes rc.yml / beta.yml instead of latest.yml for a -rc.N version,
+      # and this check fails loudly on one.
+      - name: Check the asset set is complete
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd assets
+          missing=0
+          expected=(
+            "Collimate-$VERSION-mac-arm64.dmg"
+            "Collimate-$VERSION-mac-x64.dmg"
+            "Collimate-$VERSION-mac-arm64.zip"
+            "Collimate-$VERSION-mac-x64.zip"
+            "Collimate-$VERSION-linux-x86_64.AppImage"
+            "Collimate-$VERSION-linux-amd64.deb"
+            "Collimate-$VERSION-win-x64.exe"
+            latest.yml
+            latest-mac.yml
+            latest-linux.yml
+            content.zip
+          )
+          for asset in "${expected[@]}"; do
+            if [ -f "$asset" ]; then
+              printf '  ok      %s\n' "$asset"
+            else
+              printf '  MISSING %s\n' "$asset"
+              missing=1
+            fi
+          done
+          if [ "$missing" = "1" ]; then
+            echo "::error::the artifact set is incomplete; refusing to publish a partial release. Fix the failed leg and re-run."
+            exit 1
+          fi
+          ls -l
+
+  publish-sdk:
+    name: Publish collimate-sdk to PyPI
+    needs: [guard, sdk-dist, app-dist, assets]
+    if: ${{ !github.event.repository.private && github.event_name == 'push' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    environment:
+      name: pypi
+      url: https://pypi.org/p/collimate-sdk
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+      - uses: actions/download-artifact@v8
+        with:
+          name: native-dist
+          path: dist
+      - name: Verify all four native wheels
+        run: python sdk/scripts/check_native_wheels.py dist --all
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+
+  publish-app:
+    name: Publish collimate to PyPI
+    needs: [guard, publish-sdk]
+    if: ${{ !github.event.repository.private && github.event_name == 'push' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    environment:
+      name: pypi
+      url: https://pypi.org/p/collimate
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/download-artifact@v8
+        with:
+          name: app-dist
+          path: dist
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+
+  release:
+    name: Publish the GitHub release
+    needs: [guard, assets, publish-app]
+    if: ${{ !github.event.repository.private && github.event_name == 'push' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    permissions:
+      contents: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+      TAG: ${{ needs.guard.outputs.tag }}
+      VERSION: ${{ needs.guard.outputs.version }}
+    steps:
+      - uses: actions/download-artifact@v8
+        with:
+          pattern: release-*
+          path: assets
+          merge-multiple: true
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.13'
+
+      # A draft is invisible to /releases/latest and serves no asset, so
+      # nothing below reaches an installed app until the last step. A re-run
+      # after a failed upload reuses its draft.
+      - name: Create the release as a draft
+        run: |
+          set -euo pipefail
+          if draft="$(gh release view "$TAG" --json isDraft --jq .isDraft 2>/dev/null)"; then
+            if [ "$draft" != "true" ]; then
+              echo "::error::$TAG is already published; a release is made once"
+              exit 1
+            fi
+            echo "reusing the draft release $TAG"
+          else
+            gh release create "$TAG" --draft --verify-tag --title "$TAG" --notes "Collimate $VERSION"
+          fi
+
+      - name: Upload the binaries and content.zip
+        working-directory: assets
+        run: |
+          set -euo pipefail
+          gh release upload "$TAG" --clobber -- \
+            *.dmg *.zip *.AppImage *.deb *.exe *.blockmap
+
+      # Then the feed, as a step of its own and last: these three files
+      # name the installers above by size and sha512, so they go up after
+      # every byte they point at.
+      - name: Upload the update feed
+        working-directory: assets
+        run: |
+          set -euo pipefail
+          gh release upload "$TAG" --clobber -- \
+            latest.yml latest-mac.yml latest-linux.yml
+
+      # The shell runs `uvx --from collimate==<version> collimate` on first
+      # launch (desktop/src/main/server.ts), which resolves collimate-sdk at
+      # the same version: both must be installable before the feed goes live.
+      # publish-app has uploaded them; this waits out the index's lag.
+      - name: Wait until PyPI serves both projects
+        shell: bash
+        run: |
+          set -uo pipefail
+          for attempt in $(seq 1 20); do
+            rm -rf "$RUNNER_TEMP/pypi-check"
+            if python -m pip download --no-cache-dir --dest "$RUNNER_TEMP/pypi-check" \
+                "collimate==$VERSION" "collimate-sdk==$VERSION" >/dev/null 2>&1; then
+              echo "collimate==$VERSION and collimate-sdk==$VERSION resolve (attempt $attempt)"
+              exit 0
+            fi
+            echo "attempt $attempt/20: the index does not resolve both yet"
+            sleep 15
+          done
+          echo "::error::collimate==$VERSION with collimate-sdk==$VERSION never resolved from PyPI; the release stays a draft. Re-run this job once it does."
+          exit 1
+
+      - name: Publish the release as Latest
+        run: gh release edit "$TAG" --draft=false --latest
+
+      - name: Confirm Latest is this release
+        shell: bash
+        run: |
+          set -euo pipefail
+          latest="$(gh api "repos/$GH_REPO/releases/latest" --jq .tag_name)"
+          if [ "$latest" != "$TAG" ]; then
+            echo "::error::/releases/latest is $latest, not $TAG"
+            exit 1
+          fi
+          echo "/releases/latest is $TAG, with its feed"

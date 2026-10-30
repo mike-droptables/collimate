@@ -1,0 +1,214 @@
+name: Compiler-free native SDK wheels
+
+on:
+  workflow_call:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# Every job works in the SDK member; action paths name sdk/ explicitly.
+defaults:
+  run:
+    working-directory: sdk
+
+jobs:
+  prepare:
+    name: Prepare ${{ matrix.target }}
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - target: linux-x64
+            runner: ubuntu-24.04
+          - target: linux-arm64
+            runner: ubuntu-24.04-arm
+          - target: darwin-x64
+            runner: macos-15-intel
+          - target: darwin-arm64
+            runner: macos-15
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '>=24.15.0 <25'
+      - name: Generate canonical renderer resources
+        run: |
+          npm ci --prefix scripts
+          npm ci --prefix packages/renderer-hooks
+          node scripts/build_renderer_runtime.mjs
+          python scripts/prepare_renderer_compilers.py
+      - name: Prepare pinned private verifier
+        env:
+          TARGET: ${{ matrix.target }}
+        run: |
+          set -euo pipefail
+          if [ "$TARGET" = darwin-x64 ]; then
+            python -m pip install setuptools==80.9.0 wheel==0.45.1
+            clang --version
+            python scripts/prepare_verifier_engine.py --target "$TARGET" --build-source
+            otool -L src/collimate/native_verifier/darwin-x64/_quickjs.abi3.so
+            otool -l src/collimate/native_verifier/darwin-x64/_quickjs.abi3.so
+          else
+            python scripts/prepare_verifier_engine.py --target "$TARGET"
+          fi
+          python scripts/prepare_verifier_engine.py --target linux-x64
+          python scripts/prepare_verifier_engine.py --target linux-arm64
+          python scripts/prepare_verifier_engine.py --verify-only
+      - name: Build target wheel without source compilation
+        run: |
+          python -m pip install build
+          python -m build --wheel
+          python scripts/check_native_wheels.py dist
+      - uses: actions/upload-artifact@v7
+        with:
+          name: native-${{ matrix.target }}
+          path: sdk/src/collimate/native_verifier/${{ matrix.target }}/
+          if-no-files-found: error
+      - uses: actions/upload-artifact@v7
+        with:
+          name: sdk-wheel-${{ matrix.target }}
+          path: sdk/dist/*.whl
+          if-no-files-found: error
+
+  install:
+    name: Install ${{ matrix.target }} Python ${{ matrix.python }}
+    needs: prepare
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ['3.12', '3.13', '3.14']
+        target: [linux-x64, linux-arm64, darwin-x64, darwin-arm64]
+        include:
+          - target: linux-x64
+            runner: ubuntu-24.04
+          - target: linux-arm64
+            runner: ubuntu-24.04-arm
+          - target: darwin-x64
+            runner: macos-15-intel
+          - target: darwin-arm64
+            runner: macos-15
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: ${{ matrix.python }}
+      - uses: actions/download-artifact@v8
+        with:
+          name: sdk-wheel-${{ matrix.target }}
+          path: sdk/candidates
+      - name: Prepare binary-only installation inputs
+        run: |
+          python -m pip download --only-binary=:all: --dest candidates 'pyyaml>=6.0'
+          python -m pip install uv==0.13.6
+          python -m venv "$RUNNER_TEMP/native-pip"
+      - name: Install and execute with compiler and Node commands denied
+        shell: bash
+        run: |
+          set -euo pipefail
+          export NATIVE_DENIED_LOG="$RUNNER_TEMP/native-denied.log"
+          denied="$RUNNER_TEMP/native-denied-bin"
+          mkdir -p "$denied"
+          for command in cc gcc g++ c++ clang clang++ make cmake node npm npx; do
+            # shellcheck disable=SC2016  # the stub expands $0 $* when it runs, not here
+            printf '#!/bin/sh\necho "$0 $*" >> "$NATIVE_DENIED_LOG"\nexit 87\n' > "$denied/$command"
+            chmod +x "$denied/$command"
+          done
+          export PATH="$denied:$PATH"
+          version="$(python -c 'import tomllib;print(tomllib.load(open("pyproject.toml","rb"))["project"]["version"])')"
+          "$RUNNER_TEMP/native-pip/bin/python" -m pip install --no-index --find-links candidates --only-binary=:all: "collimate-sdk==$version"
+          "$RUNNER_TEMP/native-pip/bin/python" scripts/prove_native_verifier.py
+          UV_PYTHON="$(command -v python)"
+          export UV_PYTHON
+          export UV_TOOL_DIR="$RUNNER_TEMP/native-uv-tools"
+          uv tool run --no-cache --no-index --find-links "$PWD/candidates" --no-build --from "collimate-sdk==$version" collimate-lint --help
+          test ! -e "$NATIVE_DENIED_LOG"
+
+  distribution:
+    name: Complete verified distribution
+    needs: install
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '>=24.15.0 <25'
+      - uses: actions/download-artifact@v8
+        with:
+          pattern: sdk-wheel-*
+          path: sdk/dist
+          merge-multiple: true
+      - uses: actions/download-artifact@v8
+        with:
+          pattern: native-*
+          path: sdk/native-payloads
+      - name: Assemble and verify the complete payload set
+        run: |
+          python - <<'PY'
+          import shutil, sys
+          from pathlib import Path
+          sys.path.insert(0,'src')
+          from collimate._host.verifier_engine import contract
+          for target in contract()['targets']:
+              shutil.copytree(Path('native-payloads') / ('native-'+target), Path('src/collimate/native_verifier') / target)
+          PY
+          npm ci --prefix scripts
+          npm ci --prefix packages/renderer-hooks
+          node scripts/build_renderer_runtime.mjs
+          python scripts/prepare_renderer_compilers.py
+          python scripts/prepare_verifier_engine.py --all --verify-only
+          python scripts/check_native_wheels.py dist --all
+          python -m pip install build
+          python -m build --sdist
+      - name: Rebuild source distribution using only its bundled resources
+        run: |
+          set -euo pipefail
+          python -m pip install hatchling
+          denied="$RUNNER_TEMP/sdist-denied-bin"
+          mkdir -p "$denied"
+          export NATIVE_DENIED_LOG="$RUNNER_TEMP/sdist-denied.log"
+          for command in cc gcc g++ c++ clang clang++ make cmake node npm npx; do
+            # shellcheck disable=SC2016  # the stub expands $0 $* when it runs, not here
+            printf '#!/bin/sh\necho "$0 $*" >> "$NATIVE_DENIED_LOG"\nexit 87\n' > "$denied/$command"
+            chmod +x "$denied/$command"
+          done
+          export PATH="$denied:$PATH"
+          audit="$RUNNER_TEMP/sdist-no-network"
+          mkdir -p "$audit"
+          cat > "$audit/sitecustomize.py" <<'PY'
+          import sys
+          def offline(event, args):
+              if event in ('socket.connect', 'socket.getaddrinfo'):
+                  raise RuntimeError('Source wheel assembly must not access the network')
+          sys.addaudithook(offline)
+          PY
+          export PYTHONPATH="$audit"
+          mkdir "$RUNNER_TEMP/native-sdist"
+          tar -xzf dist/*.tar.gz -C "$RUNNER_TEMP/native-sdist"
+          python scripts/check_native_wheels.py dist --all
+          python - <<'PY'
+          import subprocess,sys
+          from pathlib import Path
+          roots=list(Path(__import__('os').environ['RUNNER_TEMP'],'native-sdist').iterdir())
+          assert len(roots)==1
+          subprocess.run([sys.executable,'scripts/prepare_verifier_engine.py','--all','--offline','--verify-only'],cwd=roots[0],check=True)
+          subprocess.run([sys.executable,'-m','build','--wheel','--no-isolation','--outdir',str(Path.cwd()/'sdist-wheel')],cwd=roots[0],check=True)
+          PY
+          python scripts/check_native_wheels.py sdist-wheel
+          test ! -e "$NATIVE_DENIED_LOG"
+      - uses: actions/upload-artifact@v7
+        with:
+          name: native-dist
+          path: sdk/dist/
+          if-no-files-found: error

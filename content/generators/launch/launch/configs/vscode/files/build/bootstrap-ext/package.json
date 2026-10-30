@@ -1,0 +1,15 @@
+{
+  "name": "collimate-bootstrap",
+  "displayName": "Collimate Bootstrap",
+  "description": "Opens Claude Code (a fresh conversation) on startup for Collimate VS Code Env cells, and closes any other tabs first.",
+  "publisher": "collimate",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "main": "./extension.js",
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "contributes": {}
+}

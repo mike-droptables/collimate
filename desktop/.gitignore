@@ -1,0 +1,9 @@
+# Build output (esbuild) and packaged installers (electron-builder).
+dist/
+release/
+
+node_modules/
+*.tsbuildinfo
+
+# The release leg's packaging config (build/desktop_packaging.py).
+release.electron-builder.json

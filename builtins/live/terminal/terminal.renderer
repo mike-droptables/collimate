@@ -1,0 +1,11 @@
+id: "terminal"
+name: "Terminal"
+version: "1.0.0"
+summary: "Live interactive terminal (xterm.js over WebSocket PTY). Any generator that serves a command with gen.serve_terminal() can attach here."
+entrypoint: "main.tsx"
+embed: "native"
+
+extensions:
+  - ".terminal"
+
+supports_diff: false

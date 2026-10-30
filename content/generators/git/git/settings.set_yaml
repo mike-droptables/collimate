@@ -1,0 +1,46 @@
+fields:
+- key: action
+  type: dropdown
+  label: Action
+  description: Clone / Update brings the repository into its folder (the first run clones, later runs merge the
+    remote's new commits into your edits). Push sends the folder's edits to the remote as one commit.
+  options:
+  - value: sync
+    label: Clone / Update
+  - value: push
+    label: Push
+  default: sync
+  advanced: false
+- key: folder
+  type: text
+  label: Folder
+  description: The top-level folder of this cell that holds the repository. Blank uses the folder already cloned from
+    the repository, else one named after it. Give a repository its own folder to keep two copies side by side.
+  default: ''
+  advanced: false
+- key: branch
+  type: text
+  label: Branch
+  description: Clone / Update clones this branch (blank is the repository's default branch). Once a folder is cloned it
+    follows the branch its <folder>.git-checkout.json records; when this is set, a folder that follows another
+    branch is refused, so the runner always works on this branch.
+  default: ''
+  advanced: true
+- key: commit_message
+  type: text
+  label: Commit message
+  description: The message of the pushed commit. Blank writes one that names the changed files.
+  default: ''
+  show_if:
+    action: push
+  advanced: false
+- key: push_branch
+  type: text
+  label: Push to branch
+  description: Blank pushes to the folder's own branch, merging the remote's new commits first when it has moved. A name
+    pushes your commit to that NEW branch, which must not exist yet, and the folder then follows it. Pushing never
+    overwrites a branch.
+  default: ''
+  show_if:
+    action: push
+  advanced: true

@@ -1,0 +1,68 @@
+# The single channel the browser demo boots with. The shim creates it through
+# the app's own POST /api/channels (the runner drafts below travel in that
+# body), then adds the cells listed here from channel/<folder>/**.
+name: Demo
+
+cells:
+  - folder: welcome
+    name: Welcome
+    pinned: README.md
+  - folder: sample-notes
+    name: Sample notes
+    pinned: trip-plan.md
+
+# One RunnerDraft per demo generator, exactly as POST /api/channels `runners`
+# expects: {runner: RunnerDefinition, files: []}. Settings carry every field
+# of the generator's main config (settings.set_yaml), which the runner
+# validator requires.
+runners:
+  - runner:
+      id: terminal-session
+      generator: terminal-session
+      name: Terminal session
+      description: A scripted shell session in the live terminal — a git clone, a test run, a summary. Type into it; nothing is executed.
+      tags: [demo, terminal]
+      prompt: ''
+      settings:
+        settings.set_yaml:
+          pace: normal
+          keep_open_seconds: 15
+      accounts: {}
+      folders: []
+      permissions: {}
+      packages: {}
+    files: []
+  - runner:
+      id: chat-assistant
+      generator: chat-assistant
+      name: Chat assistant
+      description: A scripted assistant conversation streamed word by word, then canned replies to whatever you send.
+      tags: [demo, chat]
+      prompt: How does this demo work?
+      settings:
+        settings.set_yaml:
+          pace: normal
+          show_thinking: true
+          idle_timeout_seconds: 20
+      accounts: {}
+      folders: []
+      permissions: {}
+      packages: {}
+    files: []
+  - runner:
+      id: modify-files
+      generator: modify-files
+      name: Modify files
+      description: A scripted file-editing agent — run it on the Sample notes cell to watch edits land as versions, ending on a CHANGES.md of every diff.
+      tags: [demo, files]
+      prompt: Tidy these notes — add a short summary to each page, make the packing list a checklist and total the budget.
+      settings:
+        settings.set_yaml:
+          pace: normal
+          add_summary: true
+          checklist_items: true
+      accounts: {}
+      folders: []
+      permissions: {}
+      packages: {}
+    files: []

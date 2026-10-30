@@ -1,0 +1,22 @@
+fields:
+- key: pace
+  type: dropdown
+  label: Pace
+  description: How quickly the scripted session plays. The content is the same at every pace.
+  default: normal
+  options:
+  - value: relaxed
+    label: Relaxed
+  - value: normal
+    label: Normal
+  - value: brisk
+    label: Brisk
+  advanced: false
+- key: keep_open_seconds
+  type: number
+  label: Keep the shell open (seconds)
+  description: After the script ends the prompt stays open this long so you can type into it, then the run completes.
+  default: 15
+  min: 0
+  max: 600
+  advanced: true

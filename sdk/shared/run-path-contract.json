@@ -1,0 +1,24 @@
+{
+  "paths": [
+    {"path":"","normalized":"","is_run_path":false,"label":null},
+    {"path":".","normalized":"","is_run_path":false,"label":null},
+    {"path":"./_runs","normalized":"_runs","is_run_path":true,"label":null},
+    {"path":"_runs/a","normalized":"_runs/a","is_run_path":true,"label":"a"},
+    {"path":"_runs/a/status.chat","normalized":"_runs/a/status.chat","is_run_path":true,"label":"a"},
+    {"path":"/_runs/a/status.chat","normalized":"_runs/a/status.chat","is_run_path":true,"label":"a"},
+    {"path":"x/../_runs/a/status.chat","normalized":"_runs/a/status.chat","is_run_path":true,"label":"a"},
+    {"path":"_runs/a/../../result.txt","normalized":"result.txt","is_run_path":false,"label":null},
+    {"path":"/../../_runs/a/status.chat","normalized":"../../_runs/a/status.chat","is_run_path":false,"label":null},
+    {"path":"_runs\\a\\status.chat","normalized":"_runs/a/status.chat","is_run_path":true,"label":"a"},
+    {"path":"_runs//a/./status.chat","normalized":"_runs/a/status.chat","is_run_path":true,"label":"a"},
+    {"path":"_runs-extra/a/status.chat","normalized":"_runs-extra/a/status.chat","is_run_path":false,"label":null},
+    {"path":"_runs/a/../b/status.chat","normalized":"_runs/b/status.chat","is_run_path":true,"label":"b"}
+  ],
+  "labels": [
+    {"label":"run-1234abcd","valid":true,"card":"_runs/run-1234abcd/run-1234abcd.run"},
+    {"label":"agent--build-01234567","valid":true,"card":"_runs/agent--build-01234567/agent--build-01234567.run"},
+    {"label":"x","valid":false,"card":"_runs/x/x.run"},
+    {"label":"Runner-1234abcd","valid":false,"card":"_runs/Runner-1234abcd/Runner-1234abcd.run"},
+    {"label":"run-1234ABCD","valid":false,"card":"_runs/run-1234ABCD/run-1234ABCD.run"}
+  ]
+}

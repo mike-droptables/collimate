@@ -1,0 +1,15 @@
+id: "assistant"
+name: "Assistant"
+version: "2.2.0"
+summary: "assistant-ui chat for the .chat session pointer: one live conversation per run, streamed from the generator. The conversation is saved to an open-format transcript."
+entrypoint: "main.tsx"
+# native (shadow-DOM, main document) — NOT iframe. A live chat holds a
+# WebSocket, and the iframe pool only PARKS an offscreen iframe (its socket stays
+# open, so a tab-switch remount spawns a second socket that the host rejects with
+# 4409 "already attached" → the chat wedges "closed"). Native renderers unmount
+# cleanly (socket closes, host frees the session) and persist across file-content
+# changes without remounting — the same pattern the .terminal renderer uses.
+embed: "native"
+extensions:
+  - ".chat"
+supports_diff: false

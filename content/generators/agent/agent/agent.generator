@@ -1,0 +1,176 @@
+id: agent
+name: Agent
+version: 0.8.0
+summary: 'The Agent — one session over a selectable harness (pydantic-ai, claude-code, antigravity and the
+  CLI/framework family) on the surface its settings pick: annotations (the default — you post messages pointing at
+  the cell''s files, it reads them and answers in place), a chat, or the harness''s own terminal (CLI), billed to an
+  API key or a subscription you already pay for. It works directly on the cell''s files with live bidirectional sync.'
+prompt_intent: The task of a one-shot annotation run (its first message), the opening message of a chat, or
+  claude-code's first terminal message
+prompt_show_if:
+  any:
+  - surface: chat
+  - all:
+    - surface: annotation
+    - session: oneshot
+  - all:
+    - surface: terminal
+    - backend: claude-code
+prompt_required_if:
+  all:
+  - surface: annotation
+  - session: oneshot
+entrypoint: agent.py
+chat: true
+# The grant's commands axis has no host enforcement point: the agent's harness
+# runs the commands it chooses, so this generator enforces the level itself.
+# An Annotation run takes the least grant its bound harness needs: the host
+# raises the run's docker axis at start (collimate.harness_placement.adopt)
+# and records it in the run's config, card and status row.
+adopts_harness_grant: true
+enforces:
+- commands
+# The terminal surface of a harness that runs its CLI in its own container,
+# on every account, needs docker: full. Claude Code's CLI and Antigravity's
+# on the Google plan run on this machine instead (the harness placement says
+# where, per account, and refuses a grant that cannot place it).
+requires_docker_if:
+  surface: terminal
+  backend:
+  # <harness-catalog:container-terminals>
+  - codex
+  - goose
+  - opencode
+  - qwen-code
+  - cline
+  - pi
+  - hermes
+  - vibe
+  - copilot
+  # </harness-catalog:container-terminals>
+# With "Start from the selected file" on, the run takes the file selected
+# when it starts into its first turn.
+takes_selected_file_if:
+  selected_file_first: true
+live_files_mode: manual
+# The run's interface files, all in its run folder (_runs/<label>/): the
+# chat's pointer and transcripts, and the terminal's pointer; an annotation
+# run has none.
+ui_files: [".chat", ".json", ".terminal"]
+# The surface file a run serves, created by the host as a starting
+# placeholder the moment it accepts the run; an annotation run opens no file.
+opens:
+- path: "{run}/chat/conversation.chat"
+  if:
+    surface: chat
+- path: "{run}/terminal/{backend}.terminal"
+  if:
+    surface: terminal
+draft_files:
+- agent-config.set_yaml
+config_folders:
+- name: _skills
+  description: Agent Skills (<name>/SKILL.md — YAML frontmatter name/description + body, plus any references/scripts/).
+    Surfaced as an index in the system prompt; the model loads a skill's full body via the load_skill tool (in-process
+    backends) or reads the SKILL.md file (terminal/CLI). Input files can no longer arm a skill — only this runner-provided
+    folder can. The Agent's own skills (annotations, llm-summary) are staged into this folder; a runner shipping a
+    skill of the same name keeps its own. Accepted handler skills are read through the handler tools.
+  sample: samples/_skills
+- name: _mcp
+  description: MCP server declarations (<name>.yaml — transport http|stdio; env/headers must be ${account:role.secret_name}
+    references, never literals). Attached to each backend's own MCP client/config when cell_mcp is enabled. Runner-provided
+    only.
+  sample: samples/_mcp
+main_config: agent-config.set_yaml
+configs:
+# <harness-catalog:presets>
+- id: default
+  name: Agent
+  path: configs/default/manifest.config_yaml
+- id: claude-code
+  name: Claude Code
+  path: configs/claude-code/manifest.config_yaml
+- id: antigravity
+  name: Antigravity
+  path: configs/antigravity/manifest.config_yaml
+- id: codex
+  name: Codex
+  path: configs/codex/manifest.config_yaml
+- id: goose
+  name: goose
+  path: configs/goose/manifest.config_yaml
+- id: opencode
+  name: opencode
+  path: configs/opencode/manifest.config_yaml
+- id: qwen-code
+  name: Qwen Code
+  path: configs/qwen-code/manifest.config_yaml
+- id: cline
+  name: Cline
+  path: configs/cline/manifest.config_yaml
+- id: pi
+  name: pi
+  path: configs/pi/manifest.config_yaml
+- id: hermes
+  name: Hermes
+  path: configs/hermes/manifest.config_yaml
+- id: vibe
+  name: Mistral Vibe
+  path: configs/vibe/manifest.config_yaml
+- id: copilot
+  name: GitHub Copilot CLI
+  path: configs/copilot/manifest.config_yaml
+# </harness-catalog:presets>
+- id: axes-first
+  name: Axes First
+  path: configs/axes-first/manifest.config_yaml
+- id: challenge
+  name: Challenge
+  path: configs/challenge/manifest.config_yaml
+- id: evaluate-best
+  name: Evaluate Best
+  path: configs/evaluate-best/manifest.config_yaml
+- id: extract
+  name: Extract
+  path: configs/extract/manifest.config_yaml
+- id: modify-files
+  name: Modify Files
+  path: configs/modify-files/manifest.config_yaml
+- id: seed-ideas
+  name: Seed Ideas
+  path: configs/seed-ideas/manifest.config_yaml
+- id: summarize
+  name: Summarize
+  path: configs/summarize/manifest.config_yaml
+- id: translate
+  name: Translate
+  path: configs/translate/manifest.config_yaml
+- id: guide
+  name: Guide
+  path: configs/guide/manifest.config_yaml
+- id: superpowers
+  name: Superpowers
+  path: configs/superpowers/manifest.config_yaml
+required_files: []
+account_requirements:
+  model:
+    label: Model or harness + model
+    kind: model
+    capabilities:
+    - text
+    protocols: [openai, openai-compatible, openai-chat, openai-responses, anthropic, gemini, cli]
+    auth_types: [api_key, oauth, device, none, cli, subscription]
+    harnesses: [pydantic-ai, claude-code, antigravity, codex, goose, opencode, qwen-code, cline, pi, hermes, vibe, copilot]
+    required: true
+  git:
+    label: Git account
+    kind: git
+    capabilities: [git]
+    required: false
+  web_search:
+    label: Web search
+    kind: account
+    capabilities: [search]
+    services: [tavily]
+    protocols: [tavily]
+    required: false

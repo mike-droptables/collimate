@@ -1,0 +1,2468 @@
+{
+  "milkdown": "7.22.3",
+  "prosemirror-model": "1.25.12",
+  "provenance": "Live Crepe 7.22.3 parser and serializer in Chromium (prosemirror-model 1.25.12), with current view document matched to each snapshot; cross-checked against the codec in a Worker. Image and embed cases: the editor's embed schema and remark transform (renderers/documents/milkdown/embed-markdown.ts) on the pinned Milkdown parser and serializer.",
+  "cases": [
+    {
+      "markdown": "",
+      "snapshot": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph"
+          }
+        ]
+      },
+      "expected": ""
+    },
+    {
+      "markdown": "plain text",
+      "snapshot": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "plain text"
+              }
+            ]
+          }
+        ]
+      },
+      "expected": "plain text\n"
+    },
+    {
+      "markdown": "Text[^1]\n\n[^1]: Footnote paragraph",
+      "snapshot": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "Text"
+              },
+              {
+                "type": "footnote_reference",
+                "attrs": {
+                  "label": "1"
+                }
+              }
+            ]
+          },
+          {
+            "type": "footnote_definition",
+            "attrs": {
+              "label": "1"
+            },
+            "content": [
+              {
+                "type": "paragraph",
+                "content": [
+                  {
+                    "type": "text",
+                    "text": "Footnote paragraph"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "expected": "Text[^1]\n\n[^1]: Footnote paragraph\n"
+    },
+    {
+      "markdown": "line\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\n",
+      "snapshot": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "line"
+              }
+            ]
+          }
+        ]
+      },
+      "expected": "line\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\nline\n"
+    },
+    {
+      "markdown": "# heading\n\n## second\n\n### third\n",
+      "snapshot": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "heading",
+            "attrs": {
+              "id": "heading",
+              "level": 1
+            },
+            "content": [
+              {
+                "type": "text",
+                "text": "heading"
+              }
+            ]
+          },
+          {
+            "type": "heading",
+            "attrs": {
+              "id": "second",
+              "level": 2
+            },
+            "content": [
+              {
+                "type": "text",
+                "text": "second"
+              }
+            ]
+          },
+          {
+            "type": "heading",
+            "attrs": {
+              "id": "third",
+              "level": 3
+            },
+            "content": [
+              {
+                "type": "text",
+                "text": "third"
+              }
+            ]
+          }
+        ]
+      },
+      "expected": "# heading\n\n## second\n\n### third\n"
+    },
+    {
+      "markdown": "**bold** and *italic* and ***both*** and ~~deleted~~ and `code`",
+      "snapshot": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "marks": [
+                  {
+                    "type": "strong",
+                    "attrs": {
+                      "marker": "*"
+                    }
+                  }
+                ],
+                "text": "bold"
+              },
+              {
+                "type": "text",
+                "text": " and "
+              },
+              {
+                "type": "text",
+                "marks": [
+                  {
+                    "type": "emphasis",
+                    "attrs": {
+                      "marker": "*"
+                    }
+                  }
+                ],
+                "text": "italic"
+              },
+              {
+                "type": "text",
+                "text": " and "
+              },
+              {
+                "type": "text",
+                "marks": [
+                  {
+                    "type": "emphasis",
+                    "attrs": {
+                      "marker": "*"
+                    }
+                  },
+                  {
+                    "type": "strong",
+                    "attrs": {
+                      "marker": "*"
+                    }
+                  }
+                ],
+                "text": "both"
+              },
+              {
+                "type": "text",
+                "text": " and "
+              },
+              {
+                "type": "text",
+                "marks": [
+                  {
+                    "type": "strike_through"
+                  }
+                ],
+                "text": "deleted"
+              },
+              {
+                "type": "text",
+                "text": " and "
+              },
+              {
+                "type": "text",
+                "marks": [
+                  {
+                    "type": "inlineCode"
+                  }
+                ],
+                "text": "code"
+              }
+            ]
+          }
+        ]
+      },
+      "expected": "**bold** and *italic* and ***both*** and ~~deleted~~ and `code`\n"
+    },
+    {
+      "markdown": "*a **b** c* **x *y* z** ~~a *b* c~~",
+      "snapshot": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "marks": [
+                  {
+                    "type": "emphasis",
+                    "attrs": {
+                      "marker": "*"
+                    }
+                  }
+                ],
+                "text": "a "
+              },
+              {
+                "type": "text",
+                "marks": [
+                  {
+                    "type": "emphasis",
+                    "attrs": {
+                      "marker": "*"
+                    }
+                  },
+                  {
+                    "type": "strong",
+                    "attrs": {
+                      "marker": "*"
+                    }
+                  }
+                ],
+                "text": "b"
+              },
+              {
+                "type": "text",
+                "marks": [
+                  {
+                    "type": "emphasis",
+                    "attrs": {
+                      "marker": "*"
+                    }
+                  }
+                ],
+                "text": " c"
+              },
+              {
+                "type": "text",
+                "text": " "
+              },
+              {
+                "type": "text",
+                "marks": [
+                  {
+                    "type": "strong",
+                    "attrs": {
+                      "marker": "*"
+                    }
+                  }
+                ],
+                "text": "x "
+              },
+              {
+                "type": "text",
+                "marks": [
+                  {
+                    "type": "emphasis",
+                    "attrs": {
+                      "marker": "*"
+                    }
+                  },
+                  {
+                    "type": "strong",
+                    "attrs": {
+                      "marker": "*"
+                    }
+                  }
+                ],
+                "text": "y"
+              },
+              {
+                "type": "text",
+                "marks": [
+                  {
+                    "type": "strong",
+                    "attrs": {
+                      "marker": "*"
+                    }
+                  }
+                ],
+                "text": " z"
+              },
+              {
+                "type": "text",
+                "text": " "
+              },
+              {
+                "type": "text",
+                "marks": [
+                  {
+                    "type": "strike_through"
+                  }
+                ],
+                "text": "a "
+              },
+              {
+                "type": "text",
+                "marks": [
+                  {
+                    "type": "emphasis",
+                    "attrs": {
+                      "marker": "*"
+                    }
+                  },
+                  {
+                    "type": "strike_through"
+                  }
+                ],
+                "text": "b"
+              },
+              {
+                "type": "text",
+                "marks": [
+                  {
+                    "type": "strike_through"
+                  }
+                ],
+                "text": " c"
+              }
+            ]
+          }
+        ]
+      },
+      "expected": "*a **b** c* **x *y* z** ~~a *b* c~~\n"
+    },
+    {
+      "markdown": "> quote\n>\n> second\n\n---\n",
+      "snapshot": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "blockquote",
+            "content": [
+              {
+                "type": "paragraph",
+                "content": [
+                  {
+                    "type": "text",
+                    "text": "quote"
+                  }
+                ]
+              },
+              {
+                "type": "paragraph",
+                "content": [
+                  {
+                    "type": "text",
+                    "text": "second"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "hr"
+          }
+        ]
+      },
+      "expected": "> quote\n>\n> second\n\n***\n"
+    },
+    {
+      "markdown": "- one\n- two\n  1. nested\n  2. more\n\n1. ordered\n2. second",
+      "snapshot": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "bullet_list",
+            "attrs": {
+              "spread": false
+            },
+            "content": [
+              {
+                "type": "list_item",
+                "attrs": {
+                  "label": "•",
+                  "listType": "bullet",
+                  "spread": false,
+                  "checked": null
+                },
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "content": [
+                      {
+                        "type": "text",
+                        "text": "one"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "list_item",
+                "attrs": {
+                  "label": "•",
+                  "listType": "bullet",
+                  "spread": false,
+                  "checked": null
+                },
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "content": [
+                      {
+                        "type": "text",
+                        "text": "two"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "ordered_list",
+                    "attrs": {
+                      "order": 1,
+                      "spread": false
+                    },
+                    "content": [
+                      {
+                        "type": "list_item",
+                        "attrs": {
+                          "label": "1.",
+                          "listType": "ordered",
+                          "spread": false,
+                          "checked": null
+                        },
+                        "content": [
+                          {
+                            "type": "paragraph",
+                            "content": [
+                              {
+                                "type": "text",
+                                "text": "nested"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "list_item",
+                        "attrs": {
+                          "label": "2.",
+                          "listType": "ordered",
+                          "spread": false,
+                          "checked": null
+                        },
+                        "content": [
+                          {
+                            "type": "paragraph",
+                            "content": [
+                              {
+                                "type": "text",
+                                "text": "more"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "ordered_list",
+            "attrs": {
+              "order": 1,
+              "spread": false
+            },
+            "content": [
+              {
+                "type": "list_item",
+                "attrs": {
+                  "label": "1.",
+                  "listType": "ordered",
+                  "spread": false,
+                  "checked": null
+                },
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "content": [
+                      {
+                        "type": "text",
+                        "text": "ordered"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "list_item",
+                "attrs": {
+                  "label": "2.",
+                  "listType": "ordered",
+                  "spread": false,
+                  "checked": null
+                },
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "content": [
+                      {
+                        "type": "text",
+                        "text": "second"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "paragraph"
+          }
+        ]
+      },
+      "expected": "* one\n* two\n  1. nested\n  2. more\n\n1. ordered\n2. second\n"
+    },
+    {
+      "markdown": "- [ ] open\n- [x] done",
+      "snapshot": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "bullet_list",
+            "attrs": {
+              "spread": false
+            },
+            "content": [
+              {
+                "type": "list_item",
+                "attrs": {
+                  "label": "•",
+                  "listType": "bullet",
+                  "spread": false,
+                  "checked": false
+                },
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "content": [
+                      {
+                        "type": "text",
+                        "text": "open"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "list_item",
+                "attrs": {
+                  "label": "•",
+                  "listType": "bullet",
+                  "spread": false,
+                  "checked": true
+                },
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "content": [
+                      {
+                        "type": "text",
+                        "text": "done"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "paragraph"
+          }
+        ]
+      },
+      "expected": "* [ ] open\n* [x] done\n"
+    },
+    {
+      "markdown": "[local](notes.md) ![plot](plot.png \"title\") <https://example.com> <mail@example.com>",
+      "snapshot": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "marks": [
+                  {
+                    "type": "link",
+                    "attrs": {
+                      "href": "notes.md",
+                      "title": null
+                    }
+                  }
+                ],
+                "text": "local"
+              },
+              {
+                "type": "text",
+                "text": " "
+              },
+              {
+                "type": "image",
+                "attrs": {
+                  "src": "plot.png",
+                  "alt": "plot",
+                  "title": "title",
+                  "width": null,
+                  "align": null
+                }
+              },
+              {
+                "type": "text",
+                "text": " "
+              },
+              {
+                "type": "text",
+                "marks": [
+                  {
+                    "type": "link",
+                    "attrs": {
+                      "href": "https://example.com",
+                      "title": null
+                    }
+                  }
+                ],
+                "text": "https://example.com"
+              },
+              {
+                "type": "text",
+                "text": " "
+              },
+              {
+                "type": "text",
+                "marks": [
+                  {
+                    "type": "link",
+                    "attrs": {
+                      "href": "mailto:mail@example.com",
+                      "title": null
+                    }
+                  }
+                ],
+                "text": "mail@example.com"
+              }
+            ]
+          }
+        ]
+      },
+      "expected": "[local](notes.md) ![plot](plot.png \"title\") <https://example.com> <mail@example.com>\n"
+    },
+    {
+      "markdown": "![image](chart.png)\n\ntext\n",
+      "snapshot": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "image-block",
+            "attrs": {
+              "src": "chart.png",
+              "caption": "",
+              "alt": "image",
+              "width": null,
+              "align": null
+            }
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "text"
+              }
+            ]
+          }
+        ]
+      },
+      "expected": "![image](chart.png)\n\ntext\n"
+    },
+    {
+      "markdown": "| left | right |\n| :--- | ---: |\n| **a** | b |\n| c | `d` |",
+      "snapshot": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "table",
+            "content": [
+              {
+                "type": "table_header_row",
+                "content": [
+                  {
+                    "type": "table_header",
+                    "attrs": {
+                      "colspan": 1,
+                      "rowspan": 1,
+                      "colwidth": null,
+                      "alignment": "left"
+                    },
+                    "content": [
+                      {
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "type": "text",
+                            "text": "left"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "table_header",
+                    "attrs": {
+                      "colspan": 1,
+                      "rowspan": 1,
+                      "colwidth": null,
+                      "alignment": "right"
+                    },
+                    "content": [
+                      {
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "type": "text",
+                            "text": "right"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "table_row",
+                "content": [
+                  {
+                    "type": "table_cell",
+                    "attrs": {
+                      "colspan": 1,
+                      "rowspan": 1,
+                      "colwidth": null,
+                      "alignment": "left"
+                    },
+                    "content": [
+                      {
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "type": "text",
+                            "marks": [
+                              {
+                                "type": "strong",
+                                "attrs": {
+                                  "marker": "*"
+                                }
+                              }
+                            ],
+                            "text": "a"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "table_cell",
+                    "attrs": {
+                      "colspan": 1,
+                      "rowspan": 1,
+                      "colwidth": null,
+                      "alignment": "right"
+                    },
+                    "content": [
+                      {
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "type": "text",
+                            "text": "b"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "table_row",
+                "content": [
+                  {
+                    "type": "table_cell",
+                    "attrs": {
+                      "colspan": 1,
+                      "rowspan": 1,
+                      "colwidth": null,
+                      "alignment": "left"
+                    },
+                    "content": [
+                      {
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "type": "text",
+                            "text": "c"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "table_cell",
+                    "attrs": {
+                      "colspan": 1,
+                      "rowspan": 1,
+                      "colwidth": null,
+                      "alignment": "right"
+                    },
+                    "content": [
+                      {
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "type": "text",
+                            "marks": [
+                              {
+                                "type": "inlineCode"
+                              }
+                            ],
+                            "text": "d"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "expected": "| left  | right |\n| :---- | ----: |\n| **a** |     b |\n| c     |   `d` |\n"
+    },
+    {
+      "markdown": "```python title\nprint(\"hello\")\n```\n\n~~~js\nconst x = 1\n~~~",
+      "snapshot": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "code_block",
+            "attrs": {
+              "language": "python"
+            },
+            "content": [
+              {
+                "type": "text",
+                "text": "print(\"hello\")"
+              }
+            ]
+          },
+          {
+            "type": "code_block",
+            "attrs": {
+              "language": "js"
+            },
+            "content": [
+              {
+                "type": "text",
+                "text": "const x = 1"
+              }
+            ]
+          }
+        ]
+      },
+      "expected": "```python\nprint(\"hello\")\n```\n\n```js\nconst x = 1\n```\n"
+    },
+    {
+      "markdown": "$a+b$\n\n$$\nx^2\n$$\n",
+      "snapshot": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "math_inline",
+                "attrs": {
+                  "value": "a+b"
+                }
+              }
+            ]
+          },
+          {
+            "type": "code_block",
+            "attrs": {
+              "language": "LaTeX"
+            },
+            "content": [
+              {
+                "type": "text",
+                "text": "x^2"
+              }
+            ]
+          }
+        ]
+      },
+      "expected": "$a+b$\n\n$$\nx^2\n$$\n"
+    },
+    {
+      "markdown": "one  \ntwo\\\nthree\nfour",
+      "snapshot": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "one"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": false
+                }
+              },
+              {
+                "type": "text",
+                "text": "two"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": false
+                }
+              },
+              {
+                "type": "text",
+                "text": "three"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "four"
+              }
+            ]
+          }
+        ]
+      },
+      "expected": "one\\\ntwo\\\nthree\nfour\n"
+    },
+    {
+      "markdown": "\\# heading\n\\[x] a \\<b> \\&copy;\n",
+      "snapshot": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "# heading"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "[x] a <b> &copy;"
+              }
+            ]
+          }
+        ]
+      },
+      "expected": "\\# heading\n\\[x] a \\<b> \\&copy;\n"
+    },
+    {
+      "markdown": "text <b>raw</b> &copy; <tag>\n\n<div>html</div>",
+      "snapshot": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "text "
+              },
+              {
+                "type": "html",
+                "attrs": {
+                  "value": "<b>"
+                }
+              },
+              {
+                "type": "text",
+                "text": "raw"
+              },
+              {
+                "type": "html",
+                "attrs": {
+                  "value": "</b>"
+                }
+              },
+              {
+                "type": "text",
+                "text": " © "
+              },
+              {
+                "type": "html",
+                "attrs": {
+                  "value": "<tag>"
+                }
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "html",
+                "attrs": {
+                  "value": "<div>html</div>"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "expected": "text <b>raw</b> © <tag>\n\n<div>html</div>\n"
+    },
+    {
+      "markdown": "  ** spaced **  and _ a _\n",
+      "snapshot": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "** spaced **  and _ a _"
+              }
+            ]
+          }
+        ]
+      },
+      "expected": "\\*\\* spaced \\*\\*  and \\_ a \\_\n"
+    },
+    {
+      "markdown": "a\n\nb\n\n\nc",
+      "snapshot": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "a"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "b"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "c"
+              }
+            ]
+          }
+        ]
+      },
+      "expected": "a\n\nb\n\nc\n"
+    },
+    {
+      "markdown": "Unicode 日本語 🧑🏾‍💻 é\nnext",
+      "snapshot": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "Unicode 日本語 🧑🏾‍💻 é"
+              },
+              {
+                "type": "hardbreak",
+                "attrs": {
+                  "isInline": true
+                }
+              },
+              {
+                "type": "text",
+                "text": "next"
+              }
+            ]
+          }
+        ]
+      },
+      "expected": "Unicode 日本語 🧑🏾‍💻 é\nnext\n"
+    },
+    {
+      "markdown": "https://example.com a@b.com www.example.com",
+      "snapshot": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "marks": [
+                  {
+                    "type": "link",
+                    "attrs": {
+                      "href": "https://example.com",
+                      "title": null
+                    }
+                  }
+                ],
+                "text": "https://example.com"
+              },
+              {
+                "type": "text",
+                "text": " "
+              },
+              {
+                "type": "text",
+                "marks": [
+                  {
+                    "type": "link",
+                    "attrs": {
+                      "href": "mailto:a@b.com",
+                      "title": null
+                    }
+                  }
+                ],
+                "text": "a@b.com"
+              },
+              {
+                "type": "text",
+                "text": " "
+              },
+              {
+                "type": "text",
+                "marks": [
+                  {
+                    "type": "link",
+                    "attrs": {
+                      "href": "http://www.example.com",
+                      "title": null
+                    }
+                  }
+                ],
+                "text": "www.example.com"
+              }
+            ]
+          }
+        ]
+      },
+      "expected": "<https://example.com> <a@b.com> [www.example.com](http://www.example.com)\n"
+    },
+    {
+      "markdown": "[reference][id]\n\n[id]: https://example.com \"title\"",
+      "snapshot": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "marks": [
+                  {
+                    "type": "link",
+                    "attrs": {
+                      "href": "https://example.com",
+                      "title": "title"
+                    }
+                  }
+                ],
+                "text": "reference"
+              }
+            ]
+          }
+        ]
+      },
+      "expected": "[reference](https://example.com \"title\")\n"
+    },
+    {
+      "markdown": "``a ` b`` and ~single~ ~~strike~~",
+      "snapshot": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "marks": [
+                  {
+                    "type": "inlineCode"
+                  }
+                ],
+                "text": "a ` b"
+              },
+              {
+                "type": "text",
+                "text": " and "
+              },
+              {
+                "type": "text",
+                "marks": [
+                  {
+                    "type": "strike_through"
+                  }
+                ],
+                "text": "single"
+              },
+              {
+                "type": "text",
+                "text": " "
+              },
+              {
+                "type": "text",
+                "marks": [
+                  {
+                    "type": "strike_through"
+                  }
+                ],
+                "text": "strike"
+              }
+            ]
+          }
+        ]
+      },
+      "expected": "``a ` b`` and ~~single~~ ~~strike~~\n"
+    },
+    {
+      "markdown": "\\*literal\\* \\_literal\\_ a\\\\b",
+      "snapshot": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "*literal* _literal_ a\\b"
+              }
+            ]
+          }
+        ]
+      },
+      "expected": "\\*literal\\* \\_literal\\_ a\\b\n"
+    },
+    {
+      "markdown": "![plot](charts/plot.png){width=60%}\n",
+      "snapshot": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "image-block",
+            "attrs": {
+              "src": "charts/plot.png",
+              "caption": "",
+              "alt": "plot",
+              "width": 60,
+              "align": null
+            }
+          }
+        ]
+      },
+      "expected": "![plot](charts/plot.png){width=60%}\n"
+    },
+    {
+      "markdown": "![plot](charts/plot.png \"Weekly totals\"){align=right}\n",
+      "snapshot": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "image-block",
+            "attrs": {
+              "src": "charts/plot.png",
+              "caption": "Weekly totals",
+              "alt": "plot",
+              "width": null,
+              "align": "right"
+            }
+          }
+        ]
+      },
+      "expected": "![plot](charts/plot.png \"Weekly totals\"){align=right}\n"
+    },
+    {
+      "markdown": "![plot](charts/plot.png){width=40% align=center}\n\ntext\n",
+      "snapshot": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "image-block",
+            "attrs": {
+              "src": "charts/plot.png",
+              "caption": "",
+              "alt": "plot",
+              "width": 40,
+              "align": "center"
+            }
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "text"
+              }
+            ]
+          }
+        ]
+      },
+      "expected": "![plot](charts/plot.png){width=40% align=center}\n\ntext\n"
+    },
+    {
+      "markdown": "before ![icon](icon.svg){width=10% align=left} after ![clip](media/clip.mp4) and [data](data.csv)\n",
+      "snapshot": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "before "
+              },
+              {
+                "type": "image",
+                "attrs": {
+                  "src": "icon.svg",
+                  "alt": "icon",
+                  "title": "",
+                  "width": 10,
+                  "align": "left"
+                }
+              },
+              {
+                "type": "text",
+                "text": " after "
+              },
+              {
+                "type": "image",
+                "attrs": {
+                  "src": "media/clip.mp4",
+                  "alt": "clip",
+                  "title": "",
+                  "width": null,
+                  "align": null
+                }
+              },
+              {
+                "type": "text",
+                "text": " and "
+              },
+              {
+                "type": "text",
+                "marks": [
+                  {
+                    "type": "link",
+                    "attrs": {
+                      "href": "data.csv",
+                      "title": null
+                    }
+                  }
+                ],
+                "text": "data"
+              }
+            ]
+          }
+        ]
+      },
+      "expected": "before ![icon](icon.svg){width=10% align=left} after ![clip](media/clip.mp4) and [data](data.csv)\n"
+    },
+    {
+      "markdown": "![talk](talk.mp3){width=100%}\n\n![report](report.pdf)\n",
+      "snapshot": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "image-block",
+            "attrs": {
+              "src": "talk.mp3",
+              "caption": "",
+              "alt": "talk",
+              "width": 100,
+              "align": null
+            }
+          },
+          {
+            "type": "image-block",
+            "attrs": {
+              "src": "report.pdf",
+              "caption": "",
+              "alt": "report",
+              "width": null,
+              "align": null
+            }
+          }
+        ]
+      },
+      "expected": "![talk](talk.mp3){width=100%}\n\n![report](report.pdf)\n"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+id: terminal-session
+name: Terminal session
+version: 1.0.0
+summary: A scripted shell session in the live terminal — a git clone, a test run with a progress bar and a summary. Typed input is echoed but never executed.
+entrypoint: timeline.py
+ui_files:
+- .terminal
+main_config: settings.set_yaml
+draft_files:
+- settings.set_yaml
+required_files: []
+config_folders: []
+account_requirements: {}

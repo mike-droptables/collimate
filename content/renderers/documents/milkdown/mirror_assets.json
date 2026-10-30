@@ -1,0 +1,67 @@
+{
+  "assets": [
+    {
+      "base": "https://cdn.jsdelivr.net/npm/@milkdown/crepe@7.22.3/lib/theme/",
+      "files": [
+        "crepe-dark/style.css",
+        "crepe/style.css",
+        "frame-dark/style.css",
+        "frame/style.css",
+        "nord-dark/style.css",
+        "nord/style.css"
+      ]
+    },
+    {
+      "base": "https://cdn.jsdelivr.net/npm/@milkdown/crepe@7.22.3/lib/theme/common/",
+      "files": [
+        "ai.css",
+        "block-edit.css",
+        "code-mirror.css",
+        "cursor.css",
+        "diff.css",
+        "image-block.css",
+        "latex.css",
+        "link-tooltip.css",
+        "list-item.css",
+        "placeholder.css",
+        "reset.css",
+        "table.css",
+        "toolbar.css",
+        "top-bar.css"
+      ]
+    },
+    {
+      "base": "https://cdn.jsdelivr.net/npm/@milkdown/prose@7.22.3/lib/style/",
+      "files": [
+        "gapcursor.css",
+        "prosemirror.css",
+        "tables.css"
+      ]
+    },
+    {
+      "base": "https://cdn.jsdelivr.net/npm/katex@0.19.1/dist/fonts/",
+      "files": [
+        "KaTeX_AMS-Regular.woff2",
+        "KaTeX_Caligraphic-Bold.woff2",
+        "KaTeX_Caligraphic-Regular.woff2",
+        "KaTeX_Fraktur-Bold.woff2",
+        "KaTeX_Fraktur-Regular.woff2",
+        "KaTeX_Main-Bold.woff2",
+        "KaTeX_Main-BoldItalic.woff2",
+        "KaTeX_Main-Italic.woff2",
+        "KaTeX_Main-Regular.woff2",
+        "KaTeX_Math-BoldItalic.woff2",
+        "KaTeX_Math-Italic.woff2",
+        "KaTeX_SansSerif-Bold.woff2",
+        "KaTeX_SansSerif-Italic.woff2",
+        "KaTeX_SansSerif-Regular.woff2",
+        "KaTeX_Script-Regular.woff2",
+        "KaTeX_Size1-Regular.woff2",
+        "KaTeX_Size2-Regular.woff2",
+        "KaTeX_Size3-Regular.woff2",
+        "KaTeX_Size4-Regular.woff2",
+        "KaTeX_Typewriter-Regular.woff2"
+      ]
+    }
+  ]
+}
