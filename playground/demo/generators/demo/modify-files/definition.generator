@@ -1,0 +1,12 @@
+id: modify-files
+name: Modify files
+version: 1.0.0
+summary: A scripted file-editing agent. It reads the input cell's files, logs a plan, writes edited copies with a visible change and opens a CHANGES.md that shows every edit.
+entrypoint: timeline.py
+prompt_intent: What to change in the input cell's files — shown in the log, but the edits are scripted
+main_config: settings.set_yaml
+draft_files:
+- settings.set_yaml
+required_files: []
+config_folders: []
+account_requirements: {}

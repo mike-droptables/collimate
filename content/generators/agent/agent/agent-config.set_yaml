@@ -1,0 +1,146 @@
+fields:
+- key: surface
+  type: dropdown
+  label: Surface
+  description: 'Where you work with the run. Annotation (the default): you post messages to the run from the cell''s
+    status pane — queued, or interrupting what it is doing — pointing at files and at elements inside them; it reads
+    them, answers in place and edits the cell. Chat is a conversation. CLI is the harness''s own terminal: Claude
+    Code''s, and Antigravity''s on the Google plan, is the vendor''s CLI on this machine (docker: none or full,
+    commands ask or allow), signed in once per Key manager entry; every other harness runs its CLI in its container,
+    under docker: full.'
+  options:
+  - value: annotation
+    label: Annotation
+  - value: chat
+    label: Chat
+  - value: terminal
+    label: CLI
+  default: annotation
+  advanced: false
+- key: session
+  type: dropdown
+  label: Session
+  show_if:
+    surface: annotation
+  description: 'Interactive (the default) keeps the run listening for your messages until you stop it. One-shot works
+    through the prompt — its first message — once, replies to it and ends when the work settles.'
+  options:
+  - value: oneshot
+    label: One-shot
+  - value: interactive
+    label: Interactive
+  default: interactive
+  advanced: false
+- key: backend
+  type: dropdown
+  label: Agent
+  description: 'Harness from the selected model in Key Manager. Select a different model entry to change it. An
+    Annotation run adopts the Docker grant its harness needs (docker: full for a harness container or the command
+    sandbox), and its config and status row say so; on Chat and CLI the runner''s own Docker permission must place
+    the harness, or the run stops before it starts. The CLI surface needs a harness with a TTY of its own, so
+    pydantic-ai is not offered there.'
+  account_role: model
+  account_property: metadata.harness
+  options:
+  # <harness-catalog:backend-options>
+  - value: pydantic-ai
+    label: Pydantic AI
+    description: 'docker: full sandboxes its commands in a container with the workspace mounted, and is recommended for commands: allow; under docker: none they run on this machine.'
+    enable_if:
+      not:
+        surface: terminal
+  - value: claude-code
+    label: Claude Code
+  - value: antigravity
+    label: Antigravity
+    description: 'With commands allow, permitted commands can read the provider key from the harness process environment. The CLI surface runs Google''s agy: on the Google plan it is this machine''s agy, which signs in through Google''s own browser flow once per Key manager entry and needs docker: none or full with commands ask or allow; on a Gemini key it runs in its container. The chat server''s conversation store is separate from the CLI''s: a chat session is not continued in the terminal. Cell MCP servers other than the Collimate bridge load lazily, behind a schema read the withheld view_file tool would do.'
+  - value: codex
+    label: Codex
+  - value: goose
+    label: goose
+  - value: opencode
+    label: opencode
+  - value: qwen-code
+    label: Qwen Code
+  - value: cline
+    label: Cline
+    description: With commands allow, permitted commands can read the provider key from the harness process environment.
+  - value: pi
+    label: pi
+  - value: hermes
+    label: Hermes
+  - value: vibe
+    label: Mistral Vibe
+    description: With commands allow, permitted commands can read the provider key from the harness process environment.
+  - value: copilot
+    label: GitHub Copilot CLI
+    description: 'With commands allow, permitted commands run with the token or key stripped from their environment. Copilot loads a workspace''s hooks and MCP servers under --acp whether or not the folder is trusted, so no folder is trusted and the image''s root-owned managed settings lock hooks, MCP servers, custom agents and skills to plugins: files the agent writes there never run a command, at any commands level.'
+  # </harness-catalog:backend-options>
+  default: pydantic-ai
+  advanced: false
+- key: system_prompt
+  type: textarea
+  label: System prompt
+  default: ''
+  advanced: true
+- key: mcp
+  type: dropdown
+  label: MCP servers
+  show_if:
+    surface: [annotation, chat]
+  description: 'Attach MCP servers the runner declares in its _mcp config folder (transport http or stdio; env/headers
+    must be ${account:role.secret_name} references — runner cells are exported/shared, literals would leak). off:
+    never. http: remote/hosted servers only. http + stdio: also command servers — those run arbitrary code, so they
+    need docker: full and a containerized CLI harness''s own container, never a host process; the engine rejects
+    http_stdio on the host-locus harnesses (pydantic-ai, claude-code). Not available on cline / pi — their pinned
+    ACP adapters accept but never wire session MCP servers (spec cell_mcp).'
+  options:
+  - 'off'
+  - value: http
+    enable_if:
+      not:
+        backend:
+        # <harness-catalog:no-cell-mcp>
+        - cline
+        - pi
+        # </harness-catalog:no-cell-mcp>
+  - value: http_stdio
+    label: http + stdio
+    enable_if:
+      not:
+        backend:
+        # <harness-catalog:no-cell-mcp>
+        - cline
+        - pi
+        # </harness-catalog:no-cell-mcp>
+  default: 'off'
+  advanced: true
+- key: approvals
+  type: dropdown
+  label: Approvals
+  show_if:
+    surface: [annotation, chat]
+  description: 'How the run answers the harness''s permission requests other than shell commands. auto: answer from
+    the runner grant — allow what it already permits, refuse the rest (the grant stays the security boundary). ask:
+    surface each grant-permitted request as a card you answer in the run''s status pane (Annotation) or the chat
+    (a request left unanswered for 10 minutes is refused). Shell commands follow the runner grant''s commands permission instead (deny / ask / allow — ask cards
+    every command whatever this says; under allow the harness runs them without asking, so ask here cards only a
+    command a harness still asks about). The in-process engine (pydantic-ai) has no permission flow of its own —
+    only its commands, under commands: ask.'
+  options:
+  - auto
+  - ask
+  default: auto
+  advanced: true
+- key: selected_file_first
+  type: checkbox
+  label: Start from the selected file
+  description: 'The file selected when the run starts becomes part of its first turn: a one-shot''s opening turn, the
+    first batch of messages an interactive annotation run reads, the first chat message, or claude-code''s first TTY
+    message (the one CLI that takes a first message). Off: the run ignores the selection.'
+  show_if:
+    any:
+    - surface: [annotation, chat]
+    - backend: claude-code
+  default: false
+  advanced: false

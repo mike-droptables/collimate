@@ -1,0 +1,23 @@
+name: opencode
+description: 'opencode in its own container (or this machine''s opencode under docker: none), on the Annotation
+  surface. Provider key, or your ChatGPT, GitHub Copilot or SuperGrok subscription'
+tags:
+- agent
+- opencode
+prompt: ''
+settings:
+  agent-config.set_yaml:
+    surface: annotation
+    session: interactive
+    backend: opencode
+    system_prompt: ''
+    mcp: 'off'
+    approvals: auto
+    selected_file_first: false
+folders: []
+accounts: {}
+permissions:
+  docker: full
+  internet: full
+  commands: allow
+packages: {}

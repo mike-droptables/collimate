@@ -1,0 +1,133 @@
+# Welcome to Collimate
+
+A **channel** is a canvas of stacks, and a stack is a column of **cells**.
+
+A cell holds files. Edits and runs save recoverable *versions*, so you can
+change the current files and return to an earlier result in the files pane's
+History.
+
+---
+
+## Make a cell
+
+Press **＋** in the top bar (or **Alt+N**) for a fresh, empty cell.
+
+Or drag and drop files anywhere on the canvas — they land as a cell, ready to
+work on.
+
+---
+
+## Commands
+
+Press **Ctrl+K** (**⌘K** on a Mac) or **/** to open the **Commands pane**:
+commands for the selected cell, its stack and the channel, and a jump to any
+cell on the canvas. **Ctrl+P** finds a file in the selected cell.
+
+---
+
+## Do a run
+
+Press **Run**, the play icon beside the selected cell's status light (or
+**Alt+R**), to open the runners panel. Select a **runner** with ↑↓ or a click:
+**Enter** or a double-click runs it in the current cell, and **Shift+Enter**
+runs it in a new cell. A prompt can tell the agent to read the files already
+in the cell.
+
+Runners are made and changed in **Capabilities**: press the **Capabilities**
+pill in the top bar, and its **Manage** face lists every runner with **Edit**,
+**Duplicate** and **Delete**, and **Add runner** to make one.
+
+---
+
+## Duplicate & compare
+
+Press **Alt+D** to duplicate a cell into a new stack beside it — then run
+rivals side by side and see which comes out best. **Alt+V** fans a stack out,
+every cell side by side (Alt+V or Esc collapses it).
+
+---
+
+## The overview
+
+**Alt+A** zooms out to the overview: every cell as a card, oldest first. The
+**Removed** shelf on its top edge keeps every cell you remove, ready to
+restore. Open the **journal** to read a cell's makes, edits, runs, duplicates,
+merges and splits, with arrows to the cells it came from and went to.
+
+Nothing you try is lost: every run stays a version you can come back to.
+
+---
+
+## Launch: shell & VS Code
+
+**Launch** runners start a program in a container, live on the cell's files.
+
+**Launch › Terminal** — a real shell.
+
+**VS Code** — code-server on port 8080, right inside the cell.
+
+**Git Clone** — paste a repository URL as the prompt and it lands in the cell.
+
+---
+
+## Git: clone, update & push
+
+**Git** runners bring a repository (GitHub, GitLab or any Git server) into a folder of the cell and send your edits back, with git on this machine.
+
+**Git › Clone / Update** — name the repository in the prompt (its address, or owner/name with a GitHub or GitLab account bound); the first run clones its files (never its .git), later runs merge the remote's new commits into your edits.
+
+**Git › Push** — sends the folder's edits as one commit. Private repositories, SSH and every push need a Git entry from Key manager, which also holds your commit name and email.
+
+---
+
+## Web & Extract
+
+**Web** opens a live page inside a cell. Press Capture and what is on screen
+becomes files in that cell.
+
+**Extract** pulls structured JSON back out of whatever files a cell holds.
+
+---
+
+## Agents
+
+The **Agent** runners work on the cell's files. Their **Surface** setting picks
+where you work with one:
+
+**Annotation** — you post messages to the run from the cell's status pane,
+pointing at files and at elements inside them; it reads them, answers in place
+and edits the cell. Send one as **interrupt** to cut in on what it is doing.
+
+**Chat** — a conversation over the cell's files, editing them as it goes.
+
+**CLI** — the agent harness's own terminal in a Docker container.
+
+What you send while the agent starts waits for it. With
+**Start from the selected file** on, a run uses the selected file — the open
+file tab, else the one picked in the files pane — as part of its first turn,
+and the runners panel says which file it will use.
+
+To carry work to a later run, ask for a summary: the agent writes a
+`.llm_summary` file at the cell root, and a later run picks up from it when you
+ask.
+
+---
+
+## The Collimate helper
+
+**Guide**, an Agent runner on the Chat surface, explains the workbench from its bundled
+overview and philosophy, then consults the accepted handler catalog for file
+types and authoring rules. It can explain a file check; it does not inspect
+installed packages or list saved runners. The user chooses runners, adds
+packages and accepts builds in the app.
+
+---
+
+## Keys & tips
+
+Accounts live in **Key manager**, shared across channels. Select an account
+in the runner editor, under **Capabilities › Manage**. Paste credentials,
+verify them and discover models in Key manager; running a runner uses the
+saved selection directly.
+
+Delete this cell whenever you are done — it is just a cell.

@@ -1,0 +1,357 @@
+name: Test
+
+on:
+  pull_request:
+  push:
+    branches: ["main", "master"]
+  workflow_dispatch:
+    inputs:
+      electron_trace_proof:
+        description: "Prove the real Electron deliberate-failure trace artifact"
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: test-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  PYTHON_KEYRING_BACKEND: keyring.backends.null.Keyring
+
+jobs:
+  # The workflows themselves: actionlint (with its shellcheck and pyflakes
+  # passes over every run: step), the pinned release the docker tag names.
+  workflows-lint:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v7
+      - name: actionlint
+        run: docker run --rm -v "$PWD:/repo" -w /repo rhysd/actionlint:1.7.12 -color
+
+  # Ruff needs no venv or prepared resources — runs on a bare checkout, so
+  # it gives backend feedback before the slower jobs finish.
+  api-lint:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.13"
+      - name: Install ruff
+        run: pip install ruff==0.17.2
+      - name: Ruff
+        run: ruff check api/
+      - name: Isolation guard
+        run: bash playground/tests/check_isolation.sh
+
+  frontend-typecheck:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+      - uses: ./.github/actions/setup-toolchain
+      - name: Fetch the module snapshot bodies
+        run: |
+          set -euo pipefail
+          git fetch --depth=1 origin module-snapshot
+          python3 build/snapshot_store.py fetch
+      - uses: actions/setup-node@v7
+        with:
+          node-version: ">=24.15.0 <25"
+          cache: "npm"
+          cache-dependency-path: frontend/package-lock.json
+      - name: Install
+        working-directory: frontend
+        run: npm ci
+      - name: Typecheck
+        working-directory: frontend
+        run: npm run typecheck
+      - name: Lint
+        working-directory: frontend
+        run: npm run lint
+
+  frontend-unit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+      - uses: ./.github/actions/setup-toolchain
+      - name: Fetch the module snapshot bodies
+        run: |
+          set -euo pipefail
+          git fetch --depth=1 origin module-snapshot
+          python3 build/snapshot_store.py fetch
+      - uses: actions/setup-node@v7
+        with:
+          node-version: ">=24.15.0 <25"
+          cache: "npm"
+          cache-dependency-path: frontend/package-lock.json
+      - name: Install
+        working-directory: frontend
+        run: npm ci
+      - name: Vitest + coverage thresholds
+        working-directory: frontend
+        # `test:coverage` runs the same suite as `test` but also gates
+        # coverage thresholds defined in vitest.config.ts. Regressions
+        # fail the job.
+        run: npm run test:coverage
+      - name: Build frontend
+        working-directory: frontend
+        run: npm run build
+      - name: Check bundle size budget
+        working-directory: frontend
+        run: npm run bundle:check
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: frontend-coverage
+          path: frontend/coverage
+          retention-days: 14
+
+  # Python backend: pytest includes direct suites and subprocess wrappers
+  # for the remaining custom-harness scripts, against the workspace venv
+  # (sdk/ and api/ members) that setup-toolchain prepares. Its first step
+  # checks every committed generated file against its source.
+  api-tests:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v7
+      - uses: ./.github/actions/setup-toolchain
+      - name: Fetch the module snapshot bodies
+        run: |
+          set -euo pipefail
+          git fetch --depth=1 origin module-snapshot
+          python3 build/snapshot_store.py fetch
+      - name: Generated files match their sources
+        run: python3 scripts/generate.py --check
+      - name: Install workspace deps (dev)
+        run: uv sync --all-packages --all-groups
+      - name: Pytest (all API suites)
+        run: PYTHONPATH=api uv run pytest api/tests -n auto -v
+
+  # Pyright runs from the repo root, whose pyproject.toml holds its config.
+  api-typecheck:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+      - uses: ./.github/actions/setup-toolchain
+      - name: Fetch the module snapshot bodies
+        run: |
+          set -euo pipefail
+          git fetch --depth=1 origin module-snapshot
+          python3 build/snapshot_store.py fetch
+      - name: Install workspace deps (dev)
+        run: uv sync --all-packages --all-groups
+      - name: Pyright
+        run: uv run --locked pyright api
+
+  # Browser-mode Vitest runs tests whose filenames end in .browser.test.tsx
+  # in real Chromium via Playwright. Separate job because Chromium install
+  # is expensive; cached across runs keyed on package-lock.json.
+  frontend-browser:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+      - uses: ./.github/actions/setup-toolchain
+      - name: Fetch the module snapshot bodies
+        run: |
+          set -euo pipefail
+          git fetch --depth=1 origin module-snapshot
+          python3 build/snapshot_store.py fetch
+      - uses: actions/setup-node@v7
+        with:
+          node-version: ">=24.15.0 <25"
+          cache: "npm"
+          cache-dependency-path: frontend/package-lock.json
+      - name: Install
+        working-directory: frontend
+        run: npm ci
+      - name: Cache Playwright browsers
+        uses: actions/cache@v6
+        id: pw-cache
+        with:
+          path: ~/.cache/ms-playwright
+          key: pw-${{ runner.os }}-${{ hashFiles('frontend/package-lock.json') }}
+      - name: Install Playwright Chromium
+        if: steps.pw-cache.outputs.cache-hit != 'true'
+        working-directory: frontend
+        run: npx playwright install --with-deps chromium
+      - name: Install Playwright system deps
+        if: steps.pw-cache.outputs.cache-hit == 'true'
+        working-directory: frontend
+        run: npx playwright install-deps chromium
+      - name: Vitest browser mode
+        working-directory: frontend
+        run: npm run test:browser
+      - name: Build frontend
+        working-directory: frontend
+        run: npm run build
+      - name: Bundled fonts load with the network off
+        working-directory: frontend
+        run: npx playwright test -c playwright.fonts.config.ts
+
+  # The desktop shell's own suite. Vitest drives ServerController through
+  # its injection points — fake spawn, fetch, clock, kill, filesystem — so
+  # the startup timeouts, the SIGTERM/SIGKILL ladder and the orphan reaper
+  # are exercised with no Electron, no network, and no real processes.
+  # Runs everywhere; the expensive end-to-end story is the next job.
+  desktop-build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: ">=24.15.0 <25"
+          cache: "npm"
+          cache-dependency-path: desktop/package-lock.json
+      - name: Install
+        working-directory: desktop
+        run: npm ci
+      - name: Build
+        working-directory: desktop
+        run: npm run build
+      - name: Typecheck
+        working-directory: desktop
+        run: npm run typecheck
+      - name: Vitest
+        working-directory: desktop
+        run: npm test
+
+  # Playwright drives the real shell through Electron: it starts the api/
+  # server out of this checkout, opens a window on it, attaches a
+  # native guest view, and has to take the server down again on quit. Needs
+  # a display (xvfb) and the synced workspace venv.
+  desktop-e2e:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    continue-on-error: false
+    steps:
+      - uses: actions/checkout@v7
+      - uses: ./.github/actions/setup-toolchain
+      - name: Fetch the module snapshot bodies
+        run: |
+          set -euo pipefail
+          git fetch --depth=1 origin module-snapshot
+          python3 build/snapshot_store.py fetch
+      - uses: actions/setup-node@v7
+        with:
+          node-version: ">=24.15.0 <25"
+          cache: "npm"
+          cache-dependency-path: |
+            desktop/package-lock.json
+            frontend/package-lock.json
+
+      # Pre-sync so `uv run` inside the shell is a no-op resolve. A cold
+      # resolve can outlast the shell's 90s health budget, which would
+      # fail the run for a reason that has nothing to do with the shell.
+      - name: Install workspace deps (dev)
+        run: uv sync --all-packages --all-groups
+
+      - name: Cache the Electron binary
+        uses: actions/cache@v6
+        with:
+          path: ~/.cache/electron
+          key: electron-${{ runner.os }}-${{ hashFiles('desktop/package-lock.json') }}
+
+      - name: Install desktop deps
+        working-directory: desktop
+        run: npm ci
+
+      - name: Install pinned Electron binary
+        working-directory: desktop
+        run: node node_modules/electron/install.js
+
+      - name: Install frontend deps
+        working-directory: frontend
+        run: npm ci
+
+      - name: Build frontend
+        working-directory: frontend
+        run: npm run build
+
+      # The shell ships no UI: its window loads the server's own document,
+      # and the server only has one once the Vite bundle is copied in
+      # (api/static/ is generated, not committed). Same two lines as
+      # release.yml's app-dist job, so CI serves what a release serves.
+      - name: Bundle frontend into api/static/
+        run: |
+          rm -rf api/static
+          cp -r frontend/dist api/static
+
+      # Electron needs the same shared libraries Chromium does; this
+      # installs them without downloading a browser we won't use.
+      - name: Install Chromium system deps
+        working-directory: frontend
+        run: npx playwright install-deps chromium
+
+      # Electron has no headless mode of its own here: the suite opens
+      # real windows, so CI gets a virtual display.
+      - name: Playwright (Electron)
+        working-directory: frontend
+        run: xvfb-run -a npx playwright test -c playwright.electron.config.ts
+
+      - name: Prove Electron failure artifacts
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.electron_trace_proof }}
+        working-directory: frontend
+        env:
+          COLLIMATE_E2E_TRACE_PROOF: "1"
+          PLAYWRIGHT_JSON_OUTPUT_FILE: test-results/electron-proof-result.json
+          PLAYWRIGHT_HTML_OUTPUT_DIR: playwright-report/electron-proof
+        run: |
+          mkdir -p test-results
+          set +e
+          xvfb-run -a npx playwright test -c playwright.electron.config.ts shell.spec.ts \
+            --grep 'opens the workbench on a loopback server it started itself' \
+            --output=test-results/electron-proof --reporter=json,html \
+            > test-results/electron-proof.log 2>&1
+          proof_status=$?
+          set -e
+          test "$proof_status" -eq 1
+          python - <<'PYPROOF'
+          import json, pathlib, zipfile
+          root = pathlib.Path('test-results')
+          report = json.loads((root / 'electron-proof-result.json').read_text())
+          assert not report.get('errors'), report.get('errors')
+          assert report['stats']['unexpected'] == 1, report['stats']
+          assert report['stats']['expected'] == report['stats']['skipped'] == 0, report['stats']
+          def tests(suite):
+              for spec in suite.get('specs', []):
+                  yield from spec['tests']
+              for child in suite.get('suites', []):
+                  yield from tests(child)
+          cases = [case for suite in report['suites'] for case in tests(suite)]
+          assert len(cases) == 1 and len(cases[0]['results']) == 1, cases
+          result = cases[0]['results'][0]
+          assert result['status'] == 'failed', result
+          errors = result.get('errors', [])
+          assert errors and all('ELECTRON_TRACE_PROOF deliberate failure' in error.get('message', '') for error in errors), errors
+          traces = list((root / 'electron-proof').rglob('trace.zip'))
+          assert len(traces) == 1, traces
+          with zipfile.ZipFile(traces[0]) as archive:
+              assert archive.testzip() is None
+              events = [json.loads(line) for name in archive.namelist() if name.endswith('.trace')
+                        for line in archive.read(name).splitlines() if line]
+          assert any(event.get('type') == 'context-options' and event.get('browserName') == 'electron' for event in events), 'missing real context'
+          assert any(event.get('type') == 'before' and event.get('pageId') and event.get('class') in ('Page', 'Frame') for event in events), 'missing page actions'
+          screenshots = list((root / 'electron-proof').rglob('screenshot.png'))
+          assert screenshots and all(file.read_bytes().startswith(bytes.fromhex('89504e470d0a1a0a')) for file in screenshots)
+          print('Verified deliberate Electron failure, real-context trace.zip and screenshot; upload follows.')
+          PYPROOF
+
+      - name: Upload Electron report and real-context traces
+        if: ${{ failure() || (github.event_name == 'workflow_dispatch' && inputs.electron_trace_proof) }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: desktop-e2e-report
+          path: |
+            frontend/playwright-report
+            frontend/test-results
+          retention-days: 14

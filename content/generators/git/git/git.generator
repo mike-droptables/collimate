@@ -1,0 +1,36 @@
+id: git
+name: Git
+version: 1.0.0
+summary: 'Bring a Git repository (GitHub, GitLab or any Git server) into a folder of this cell and send your edits
+  back, with git 2.31 or later on this machine and internet: full. Clone / Update copies the repository''s files into
+  the folder (never .git: <folder>.git-checkout.json beside it at the cell root records the remote, branch and commit
+  the files are based on, and its handler''s skill tells agents how to run git against that commit) and later runs
+  merge the remote''s new commits into your edits, a conflict changing nothing; Push sends the folder''s edits as one
+  commit on the recorded commit (straight on when the branch has not moved, after merging the remote''s new commits
+  when it has, or onto a new branch you name) and never force-pushes; symlinks, submodules, files over 20 MB and
+  node_modules/.venv/__pycache__ stay in Git only; public HTTPS repositories need no account, while private ones, SSH
+  and every push need the Git account (a Key manager GitHub, GitLab or Git server entry, which also holds the commit
+  author).'
+prompt_intent: 'The repository: its address (https://host/path, ssh://user@host/path or user@host:path), or owner/name
+  on the bound GitHub or GitLab account''s server'
+prompt_required: false
+entrypoint: git.py
+# git and its network run on this machine; the docker: limited runner image has no git.
+runs_on: local-machine
+main_config: settings.set_yaml
+draft_files:
+- settings.set_yaml
+configs:
+- id: default
+  name: Clone / Update
+  path: configs/default/manifest.config_yaml
+- id: push
+  name: Push
+  path: configs/push/manifest.config_yaml
+required_files: []
+account_requirements:
+  git:
+    label: Git account
+    kind: git
+    capabilities: [git]
+    required: false

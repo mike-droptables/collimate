@@ -1,0 +1,571 @@
+{
+  "generator": {
+    "type": "object",
+    "required": [
+      "id",
+      "name",
+      "summary",
+      "entrypoint",
+      "main_config"
+    ],
+    "additionalProperties": false,
+    "properties": {
+      "id": {
+        "type": "string",
+        "pattern": "^[a-z][a-z0-9-]*$"
+      },
+      "name": {
+        "type": "string",
+        "minLength": 1
+      },
+      "summary": {
+        "type": "string",
+        "minLength": 1
+      },
+      "version": {
+        "type": "string"
+      },
+      "entrypoint": {
+        "type": "string",
+        "minLength": 1
+      },
+      "main_config": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "\\.set_yaml$"
+      },
+      "chat": {
+        "type": "boolean"
+      },
+      "daemon": {
+        "type": "boolean"
+      },
+      "requires_docker": {
+        "type": "boolean"
+      },
+      "prompt_intent": {
+        "type": "string"
+      },
+      "prompt_required": {
+        "type": "boolean"
+      },
+      "prompt_show_if": {
+        "type": "object",
+        "minProperties": 1
+      },
+      "prompt_required_if": {
+        "type": "object",
+        "minProperties": 1
+      },
+      "requires_docker_if": {
+        "type": "object",
+        "minProperties": 1
+      },
+      "adopts_harness_grant": {
+        "type": "boolean"
+      },
+      "takes_selected_file": {
+        "type": "boolean"
+      },
+      "takes_selected_file_if": {
+        "type": "object",
+        "minProperties": 1
+      },
+      "opens": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "path"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "if": {
+              "type": "object",
+              "minProperties": 1
+            }
+          }
+        }
+      },
+      "draft_files": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required_files": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "env_passthrough": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "ui_files": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "pattern": "^\\.[^/\\\\]+$",
+          "not": {
+            "const": ".run"
+          }
+        }
+      },
+      "enforces": {
+        "type": "array",
+        "uniqueItems": true,
+        "items": {
+          "enum": [
+            "commands"
+          ]
+        }
+      },
+      "runs_on": {
+        "enum": [
+          "anywhere",
+          "local-machine"
+        ]
+      },
+      "live_files_mode": {
+        "enum": [
+          "auto",
+          "manual"
+        ]
+      },
+      "timeout_seconds": {
+        "type": "number",
+        "exclusiveMinimum": 0
+      },
+      "rlimits": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "memory_bytes": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "cpu_seconds": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "open_files": {
+            "type": "integer",
+            "minimum": 1
+          }
+        }
+      },
+      "optional_dependencies": {
+        "type": "object"
+      },
+      "account_requirements": {
+        "type": "object",
+        "propertyNames": {
+          "minLength": 1
+        },
+        "additionalProperties": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "label": {
+              "type": "string",
+              "pattern": "\\S"
+            },
+            "service": {
+              "type": "string",
+              "pattern": "\\S"
+            },
+            "protocol": {
+              "type": "string",
+              "pattern": "\\S"
+            },
+            "custom_type": {
+              "type": "string",
+              "pattern": "\\S"
+            },
+            "harness": {
+              "type": "string",
+              "pattern": "\\S"
+            },
+            "auth_type": {
+              "type": "string",
+              "pattern": "\\S"
+            },
+            "capabilities": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "\\S"
+              }
+            },
+            "services": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "\\S"
+              }
+            },
+            "protocols": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "\\S"
+              }
+            },
+            "auth_types": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "\\S"
+              }
+            },
+            "harnesses": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "\\S"
+              }
+            },
+            "custom_types": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "\\S"
+              }
+            },
+            "kinds": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "model",
+                  "git",
+                  "account",
+                  "custom"
+                ]
+              }
+            },
+            "kind": {
+              "type": "string",
+              "enum": [
+                "model",
+                "git",
+                "account",
+                "custom"
+              ]
+            },
+            "required": {
+              "type": "boolean"
+            }
+          },
+          "anyOf": [
+            {
+              "required": [
+                "kind"
+              ]
+            },
+            {
+              "required": [
+                "kinds"
+              ]
+            }
+          ]
+        }
+      },
+      "configs": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "id",
+            "name",
+            "path"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string",
+              "pattern": "^[a-z][a-z0-9-]*$"
+            },
+            "name": {
+              "type": "string",
+              "minLength": 1
+            },
+            "path": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      },
+      "config_folders": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "name",
+            "description"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "name": {
+              "type": "string",
+              "minLength": 1
+            },
+            "description": {
+              "type": "string"
+            },
+            "sample": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      }
+    }
+  },
+  "runner": {
+    "type": "object",
+    "required": [
+      "id",
+      "name",
+      "generator",
+      "settings"
+    ],
+    "additionalProperties": false,
+    "properties": {
+      "id": {
+        "type": "string",
+        "pattern": "^[a-z][a-z0-9-]*$"
+      },
+      "name": {
+        "type": "string",
+        "minLength": 1
+      },
+      "generator": {
+        "type": "string",
+        "minLength": 1
+      },
+      "description": {
+        "type": "string"
+      },
+      "prompt": {
+        "type": "string"
+      },
+      "tags": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "folders": {
+        "type": "array",
+        "uniqueItems": true,
+        "items": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "settings": {
+        "type": "object",
+        "additionalProperties": {
+          "type": "object"
+        }
+      },
+      "accounts": {
+        "type": "object",
+        "additionalProperties": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "packages": {
+        "type": "object",
+        "additionalProperties": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "permissions": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "docker": {
+            "enum": [
+              "none",
+              "limited",
+              "full"
+            ]
+          },
+          "internet": {
+            "enum": [
+              "none",
+              "proxy",
+              "full"
+            ]
+          },
+          "commands": {
+            "enum": [
+              "deny",
+              "ask",
+              "allow"
+            ]
+          },
+          "update_packages": {
+            "type": "boolean"
+          },
+          "internet_allow": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  },
+  "handler": {
+    "type": "object",
+    "required": [
+      "id",
+      "name",
+      "description",
+      "types",
+      "guidance",
+      "examples"
+    ],
+    "additionalProperties": false,
+    "properties": {
+      "id": {
+        "type": "string",
+        "pattern": "^[a-z][a-z0-9-]*$"
+      },
+      "name": {
+        "type": "string",
+        "minLength": 1
+      },
+      "description": {
+        "type": "string"
+      },
+      "guidance": {
+        "type": "string"
+      },
+      "derived": {
+        "type": "string",
+        "pattern": "^[0-9a-f]{64}$"
+      },
+      "types": {
+        "type": "array",
+        "minItems": 1,
+        "items": {
+          "type": "object",
+          "required": [
+            "ext"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "ext": {
+              "type": "string",
+              "pattern": "^\\.[^\\s/\\\\\u0000]+$"
+            },
+            "render_as": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "pattern": "^\\.[^\\s/\\\\\u0000]+$"
+            }
+          }
+        }
+      },
+      "examples": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "folder",
+            "description",
+            "expect",
+            "feedback"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "folder": {
+              "type": "string",
+              "minLength": 1
+            },
+            "description": {
+              "type": "string"
+            },
+            "expect": {
+              "enum": [
+                "valid",
+                "invalid"
+              ]
+            },
+            "feedback": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  },
+  "options": {
+    "type": "object",
+    "required": [
+      "options"
+    ],
+    "additionalProperties": false,
+    "properties": {
+      "rest": {
+        "enum": [
+          "keep",
+          "drop",
+          "each"
+        ]
+      },
+      "options": {
+        "type": "array",
+        "minItems": 1,
+        "items": {
+          "type": "object",
+          "required": [
+            "name",
+            "files"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "name": {
+              "type": "string",
+              "minLength": 1
+            },
+            "root": {
+              "type": "string",
+              "minLength": 1
+            },
+            "files": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

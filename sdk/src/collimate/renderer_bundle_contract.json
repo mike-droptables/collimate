@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "esbuild_version": "0.28.2",
+  "options": {
+    "bundle": true,
+    "format": "esm",
+    "platform": "neutral",
+    "target": "es2022",
+    "jsx": "transform",
+    "jsxFactory": "React.createElement",
+    "jsxFragment": "React.Fragment",
+    "legalComments": "none",
+    "minify": false,
+    "sourcemap": false,
+    "tsconfigRaw": {},
+    "loader": {
+      ".js": "jsx",
+      ".jsx": "jsx",
+      ".ts": "ts",
+      ".tsx": "tsx",
+      ".json": "json"
+    }
+  },
+  "resolve_extensions": [
+    ".tsx",
+    ".ts",
+    ".jsx",
+    ".js",
+    ".json"
+  ],
+  "external_prefixes": [
+    "https://",
+    "http://",
+    "/api/sdk/"
+  ]
+}

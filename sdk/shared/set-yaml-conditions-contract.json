@@ -1,0 +1,189 @@
+{
+  "$comment": "Cross-language show_if/required_if/option-enable_if semantics (v1: plain FieldMap conditions only — a map {fieldKey: scalar-or-list}; multiple keys = AND, list = OR-within-field. v2 adds the combinators {any:[cond,...]} (OR), {all:[cond,...]} (AND), {not: cond} (negation), evaluated with THREE-VALUED KLEENE logic: each condition is TRUE / FALSE / UNKNOWN, and the public matches() coerces only definite TRUE to true (FALSE and UNKNOWN both => safe false). A combinator object holds exactly one of any/all/not and no field keys (mixing => safe false); any/all take a non-empty list. Kleene: OR is TRUE if any sub TRUE else UNKNOWN if any UNKNOWN else FALSE; AND is FALSE if any sub FALSE else UNKNOWN if any UNKNOWN else TRUE; NOT swaps TRUE/FALSE and leaves UNKNOWN. This generalizes v1 exactly — a flat FieldMap's top-level result is unchanged. `not` is FORBIDDEN in show_if (lint) to keep the monotone visibility fixpoint; it is allowed in required_if / option enable_if, which are evaluated after the fixpoint converges. Pinned implementations: collimate.config_values.{canon,matches,compute_visibility,field_visible,effective_required,enabled_options,invalid_option_violations,validate_config} (SDK, source of truth); frontend setYaml.ts; renderer schema_form main.tsx (exported evaluator). canon() is TYPE-AWARE — the referent field's declared type picks the coercion domain (checkbox -> 'true'/'false' via truthy fold; number -> numeric; dropdown -> YAML-1.1 bool-word fold + case-fold + str; text/textarea/list/object are ILLEGAL referents). Each surface must run its OWN ingestion first (renderer: coerceValue over values_renderer; frontend: effectiveValues-style raw values from values_raw or values; server: parse_set_yaml resolution) so the string/bool/number domain divergence is exercised, not bypassed. Visibility is a monotone fixpoint starting ALL-HIDDEN; a hidden or absent referent contributes UNKNOWN and UNKNOWN never satisfies a match. Hidden field => never gates (not in missing_required, no option checks, no validation). Option enable_if is evaluated AFTER the visibility fixpoint converges against the same visible map (options never feed back into visibility); UNKNOWN referent => option DISABLED (safe polarity); a resolved value equal to a currently-disabled option of a VISIBLE field is an invalid_option violation; hidden fields contribute no option violations. eval_cases keys: cond, values (domain-neutral) / values_raw (frontend+server raw) / values_renderer (renderer post-coerceValue), optional referent_hidden (list of referents to treat as hidden), match (expected bool). gate_cases: fields+values -> blocking_empties (keys in missing_required). option_cases: fields+values -> enabled (per asserted dropdown field, the list of enabled option values) and invalid_options (list of {key,value}). Update THIS table first, then every implementation.",
+  "field_types": { "backend": "dropdown", "mode": "dropdown", "extras": "checkbox", "auth": "dropdown", "thinking": "checkbox", "count": "number", "provider": "dropdown" },
+  "eval_cases": [
+    { "cond": { "backend": "pydantic-ai" }, "values": { "backend": "pydantic-ai" }, "match": true },
+    { "cond": { "backend": "pydantic-ai" }, "values": { "backend": "gemini" }, "match": false },
+    { "cond": { "mode": ["oneshot", "chat"] }, "values": { "mode": "chat" }, "match": true },
+    { "cond": { "mode": ["oneshot", "chat"] }, "values": { "mode": "opencode" }, "match": false },
+    { "cond": { "extras": true }, "values": { "extras": true }, "match": true },
+    { "cond": { "extras": true }, "values": { "extras": false }, "match": false },
+
+    { "cond": { "thinking": "on" }, "values_raw": { "thinking": true }, "values_renderer": { "thinking": true },
+      "match": true, "note": "YAML-1.1: bare 'on' operand and live checkbox both canon to 'true' under checkbox type; renderer coerceValue(checkbox)->bool matches too" },
+    { "cond": { "backend": "on" }, "values_raw": { "backend": true }, "values_renderer": { "backend": "true" },
+      "match": true, "note": "DROPDOWN domain divergence: server/frontend hold bool true, renderer holds string 'true'; _enum_canon folds both to 'true'. This is the case a flat fixture would miss." },
+
+    { "cond": { "count": 0 }, "values_raw": { "count": 0 }, "match": true },
+    { "cond": { "count": 0 }, "values_raw": { "count": "0" }, "match": true,
+      "note": "numeric canon: string '0' and int 0 equal under number type" },
+    { "cond": { "count": 0 }, "values_raw": { "count": 1 }, "match": false },
+
+    { "cond": { "extras": true, "auth": "api_key" }, "values": { "extras": true, "auth": "api_key" }, "match": true },
+    { "cond": { "extras": true, "auth": "api_key" }, "values": { "extras": true, "auth": "claude_code" }, "match": false, "note": "multi-key => AND" },
+
+    { "cond": { "backend": "pydantic-ai" }, "values": {}, "match": false,
+      "note": "absent referent => UNKNOWN => no match (NOT canon('')='' equality)" },
+    { "cond": { "backend": "pydantic-ai" }, "referent_hidden": ["backend"], "values": { "backend": "pydantic-ai" }, "match": false,
+      "note": "referent present with matching value BUT hidden => UNKNOWN => no match. Distinguishes hidden from absent (both UNKNOWN) and pins the hidden-referent rule." },
+
+    { "cond": { "any": [ { "backend": "pydantic-ai" }, { "backend": "gemini" } ] }, "values": { "backend": "gemini" }, "match": true,
+      "note": "v2 any: OR across subconditions — a sub matches" },
+    { "cond": { "any": [ { "backend": "pydantic-ai" }, { "backend": "gemini" } ] }, "values": { "backend": "maf" }, "match": false,
+      "note": "v2 any: no sub matches, all referents known => FALSE" },
+    { "cond": { "any": [ { "backend": "pydantic-ai" }, { "mode": "chat" } ] }, "referent_hidden": ["mode"], "values": { "backend": "pydantic-ai", "mode": "chat" }, "match": true,
+      "note": "v2 any Kleene: one sub TRUE, other UNKNOWN (hidden) => TRUE (TRUE dominates OR)" },
+    { "cond": { "any": [ { "backend": "gemini" }, { "mode": "chat" } ] }, "referent_hidden": ["mode"], "values": { "backend": "pydantic-ai", "mode": "chat" }, "match": false,
+      "note": "v2 any Kleene: one sub FALSE (known != gemini), other UNKNOWN (hidden) => UNKNOWN => safe false" },
+    { "cond": { "all": [ { "mode": ["oneshot", "chat"] }, { "backend": "claude-agent-sdk" } ] }, "values": { "mode": "chat", "backend": "claude-agent-sdk" }, "match": true,
+      "note": "v2 all: AND across subconditions — both match" },
+    { "cond": { "all": [ { "mode": ["oneshot", "chat"] }, { "backend": "claude-agent-sdk" } ] }, "values": { "mode": "chat", "backend": "gemini" }, "match": false,
+      "note": "v2 all: AND — a sub fails" },
+    { "cond": { "all": [ { "backend": "pydantic-ai" }, { "mode": "chat" } ] }, "referent_hidden": ["mode"], "values": { "backend": "pydantic-ai", "mode": "chat" }, "match": false,
+      "note": "v2 all Kleene: TRUE and UNKNOWN (hidden) => UNKNOWN => safe false" },
+    { "cond": { "all": [ { "backend": "gemini" }, { "mode": "chat" } ] }, "referent_hidden": ["mode"], "values": { "backend": "pydantic-ai", "mode": "chat" }, "match": false,
+      "note": "v2 all Kleene: FALSE and UNKNOWN => FALSE (FALSE dominates AND)" },
+    { "cond": { "not": { "backend": "gemini" } }, "values": { "backend": "pydantic-ai" }, "match": true,
+      "note": "v2 not: inner referent known and != gemini => inner FALSE => not => TRUE" },
+    { "cond": { "not": { "backend": "pydantic-ai" } }, "values": { "backend": "pydantic-ai" }, "match": false,
+      "note": "v2 not: inner TRUE => not => FALSE" },
+    { "cond": { "not": { "backend": "gemini" } }, "referent_hidden": ["backend"], "values": { "backend": "pydantic-ai" }, "match": false,
+      "note": "v2 not Kleene: NOT of UNKNOWN stays UNKNOWN => safe false. A hidden referent never flips a not-condition true (banned in show_if by lint; safe here anyway)" },
+    { "cond": { "any": [ { "extras": true }, { "backend": "gemini" } ] }, "values": { "extras": true, "backend": "pydantic-ai" }, "match": true,
+      "note": "v2 any with a checkbox sub — checkbox truthy fold inside a combinator" },
+    { "cond": { "any": [ { "mode": "claude-terminal" }, { "all": [ { "mode": ["oneshot", "chat"] }, { "backend": "claude-agent-sdk" } ] } ] }, "values": { "mode": "oneshot", "backend": "claude-agent-sdk" }, "match": true,
+      "note": "v2 nested any/all: the OR-across-fields 'auth=claude_code valid' shape — oneshot+claude backend satisfies the all branch" },
+    { "cond": { "any": [ { "mode": "claude-terminal" }, { "all": [ { "mode": ["oneshot", "chat"] }, { "backend": "claude-agent-sdk" } ] } ] }, "values": { "mode": "oneshot", "backend": "gemini" }, "match": false,
+      "note": "v2 nested: oneshot but non-claude backend => all branch fails and claude-terminal branch fails => FALSE" },
+    { "cond": { "any": [ { "mode": "claude-terminal" }, { "all": [ { "mode": ["oneshot", "chat"] }, { "backend": "claude-agent-sdk" } ] } ] }, "values": { "mode": "claude-terminal", "backend": "pydantic-ai" }, "match": true,
+      "note": "v2 nested: the claude-terminal branch satisfies regardless of backend" },
+    { "cond": { "any": [ { "backend": "gemini" } ], "backend": "pydantic-ai" }, "values": { "backend": "pydantic-ai" }, "match": false,
+      "note": "v2 malformed: a combinator key mixed with a field key => safe false" },
+    { "cond": { "any": { "backend": "gemini" } }, "values": { "backend": "gemini" }, "match": false,
+      "note": "v2 malformed: any operand must be a list => safe false" },
+    { "cond": { "any": [] }, "values": { "backend": "gemini" }, "match": false,
+      "note": "v2 malformed: empty any list => safe false" }
+  ],
+  "gate_cases": [
+    {
+      "note": "hidden => never in blocking_empties even though required",
+      "fields": [
+        { "key": "provider", "type": "dropdown", "options": ["anthropic", "openai"] },
+        { "key": "azure_endpoint", "type": "text", "required": true, "show_if": { "provider": "openai" } }
+      ],
+      "values": { "provider": "anthropic", "azure_endpoint": "" },
+      "blocking_empties": []
+    },
+    {
+      "note": "visible + required_if active => gates",
+      "fields": [
+        { "key": "provider", "type": "dropdown", "options": ["anthropic", "openai"] },
+        { "key": "azure_endpoint", "type": "text", "show_if": { "provider": "openai" }, "required_if": { "provider": "openai" } }
+      ],
+      "values": { "provider": "openai", "azure_endpoint": "" },
+      "blocking_empties": ["azure_endpoint"]
+    },
+    {
+      "note": "transitive: B hidden => C hidden even though C's show_if matches B's STORED value (UNKNOWN via fixpoint)",
+      "fields": [
+        { "key": "a", "type": "dropdown", "options": ["x", "y"] },
+        { "key": "b", "type": "dropdown", "options": ["p", "q"], "show_if": { "a": "x" } },
+        { "key": "c", "type": "text", "required": true, "show_if": { "b": "p" } }
+      ],
+      "values": { "a": "y", "b": "p", "c": "" },
+      "blocking_empties": []
+    },
+    {
+      "note": "cycle reaching runtime unlinted => both hidden => no gate (fixpoint starts all-hidden)",
+      "fields": [
+        { "key": "a", "type": "dropdown", "options": ["x", "y"], "show_if": { "b": "x" } },
+        { "key": "b", "type": "dropdown", "options": ["x", "y"], "required": true, "show_if": { "a": "x" } }
+      ],
+      "values": { "a": "x", "b": "" },
+      "blocking_empties": []
+    }
+  ],
+  "option_cases": [
+    {
+      "note": "enable_if met, option selected -> enabled, no violation",
+      "fields": [
+        { "key": "presentation", "type": "dropdown", "options": ["compact", "expanded"] },
+        { "key": "detail_level", "type": "dropdown", "options": [
+          { "value": "basic" },
+          { "value": "extended", "enable_if": { "presentation": "expanded" } }
+        ] }
+      ],
+      "values": { "presentation": "expanded", "detail_level": "extended" },
+      "enabled": { "detail_level": ["basic", "extended"] },
+      "invalid_options": []
+    },
+    {
+      "note": "enable_if unmet + option SELECTED -> invalid_option blocks",
+      "fields": [
+        { "key": "presentation", "type": "dropdown", "options": ["compact", "expanded"] },
+        { "key": "detail_level", "type": "dropdown", "options": [
+          { "value": "basic" },
+          { "value": "extended", "enable_if": { "presentation": "expanded" } }
+        ] }
+      ],
+      "values": { "presentation": "compact", "detail_level": "extended" },
+      "enabled": { "detail_level": ["basic"] },
+      "invalid_options": [ { "key": "detail_level", "value": "extended" } ]
+    },
+    {
+      "note": "enable_if unmet + option NOT selected -> greyed only, no violation",
+      "fields": [
+        { "key": "presentation", "type": "dropdown", "options": ["compact", "expanded"] },
+        { "key": "detail_level", "type": "dropdown", "options": [
+          { "value": "basic" },
+          { "value": "extended", "enable_if": { "presentation": "expanded" } }
+        ] }
+      ],
+      "values": { "presentation": "compact", "detail_level": "basic" },
+      "enabled": { "detail_level": ["basic"] },
+      "invalid_options": []
+    },
+    {
+      "note": "field hidden (show_if unmet) -> ALL option checks skipped, disabled+selected does NOT gate",
+      "fields": [
+        { "key": "surface", "type": "dropdown", "options": ["basic", "advanced"] },
+        { "key": "capability", "type": "dropdown", "options": ["none", "call"] },
+        { "key": "creation", "type": "dropdown", "show_if": { "surface": "advanced" }, "options": [
+          { "value": "off" },
+          { "value": "with_runner", "enable_if": { "capability": "call" } }
+        ] }
+      ],
+      "values": { "surface": "basic", "capability": "none", "creation": "with_runner" },
+      "enabled": {},
+      "invalid_options": []
+    },
+    {
+      "note": "canon domain: enable_if references a checkbox with YAML-1.1 'on' string operand; live value bool true matches",
+      "fields": [
+        { "key": "expanded", "type": "checkbox" },
+        { "key": "detail_level", "type": "dropdown", "options": [
+          { "value": "basic" },
+          { "value": "extended", "enable_if": { "expanded": "on" } }
+        ] }
+      ],
+      "values_raw": { "expanded": true, "detail_level": "extended" },
+      "values_renderer": { "expanded": true, "detail_level": "extended" },
+      "enabled": { "detail_level": ["basic", "extended"] },
+      "invalid_options": []
+    },
+    {
+      "note": "UNKNOWN referent (referent field hidden) -> option DISABLED (safe polarity); selected -> invalid_option",
+      "fields": [
+        { "key": "surface", "type": "dropdown", "options": ["basic", "advanced"] },
+        { "key": "capability", "type": "dropdown", "options": ["none", "call"], "show_if": { "surface": "advanced" } },
+        { "key": "creation", "type": "dropdown", "options": [
+          { "value": "off" },
+          { "value": "with_runner", "enable_if": { "capability": "call" } }
+        ] }
+      ],
+      "values": { "surface": "basic", "capability": "call", "creation": "with_runner" },
+      "enabled": { "creation": ["off"] },
+      "invalid_options": [ { "key": "creation", "value": "with_runner" } ]
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+id: "website"
+name: "Website Viewer"
+version: "1.1.0"
+summary: "Live view of a .website pointer's served port: the desktop app hosts its directUrl in a native guest view, a browser tab iframes the proxy url (sandboxed); with an address bar, Open in new tab, and the generator's action buttons."
+entrypoint: "main.tsx"
+embed: "native"
+
+extensions:
+  - ".website"
+
+supports_diff: false

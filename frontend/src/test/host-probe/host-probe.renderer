@@ -1,0 +1,7 @@
+id: host-probe
+name: Host probe
+version: "1.0.0"
+summary: The renderer-host conformance probe (frontend/src/components/__browser__/renderer-host-conformance.browser.test.tsx).
+entrypoint: main.js
+extensions: [.probe]
+supports_diff: false

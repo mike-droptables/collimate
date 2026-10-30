@@ -1,0 +1,39 @@
+{
+  "name": "collimate-desktop",
+  "productName": "Collimate",
+  "desktopName": "collimate.desktop",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Desktop shell for Collimate. Supervises a uv-managed local server and hosts its UI; ships no frontend of its own.",
+  "license": "MIT",
+  "author": "Collimate contributors",
+  "homepage": "https://collimate.dev",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mike-droptables/collimate.git",
+    "directory": "desktop"
+  },
+  "main": "dist/main.cjs",
+  "scripts": {
+    "build": "node build.mjs",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "dev": "node build.mjs && electron dist/main.cjs",
+    "dist": "npm run build && electron-builder"
+  },
+  "devDependencies": {
+    "@types/node": "^24.19.2",
+    "electron": "^45.0.0",
+    "electron-builder": "^26.18.0",
+    "electron-updater": "^6.8.11",
+    "esbuild": "^0.28.2",
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.5",
+    "vite": "^8.3.5"
+  },
+  "allowScripts": {
+    "esbuild@0.28.2": true,
+    "electron-winstaller@5.4.0": true
+  }
+}

@@ -1,0 +1,24 @@
+name: Translate
+description: Translate the cell's text files into a target language, preserving meaning, formatting, and
+  structure — a one-shot agent pass guided by the translate skill.
+tags:
+- translate
+prompt: Translate this cell's text files with the translate skill, mirroring the input's structure in place. The
+  target language and any tone or glossary notes are pinned in the system prompt.
+settings:
+  agent-config.set_yaml:
+    surface: annotation
+    session: oneshot
+    backend: pydantic-ai
+    system_prompt: ''
+    mcp: 'off'
+    approvals: auto
+    selected_file_first: false
+folders:
+- _skills
+accounts: {}
+permissions:
+  docker: none
+  internet: full
+  commands: deny
+packages: {}

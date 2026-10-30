@@ -1,0 +1,60 @@
+{
+  "schema": 1,
+  "binding_version": "0.17.0.1",
+  "abi": "cp310-abi3",
+  "source": {
+    "url": "https://files.pythonhosted.org/packages/9d/f0/34285112767f07aa2df4f4f8741b00fc6bae80124162245f2901fba1f2e7/quickjs_ng-0.17.0.1.tar.gz",
+    "sha256": "a1f7352b7e508346c8254f5ae790799898ebd1b2df2538bf9b7070a757faf903",
+    "filename": "quickjs_ng-0.17.0.1.tar.gz"
+  },
+  "targets": {
+    "darwin-arm64": {
+      "url": "https://files.pythonhosted.org/packages/29/6e/8934b81ccb8974c57a385bd1ea63f5d46acef25a7a0ec93850a591966656/quickjs_ng-0.17.0.1-cp310-abi3-macosx_11_0_arm64.whl",
+      "sha256": "330f6bdb61ebf8102d650af799dd093924f34cc8be449fed97102147e133f685",
+      "filename": "quickjs_ng-0.17.0.1-cp310-abi3-macosx_11_0_arm64.whl",
+      "platform_tag": "macosx_11_0_arm64",
+      "extension_sha256": "5c2050092f178d2c8d9d60f568f0b7cbb86af5a3a0e80a59c4bfe16f72c1f0f7"
+    },
+    "linux-arm64": {
+      "url": "https://files.pythonhosted.org/packages/66/1e/bf364ef846a1d36f2e7c424699d5b01b5c0eb852a0d7bae183e521742184/quickjs_ng-0.17.0.1-cp310-abi3-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl",
+      "sha256": "b8f41e2230d96925e69d40c7bbb66a81535ca63a1941d0ac8a2456c53085bafe",
+      "filename": "quickjs_ng-0.17.0.1-cp310-abi3-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl",
+      "platform_tag": "manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64",
+      "extension_sha256": "c3fb3696c431188bee354dd2450f08fb683dcebebfb36c51c68664d768fa158c"
+    },
+    "linux-x64": {
+      "url": "https://files.pythonhosted.org/packages/db/d7/95ad035994e03478ad83275895ea218c3c1c7adc821aa1e2f3de4ed38d72/quickjs_ng-0.17.0.1-cp310-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl",
+      "sha256": "096486a0bb5467e3934d62d8a228f2ad04d9c71e1f70a31a05b20d1b5018702a",
+      "filename": "quickjs_ng-0.17.0.1-cp310-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl",
+      "platform_tag": "manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64",
+      "extension_sha256": "afaf49c5eac1ee0753b7c56a683d9624d33ee1ec9ff55f09fa986d800e9210b2"
+    },
+    "darwin-x64": {
+      "source_build": true,
+      "platform_tag": "macosx_11_0_x86_64"
+    }
+  },
+  "source_build": {
+    "setuptools": "80.9.0",
+    "wheel": "0.45.1",
+    "deployment_target": "11.0",
+    "upstream": {
+      "version": "0.17.0",
+      "revision": "6d46d07d04041b40f4f49eaa7fdebe44c314c699",
+      "filename": "quickjs-6d46d07d04041b40f4f49eaa7fdebe44c314c699.tar.gz",
+      "url": "https://codeload.github.com/quickjs-ng/quickjs/tar.gz/6d46d07d04041b40f4f49eaa7fdebe44c314c699",
+      "sha256": "a62cf1ff7d6d2f82b90a2d247a57e9eb56b81c03feb1f372a53923426e358cb0",
+      "headers": {
+        "quickjs-c-atomics.h": "29883c742a5c512278fce54d19b1b9af949006e1d7dfc9ffa2e0946b184d8c5c",
+        "builtin-array-fromasync.h": "f41eb2eb028832cff9a5f8d8d2cb438c27771a9d7d85c30dfd16aa78f34fe6de",
+        "builtin-iterator-zip-keyed.h": "24446c6157a043cfeb0b0255c7892f5146809bd3098c70028bfa1ee5311b91f4",
+        "builtin-iterator-zip.h": "fdaef760ecce82c1f8b62dca8d0d424ae05ef88a0037e32221858ab7ac8994c9"
+      },
+      "license_notice": "/*\n * QuickJS C atomics definitions\n *\n * Copyright (c) 2023 Marcin Kolny\n *\n * Permission is hereby granted, free of charge, to any person obtaining a copy\n * of this software and associated documentation files (the \"Software\"), to deal\n * in the Software without restriction, including without limitation the rights\n * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell\n * copies of the Software, and to permit persons to whom the Software is\n * furnished to do so, subject to the following conditions:\n *\n * The above copyright notice and this permission notice shall be included in\n * all copies or substantial portions of the Software.\n *\n * THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\n * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\n * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL\n * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\n * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\n * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN\n * THE SOFTWARE.\n */"
+    }
+  },
+  "license_sha256": {
+    "LICENSE.quickjs-ng": "1d98bbf860c3c0f04281941e41e5534a4e5c3588daa7356b065c2a182de27c2a",
+    "LICENSE.quickjs-engine": "3e51291881f186a9ea13fa93fa80eed563a93d4ce4a8367282fc2a9fc69fa0b5"
+  }
+}

@@ -1,0 +1,19 @@
+    <!-- Injected by playground/build (inject_landing.py): the browser demo
+         is built and deployed from playground/, so the landing only gets
+         this button in that build. -->
+    <style>
+      .btn-demo {
+        display: inline-flex; align-items: center; gap: 9px; padding: 12px 24px;
+        background: var(--gold-soft); border: 1px solid var(--gold-line); border-radius: var(--radius);
+        font-family: "JetBrains Mono", monospace; font-size: 0.8rem; font-weight: 500; letter-spacing: 0.07em; text-transform: uppercase;
+        color: var(--text); text-decoration: none; transition: border-color 0.18s, background 0.18s, color 0.18s;
+      }
+      .btn-demo:hover { background: var(--gold-line); }
+      .btn-demo svg { width: 13px; height: 13px; fill: currentColor; }
+      .btn-demo-note { font-size: 0.72rem; color: var(--text-faint); margin: -6px 0 2px; }
+    </style>
+    <a href="playground/" class="btn-demo" data-demo-link>
+      Try the browser demo
+      <svg viewBox="0 0 16 16"><path d="M6 3l6 5-6 5V3z"/></svg>
+    </a>
+    <div class="btn-demo-note">Runs entirely in your browser — scripted generators, nothing saved.</div>

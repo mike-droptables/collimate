@@ -1,0 +1,147 @@
+[project]
+name = "collimate"
+version = "0.1.0"
+description = "Collimate"
+# README.md is this distribution's PyPI long description. LICENSE is a
+# committed byte-identical copy of the root LICENSE (MIT).
+readme = "README.md"
+requires-python = ">=3.13"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [
+    { name = "Collimate contributors" },
+]
+keywords = ["collimate", "llm", "workbench", "generators", "renderers"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Operating System :: POSIX",
+    "Operating System :: MacOS",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Libraries :: Application Frameworks",
+]
+dependencies = [
+    # collimate-sdk: bundled generators + renderers, the asset-tree reader
+    # that seeds new channels, the Generator class. The SDK is the workspace
+    # member sdk/ ([tool.uv.sources] below); a release pins the exact version
+    # at build (build/release_policy.py pin-sdk).
+    "collimate-sdk>=0.1.0",
+    # Host-placed environments (process_manager/environments.py): the host
+    # owns every docker call for the env_* IPC ops — generators declare
+    # placements, they never touch a daemon.
+    "docker>=7.0.0",
+    "fastapi>=0.100.0",
+    "uvicorn>=0.23.0",
+    # Imported by routes/proxy.py, and uvicorn (no [standard]) needs it to
+    # serve every WebSocket route; declared rather than left transitive.
+    "websockets>=17,<18",
+    "pydantic>=2.0.0",
+    "httpx>=0.27.0",
+    "pyyaml>=6.0",
+    "keyring>=25.0",
+]
+
+[dependency-groups]
+dev = [
+    # Match the separately bootstrapped CI lint job; typechecking uses this env.
+    "ruff==0.17.2",
+    "pyright==1.1.414",
+    "pytest>=8.0.0",
+    "pytest-asyncio>=0.23.0",
+    "playwright>=1.64.1,<2",
+    "pytest-xdist>=3.6",
+]
+
+[project.scripts]
+# The one console entry point: `collimate` in PATH after pip install →
+# starts the FastAPI server on http://localhost:5001, which you open in a
+# browser yourself (see api/main.py cli_main). The full-window experience
+# is the desktop app in desktop/, which ships its own installer.
+collimate = "main:cli_main"
+
+[project.urls]
+Homepage = "https://github.com/mike-droptables/collimate"
+Repository = "https://github.com/mike-droptables/collimate"
+Issues = "https://github.com/mike-droptables/collimate/issues"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+# The workspace-root trees beside this member (content/, builtins/,
+# module-snapshot/): hatch_build.py force-includes them into the sdist (at
+# <sdist>/<tree>) and the wheel (at collimate_content/, collimate_builtins/,
+# collimate_module_snapshot/). An editable install bundles none of them.
+[tool.hatch.build.hooks.custom]
+path = "hatch_build.py"
+
+# Package layout: the `api/` directory is a flat collection of Python
+# modules (main.py, genesis.py, sandbox.py, …) plus two packages
+# (routes/, process_manager/). There's no single top-level package
+# matching the project name ("collimate"), so we can't use hatchling's
+# default `packages = [...]` mechanism. Instead, glob-include every
+# relevant source path; hatchling writes them at the wheel root, where
+# `import main`, `from routes.runs import ...`, etc. resolve exactly
+# as they do in the source checkout.
+#
+# `static/**` is populated by the CI build (release.yml) before
+# `python -m build` runs. It's a plain include glob (not force-include)
+# so an editable install from a fresh checkout doesn't fail when the dir
+# hasn't been generated yet — `uv sync`, `uv pip install -e .`,
+# `uv tool install ./api` all work out-of-box, and the frontend simply
+# isn't bundled until a build populates it. The release workflow checks
+# the wheel post-build (build/release_policy.py check-wheel), so a
+# UI-less release can't ship to PyPI accidentally.
+[tool.hatch.build.targets.wheel]
+include = [
+    "*.py",
+    # The app's list of its built-ins (builtin_packages.LIST_PATH).
+    "builtins.json",
+    "routes/**/*.py",
+    "process_manager/**/*.py",
+    "process_manager/runner_image/**",
+    "static/**",
+]
+# Extra safety net — excludes dev artifacts that a glob might sweep
+# up if the source tree gets new patterns. The leading "/" anchors each
+# pattern to api/, so a folder of that name nested deeper is kept.
+exclude = [
+    "/tests/",
+    "/.venv/",
+    "/.collimate/",
+    "/build/",
+    "/hatch_build.py",
+]
+
+[tool.hatch.build.targets.sdist]
+# sdist needs the same layout as the wheel so downstream rebuilds work.
+exclude = [
+    "/tests/",
+    "/.venv/",
+    "/.collimate/",
+    "/build/",
+]
+
+[tool.pytest.ini_options]
+# Collect direct suites and the four large custom harnesses through normal
+# pytest. test_pytest_standalone.py executes those scripts and propagates
+# their exit status; the scripts themselves are not collected a second time.
+testpaths = ["tests"]
+python_files = ["test_pytest_*.py"]
+asyncio_mode = "auto"
+
+[tool.ruff]
+target-version = "py313"
+
+[tool.ruff.lint]
+# Pycodestyle errors + pyflakes. E402 (deferred imports for circular-import
+# avoidance), E701 (one-line guards), and E741 are deliberate house style.
+select = ["E4", "E7", "E9", "F"]
+ignore = ["E402", "E701", "E741"]
+
+# The SDK is the workspace member sdk/, installed editable by
+# `uv sync` from the repo root. Hatchling and PyPI metadata ignore
+# [tool.uv.sources]; a release pins `collimate-sdk==<version>` at build.
+[tool.uv.sources]
+collimate-sdk = { workspace = true }

@@ -1,0 +1,36 @@
+dist
+node_modules
+# Vitest 5's default attachments and blob-report directory
+.vitest/
+desktop/node_modules/
+desktop/dist/
+desktop/release/
+/tmp/
+.vscode-test/
+__pycache__
+*.vsix
+.vscode/ltex.hiddenFalsePositives.en-US.txt
+.lh/*
+*.db
+
+# Exclude sourcemaps
+*.map
+
+.DS_Store
+api/build/
+api/.venv/
+api/static/*
+# The module snapshot's bodies: index.json (committed) names them, the orphan
+# branch module-snapshot stores them (build/snapshot_store.py publish / fetch)
+/module-snapshot/modules/
+# run-app skill's backup of the built bundle while it serves a fresh build
+api/static.bak*/
+collimate_data/*
+.collimate/*
+api/.collimate/
+api/.collimate/objects/2a/dd9ba4f16c0bb7175d50dd99fb77ccc0ad5abceae8136511b777b22459a404
+logs/*
+.env
+collimatedev.code-workspace
+AGENTS.md
+llm/logs/*

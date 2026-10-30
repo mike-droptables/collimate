@@ -1,0 +1,6 @@
+name: Agent
+order: 80
+icon: bot
+shared:
+- _env_shared
+- _agent_shared

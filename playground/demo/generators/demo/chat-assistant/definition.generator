@@ -1,0 +1,17 @@
+id: chat-assistant
+name: Chat assistant
+version: 1.0.0
+summary: A scripted assistant conversation streamed word by word into the chat renderer, with a short thinking section. Your follow-up messages get canned replies.
+entrypoint: timeline.py
+ui_files:
+- .chat
+- .json
+opens:
+- path: '{run}/chat/conversation.chat'
+prompt_intent: The opening message of the conversation — the assistant's first reply is scripted whatever you write here
+main_config: settings.set_yaml
+draft_files:
+- settings.set_yaml
+required_files: []
+config_folders: []
+account_requirements: {}

@@ -1,0 +1,26 @@
+name: Evaluate Best
+description: Judge candidate options independently against your criteria, then pick one winner — stating
+  what the winner sacrifices. Uses an accepted frame as the rubric and challenge reports as evidence.
+  Guided by the evaluate-best judgment skill.
+tags:
+- evaluate-best
+prompt: Run the evaluate-best skill over the candidate options in this input. Judge each candidate independently against
+  the criteria pinned in the system prompt, weighing any challenge evidence, then pick one winner and state what
+  it sacrifices.
+settings:
+  agent-config.set_yaml:
+    surface: annotation
+    session: oneshot
+    backend: pydantic-ai
+    system_prompt: ''
+    mcp: 'off'
+    approvals: auto
+    selected_file_first: false
+folders:
+- _skills
+accounts: {}
+permissions:
+  docker: none
+  internet: full
+  commands: deny
+packages: {}

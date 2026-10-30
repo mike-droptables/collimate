@@ -1,0 +1,12 @@
+id: "excalidraw"
+name: "Excalidraw"
+version: "1.2.0"
+summary: "Interactive whiteboard and diagramming canvas, on the skin or in Excalidraw's own look (the style control). Powered by React SDK."
+entrypoint: "main.tsx"
+embed: "iframe"
+
+extensions:
+  - ".excalidraw"
+  - ".excalidraw.json"
+
+supports_diff: false  # Excalidraw state is a large nested JSON; a plain text diff is meaningless. Real visual-diff would need a custom diffComponent.

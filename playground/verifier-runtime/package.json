@@ -1,0 +1,13 @@
+{
+  "name": "collimate-playground-verifier",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@jitl/quickjs-wasmfile-release-asyncify": "0.32.0",
+    "esbuild-wasm": "0.28.2",
+    "quickjs-emscripten-core": "0.32.0"
+  },
+  "scripts": {
+    "test": "node --test ../tests/runtime/verifier-worker.test.mjs"
+  }
+}

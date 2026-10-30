@@ -1,0 +1,25 @@
+name: Modify Files
+description: Let an LLM agent edit the cell's files to a task you describe. One input cell is edited in
+  place; a collapsed cell of many candidates fans out — one edit per candidate, each an option folder. Guided
+  by the modify-files skill.
+tags:
+- modify-files
+prompt: Apply the task pinned in the system prompt to this cell's files with the modify-files skill, dispatching
+  on the input shape — one cell edited in place, or one edited option folder per candidate.
+settings:
+  agent-config.set_yaml:
+    surface: annotation
+    session: oneshot
+    backend: pydantic-ai
+    system_prompt: ''
+    mcp: 'off'
+    approvals: auto
+    selected_file_first: false
+folders:
+- _skills
+accounts: {}
+permissions:
+  docker: none
+  internet: full
+  commands: deny
+packages: {}

@@ -1,0 +1,13 @@
+name: Default
+description: Default Web settings
+prompt: ''
+settings:
+  settings.set_yaml:
+    profile: default
+    device: desktop
+folders: []
+accounts: {}
+permissions:
+  docker: none
+  internet: full
+packages: {}

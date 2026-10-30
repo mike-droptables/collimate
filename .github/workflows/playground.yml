@@ -1,0 +1,217 @@
+name: Playground
+
+# The browser demo under playground/ is built from a staged copy of the main
+# app (see playground/README.md). This workflow builds it, checks that no
+# demo code has leaked into the main tree, drives the built site with
+# Playwright, optionally gates on the visual baselines, and publishes the
+# result to GitHub Pages from the public mirror.
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    paths:
+      - "playground/**"
+      - ".github/workflows/playground.yml"
+  workflow_dispatch:
+    inputs:
+      visual:
+        description: "Run the visual-regression suite"
+        type: boolean
+        default: false
+      update_visual_baselines:
+        description: "Re-render the visual baselines and upload them as an artifact"
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages-${{ github.ref }}"
+  cancel-in-progress: false
+
+env:
+  PYTHON_KEYRING_BACKEND: keyring.backends.null.Keyring
+
+jobs:
+  # ── Build ───────────────────────────────────────────────────────────────
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+      - uses: ./.github/actions/setup-toolchain
+      - uses: actions/setup-node@v7
+        with:
+          node-version: ">=24.15.0 <25"
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      # The build reuses frontend/node_modules through a symlink when present
+      # (a local build); on CI it is installed here so vite and esbuild exist.
+      - name: Install frontend dependencies
+        run: npm ci --no-audit --no-fund
+        working-directory: frontend
+      - name: Build the demo site
+        run: bash playground/build.sh
+      - name: Playground isolation
+        run: bash playground/tests/check_isolation.sh
+      - name: Upload site
+        uses: actions/upload-artifact@v7
+        with:
+          name: playground-dist
+          path: playground/dist
+          retention-days: 7
+
+  # ── Demo timelines (unit) ───────────────────────────────────────────────
+  # The scripted timelines against a fake `demo` object, plus the runner
+  # drafts through the real app: needs the api environment and the SDK.
+  demo-unit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+      - uses: ./.github/actions/setup-toolchain
+      - name: Install the workspace environment
+        run: uv sync --all-packages --all-groups
+      - name: Demo timeline tests
+        run: .venv/bin/python -m pytest playground/tests/demo -q
+
+  # ── End-to-end (Playwright, Chromium) ───────────────────────────────────
+  e2e:
+    needs: build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: ">=24.15.0 <25"
+          cache: npm
+          cache-dependency-path: playground/package-lock.json
+      - name: Download site
+        uses: actions/download-artifact@v8
+        with:
+          name: playground-dist
+          path: playground/dist
+      - name: Install test dependencies
+        run: npm ci --no-audit --no-fund
+        working-directory: playground
+      - name: Playwright version
+        id: pw
+        run: echo "version=$(node -p "require('@playwright/test/package.json').version")" >> "$GITHUB_OUTPUT"
+        working-directory: playground
+      - name: Cache Playwright browsers
+        id: pw-cache
+        uses: actions/cache@v6
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ steps.pw.outputs.version }}-${{ hashFiles('playground/package-lock.json') }}
+      - name: Install Chromium
+        if: steps.pw-cache.outputs.cache-hit != 'true'
+        run: npx playwright install --with-deps chromium
+        working-directory: playground
+      - name: Install Chromium system dependencies
+        if: steps.pw-cache.outputs.cache-hit == 'true'
+        run: npx playwright install-deps chromium
+        working-directory: playground
+      - name: End-to-end tests
+        run: npx playwright test
+        working-directory: playground
+        env:
+          CI: "1"
+      - name: Upload report
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: playground-e2e-report
+          path: |
+            playground/playwright-report
+            playground/test-results
+          retention-days: 7
+
+  # ── Visual regression (opt-in) ──────────────────────────────────────────
+  # Runs on pull requests labelled `visual`, or on dispatch with the input
+  # set. Baselines are Linux-rendered and live under
+  # playground/tests/e2e/visual/**-snapshots/; `update_visual_baselines`
+  # re-renders them and uploads the result to commit by hand.
+  visual:
+    needs: build
+    if: >-
+      (github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'visual'))
+      || (github.event_name == 'workflow_dispatch' && (inputs.visual || inputs.update_visual_baselines))
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    container:
+      image: mcr.microsoft.com/playwright:v1.64.1-jammy
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: ">=24.15.0 <25"
+      - name: Download site
+        uses: actions/download-artifact@v8
+        with:
+          name: playground-dist
+          path: playground/dist
+      - name: Install test dependencies
+        run: npm ci --no-audit --no-fund
+        working-directory: playground
+      - name: Visual tests
+        if: ${{ !(github.event_name == 'workflow_dispatch' && inputs.update_visual_baselines) }}
+        run: npm run test:visual
+        working-directory: playground
+        env:
+          CI: "1"
+          HOME: /root
+      - name: Refresh visual baselines
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.update_visual_baselines }}
+        run: npm run test:visual:update
+        working-directory: playground
+        env:
+          CI: "1"
+          HOME: /root
+      - name: Upload baselines
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.update_visual_baselines }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: playground-visual-baselines
+          path: playground/tests/e2e/visual/**/*-snapshots/**
+          retention-days: 14
+      - name: Upload visual report
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: playground-visual-report
+          path: |
+            playground/playwright-report
+            playground/test-results
+          retention-days: 7
+
+  # ── Deploy ──────────────────────────────────────────────────────────────
+  # Pages deploys only from the public mirror, which receives this file via
+  # the daily sync; the private dev repo skips it.
+  deploy:
+    needs: [build, demo-unit, e2e]
+    if: ${{ github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && !github.event.repository.private }}
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Download site
+        uses: actions/download-artifact@v8
+        with:
+          name: playground-dist
+          path: playground/dist
+      - name: Setup Pages
+        uses: actions/configure-pages@v6
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: playground/dist
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5

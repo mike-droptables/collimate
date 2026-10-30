@@ -1,0 +1,5 @@
+options:
+- files:
+  - candidate.txt
+  name: One
+rest: keep

@@ -1,0 +1,23 @@
+name: Agent
+description: 'Pydantic AI''s Coder agent behind its own ACP adapter, a process on this machine, on the
+  Annotation surface; docker: full sandboxes its commands and is recommended for commands: allow. Any
+  provider key, or a custom endpoint'
+tags:
+- agent
+prompt: ''
+settings:
+  agent-config.set_yaml:
+    surface: annotation
+    session: interactive
+    backend: pydantic-ai
+    system_prompt: ''
+    mcp: 'off'
+    approvals: auto
+    selected_file_first: false
+folders: []
+accounts: {}
+permissions:
+  docker: none
+  internet: full
+  commands: deny
+packages: {}

@@ -1,0 +1,14 @@
+id: options
+name: Split options
+description: Lay out candidate files and declare named options using relative roots and globs.
+  Every option must match a file; choose rest keep, drop or each. The user performs Split.
+types:
+- ext: .options_stack
+guidance: Lay out candidate files and declare named options using relative roots and globs.
+  Every option must match a file; choose rest keep, drop or each. The user performs Split.
+examples:
+- folder: basic
+  description: A minimal complete declaration and its referenced files.
+  expect: valid
+  feedback: The declaration matches its package and current paths.
+derived: 144e871af4f064712cc4cfeac2a01fe4a4dc47c478ee74b3f49a8c302ef52992

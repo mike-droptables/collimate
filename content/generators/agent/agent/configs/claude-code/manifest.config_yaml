@@ -1,0 +1,24 @@
+name: Claude Code
+description: Claude Code behind its ACP adapter, a process on this machine, on the Annotation surface;
+  its CLI terminal is this machine's claude, signed in once per Key manager entry. Anthropic key or Claude
+  subscription
+tags:
+- agent
+- claude-code
+prompt: ''
+settings:
+  agent-config.set_yaml:
+    surface: annotation
+    session: interactive
+    backend: claude-code
+    system_prompt: ''
+    mcp: 'off'
+    approvals: auto
+    selected_file_first: false
+folders: []
+accounts: {}
+permissions:
+  docker: none
+  internet: full
+  commands: deny
+packages: {}

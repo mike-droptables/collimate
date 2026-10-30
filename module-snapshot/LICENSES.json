@@ -1,0 +1,1757 @@
+{
+ "packages": {
+  "@assistant-ui/core@0.3.31": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@assistant-ui/core/-/core-0.3.31.tgz"
+  },
+  "@assistant-ui/react-markdown@0.14.24": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@assistant-ui/react-markdown/-/react-markdown-0.14.24.tgz"
+  },
+  "@assistant-ui/react@0.15.31": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@assistant-ui/react/-/react-0.15.31.tgz"
+  },
+  "@assistant-ui/store@0.3.22": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@assistant-ui/store/-/store-0.3.22.tgz"
+  },
+  "@assistant-ui/tap@0.9.24": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@assistant-ui/tap/-/tap-0.9.24.tgz"
+  },
+  "@braintree/sanitize-url@6.0.2": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@braintree/sanitize-url/-/sanitize-url-6.0.2.tgz"
+  },
+  "@braintree/sanitize-url@7.1.2": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@braintree/sanitize-url/-/sanitize-url-7.1.2.tgz"
+  },
+  "@chevrotain/cst-dts-gen@13.2.0": {
+   "license": "Apache-2.0",
+   "source": "https://registry.npmjs.org/@chevrotain/cst-dts-gen/-/cst-dts-gen-13.2.0.tgz"
+  },
+  "@chevrotain/gast@13.2.0": {
+   "license": "Apache-2.0",
+   "source": "https://registry.npmjs.org/@chevrotain/gast/-/gast-13.2.0.tgz"
+  },
+  "@chevrotain/regexp-to-ast@13.2.0": {
+   "license": "Apache-2.0",
+   "source": "https://registry.npmjs.org/@chevrotain/regexp-to-ast/-/regexp-to-ast-13.2.0.tgz"
+  },
+  "@chevrotain/utils@13.2.0": {
+   "license": "Apache-2.0",
+   "source": "https://registry.npmjs.org/@chevrotain/utils/-/utils-13.2.0.tgz"
+  },
+  "@codemirror/autocomplete@6.20.4": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@codemirror/autocomplete/-/autocomplete-6.20.4.tgz"
+  },
+  "@codemirror/commands@6.11.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@codemirror/commands/-/commands-6.11.1.tgz"
+  },
+  "@codemirror/lang-angular@0.1.4": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@codemirror/lang-angular/-/lang-angular-0.1.4.tgz"
+  },
+  "@codemirror/lang-cpp@6.0.3": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@codemirror/lang-cpp/-/lang-cpp-6.0.3.tgz"
+  },
+  "@codemirror/lang-css@6.3.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@codemirror/lang-css/-/lang-css-6.3.1.tgz"
+  },
+  "@codemirror/lang-go@6.0.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@codemirror/lang-go/-/lang-go-6.0.1.tgz"
+  },
+  "@codemirror/lang-html@6.4.12": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@codemirror/lang-html/-/lang-html-6.4.12.tgz"
+  },
+  "@codemirror/lang-java@6.0.2": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@codemirror/lang-java/-/lang-java-6.0.2.tgz"
+  },
+  "@codemirror/lang-javascript@6.2.5": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@codemirror/lang-javascript/-/lang-javascript-6.2.5.tgz"
+  },
+  "@codemirror/lang-jinja@6.0.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@codemirror/lang-jinja/-/lang-jinja-6.0.1.tgz"
+  },
+  "@codemirror/lang-json@6.0.2": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@codemirror/lang-json/-/lang-json-6.0.2.tgz"
+  },
+  "@codemirror/lang-less@6.0.2": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@codemirror/lang-less/-/lang-less-6.0.2.tgz"
+  },
+  "@codemirror/lang-liquid@6.3.3": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@codemirror/lang-liquid/-/lang-liquid-6.3.3.tgz"
+  },
+  "@codemirror/lang-markdown@6.5.2": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@codemirror/lang-markdown/-/lang-markdown-6.5.2.tgz"
+  },
+  "@codemirror/lang-php@6.0.2": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@codemirror/lang-php/-/lang-php-6.0.2.tgz"
+  },
+  "@codemirror/lang-python@6.2.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@codemirror/lang-python/-/lang-python-6.2.1.tgz"
+  },
+  "@codemirror/lang-rust@6.0.2": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@codemirror/lang-rust/-/lang-rust-6.0.2.tgz"
+  },
+  "@codemirror/lang-sass@6.0.2": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@codemirror/lang-sass/-/lang-sass-6.0.2.tgz"
+  },
+  "@codemirror/lang-sql@6.10.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@codemirror/lang-sql/-/lang-sql-6.10.0.tgz"
+  },
+  "@codemirror/lang-vue@0.1.3": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@codemirror/lang-vue/-/lang-vue-0.1.3.tgz"
+  },
+  "@codemirror/lang-wast@6.0.2": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@codemirror/lang-wast/-/lang-wast-6.0.2.tgz"
+  },
+  "@codemirror/lang-xml@6.1.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@codemirror/lang-xml/-/lang-xml-6.1.0.tgz"
+  },
+  "@codemirror/lang-yaml@6.1.3": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@codemirror/lang-yaml/-/lang-yaml-6.1.3.tgz"
+  },
+  "@codemirror/language-data@6.5.2": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@codemirror/language-data/-/language-data-6.5.2.tgz"
+  },
+  "@codemirror/language@6.13.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@codemirror/language/-/language-6.13.1.tgz"
+  },
+  "@codemirror/legacy-modes@6.5.5": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@codemirror/legacy-modes/-/legacy-modes-6.5.5.tgz"
+  },
+  "@codemirror/lint@6.9.7": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@codemirror/lint/-/lint-6.9.7.tgz"
+  },
+  "@codemirror/search@6.7.2": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@codemirror/search/-/search-6.7.2.tgz"
+  },
+  "@codemirror/state@6.7.6": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@codemirror/state/-/state-6.7.6.tgz"
+  },
+  "@codemirror/streamparser@6.0.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@codemirror/streamparser/-/streamparser-6.0.0.tgz"
+  },
+  "@codemirror/theme-one-dark@6.1.3": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@codemirror/theme-one-dark/-/theme-one-dark-6.1.3.tgz"
+  },
+  "@codemirror/view@6.43.15": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@codemirror/view/-/view-6.43.15.tgz"
+  },
+  "@embedpdf/core@2.15.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@embedpdf/core/-/core-2.15.1.tgz"
+  },
+  "@embedpdf/engines@2.15.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@embedpdf/engines/-/engines-2.15.1.tgz"
+  },
+  "@embedpdf/models@2.15.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@embedpdf/models/-/models-2.15.1.tgz"
+  },
+  "@embedpdf/pdfium@2.15.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@embedpdf/pdfium/-/pdfium-2.15.1.tgz"
+  },
+  "@embedpdf/plugin-document-manager@2.15.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@embedpdf/plugin-document-manager/-/plugin-document-manager-2.15.1.tgz"
+  },
+  "@embedpdf/plugin-interaction-manager@2.15.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@embedpdf/plugin-interaction-manager/-/plugin-interaction-manager-2.15.1.tgz"
+  },
+  "@embedpdf/plugin-pan@2.15.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@embedpdf/plugin-pan/-/plugin-pan-2.15.1.tgz"
+  },
+  "@embedpdf/plugin-render@2.15.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@embedpdf/plugin-render/-/plugin-render-2.15.1.tgz"
+  },
+  "@embedpdf/plugin-scroll@2.15.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@embedpdf/plugin-scroll/-/plugin-scroll-2.15.1.tgz"
+  },
+  "@embedpdf/plugin-selection@2.15.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@embedpdf/plugin-selection/-/plugin-selection-2.15.1.tgz"
+  },
+  "@embedpdf/plugin-viewport@2.15.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@embedpdf/plugin-viewport/-/plugin-viewport-2.15.1.tgz"
+  },
+  "@embedpdf/plugin-zoom@2.15.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@embedpdf/plugin-zoom/-/plugin-zoom-2.15.1.tgz"
+  },
+  "@embedpdf/utils@2.15.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@embedpdf/utils/-/utils-2.15.1.tgz"
+  },
+  "@excalidraw/excalidraw@0.18.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@excalidraw/excalidraw/-/excalidraw-0.18.1.tgz"
+  },
+  "@excalidraw/laser-pointer@1.3.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@excalidraw/laser-pointer/-/laser-pointer-1.3.1.tgz"
+  },
+  "@excalidraw/markdown-to-text@0.1.2": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@excalidraw/markdown-to-text/-/markdown-to-text-0.1.2.tgz"
+  },
+  "@excalidraw/mermaid-to-excalidraw@2.2.2": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@excalidraw/mermaid-to-excalidraw/-/mermaid-to-excalidraw-2.2.2.tgz"
+  },
+  "@floating-ui/core@1.8.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@floating-ui/core/-/core-1.8.0.tgz"
+  },
+  "@floating-ui/dom@1.8.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@floating-ui/dom/-/dom-1.8.0.tgz"
+  },
+  "@floating-ui/react-dom@2.1.9": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@floating-ui/react-dom/-/react-dom-2.1.9.tgz"
+  },
+  "@floating-ui/utils@0.2.12": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@floating-ui/utils/-/utils-0.2.12.tgz"
+  },
+  "@iconify/utils@3.1.7": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@iconify/utils/-/utils-3.1.7.tgz"
+  },
+  "@lezer/common@1.5.4": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@lezer/common/-/common-1.5.4.tgz"
+  },
+  "@lezer/cpp@1.1.6": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@lezer/cpp/-/cpp-1.1.6.tgz"
+  },
+  "@lezer/css@1.3.9": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@lezer/css/-/css-1.3.9.tgz"
+  },
+  "@lezer/go@1.0.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@lezer/go/-/go-1.0.1.tgz"
+  },
+  "@lezer/highlight@1.2.5": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@lezer/highlight/-/highlight-1.2.5.tgz"
+  },
+  "@lezer/html@1.3.13": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@lezer/html/-/html-1.3.13.tgz"
+  },
+  "@lezer/java@1.1.5": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@lezer/java/-/java-1.1.5.tgz"
+  },
+  "@lezer/javascript@1.5.6": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@lezer/javascript/-/javascript-1.5.6.tgz"
+  },
+  "@lezer/json@1.0.3": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@lezer/json/-/json-1.0.3.tgz"
+  },
+  "@lezer/lr@1.4.11": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@lezer/lr/-/lr-1.4.11.tgz"
+  },
+  "@lezer/markdown@1.8.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@lezer/markdown/-/markdown-1.8.1.tgz"
+  },
+  "@lezer/php@1.0.6": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@lezer/php/-/php-1.0.6.tgz"
+  },
+  "@lezer/python@1.1.19": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@lezer/python/-/python-1.1.19.tgz"
+  },
+  "@lezer/rust@1.0.3": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@lezer/rust/-/rust-1.0.3.tgz"
+  },
+  "@lezer/sass@1.1.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@lezer/sass/-/sass-1.1.0.tgz"
+  },
+  "@lezer/xml@1.0.6": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@lezer/xml/-/xml-1.0.6.tgz"
+  },
+  "@lezer/yaml@1.0.4": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@lezer/yaml/-/yaml-1.0.4.tgz"
+  },
+  "@marijn/find-cluster-break@1.0.4": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@marijn/find-cluster-break/-/find-cluster-break-1.0.4.tgz"
+  },
+  "@mermaid-js/parser@1.2.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@mermaid-js/parser/-/parser-1.2.1.tgz"
+  },
+  "@mermaid-js/parser@2.0.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@mermaid-js/parser/-/parser-2.0.1.tgz"
+  },
+  "@milkdown/components@7.22.3": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@milkdown/components/-/components-7.22.3.tgz"
+  },
+  "@milkdown/core@7.22.3": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@milkdown/core/-/core-7.22.3.tgz"
+  },
+  "@milkdown/crepe@7.22.3": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@milkdown/crepe/-/crepe-7.22.3.tgz"
+  },
+  "@milkdown/ctx@7.22.3": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@milkdown/ctx/-/ctx-7.22.3.tgz"
+  },
+  "@milkdown/exception@7.22.3": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@milkdown/exception/-/exception-7.22.3.tgz"
+  },
+  "@milkdown/kit@7.22.3": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@milkdown/kit/-/kit-7.22.3.tgz"
+  },
+  "@milkdown/plugin-block@7.22.3": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@milkdown/plugin-block/-/plugin-block-7.22.3.tgz"
+  },
+  "@milkdown/plugin-clipboard@7.22.3": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@milkdown/plugin-clipboard/-/plugin-clipboard-7.22.3.tgz"
+  },
+  "@milkdown/plugin-cursor@7.22.3": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@milkdown/plugin-cursor/-/plugin-cursor-7.22.3.tgz"
+  },
+  "@milkdown/plugin-diff@7.22.3": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@milkdown/plugin-diff/-/plugin-diff-7.22.3.tgz"
+  },
+  "@milkdown/plugin-history@7.22.3": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@milkdown/plugin-history/-/plugin-history-7.22.3.tgz"
+  },
+  "@milkdown/plugin-indent@7.22.3": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@milkdown/plugin-indent/-/plugin-indent-7.22.3.tgz"
+  },
+  "@milkdown/plugin-listener@7.22.3": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@milkdown/plugin-listener/-/plugin-listener-7.22.3.tgz"
+  },
+  "@milkdown/plugin-slash@7.22.3": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@milkdown/plugin-slash/-/plugin-slash-7.22.3.tgz"
+  },
+  "@milkdown/plugin-streaming@7.22.3": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@milkdown/plugin-streaming/-/plugin-streaming-7.22.3.tgz"
+  },
+  "@milkdown/plugin-tooltip@7.22.3": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@milkdown/plugin-tooltip/-/plugin-tooltip-7.22.3.tgz"
+  },
+  "@milkdown/plugin-trailing@7.22.3": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@milkdown/plugin-trailing/-/plugin-trailing-7.22.3.tgz"
+  },
+  "@milkdown/plugin-upload@7.22.3": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@milkdown/plugin-upload/-/plugin-upload-7.22.3.tgz"
+  },
+  "@milkdown/preset-commonmark@7.22.3": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@milkdown/preset-commonmark/-/preset-commonmark-7.22.3.tgz"
+  },
+  "@milkdown/preset-gfm@7.22.3": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@milkdown/preset-gfm/-/preset-gfm-7.22.3.tgz"
+  },
+  "@milkdown/prose@7.22.3": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@milkdown/prose/-/prose-7.22.3.tgz"
+  },
+  "@milkdown/transformer@7.22.3": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@milkdown/transformer/-/transformer-7.22.3.tgz"
+  },
+  "@milkdown/utils@7.22.3": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@milkdown/utils/-/utils-7.22.3.tgz"
+  },
+  "@noble/hashes@2.4.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@noble/hashes/-/hashes-2.4.0.tgz"
+  },
+  "@ocavue/utils@1.9.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@ocavue/utils/-/utils-1.9.0.tgz"
+  },
+  "@radix-ui/number@1.1.3": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/number/-/number-1.1.3.tgz"
+  },
+  "@radix-ui/primitive@1.0.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/primitive/-/primitive-1.0.0.tgz"
+  },
+  "@radix-ui/primitive@1.1.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/primitive/-/primitive-1.1.1.tgz"
+  },
+  "@radix-ui/primitive@1.2.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/primitive/-/primitive-1.2.0.tgz"
+  },
+  "@radix-ui/react-accessible-icon@1.2.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/react-accessible-icon/-/react-accessible-icon-1.2.0.tgz"
+  },
+  "@radix-ui/react-accordion@1.3.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/react-accordion/-/react-accordion-1.3.1.tgz"
+  },
+  "@radix-ui/react-alert-dialog@1.2.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/react-alert-dialog/-/react-alert-dialog-1.2.1.tgz"
+  },
+  "@radix-ui/react-arrow@1.1.17": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/react-arrow/-/react-arrow-1.1.17.tgz"
+  },
+  "@radix-ui/react-arrow@1.1.2": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/react-arrow/-/react-arrow-1.1.2.tgz"
+  },
+  "@radix-ui/react-aspect-ratio@1.2.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/react-aspect-ratio/-/react-aspect-ratio-1.2.0.tgz"
+  },
+  "@radix-ui/react-avatar@1.3.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/react-avatar/-/react-avatar-1.3.1.tgz"
+  },
+  "@radix-ui/react-checkbox@1.4.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/react-checkbox/-/react-checkbox-1.4.1.tgz"
+  },
+  "@radix-ui/react-collapsible@1.2.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/react-collapsible/-/react-collapsible-1.2.1.tgz"
+  },
+  "@radix-ui/react-collection@1.0.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/react-collection/-/react-collection-1.0.1.tgz"
+  },
+  "@radix-ui/react-collection@1.2.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/react-collection/-/react-collection-1.2.0.tgz"
+  },
+  "@radix-ui/react-compose-refs@1.0.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/react-compose-refs/-/react-compose-refs-1.0.0.tgz"
+  },
+  "@radix-ui/react-compose-refs@1.1.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/react-compose-refs/-/react-compose-refs-1.1.1.tgz"
+  },
+  "@radix-ui/react-compose-refs@1.1.5": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/react-compose-refs/-/react-compose-refs-1.1.5.tgz"
+  },
+  "@radix-ui/react-context-menu@2.4.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/react-context-menu/-/react-context-menu-2.4.1.tgz"
+  },
+  "@radix-ui/react-context@1.0.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/react-context/-/react-context-1.0.0.tgz"
+  },
+  "@radix-ui/react-context@1.1.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/react-context/-/react-context-1.1.1.tgz"
+  },
+  "@radix-ui/react-context@1.3.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/react-context/-/react-context-1.3.0.tgz"
+  },
+  "@radix-ui/react-dialog@1.3.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/react-dialog/-/react-dialog-1.3.1.tgz"
+  },
+  "@radix-ui/react-direction@1.0.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/react-direction/-/react-direction-1.0.0.tgz"
+  },
+  "@radix-ui/react-direction@1.2.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/react-direction/-/react-direction-1.2.0.tgz"
+  },
+  "@radix-ui/react-dismissable-layer@1.1.5": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/react-dismissable-layer/-/react-dismissable-layer-1.1.5.tgz"
+  },
+  "@radix-ui/react-dismissable-layer@1.2.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/react-dismissable-layer/-/react-dismissable-layer-1.2.1.tgz"
+  },
+  "@radix-ui/react-dropdown-menu@2.2.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/react-dropdown-menu/-/react-dropdown-menu-2.2.1.tgz"
+  },
+  "@radix-ui/react-focus-guards@1.1.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/react-focus-guards/-/react-focus-guards-1.1.1.tgz"
+  },
+  "@radix-ui/react-focus-guards@1.2.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/react-focus-guards/-/react-focus-guards-1.2.0.tgz"
+  },
+  "@radix-ui/react-focus-scope@1.1.2": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/react-focus-scope/-/react-focus-scope-1.1.2.tgz"
+  },
+  "@radix-ui/react-focus-scope@1.3.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/react-focus-scope/-/react-focus-scope-1.3.1.tgz"
+  },
+  "@radix-ui/react-form@0.3.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/react-form/-/react-form-0.3.0.tgz"
+  },
+  "@radix-ui/react-hover-card@1.2.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/react-hover-card/-/react-hover-card-1.2.1.tgz"
+  },
+  "@radix-ui/react-id@1.0.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/react-id/-/react-id-1.0.0.tgz"
+  },
+  "@radix-ui/react-id@1.1.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/react-id/-/react-id-1.1.0.tgz"
+  },
+  "@radix-ui/react-id@1.1.4": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/react-id/-/react-id-1.1.4.tgz"
+  },
+  "@radix-ui/react-label@2.1.17": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/react-label/-/react-label-2.1.17.tgz"
+  },
+  "@radix-ui/react-menu@2.2.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/react-menu/-/react-menu-2.2.1.tgz"
+  },
+  "@radix-ui/react-menubar@1.2.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/react-menubar/-/react-menubar-1.2.1.tgz"
+  },
+  "@radix-ui/react-navigation-menu@1.4.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/react-navigation-menu/-/react-navigation-menu-1.4.1.tgz"
+  },
+  "@radix-ui/react-one-time-password-field@0.2.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/react-one-time-password-field/-/react-one-time-password-field-0.2.1.tgz"
+  },
+  "@radix-ui/react-password-toggle-field@0.2.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/react-password-toggle-field/-/react-password-toggle-field-0.2.1.tgz"
+  },
+  "@radix-ui/react-popover@1.1.6": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/react-popover/-/react-popover-1.1.6.tgz"
+  },
+  "@radix-ui/react-popover@1.3.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/react-popover/-/react-popover-1.3.1.tgz"
+  },
+  "@radix-ui/react-popper@1.2.2": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/react-popper/-/react-popper-1.2.2.tgz"
+  },
+  "@radix-ui/react-popper@1.4.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/react-popper/-/react-popper-1.4.0.tgz"
+  },
+  "@radix-ui/react-portal@1.1.4": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/react-portal/-/react-portal-1.1.4.tgz"
+  },
+  "@radix-ui/react-portal@1.2.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/react-portal/-/react-portal-1.2.0.tgz"
+  },
+  "@radix-ui/react-presence@1.0.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/react-presence/-/react-presence-1.0.0.tgz"
+  },
+  "@radix-ui/react-presence@1.1.11": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/react-presence/-/react-presence-1.1.11.tgz"
+  },
+  "@radix-ui/react-presence@1.1.2": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/react-presence/-/react-presence-1.1.2.tgz"
+  },
+  "@radix-ui/react-primitive@1.0.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/react-primitive/-/react-primitive-1.0.1.tgz"
+  },
+  "@radix-ui/react-primitive@2.0.2": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/react-primitive/-/react-primitive-2.0.2.tgz"
+  },
+  "@radix-ui/react-primitive@2.2.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/react-primitive/-/react-primitive-2.2.0.tgz"
+  },
+  "@radix-ui/react-progress@1.2.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/react-progress/-/react-progress-1.2.1.tgz"
+  },
+  "@radix-ui/react-radio-group@1.5.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/react-radio-group/-/react-radio-group-1.5.1.tgz"
+  },
+  "@radix-ui/react-roving-focus@1.0.2": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/react-roving-focus/-/react-roving-focus-1.0.2.tgz"
+  },
+  "@radix-ui/react-roving-focus@1.2.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/react-roving-focus/-/react-roving-focus-1.2.1.tgz"
+  },
+  "@radix-ui/react-scroll-area@1.4.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/react-scroll-area/-/react-scroll-area-1.4.0.tgz"
+  },
+  "@radix-ui/react-select@2.4.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/react-select/-/react-select-2.4.1.tgz"
+  },
+  "@radix-ui/react-separator@1.2.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/react-separator/-/react-separator-1.2.0.tgz"
+  },
+  "@radix-ui/react-slider@1.6.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/react-slider/-/react-slider-1.6.1.tgz"
+  },
+  "@radix-ui/react-slot@1.0.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/react-slot/-/react-slot-1.0.1.tgz"
+  },
+  "@radix-ui/react-slot@1.1.2": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/react-slot/-/react-slot-1.1.2.tgz"
+  },
+  "@radix-ui/react-slot@1.5.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/react-slot/-/react-slot-1.5.0.tgz"
+  },
+  "@radix-ui/react-switch@1.4.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/react-switch/-/react-switch-1.4.1.tgz"
+  },
+  "@radix-ui/react-tabs@1.0.2": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/react-tabs/-/react-tabs-1.0.2.tgz"
+  },
+  "@radix-ui/react-tabs@1.2.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/react-tabs/-/react-tabs-1.2.1.tgz"
+  },
+  "@radix-ui/react-toast@1.3.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/react-toast/-/react-toast-1.3.1.tgz"
+  },
+  "@radix-ui/react-toggle-group@1.2.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/react-toggle-group/-/react-toggle-group-1.2.1.tgz"
+  },
+  "@radix-ui/react-toggle@1.2.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/react-toggle/-/react-toggle-1.2.1.tgz"
+  },
+  "@radix-ui/react-toolbar@1.2.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/react-toolbar/-/react-toolbar-1.2.1.tgz"
+  },
+  "@radix-ui/react-tooltip@1.4.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/react-tooltip/-/react-tooltip-1.4.1.tgz"
+  },
+  "@radix-ui/react-use-callback-ref@1.0.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/react-use-callback-ref/-/react-use-callback-ref-1.0.0.tgz"
+  },
+  "@radix-ui/react-use-callback-ref@1.1.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/react-use-callback-ref/-/react-use-callback-ref-1.1.0.tgz"
+  },
+  "@radix-ui/react-use-callback-ref@1.1.5": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/react-use-callback-ref/-/react-use-callback-ref-1.1.5.tgz"
+  },
+  "@radix-ui/react-use-controllable-state@1.0.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/react-use-controllable-state/-/react-use-controllable-state-1.0.0.tgz"
+  },
+  "@radix-ui/react-use-controllable-state@1.1.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/react-use-controllable-state/-/react-use-controllable-state-1.1.0.tgz"
+  },
+  "@radix-ui/react-use-controllable-state@1.3.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/react-use-controllable-state/-/react-use-controllable-state-1.3.0.tgz"
+  },
+  "@radix-ui/react-use-effect-event@0.0.5": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/react-use-effect-event/-/react-use-effect-event-0.0.5.tgz"
+  },
+  "@radix-ui/react-use-escape-keydown@1.1.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/react-use-escape-keydown/-/react-use-escape-keydown-1.1.0.tgz"
+  },
+  "@radix-ui/react-use-escape-keydown@1.1.6": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/react-use-escape-keydown/-/react-use-escape-keydown-1.1.6.tgz"
+  },
+  "@radix-ui/react-use-is-hydrated@0.1.3": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/react-use-is-hydrated/-/react-use-is-hydrated-0.1.3.tgz"
+  },
+  "@radix-ui/react-use-layout-effect@1.0.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/react-use-layout-effect/-/react-use-layout-effect-1.0.0.tgz"
+  },
+  "@radix-ui/react-use-layout-effect@1.1.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/react-use-layout-effect/-/react-use-layout-effect-1.1.0.tgz"
+  },
+  "@radix-ui/react-use-layout-effect@1.1.4": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/react-use-layout-effect/-/react-use-layout-effect-1.1.4.tgz"
+  },
+  "@radix-ui/react-use-previous@1.1.4": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/react-use-previous/-/react-use-previous-1.1.4.tgz"
+  },
+  "@radix-ui/react-use-size@1.1.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/react-use-size/-/react-use-size-1.1.0.tgz"
+  },
+  "@radix-ui/react-use-size@1.1.5": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/react-use-size/-/react-use-size-1.1.5.tgz"
+  },
+  "@radix-ui/react-visually-hidden@1.2.13": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@radix-ui/react-visually-hidden/-/react-visually-hidden-1.2.13.tgz"
+  },
+  "@ungap/structured-clone@1.4.0": {
+   "license": "ISC",
+   "source": "https://registry.npmjs.org/@ungap/structured-clone/-/structured-clone-1.4.0.tgz"
+  },
+  "@upsetjs/venn.js@2.0.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@upsetjs/venn.js/-/venn.js-2.0.0.tgz"
+  },
+  "@vue/reactivity@3.5.44": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@vue/reactivity/-/reactivity-3.5.44.tgz"
+  },
+  "@vue/runtime-core@3.5.44": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@vue/runtime-core/-/runtime-core-3.5.44.tgz"
+  },
+  "@vue/runtime-dom@3.5.44": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@vue/runtime-dom/-/runtime-dom-3.5.44.tgz"
+  },
+  "@vue/shared@3.5.44": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@vue/shared/-/shared-3.5.44.tgz"
+  },
+  "@xterm/addon-fit@0.11.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@xterm/addon-fit/-/addon-fit-0.11.0.tgz"
+  },
+  "@xterm/addon-web-links@0.12.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@xterm/addon-web-links/-/addon-web-links-0.12.0.tgz"
+  },
+  "@xterm/xterm@6.0.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/@xterm/xterm/-/xterm-6.0.0.tgz"
+  },
+  "aria-hidden@1.2.6": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/aria-hidden/-/aria-hidden-1.2.6.tgz"
+  },
+  "assistant-cloud@0.2.8": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/assistant-cloud/-/assistant-cloud-0.2.8.tgz"
+  },
+  "assistant-stream@0.3.54": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/assistant-stream/-/assistant-stream-0.3.54.tgz"
+  },
+  "bail@2.0.2": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/bail/-/bail-2.0.2.tgz"
+  },
+  "browser-fs-access@0.29.1": {
+   "license": "Apache-2.0",
+   "source": "https://registry.npmjs.org/browser-fs-access/-/browser-fs-access-0.29.1.tgz"
+  },
+  "canvas-roundrect-polyfill@0.0.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/canvas-roundrect-polyfill/-/canvas-roundrect-polyfill-0.0.1.tgz"
+  },
+  "ccount@2.0.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/ccount/-/ccount-2.0.1.tgz"
+  },
+  "chevrotain@13.2.0": {
+   "license": "Apache-2.0",
+   "source": "https://registry.npmjs.org/chevrotain/-/chevrotain-13.2.0.tgz"
+  },
+  "classnames@2.5.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/classnames/-/classnames-2.5.1.tgz"
+  },
+  "clsx@1.1.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/clsx/-/clsx-1.1.1.tgz"
+  },
+  "clsx@2.1.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/clsx/-/clsx-2.1.1.tgz"
+  },
+  "codemirror@6.0.2": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/codemirror/-/codemirror-6.0.2.tgz"
+  },
+  "comma-separated-tokens@2.0.3": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/comma-separated-tokens/-/comma-separated-tokens-2.0.3.tgz"
+  },
+  "cose-base@1.0.3": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/cose-base/-/cose-base-1.0.3.tgz"
+  },
+  "cose-base@2.2.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/cose-base/-/cose-base-2.2.0.tgz"
+  },
+  "crc-32@0.3.0": {
+   "license": "Apache-2.0",
+   "source": "https://registry.npmjs.org/crc-32/-/crc-32-0.3.0.tgz"
+  },
+  "crelt@1.0.7": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/crelt/-/crelt-1.0.7.tgz"
+  },
+  "cytoscape-cose-bilkent@4.1.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/cytoscape-cose-bilkent/-/cytoscape-cose-bilkent-4.1.0.tgz"
+  },
+  "cytoscape-fcose@2.2.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/cytoscape-fcose/-/cytoscape-fcose-2.2.0.tgz"
+  },
+  "cytoscape@3.34.4": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/cytoscape/-/cytoscape-3.34.4.tgz"
+  },
+  "d3-array@2.12.1": {
+   "license": "BSD-3-Clause",
+   "source": "https://registry.npmjs.org/d3-array/-/d3-array-2.12.1.tgz"
+  },
+  "d3-array@3.2.4": {
+   "license": "ISC",
+   "source": "https://registry.npmjs.org/d3-array/-/d3-array-3.2.4.tgz"
+  },
+  "d3-axis@3.0.0": {
+   "license": "ISC",
+   "source": "https://registry.npmjs.org/d3-axis/-/d3-axis-3.0.0.tgz"
+  },
+  "d3-brush@3.0.0": {
+   "license": "ISC",
+   "source": "https://registry.npmjs.org/d3-brush/-/d3-brush-3.0.0.tgz"
+  },
+  "d3-chord@3.0.1": {
+   "license": "ISC",
+   "source": "https://registry.npmjs.org/d3-chord/-/d3-chord-3.0.1.tgz"
+  },
+  "d3-color@3.1.0": {
+   "license": "ISC",
+   "source": "https://registry.npmjs.org/d3-color/-/d3-color-3.1.0.tgz"
+  },
+  "d3-contour@4.0.2": {
+   "license": "ISC",
+   "source": "https://registry.npmjs.org/d3-contour/-/d3-contour-4.0.2.tgz"
+  },
+  "d3-delaunay@6.0.4": {
+   "license": "ISC",
+   "source": "https://registry.npmjs.org/d3-delaunay/-/d3-delaunay-6.0.4.tgz"
+  },
+  "d3-dispatch@3.0.1": {
+   "license": "ISC",
+   "source": "https://registry.npmjs.org/d3-dispatch/-/d3-dispatch-3.0.1.tgz"
+  },
+  "d3-drag@3.0.0": {
+   "license": "ISC",
+   "source": "https://registry.npmjs.org/d3-drag/-/d3-drag-3.0.0.tgz"
+  },
+  "d3-dsv@3.0.1": {
+   "license": "ISC",
+   "source": "https://registry.npmjs.org/d3-dsv/-/d3-dsv-3.0.1.tgz"
+  },
+  "d3-ease@3.0.1": {
+   "license": "BSD-3-Clause",
+   "source": "https://registry.npmjs.org/d3-ease/-/d3-ease-3.0.1.tgz"
+  },
+  "d3-fetch@3.0.1": {
+   "license": "ISC",
+   "source": "https://registry.npmjs.org/d3-fetch/-/d3-fetch-3.0.1.tgz"
+  },
+  "d3-force@3.0.0": {
+   "license": "ISC",
+   "source": "https://registry.npmjs.org/d3-force/-/d3-force-3.0.0.tgz"
+  },
+  "d3-format@3.1.2": {
+   "license": "ISC",
+   "source": "https://registry.npmjs.org/d3-format/-/d3-format-3.1.2.tgz"
+  },
+  "d3-geo@3.1.1": {
+   "license": "ISC",
+   "source": "https://registry.npmjs.org/d3-geo/-/d3-geo-3.1.1.tgz"
+  },
+  "d3-hierarchy@3.1.2": {
+   "license": "ISC",
+   "source": "https://registry.npmjs.org/d3-hierarchy/-/d3-hierarchy-3.1.2.tgz"
+  },
+  "d3-interpolate@3.0.1": {
+   "license": "ISC",
+   "source": "https://registry.npmjs.org/d3-interpolate/-/d3-interpolate-3.0.1.tgz"
+  },
+  "d3-path@1.0.9": {
+   "license": "BSD-3-Clause",
+   "source": "https://registry.npmjs.org/d3-path/-/d3-path-1.0.9.tgz"
+  },
+  "d3-path@3.1.0": {
+   "license": "ISC",
+   "source": "https://registry.npmjs.org/d3-path/-/d3-path-3.1.0.tgz"
+  },
+  "d3-polygon@3.0.1": {
+   "license": "ISC",
+   "source": "https://registry.npmjs.org/d3-polygon/-/d3-polygon-3.0.1.tgz"
+  },
+  "d3-quadtree@3.0.1": {
+   "license": "ISC",
+   "source": "https://registry.npmjs.org/d3-quadtree/-/d3-quadtree-3.0.1.tgz"
+  },
+  "d3-random@3.0.1": {
+   "license": "ISC",
+   "source": "https://registry.npmjs.org/d3-random/-/d3-random-3.0.1.tgz"
+  },
+  "d3-sankey@0.12.3": {
+   "license": "BSD-3-Clause",
+   "source": "https://registry.npmjs.org/d3-sankey/-/d3-sankey-0.12.3.tgz"
+  },
+  "d3-scale-chromatic@3.1.0": {
+   "license": "ISC",
+   "source": "https://registry.npmjs.org/d3-scale-chromatic/-/d3-scale-chromatic-3.1.0.tgz"
+  },
+  "d3-scale@4.0.2": {
+   "license": "ISC",
+   "source": "https://registry.npmjs.org/d3-scale/-/d3-scale-4.0.2.tgz"
+  },
+  "d3-selection@3.0.0": {
+   "license": "ISC",
+   "source": "https://registry.npmjs.org/d3-selection/-/d3-selection-3.0.0.tgz"
+  },
+  "d3-shape@1.3.7": {
+   "license": "BSD-3-Clause",
+   "source": "https://registry.npmjs.org/d3-shape/-/d3-shape-1.3.7.tgz"
+  },
+  "d3-shape@3.2.0": {
+   "license": "ISC",
+   "source": "https://registry.npmjs.org/d3-shape/-/d3-shape-3.2.0.tgz"
+  },
+  "d3-time-format@4.1.0": {
+   "license": "ISC",
+   "source": "https://registry.npmjs.org/d3-time-format/-/d3-time-format-4.1.0.tgz"
+  },
+  "d3-time@3.1.0": {
+   "license": "ISC",
+   "source": "https://registry.npmjs.org/d3-time/-/d3-time-3.1.0.tgz"
+  },
+  "d3-timer@3.0.1": {
+   "license": "ISC",
+   "source": "https://registry.npmjs.org/d3-timer/-/d3-timer-3.0.1.tgz"
+  },
+  "d3-transition@3.0.1": {
+   "license": "ISC",
+   "source": "https://registry.npmjs.org/d3-transition/-/d3-transition-3.0.1.tgz"
+  },
+  "d3-zoom@3.0.0": {
+   "license": "ISC",
+   "source": "https://registry.npmjs.org/d3-zoom/-/d3-zoom-3.0.0.tgz"
+  },
+  "d3@7.9.0": {
+   "license": "ISC",
+   "source": "https://registry.npmjs.org/d3/-/d3-7.9.0.tgz"
+  },
+  "dagre-d3-es@7.0.14": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/dagre-d3-es/-/dagre-d3-es-7.0.14.tgz"
+  },
+  "dayjs@1.11.23": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/dayjs/-/dayjs-1.11.23.tgz"
+  },
+  "decode-named-character-reference@1.3.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/decode-named-character-reference/-/decode-named-character-reference-1.3.0.tgz"
+  },
+  "delaunator@5.1.0": {
+   "license": "ISC",
+   "source": "https://registry.npmjs.org/delaunator/-/delaunator-5.1.0.tgz"
+  },
+  "detect-node-es@1.1.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/detect-node-es/-/detect-node-es-1.1.0.tgz"
+  },
+  "devlop@1.1.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/devlop/-/devlop-1.1.0.tgz"
+  },
+  "dompurify@3.4.17": {
+   "license": "(MPL-2.0 OR Apache-2.0)",
+   "source": "https://registry.npmjs.org/dompurify/-/dompurify-3.4.17.tgz"
+  },
+  "elkjs@0.9.3": {
+   "license": "EPL-2.0",
+   "source": "https://registry.npmjs.org/elkjs/-/elkjs-0.9.3.tgz"
+  },
+  "es-toolkit@1.53.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/es-toolkit/-/es-toolkit-1.53.0.tgz"
+  },
+  "es6-promise-pool@2.5.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/es6-promise-pool/-/es6-promise-pool-2.5.0.tgz"
+  },
+  "escape-string-regexp@5.0.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/escape-string-regexp/-/escape-string-regexp-5.0.0.tgz"
+  },
+  "esm.sh/node": {
+   "license": "MIT",
+   "source": "https://github.com/esm-dev/esm.sh"
+  },
+  "estree-util-is-identifier-name@3.0.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/estree-util-is-identifier-name/-/estree-util-is-identifier-name-3.0.0.tgz"
+  },
+  "extend@3.0.2": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/extend/-/extend-3.0.2.tgz"
+  },
+  "fastdom@1.0.12": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/fastdom/-/fastdom-1.0.12.tgz"
+  },
+  "fractional-indexing@3.2.0": {
+   "license": "CC0-1.0",
+   "source": "https://registry.npmjs.org/fractional-indexing/-/fractional-indexing-3.2.0.tgz"
+  },
+  "fuzzy@0.1.3": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/fuzzy/-/fuzzy-0.1.3.tgz"
+  },
+  "get-nonce@1.0.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/get-nonce/-/get-nonce-1.0.1.tgz"
+  },
+  "hachure-fill@0.5.2": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/hachure-fill/-/hachure-fill-0.5.2.tgz"
+  },
+  "hast-util-to-jsx-runtime@2.3.6": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/hast-util-to-jsx-runtime/-/hast-util-to-jsx-runtime-2.3.6.tgz"
+  },
+  "hast-util-whitespace@3.0.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/hast-util-whitespace/-/hast-util-whitespace-3.0.0.tgz"
+  },
+  "html-url-attributes@3.0.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/html-url-attributes/-/html-url-attributes-3.0.1.tgz"
+  },
+  "image-blob-reduce@3.0.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/image-blob-reduce/-/image-blob-reduce-3.0.1.tgz"
+  },
+  "inline-style-parser@0.2.7": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/inline-style-parser/-/inline-style-parser-0.2.7.tgz"
+  },
+  "internmap@1.0.1": {
+   "license": "ISC",
+   "source": "https://registry.npmjs.org/internmap/-/internmap-1.0.1.tgz"
+  },
+  "internmap@2.0.3": {
+   "license": "ISC",
+   "source": "https://registry.npmjs.org/internmap/-/internmap-2.0.3.tgz"
+  },
+  "is-plain-obj@4.1.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/is-plain-obj/-/is-plain-obj-4.1.0.tgz"
+  },
+  "jotai-scope@0.7.2": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/jotai-scope/-/jotai-scope-0.7.2.tgz"
+  },
+  "jotai@2.11.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/jotai/-/jotai-2.11.0.tgz"
+  },
+  "jotai@3.0.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/jotai/-/jotai-3.0.1.tgz"
+  },
+  "js-yaml@5.5.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/js-yaml/-/js-yaml-5.5.0.tgz"
+  },
+  "katex@0.16.47": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/katex/-/katex-0.16.47.tgz"
+  },
+  "katex@0.18.10": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/katex/-/katex-0.18.10.tgz"
+  },
+  "katex@0.19.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/katex/-/katex-0.19.1.tgz"
+  },
+  "khroma@2.1.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/khroma/-/khroma-2.1.0.tgz"
+  },
+  "layout-base@1.0.2": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/layout-base/-/layout-base-1.0.2.tgz"
+  },
+  "layout-base@2.0.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/layout-base/-/layout-base-2.0.1.tgz"
+  },
+  "lodash-es@4.18.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/lodash-es/-/lodash-es-4.18.1.tgz"
+  },
+  "lodash.debounce@4.0.8": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/lodash.debounce/-/lodash.debounce-4.0.8.tgz"
+  },
+  "lodash.throttle@4.1.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/lodash.throttle/-/lodash.throttle-4.1.1.tgz"
+  },
+  "longest-streak@3.1.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/longest-streak/-/longest-streak-3.1.0.tgz"
+  },
+  "lucide-react@1.61.0": {
+   "license": "ISC",
+   "source": "https://registry.npmjs.org/lucide-react/-/lucide-react-1.61.0.tgz"
+  },
+  "markdown-table@3.0.4": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/markdown-table/-/markdown-table-3.0.4.tgz"
+  },
+  "marked@16.4.2": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/marked/-/marked-16.4.2.tgz"
+  },
+  "mdast-util-definitions@6.0.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/mdast-util-definitions/-/mdast-util-definitions-6.0.0.tgz"
+  },
+  "mdast-util-find-and-replace@3.0.4": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/mdast-util-find-and-replace/-/mdast-util-find-and-replace-3.0.4.tgz"
+  },
+  "mdast-util-from-markdown@2.1.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/mdast-util-from-markdown/-/mdast-util-from-markdown-2.1.0.tgz"
+  },
+  "mdast-util-gfm-autolink-literal@2.0.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/mdast-util-gfm-autolink-literal/-/mdast-util-gfm-autolink-literal-2.0.1.tgz"
+  },
+  "mdast-util-gfm-footnote@2.1.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/mdast-util-gfm-footnote/-/mdast-util-gfm-footnote-2.1.0.tgz"
+  },
+  "mdast-util-gfm-strikethrough@2.0.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/mdast-util-gfm-strikethrough/-/mdast-util-gfm-strikethrough-2.0.1.tgz"
+  },
+  "mdast-util-gfm-table@2.0.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/mdast-util-gfm-table/-/mdast-util-gfm-table-2.0.0.tgz"
+  },
+  "mdast-util-gfm-task-list-item@2.0.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/mdast-util-gfm-task-list-item/-/mdast-util-gfm-task-list-item-2.0.0.tgz"
+  },
+  "mdast-util-gfm@3.1.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/mdast-util-gfm/-/mdast-util-gfm-3.1.0.tgz"
+  },
+  "mdast-util-math@3.0.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/mdast-util-math/-/mdast-util-math-3.0.0.tgz"
+  },
+  "mdast-util-phrasing@4.1.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/mdast-util-phrasing/-/mdast-util-phrasing-4.1.0.tgz"
+  },
+  "mdast-util-to-hast@13.2.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/mdast-util-to-hast/-/mdast-util-to-hast-13.2.1.tgz"
+  },
+  "mdast-util-to-markdown@2.2.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/mdast-util-to-markdown/-/mdast-util-to-markdown-2.2.0.tgz"
+  },
+  "mdast-util-to-string@4.0.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/mdast-util-to-string/-/mdast-util-to-string-4.0.0.tgz"
+  },
+  "mermaid@11.17.2": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/mermaid/-/mermaid-11.17.2.tgz"
+  },
+  "mermaid@12.2.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/mermaid/-/mermaid-12.2.0.tgz"
+  },
+  "micromark-core-commonmark@2.0.4": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/micromark-core-commonmark/-/micromark-core-commonmark-2.0.4.tgz"
+  },
+  "micromark-extension-gfm-autolink-literal@2.1.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/micromark-extension-gfm-autolink-literal/-/micromark-extension-gfm-autolink-literal-2.1.0.tgz"
+  },
+  "micromark-extension-gfm-footnote@2.1.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/micromark-extension-gfm-footnote/-/micromark-extension-gfm-footnote-2.1.0.tgz"
+  },
+  "micromark-extension-gfm-strikethrough@2.1.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/micromark-extension-gfm-strikethrough/-/micromark-extension-gfm-strikethrough-2.1.0.tgz"
+  },
+  "micromark-extension-gfm-table@2.1.2": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/micromark-extension-gfm-table/-/micromark-extension-gfm-table-2.1.2.tgz"
+  },
+  "micromark-extension-gfm-tagfilter@2.0.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/micromark-extension-gfm-tagfilter/-/micromark-extension-gfm-tagfilter-2.0.0.tgz"
+  },
+  "micromark-extension-gfm-task-list-item@2.1.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/micromark-extension-gfm-task-list-item/-/micromark-extension-gfm-task-list-item-2.1.0.tgz"
+  },
+  "micromark-extension-gfm@3.0.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/micromark-extension-gfm/-/micromark-extension-gfm-3.0.0.tgz"
+  },
+  "micromark-extension-math@3.1.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/micromark-extension-math/-/micromark-extension-math-3.1.0.tgz"
+  },
+  "micromark-factory-destination@2.0.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/micromark-factory-destination/-/micromark-factory-destination-2.0.1.tgz"
+  },
+  "micromark-factory-label@2.0.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/micromark-factory-label/-/micromark-factory-label-2.0.1.tgz"
+  },
+  "micromark-factory-space@2.1.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/micromark-factory-space/-/micromark-factory-space-2.1.0.tgz"
+  },
+  "micromark-factory-title@2.0.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/micromark-factory-title/-/micromark-factory-title-2.0.1.tgz"
+  },
+  "micromark-factory-whitespace@2.0.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/micromark-factory-whitespace/-/micromark-factory-whitespace-2.0.1.tgz"
+  },
+  "micromark-util-character@2.1.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/micromark-util-character/-/micromark-util-character-2.1.1.tgz"
+  },
+  "micromark-util-chunked@2.0.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/micromark-util-chunked/-/micromark-util-chunked-2.0.1.tgz"
+  },
+  "micromark-util-classify-character@2.0.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/micromark-util-classify-character/-/micromark-util-classify-character-2.0.1.tgz"
+  },
+  "micromark-util-combine-extensions@2.0.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/micromark-util-combine-extensions/-/micromark-util-combine-extensions-2.0.1.tgz"
+  },
+  "micromark-util-decode-numeric-character-reference@2.0.2": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/micromark-util-decode-numeric-character-reference/-/micromark-util-decode-numeric-character-reference-2.0.2.tgz"
+  },
+  "micromark-util-decode-string@2.0.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/micromark-util-decode-string/-/micromark-util-decode-string-2.0.1.tgz"
+  },
+  "micromark-util-edit-map@1.0.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/micromark-util-edit-map/-/micromark-util-edit-map-1.0.0.tgz"
+  },
+  "micromark-util-encode@2.0.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/micromark-util-encode/-/micromark-util-encode-2.0.1.tgz"
+  },
+  "micromark-util-html-tag-name@2.0.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/micromark-util-html-tag-name/-/micromark-util-html-tag-name-2.0.1.tgz"
+  },
+  "micromark-util-normalize-identifier@2.0.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/micromark-util-normalize-identifier/-/micromark-util-normalize-identifier-2.0.1.tgz"
+  },
+  "micromark-util-resolve-all@2.0.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/micromark-util-resolve-all/-/micromark-util-resolve-all-2.0.1.tgz"
+  },
+  "micromark-util-sanitize-uri@2.0.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/micromark-util-sanitize-uri/-/micromark-util-sanitize-uri-2.0.1.tgz"
+  },
+  "micromark-util-subtokenize@2.1.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/micromark-util-subtokenize/-/micromark-util-subtokenize-2.1.0.tgz"
+  },
+  "micromark@4.0.3": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/micromark/-/micromark-4.0.3.tgz"
+  },
+  "monaco-editor@0.57.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/monaco-editor/-/monaco-editor-0.57.0.tgz"
+  },
+  "nanoid@3.3.3": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/nanoid/-/nanoid-3.3.3.tgz"
+  },
+  "nanoid@4.0.2": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/nanoid/-/nanoid-4.0.2.tgz"
+  },
+  "nanoid@6.0.2": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/nanoid/-/nanoid-6.0.2.tgz"
+  },
+  "open-color@1.9.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/open-color/-/open-color-1.9.1.tgz"
+  },
+  "orderedmap@2.1.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/orderedmap/-/orderedmap-2.1.1.tgz"
+  },
+  "pako@2.0.3": {
+   "license": "(MIT AND Zlib)",
+   "source": "https://registry.npmjs.org/pako/-/pako-2.0.3.tgz"
+  },
+  "path-data-parser@0.1.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/path-data-parser/-/path-data-parser-0.1.0.tgz"
+  },
+  "perfect-freehand@1.2.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/perfect-freehand/-/perfect-freehand-1.2.0.tgz"
+  },
+  "pica@7.1.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/pica/-/pica-7.1.1.tgz"
+  },
+  "png-chunk-text@1.0.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/png-chunk-text/-/png-chunk-text-1.0.0.tgz"
+  },
+  "png-chunks-encode@1.0.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/png-chunks-encode/-/png-chunks-encode-1.0.0.tgz"
+  },
+  "png-chunks-extract@1.0.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/png-chunks-extract/-/png-chunks-extract-1.0.0.tgz"
+  },
+  "points-on-curve@0.2.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/points-on-curve/-/points-on-curve-0.2.0.tgz"
+  },
+  "points-on-curve@1.0.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/points-on-curve/-/points-on-curve-1.0.1.tgz"
+  },
+  "points-on-path@0.2.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/points-on-path/-/points-on-path-0.2.1.tgz"
+  },
+  "property-information@7.2.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/property-information/-/property-information-7.2.0.tgz"
+  },
+  "prosemirror-changeset@2.4.4": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/prosemirror-changeset/-/prosemirror-changeset-2.4.4.tgz"
+  },
+  "prosemirror-commands@1.7.2": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/prosemirror-commands/-/prosemirror-commands-1.7.2.tgz"
+  },
+  "prosemirror-drop-indicator@0.1.4": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/prosemirror-drop-indicator/-/prosemirror-drop-indicator-0.1.4.tgz"
+  },
+  "prosemirror-gapcursor@1.4.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/prosemirror-gapcursor/-/prosemirror-gapcursor-1.4.1.tgz"
+  },
+  "prosemirror-history@1.5.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/prosemirror-history/-/prosemirror-history-1.5.1.tgz"
+  },
+  "prosemirror-inputrules@1.5.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/prosemirror-inputrules/-/prosemirror-inputrules-1.5.1.tgz"
+  },
+  "prosemirror-keymap@1.2.3": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/prosemirror-keymap/-/prosemirror-keymap-1.2.3.tgz"
+  },
+  "prosemirror-model@1.25.12": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/prosemirror-model/-/prosemirror-model-1.25.12.tgz"
+  },
+  "prosemirror-safari-ime-span@1.0.2": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/prosemirror-safari-ime-span/-/prosemirror-safari-ime-span-1.0.2.tgz"
+  },
+  "prosemirror-schema-list@1.5.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/prosemirror-schema-list/-/prosemirror-schema-list-1.5.1.tgz"
+  },
+  "prosemirror-state@1.4.4": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/prosemirror-state/-/prosemirror-state-1.4.4.tgz"
+  },
+  "prosemirror-tables@1.8.5": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/prosemirror-tables/-/prosemirror-tables-1.8.5.tgz"
+  },
+  "prosemirror-transform@1.12.4": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/prosemirror-transform/-/prosemirror-transform-1.12.4.tgz"
+  },
+  "prosemirror-view@1.42.8": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/prosemirror-view/-/prosemirror-view-1.42.8.tgz"
+  },
+  "prosemirror-virtual-cursor@0.4.2": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/prosemirror-virtual-cursor/-/prosemirror-virtual-cursor-0.4.2.tgz"
+  },
+  "radix-ui@1.8.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/radix-ui/-/radix-ui-1.8.1.tgz"
+  },
+  "react-dom@19.3.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/react-dom/-/react-dom-19.3.1.tgz"
+  },
+  "react-markdown@10.1.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/react-markdown/-/react-markdown-10.1.0.tgz"
+  },
+  "react-remove-scroll-bar@2.3.8": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/react-remove-scroll-bar/-/react-remove-scroll-bar-2.3.8.tgz"
+  },
+  "react-remove-scroll@2.7.2": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/react-remove-scroll/-/react-remove-scroll-2.7.2.tgz"
+  },
+  "react-style-singleton@2.2.3": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/react-style-singleton/-/react-style-singleton-2.2.3.tgz"
+  },
+  "react-textarea-autosize@8.5.9": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/react-textarea-autosize/-/react-textarea-autosize-8.5.9.tgz"
+  },
+  "react@19.3.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/react/-/react-19.3.1.tgz"
+  },
+  "remark-gfm@4.0.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/remark-gfm/-/remark-gfm-4.0.1.tgz"
+  },
+  "remark-inline-links@7.0.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/remark-inline-links/-/remark-inline-links-7.0.0.tgz"
+  },
+  "remark-math@6.0.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/remark-math/-/remark-math-6.0.0.tgz"
+  },
+  "remark-parse@11.0.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/remark-parse/-/remark-parse-11.0.0.tgz"
+  },
+  "remark-rehype@11.1.2": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/remark-rehype/-/remark-rehype-11.1.2.tgz"
+  },
+  "remark-stringify@11.0.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/remark-stringify/-/remark-stringify-11.0.0.tgz"
+  },
+  "robust-predicates@3.0.3": {
+   "license": "Unlicense",
+   "source": "https://registry.npmjs.org/robust-predicates/-/robust-predicates-3.0.3.tgz"
+  },
+  "rope-sequence@1.3.4": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/rope-sequence/-/rope-sequence-1.3.4.tgz"
+  },
+  "roughjs@4.6.4": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/roughjs/-/roughjs-4.6.4.tgz"
+  },
+  "roughjs@4.6.6": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/roughjs/-/roughjs-4.6.6.tgz"
+  },
+  "safe-content-frame@0.0.34": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/safe-content-frame/-/safe-content-frame-0.0.34.tgz"
+  },
+  "scheduler@0.28.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/scheduler/-/scheduler-0.28.0.tgz"
+  },
+  "secure-json-parse@4.1.1": {
+   "license": "BSD-3-Clause",
+   "source": "https://registry.npmjs.org/secure-json-parse/-/secure-json-parse-4.1.1.tgz"
+  },
+  "sliced@1.0.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/sliced/-/sliced-1.0.1.tgz"
+  },
+  "space-separated-tokens@2.0.2": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/space-separated-tokens/-/space-separated-tokens-2.0.2.tgz"
+  },
+  "style-mod@4.1.4": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/style-mod/-/style-mod-4.1.4.tgz"
+  },
+  "style-to-js@1.1.21": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/style-to-js/-/style-to-js-1.1.21.tgz"
+  },
+  "style-to-object@1.0.14": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/style-to-object/-/style-to-object-1.0.14.tgz"
+  },
+  "stylis@4.4.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/stylis/-/stylis-4.4.0.tgz"
+  },
+  "trim-lines@3.0.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/trim-lines/-/trim-lines-3.0.1.tgz"
+  },
+  "trough@2.2.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/trough/-/trough-2.2.0.tgz"
+  },
+  "ts-dedent@2.3.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/ts-dedent/-/ts-dedent-2.3.0.tgz"
+  },
+  "tslib@2.8.1": {
+   "license": "0BSD",
+   "source": "https://registry.npmjs.org/tslib/-/tslib-2.8.1.tgz"
+  },
+  "tunnel-rat@0.1.2": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/tunnel-rat/-/tunnel-rat-0.1.2.tgz"
+  },
+  "unified@11.0.5": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/unified/-/unified-11.0.5.tgz"
+  },
+  "unist-util-is@6.0.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/unist-util-is/-/unist-util-is-6.0.1.tgz"
+  },
+  "unist-util-position@5.0.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/unist-util-position/-/unist-util-position-5.0.0.tgz"
+  },
+  "unist-util-stringify-position@4.0.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/unist-util-stringify-position/-/unist-util-stringify-position-4.0.0.tgz"
+  },
+  "unist-util-visit-parents@6.1.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/unist-util-visit-parents/-/unist-util-visit-parents-6.1.0.tgz"
+  },
+  "unist-util-visit@5.2.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/unist-util-visit/-/unist-util-visit-5.2.0.tgz"
+  },
+  "use-callback-ref@1.3.3": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/use-callback-ref/-/use-callback-ref-1.3.3.tgz"
+  },
+  "use-composed-ref@1.4.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/use-composed-ref/-/use-composed-ref-1.4.0.tgz"
+  },
+  "use-isomorphic-layout-effect@1.2.1": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/use-isomorphic-layout-effect/-/use-isomorphic-layout-effect-1.2.1.tgz"
+  },
+  "use-latest@1.3.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/use-latest/-/use-latest-1.3.0.tgz"
+  },
+  "use-sidecar@1.1.3": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/use-sidecar/-/use-sidecar-1.1.3.tgz"
+  },
+  "use-sync-external-store@1.7.0": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/use-sync-external-store/-/use-sync-external-store-1.7.0.tgz"
+  },
+  "uuid@14.0.3": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/uuid/-/uuid-14.0.3.tgz"
+  },
+  "vfile-message@4.0.3": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/vfile-message/-/vfile-message-4.0.3.tgz"
+  },
+  "vfile@6.0.3": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/vfile/-/vfile-6.0.3.tgz"
+  },
+  "vue@3.5.44": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/vue/-/vue-3.5.44.tgz"
+  },
+  "w3c-keyname@2.2.8": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/w3c-keyname/-/w3c-keyname-2.2.8.tgz"
+  },
+  "yaml@2.9.1": {
+   "license": "ISC",
+   "source": "https://registry.npmjs.org/yaml/-/yaml-2.9.1.tgz"
+  },
+  "zustand@4.5.7": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/zustand/-/zustand-4.5.7.tgz"
+  },
+  "zustand@5.0.16": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/zustand/-/zustand-5.0.16.tgz"
+  },
+  "zwitch@2.0.4": {
+   "license": "MIT",
+   "source": "https://registry.npmjs.org/zwitch/-/zwitch-2.0.4.tgz"
+  }
+ },
+ "schema": 1
+}

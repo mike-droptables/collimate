@@ -1,0 +1,395 @@
+Third-Party Licenses
+====================
+
+This project makes use of the following open source packages. Their licenses
+are reproduced below.
+
+-------------------------------------------------------------------------------
+
+PYTHON DEPENDENCIES
+===================
+
+fastapi
+  License: MIT
+  https://github.com/fastapi/fastapi
+
+uvicorn
+  License: BSD-3-Clause
+  https://github.com/encode/uvicorn
+
+pydantic
+  License: MIT
+  https://github.com/pydantic/pydantic
+
+python-multipart
+  License: Apache-2.0
+  https://github.com/Kludex/python-multipart
+
+google-genai
+  License: Apache-2.0
+  https://github.com/googleapis/python-genai
+
+httpx
+  License: BSD-3-Clause
+  https://github.com/encode/httpx
+
+pyyaml
+  License: MIT
+  https://github.com/yaml/pyyaml
+
+keyring
+  License: MIT
+  https://github.com/jaraco/keyring
+
+-------------------------------------------------------------------------------
+
+PYTHON DEV DEPENDENCIES
+=======================
+
+playwright (test-time only)
+  License: Apache-2.0
+  https://github.com/microsoft/playwright-python
+
+pytest, pytest-asyncio (test-time only)
+  License: MIT
+  https://github.com/pytest-dev/pytest
+
+-------------------------------------------------------------------------------
+
+FRONTEND DEPENDENCIES
+=====================
+
+react, react-dom
+  License: MIT
+  https://github.com/facebook/react
+
+@excalidraw/excalidraw
+  License: MIT
+  https://github.com/excalidraw/excalidraw
+
+elkjs (transitive: @excalidraw/excalidraw → mermaid → elkjs)
+  License: EPL-2.0 (Eclipse Public License 2.0)
+  https://github.com/kieler/elkjs
+  Note: Weak/module-level copyleft. Does not affect this project's FSL code.
+  The EPL-2.0 portions remain under EPL-2.0 terms; source is publicly available
+  on npm. No modification has been made to elkjs.
+
+fuzzy (transitive: @excalidraw/excalidraw → fuzzy)
+  License: MIT
+  https://github.com/mattyork/fuzzy
+
+khroma (transitive: @excalidraw/excalidraw → mermaid → khroma)
+  License: MIT (not declared in published npm package; confirmed upstream)
+  https://github.com/fabiospampinato/khroma
+
+@milkdown/core, @milkdown/crepe, @milkdown/ctx
+  License: MIT
+  https://github.com/Milkdown/milkdown
+
+@monaco-editor/react
+  License: MIT
+  https://github.com/suren-atoyan/monaco-react
+
+@radix-ui/react-label, @radix-ui/react-scroll-area,
+@radix-ui/react-slot, @radix-ui/react-switch
+  License: MIT
+  https://github.com/radix-ui/primitives
+
+axios
+  License: MIT
+  https://github.com/axios/axios
+
+class-variance-authority
+  License: Apache-2.0
+  https://github.com/joe-bell/cva
+
+clsx
+  License: MIT
+  https://github.com/lukeed/clsx
+
+lucide-react
+  License: ISC
+  https://github.com/lucide-icons/lucide
+
+motion
+  License: MIT
+  https://github.com/motiondivision/motion
+
+react-markdown
+  License: MIT
+  https://github.com/remarkjs/react-markdown
+
+slate, slate-react
+  License: MIT
+  https://github.com/ianstormtaylor/slate
+
+tailwind-merge
+  License: MIT
+  https://github.com/dcastil/tailwind-merge
+
+zustand
+  License: MIT
+  https://github.com/pmndrs/zustand
+
+-------------------------------------------------------------------------------
+
+FRONTEND DEV DEPENDENCIES
+==========================
+
+vite
+  License: MIT
+  https://github.com/vitejs/vite
+
+@vitejs/plugin-react
+  License: MIT
+  https://github.com/vitejs/vite-plugin-react
+
+tailwindcss, @tailwindcss/postcss
+  License: MIT
+  https://github.com/tailwindlabs/tailwindcss
+
+typescript
+  License: Apache-2.0
+  https://github.com/microsoft/TypeScript
+
+eslint, @eslint/eslintrc
+  License: MIT
+  https://github.com/eslint/eslint
+
+@types/node, @types/react, @types/react-dom
+  License: MIT
+  https://github.com/DefinitelyTyped/DefinitelyTyped
+
+tw-animate-css
+  License: MIT
+  https://github.com/Wombosvideo/tw-animate-css
+
+vitest, @vitest/coverage-v8
+  License: MIT
+  https://github.com/vitest-dev/vitest
+
+@testing-library/react, @testing-library/jest-dom, @testing-library/user-event
+  License: MIT
+  https://github.com/testing-library
+
+jsdom
+  License: MIT
+  https://github.com/jsdom/jsdom
+
+@playwright/test
+  License: Apache-2.0
+  https://github.com/microsoft/playwright
+
+-------------------------------------------------------------------------------
+
+RENDERER MODULE GRAPH
+=====================
+
+module-snapshot/ (shipped in the collimate wheel) redistributes the shipped
+renderers' frozen browser module graph (from https://esm.sh/ and
+https://cdn.jsdelivr.net/). Every package and version in it, with its SPDX
+license and source, is listed in module-snapshot/LICENSES.json; see
+content/renderers/CREDITS.md.
+
+-------------------------------------------------------------------------------
+
+RENDERER RUNTIME (CDN-LOADED)
+=============================
+
+The bundled renderers (content/renderers/, shipped with this app as
+collimate_content/renderers/) load their heavy dependencies from public
+CDNs at runtime rather than bundling them into the wheel. Those
+components have their own licenses; this project neither modifies nor
+redistributes their sources. See content/renderers/CREDITS.md for the
+canonical list.
+
+Notable ones:
+  - Monaco Editor (Microsoft, MIT) — https://github.com/microsoft/monaco-editor
+  - Milkdown / Crepe (Milkdown community, MIT) — https://github.com/Milkdown/milkdown
+  - Excalidraw (Excalidraw Authors, MIT) — https://github.com/excalidraw/excalidraw
+  - Mermaid (MIT) — https://github.com/mermaid-js/mermaid
+  - KaTeX (MIT) — https://github.com/KaTeX/KaTeX
+
+-------------------------------------------------------------------------------
+
+BUNDLED SCRIPTS
+===============
+
+The app serves these scripts from its own origin (frontend/public/, built
+into the served static files), unmodified, each with its licence beside it.
+
+Dark Reader 4.9.133
+  License: MIT
+  Copyright (c) 2026 Dark Reader Ltd.
+  https://github.com/darkreader/darkreader (npm darkreader@4.9.133,
+    dist.shasum 9cb297f4f49f09456411d5123c94d2942bc8d52e)
+  Files: frontend/public/darkreader/4.9.133/darkreader.js, served at
+    /darkreader/4.9.133/darkreader.js; the html renderer and the status
+    document darken authored pages with it (the full licence is LICENSE
+    beside it)
+
+-------------------------------------------------------------------------------
+
+BUNDLED FONTS
+=============
+
+The app bundles these font families as woff2 (frontend/public/fonts/,
+served at /fonts/). Families from Google Fonts are licensed under the SIL
+Open Font License 1.1 and ship their OFL.txt. Families from Nico
+Verbruggen's ebook-fonts are modified versions of the origin each entry
+names, subset to latin and latin-ext; each ships a LICENSE.txt with the
+font's own notices and the upstream licence text.
+
+Hanken Grotesk
+  License: OFL-1.1 (SIL Open Font License 1.1)
+  Copyright 2021 The Hanken Grotesk Project Authors (https://github.com/marcologous/hanken-grotesk)
+  Files: frontend/public/fonts/hanken-grotesk/ (the full licence is OFL.txt beside them)
+
+Inter
+  License: OFL-1.1 (SIL Open Font License 1.1)
+  Copyright 2020 The Inter Project Authors (https://github.com/rsms/inter)
+  Files: frontend/public/fonts/inter/ (the full licence is OFL.txt beside them)
+
+IBM Plex Sans
+  License: OFL-1.1 (SIL Open Font License 1.1)
+  Copyright © 2017 IBM Corp. with Reserved Font Name "Plex"
+  Files: frontend/public/fonts/ibm-plex-sans/ (the full licence is OFL.txt beside them)
+
+Source Sans 3
+  License: OFL-1.1 (SIL Open Font License 1.1)
+  Copyright 2010-2020 Adobe (http://www.adobe.com/), with Reserved Font Name 'Source'. All Rights Reserved. Source is a trademark of Adobe in the United States and/or other countries.
+  Files: frontend/public/fonts/source-sans-3/ (the full licence is OFL.txt beside them)
+
+Manrope
+  License: OFL-1.1 (SIL Open Font License 1.1)
+  Copyright 2018 The Manrope Project Authors (https://github.com/googlefonts/manrope)
+  Files: frontend/public/fonts/manrope/ (the full licence is OFL.txt beside them)
+
+NV Jost
+  License: OFL-1.1 (SIL Open Font License 1.1)
+  Copyright 2020 The Jost Project Authors (https://github.com/indestructible-type/Jost)
+  Origin: Jost by Owen Earl (indestructible type*), modified by Nico Verbruggen
+    (https://github.com/nicoverbruggen/ebook-fonts, commit f875aca16d3e871a01af52c854b67bc7f7abce9d)
+  Files: frontend/public/fonts/nv-jost/ (the full licence is LICENSE.txt beside them)
+
+NV Legible Next
+  License: OFL-1.1 (SIL Open Font License 1.1)
+  © 2020, 2024 Braille Institute of America, Inc., a 501(c)(3) Charitable Organization.
+  Origin: Atkinson Hyperlegible Next by the Braille Institute, modified by Nico Verbruggen
+    (https://github.com/nicoverbruggen/ebook-fonts, commit f875aca16d3e871a01af52c854b67bc7f7abce9d)
+  Note: The font's name ID 13 carries the Braille Institute's original
+    no-derivatives notice from its standalone release. The copyright holder
+    publishes Atkinson Hyperlegible Next under the SIL Open Font License 1.1
+    (https://github.com/googlefonts/atkinson-hyperlegible-next, OFL.txt), and
+    these files are redistributed under that licence.
+  Files: frontend/public/fonts/nv-legible-next/ (the full licence is LICENSE.txt beside them)
+
+Alegreya
+  License: OFL-1.1 (SIL Open Font License 1.1)
+  Copyright 2011 The Alegreya Project Authors (https://github.com/huertatipografica/Alegreya)
+  Files: frontend/public/fonts/alegreya/ (the full licence is OFL.txt beside them)
+
+Source Serif 4
+  License: OFL-1.1 (SIL Open Font License 1.1)
+  Copyright 2014 The Source Serif 4 Project Authors (https://github.com/adobe-fonts/source-serif)
+  Files: frontend/public/fonts/source-serif-4/ (the full licence is OFL.txt beside them)
+
+Literata
+  License: OFL-1.1 (SIL Open Font License 1.1)
+  Copyright 2017 The Literata Project Authors (https://github.com/googlefonts/literata)
+  Files: frontend/public/fonts/literata/ (the full licence is OFL.txt beside them)
+
+Lora
+  License: OFL-1.1 (SIL Open Font License 1.1)
+  Copyright 2011 The Lora Project Authors (https://github.com/cyrealtype/Lora-Cyrillic), with Reserved Font Name "Lora".
+  Files: frontend/public/fonts/lora/ (the full licence is OFL.txt beside them)
+
+Crimson Pro
+  License: OFL-1.1 (SIL Open Font License 1.1)
+  Copyright 2018 The Crimson Pro Project Authors (https://github.com/Fonthausen/CrimsonPro)
+  Files: frontend/public/fonts/crimson-pro/ (the full licence is OFL.txt beside them)
+
+Libron
+  License: OFL-1.1 (SIL Open Font License 1.1)
+  Newsreader (c) 2020 The Newsreader Project Authors (http://github.com/productiontype/Newsreader)
+  Readerly (c) 2026 Nico Verbruggen (https://github.com/nicoverbruggen/readerly)
+  Libron (c) 2026 Nico Verbruggen (https://github.com/nicoverbruggen/libron)
+  Libron is a modified version of Readerly with reduced serifs.
+  Origin: Newsreader by Production Type, by way of Readerly, modified by Nico Verbruggen
+    (https://github.com/nicoverbruggen/ebook-fonts, commit f875aca16d3e871a01af52c854b67bc7f7abce9d)
+  Files: frontend/public/fonts/libron/ (the full licence is LICENSE.txt beside them)
+
+Sourcerer
+  License: OFL-1.1 (SIL Open Font License 1.1)
+  Source Serif 4 (c) 2014-2021 Adobe (http://www.adobe.com/), with Reserved Font Name 'Source'
+  Sourcerer (c) 2026 Nico Verbruggen (https://github.com/nicoverbruggen/sourcerer)
+  Origin: Source Serif 4 by Adobe, modified by Nico Verbruggen
+    (https://github.com/nicoverbruggen/ebook-fonts, commit f875aca16d3e871a01af52c854b67bc7f7abce9d)
+  Files: frontend/public/fonts/sourcerer/ (the full licence is LICENSE.txt beside them)
+
+Cartisse
+  License: Bitstream-Charter (Bitstream Charter Font License)
+  Copyright (c) 1989-1992, Bitstream Inc., Cambridge, MA.
+  Copyright (c) 2009, 2010, 2011, 2012 Andrey V. Panov
+  Copyright (c) 2013-2024 Michael Sharpe
+  Copyright (c) 2025-2026 Nico Verbruggen
+  Cartisse is based on XCharter, itself an extension of Bitstream Charter.
+  Cartisse contains metrics modifications and removes selected ligatures.
+  Origin: XCharter by Michael Sharpe, an extension of Bitstream Charter by Matthew Carter, modified by Nico Verbruggen
+    (https://github.com/nicoverbruggen/ebook-fonts, commit f875aca16d3e871a01af52c854b67bc7f7abce9d)
+  Files: frontend/public/fonts/cartisse/ (the full licence is LICENSE.txt beside them)
+
+Charis SIL
+  License: OFL-1.1 (SIL Open Font License 1.1)
+  Copyright (c) 1997-2022 SIL International (http://www.sil.org/)
+  with Reserved Font Names "Charis" and "SIL".
+  Files: frontend/public/fonts/charis-sil/ (the full licence is OFL.txt beside them)
+
+NV Garamond
+  License: OFL-1.1 (SIL Open Font License 1.1)
+  Copyright 2017 The EB Garamond Project Authors (https://github.com/octaviopardo/EBGaramond12)
+  Origin: EB Garamond by Georg Duffner and Octavio Pardo, modified by Nico Verbruggen
+    (https://github.com/nicoverbruggen/ebook-fonts, commit f875aca16d3e871a01af52c854b67bc7f7abce9d)
+  Files: frontend/public/fonts/nv-garamond/ (the full licence is LICENSE.txt beside them)
+
+NV Bitter
+  License: OFL-1.1 (SIL Open Font License 1.1)
+  Copyright 2011 The Bitter Project Authors (https://github.com/solmatas/BitterPro)
+  Origin: Bitter by Sol Matas, modified by Nico Verbruggen
+    (https://github.com/nicoverbruggen/ebook-fonts, commit f875aca16d3e871a01af52c854b67bc7f7abce9d)
+  Files: frontend/public/fonts/nv-bitter/ (the full licence is LICENSE.txt beside them)
+
+NV Palatium
+  License: OFL-1.1 OR LPPL-1.3c OR AGPL-3.0-only WITH LicenseRef-URW-font-exception (at your choice, the SIL Open Font License 1.1, the LaTeX Project Public License 1.3c, or the GNU Affero General Public License 3.0 with URW's font exception)
+  Copyright 2014 by (URW)++ Design & Development.
+  Copyright 2019 by Daniel Benjamin Miller.
+  Origin: Domitian by Daniel Benjamin Miller, an extension of URW Palladio after Hermann Zapf's Palatino, modified by Nico Verbruggen
+    (https://github.com/nicoverbruggen/ebook-fonts, commit f875aca16d3e871a01af52c854b67bc7f7abce9d)
+  Files: frontend/public/fonts/nv-palatium/ (the full licence is LICENSE.txt beside them)
+
+IBM Plex Mono
+  License: OFL-1.1 (SIL Open Font License 1.1)
+  Copyright © 2017 IBM Corp. with Reserved Font Name "Plex"
+  Files: frontend/public/fonts/ibm-plex-mono/ (the full licence is OFL.txt beside them)
+
+JetBrains Mono
+  License: OFL-1.1 (SIL Open Font License 1.1)
+  Copyright 2020 The JetBrains Mono Project Authors (https://github.com/JetBrains/JetBrainsMono)
+  Files: frontend/public/fonts/jetbrains-mono/ (the full licence is OFL.txt beside them)
+
+Source Code Pro
+  License: OFL-1.1 (SIL Open Font License 1.1)
+  Copyright 2010, 2012 Adobe Systems Incorporated (http://www.adobe.com/), with Reserved Font Name 'Source'. All Rights Reserved. Source is a trademark of Adobe Systems Incorporated in the United States and/or other countries.
+  Files: frontend/public/fonts/source-code-pro/ (the full licence is OFL.txt beside them)
+
+Fira Code
+  License: OFL-1.1 (SIL Open Font License 1.1)
+  Copyright 2014-2020 The Fira Code Project Authors (https://github.com/tonsky/FiraCode)
+  Files: frontend/public/fonts/fira-code/ (the full licence is OFL.txt beside them)
+
+Geist Mono
+  License: OFL-1.1 (SIL Open Font License 1.1)
+  Copyright 2024 The Geist Project Authors (https://github.com/vercel/geist-font.git)
+  Files: frontend/public/fonts/geist-mono/ (the full licence is OFL.txt beside them)
+
+-------------------------------------------------------------------------------

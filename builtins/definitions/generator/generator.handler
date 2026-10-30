@@ -1,0 +1,14 @@
+id: generator
+name: Generator packages
+description: Write generator source, main settings schema and named configs first, then the
+  definition; validate before asking the user to add it to Capabilities.
+types:
+- ext: .generator
+guidance: Write generator source, main settings schema and named configs first, then the definition;
+  validate before asking the user to add it to Capabilities.
+examples:
+- folder: basic
+  description: A minimal complete declaration and its referenced files.
+  expect: valid
+  feedback: The declaration matches its package and current paths.
+derived: 0a49d166e52f358e22b373e2bfff2529037b8bba3c081efc69d119e1556322e6

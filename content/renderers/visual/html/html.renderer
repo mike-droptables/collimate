@@ -1,0 +1,20 @@
+id: "html"
+name: "HTML Renderer"
+version: "2.4.0"
+summary: "Renders HTML full-page with in-cell sibling assets resolved beside the page (accepted-current-revision, binary-safe), links to cell files opened in a new tab of the cell, and a style control (Auto, as authored or darkened by DarkReader; text size); editing via Open with → code editor; answers annotation picks (click an element of the page to attach it)"
+entrypoint: "main.tsx"
+embed: "iframe"
+
+# The SOLE claimant of .html/.htm — a page opens as a page by default, and the
+# code editor stays one click away under "Open with" (tests/test_renderer_manifests.py
+# holds that line: a second renderer claiming .html would make the default a
+# registry-order accident).
+extensions:
+  - ".html"
+  - ".htm"
+
+supports_diff: true
+
+# The renderer swaps its preview srcDoc in place as the file updates — the
+# host must not force a remount on every mid-run write.
+live_refresh: true

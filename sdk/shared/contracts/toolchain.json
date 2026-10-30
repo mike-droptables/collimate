@@ -1,0 +1,8 @@
+{
+  "node": ">=24.15.0 <25",
+  "react": "19.3.1",
+  "react_dom": "19.3.1",
+  "types_react": "19.3.0",
+  "types_react_dom": "19.3.0",
+  "esbuild_version_source": "src/collimate/renderer_bundle_contract.json"
+}

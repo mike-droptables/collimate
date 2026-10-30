@@ -1,0 +1,24 @@
+name: Axes First
+description: Set the trade-off frame of a decision before generating any candidates, then generate one
+  candidate per axis region — each as an option folder in this cell. Guided by the axes-first judgment skill.
+tags:
+- axes-first
+prompt: Run the axes-first skill on the decision this cell's files describe — name the trade-off axes first, then
+  generate one candidate per axis region as an option folder in this cell.
+settings:
+  agent-config.set_yaml:
+    surface: annotation
+    session: oneshot
+    backend: pydantic-ai
+    system_prompt: ''
+    mcp: 'off'
+    approvals: auto
+    selected_file_first: false
+folders:
+- _skills
+accounts: {}
+permissions:
+  docker: none
+  internet: full
+  commands: deny
+packages: {}

@@ -1,0 +1,27 @@
+name: Git Clone
+description: Clone a repository into the cell (its files, without .git). Paste its address as the prompt; a private
+  repository authenticates with the Git account picked in the runner's Accounts (a token for its https address, or
+  an SSH key for its SSH address, git@host:owner/name, in images that have ssh), and public repositories need none.
+  For repositories you keep working on, the Git cell's Clone / Update and Push runners also update and push.
+tags:
+- git-clone
+prompt: ''
+settings:
+  settings.set_yaml:
+    mode: oneshot
+    image: ''
+    command: git clone "$COLLIMATE_PROMPT" /tmp/clone && rm -rf /tmp/clone/.git && cp -a /tmp/clone/.
+      . && rm -rf /tmp/clone
+    serve_command: ''
+    serve_port: 0
+    expose_port: 8080
+    startup_commands: ''
+    mount_mode: rw
+    sudo: false
+    start_claude_code: true
+folders: []
+accounts: {}
+permissions:
+  docker: full
+  internet: full
+packages: {}

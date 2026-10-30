@@ -1,0 +1,58 @@
+id: git-checkout
+name: Git checkout
+description: <folder>.git-checkout.json at the cell root marks <folder>/ as a Git checkout kept without .git
+  (remote, branch, commit). Read this handler's skill (handler_skills) before any git operation on the folder
+  (diff, log, blame, compare with the remote, sync or push).
+types:
+- ext: .git-checkout.json
+guidance: A <folder>.git-checkout.json at the cell root records the Git checkout in <folder>/ with exactly about,
+  remote (the repository's clone address, https://host/path, ssh://user@host/path or user@host:path, never with a
+  user name, password or token on https), branch and commit (the full SHA of the remote commit the folder's files
+  are based on). The Git Clone / Update and Git Push runners write it; nothing else edits it. The cell never holds
+  .git. Skills teach agents to run git in a temporary blobless clone of the remote outside the cell at the recorded
+  commit, reading the cell folder only as a work tree through a temporary index, and never running a command that
+  writes the work tree; to rely on the Git account's credential the app places in the environment (a token's
+  header in GIT_CONFIG_COUNT, or for an SSH key on this machine GIT_SSH_COMMAND naming the key file and trusting
+  only the account's own server) and never to print it, read the key file, change the ssh options, rewrite an
+  address to SSH themselves or put a credential in a URL, on argv or in a file; never to create .git in the cell or
+  commit or push from the temporary clone; and to ask the user to run Git Clone / Update to bring in the remote's
+  changes and Git Push to publish. A file of this type inside a folder is that repository's own content and is not
+  checked.
+examples:
+- folder: cloned
+  description: The record Git Clone / Update writes beside the folder api/ it describes.
+  expect: valid
+  feedback: Exactly about, remote, branch and commit, with commit a full commit SHA.
+- folder: nested-group
+  description: A record for a GitLab project in a nested group.
+  expect: valid
+  feedback: A GitLab project path keeps every group.
+- folder: ssh-remote
+  description: A record for a Git server reached over SSH on port 2222.
+  expect: valid
+  feedback: A Git server reached over SSH records its ssh:// address with its user and port.
+- folder: scp-remote
+  description: A record for a Git server named by its scp address, relative to the SSH user's home.
+  expect: valid
+  feedback: An scp address (user@host:path) is recorded as typed; git sends its path unchanged.
+- folder: added-field
+  description: A record carrying a field the runners never write (a url).
+  expect: invalid
+  feedback: A record holds exactly about, remote, branch and commit; nothing else, and never a token.
+- folder: branch-for-commit
+  description: A record whose commit is a branch name instead of a commit SHA.
+  expect: invalid
+  feedback: commit is the full 40- or 64-character lowercase hexadecimal SHA of a commit.
+- folder: credentials-in-remote
+  description: A record whose https remote carries a user name and token.
+  expect: invalid
+  feedback: remote never carries a user name, password or token; credentials live in Key manager.
+- folder: bare-path
+  description: A record whose remote is owner/name without a server.
+  expect: invalid
+  feedback: remote is the clone address the runners record (https://host/path, ssh://user@host/path or user@host:path).
+- folder: repository-content
+  description: A file of this type inside a cloned folder, which is that repository's own content.
+  expect: valid
+  feedback: Only a file at the cell root is a checkout record; a nested one is not checked.
+derived: d25ad909d9069d5e4423dea5b18ee0c0e41d2b6af6a8f42a73b67960181319f1

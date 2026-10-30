@@ -1,0 +1,16 @@
+id: renderer
+name: Renderer packages
+description: Verify renderer definitions and sealed preview declarations.
+types:
+  - ext: .renderer
+  - ext: .renderer_example
+guidance: |
+  Write renderer code first and its definition last. Entrypoints and imports stay
+  in the package. Export defineRenderer({ component }); use inline styles in
+  shadow DOM. A preview names an existing renderer definition and sample file.
+examples:
+  - folder: basic
+    description: A native component and its renderer definition.
+    expect: valid
+    feedback: The entrypoint exports a statically readable renderer definition.
+derived: 1c00456d5ff3086a5bde3de8d2c622b8f06ff084cd4dcb8bec0ac395b83b0323

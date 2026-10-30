@@ -1,0 +1,13 @@
+Collimate
+Copyright 2026 Michael Morgan
+
+Everything in this repository, the app (PyPI `collimate`) and the SDK
+(PyPI `collimate-sdk`, the `sdk/` member), is licensed under the MIT
+License. The text is in the LICENSE file at the root of this repository;
+`sdk/LICENSE` and `api/LICENSE` are byte-identical copies that travel in
+the two wheels.
+
+This product includes third-party open-source software distributed under
+their respective licenses; see THIRD_PARTY_LICENSES (and
+sdk/THIRD_PARTY_LICENSES for the SDK's renderer module graph and runtime
+dependencies) for the full list, attributions, and links.

@@ -1,0 +1,115 @@
+fields:
+- key: mode
+  type: dropdown
+  label: Mode
+  description: What shape the run takes. `oneshot` runs a command over the cell's files once and pulls
+    the results back (optionally leaving a server up). `terminal` attaches a live terminal app to the
+    cell's files with bidirectional sync and ends when its program exits. `app` runs the image's own entrypoint as a daemon
+    web app and shows it as a live preview (VS Code-style).
+  default: oneshot
+  options:
+  - value: oneshot
+    label: One-shot command
+  - value: terminal
+    label: Terminal app
+  - value: app
+    label: App (daemon web UI)
+  advanced: false
+- key: image
+  type: text
+  label: Docker image (optional)
+  description: The image tag the container runs when there is no `build` config folder (a tag already on
+    the host, or a registry tag pulled only when the runner has `update_packages`). With a `build` folder
+    this is ignored; the tag is always derived from the folder's content so an edit rebuilds. Blank and
+    no `build` folder falls back to the shared base image (Debian + python + node).
+  default: ''
+  advanced: false
+- key: command
+  type: text
+  label: Command
+  description: 'One-shot: the shell command line run in the container over the input files (supports &&,
+    pipes, redirects). The run''s prompt is available to it as $COLLIMATE_PROMPT. Terminal: the app the
+    terminal launches (blank = a live `bash` shell); shell-quoted for a full command line.'
+  default: ''
+  show_if:
+    mode:
+    - oneshot
+    - terminal
+  required_if:
+    mode: oneshot
+  advanced: false
+- key: serve_command
+  type: text
+  label: Serve command (optional)
+  description: A long-running server launched after the command finishes (also a shell line). Pair with
+    a serve port to get a live preview that stays up until Stop.
+  default: ''
+  advanced: true
+  show_if:
+    mode: oneshot
+- key: serve_port
+  type: number
+  label: Serve port
+  description: Container port the serve command listens on; exposed as a live preview.
+  default: 0
+  min: 0
+  max: 65535
+  advanced: true
+  show_if:
+    mode: oneshot
+- key: expose_port
+  type: number
+  label: App port
+  description: The container port the app's entrypoint listens on. Forwarded to the host and shown as
+    a live preview. The value is also passed to the container as $PORT so entrypoints that read it (e.g.
+    code-server) bind there.
+  default: 8080
+  min: 1
+  max: 65535
+  show_if:
+    mode: app
+  advanced: true
+- key: startup_commands
+  type: textarea
+  label: Startup commands (optional)
+  description: 'Shell commands, one per line. Terminal: after any `scripts` config-folder scripts, run
+    visibly as a login-shell preamble, then the app execs (exported vars and cwd carry into it). App: passed
+    to the image entrypoint as $STARTUP_COMMANDS. The VS Code image runs each line in its own `bash -lc`,
+    in order, in the background while the editor starts.'
+  default: ''
+  show_if:
+    mode:
+    - terminal
+    - app
+  advanced: true
+- key: mount_mode
+  type: dropdown
+  label: Workspace mount
+  description: Mount the cell's files into the container read-write (edits flow back to the cell) or read-only
+    (the container can read but not modify them).
+  default: rw
+  options:
+  - value: rw
+    label: Read-write
+  - value: ro
+    label: Read-only
+  advanced: true
+- key: sudo
+  type: checkbox
+  label: Full sudo permissions
+  description: Grant the terminal user passwordless sudo inside the container (so `sudo apt-get install
+    …` works). Off = an unprivileged shell. Needs `sudo` in the image (the terminal runners' image ships
+    it).
+  default: false
+  show_if:
+    mode: terminal
+  advanced: true
+- key: start_claude_code
+  type: checkbox
+  label: Start Claude Code
+  description: 'For Claude-Code-capable app images (e.g. the VS Code image): open Claude Code in a fresh
+    conversation the moment the UI loads. A no-op for images that don''t read the signal.'
+  default: true
+  show_if:
+    mode: app
+  advanced: true

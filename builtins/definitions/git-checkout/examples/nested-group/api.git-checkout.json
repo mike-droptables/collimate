@@ -1,0 +1,6 @@
+{
+  "about": "Git checkout record: the folder of the same name beside this file holds this repository's files at this commit plus the cell's edits, without .git. Before any git operation (diff, log, blame, compare, sync or push) read the git-checkout handler's skill (handler_skills tool, id git-checkout).",
+  "remote": "https://gitlab.com/group/sub/api.git",
+  "branch": "main",
+  "commit": "3f786850e387550fdab836ed7e6dc881de23001b"
+}
