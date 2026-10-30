@@ -45,7 +45,7 @@ dependencies = [
 [dependency-groups]
 dev = [
     # Match the separately bootstrapped CI lint job; typechecking uses this env.
-    "ruff==0.17.2",
+    "ruff==0.17.3",
     "pyright==1.1.414",
     "pytest>=8.0.0",
     "pytest-asyncio>=0.23.0",
