@@ -1,0 +1,128 @@
+[
+  {
+    "name": "mixed barriers and root",
+    "paths": [
+      "root.generator",
+      "one/custom.generator",
+      "one/examples/nested.renderer",
+      "two/any.runner",
+      "handlers/custom.handler",
+      "handlers/examples/x.generator",
+      "ambig/a.generator",
+      "ambig/b.renderer",
+      "ambig/nested/x.runner",
+      "deep/folder/different.renderer",
+      "_runs/live/x.generator",
+      "ordinary/_runs/valid.runner",
+      "one/custom.generator"
+    ],
+    "packages": [
+      [
+        "handler",
+        "handlers/custom.handler",
+        "handlers"
+      ],
+      [
+        "generator",
+        "one/custom.generator",
+        "one"
+      ],
+      [
+        "runner",
+        "two/any.runner",
+        "two"
+      ],
+      [
+        "renderer",
+        "deep/folder/different.renderer",
+        "deep/folder"
+      ],
+      [
+        "runner",
+        "ordinary/_runs/valid.runner",
+        "ordinary/_runs"
+      ]
+    ],
+    "problems": [
+      [
+        "definition-folder-ambiguous",
+        "ambig"
+      ],
+      [
+        "definition-at-root",
+        "root.generator"
+      ]
+    ]
+  },
+  {
+    "name": "invalid paths and previews",
+    "paths": [
+      "/outside.generator",
+      "../bad.renderer",
+      "x//bad.runner",
+      "C:/bad.generator",
+      "x\\bad.handler",
+      "x/./bad.generator",
+      "x/bad.generator/",
+      "x/null\u0000.generator",
+      "valid/.generator",
+      "valid/example.renderer_example",
+      "valid/custom.generator"
+    ],
+    "packages": [
+      [
+        "generator",
+        "valid/custom.generator",
+        "valid"
+      ]
+    ],
+    "problems": [
+      [
+        "definition-path-invalid",
+        "../bad.renderer"
+      ],
+      [
+        "definition-path-invalid",
+        "/outside.generator"
+      ],
+      [
+        "definition-path-invalid",
+        "C:/bad.generator"
+      ],
+      [
+        "definition-path-invalid",
+        "x/./bad.generator"
+      ],
+      [
+        "definition-path-invalid",
+        "x//bad.runner"
+      ],
+      [
+        "definition-path-invalid",
+        "x/bad.generator/"
+      ],
+      [
+        "definition-path-invalid",
+        "x/null\u0000.generator"
+      ],
+      [
+        "definition-path-invalid",
+        "x\\bad.handler"
+      ]
+    ]
+  },
+  {
+    "name": "ordinary colon names",
+    "paths": [
+      "notes:2026/pkg/custom.generator"
+    ],
+    "packages": [
+      [
+        "generator",
+        "notes:2026/pkg/custom.generator",
+        "notes:2026/pkg"
+      ]
+    ],
+    "problems": []
+  }
+]

@@ -1,0 +1,17 @@
+{
+  "name": "collimate-playground",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "build": "bash build.sh",
+    "serve": "bash serve.sh",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:visual": "VISUAL=1 playwright test tests/e2e/visual/",
+    "test:visual:update": "VISUAL=1 playwright test tests/e2e/visual/ --update-snapshots"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.14.0",
+    "@playwright/test": "1.64.1"
+  }
+}

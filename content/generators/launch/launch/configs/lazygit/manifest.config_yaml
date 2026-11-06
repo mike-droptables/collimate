@@ -1,0 +1,25 @@
+name: Lazygit
+description: A live lazygit TTY in its own container — runs until you stop it
+tags:
+- lazygit
+prompt: ''
+settings:
+  settings.set_yaml:
+    mode: terminal
+    image: ''
+    command: lazygit
+    serve_command: ''
+    serve_port: 0
+    expose_port: 8080
+    startup_commands: ''
+    mount_mode: rw
+    sudo: false
+    start_claude_code: true
+folders:
+- build
+accounts: {}
+permissions:
+  docker: full
+  internet: full
+packages:
+  lazygit: latest

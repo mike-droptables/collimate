@@ -1,0 +1,25 @@
+fields:
+- key: profile
+  type: text
+  label: Browser profile
+  description: Names the login bucket — the desktop app keeps a persistent session partition (`persist:collimate-<name>`)
+    per name, so signing in once through the cell keeps that login across runs. Cells sharing this name
+    share cookies and logins; a different name is a completely independent session, and two names can
+    be signed in to the same site at the same time. "default" keeps your existing logins.
+  default: default
+  advanced: false
+- key: device
+  type: dropdown
+  label: Device
+  description: What each tab presents as. Phone and Tablet give the page that device's user agent and a mobile viewport
+    of its width (412 and 800 pixels), letterboxed on the cell; Desktop is the desktop app's own browser. Each tab's
+    toolbar can switch it while the run is live.
+  options:
+  - value: desktop
+    label: Desktop
+  - value: phone
+    label: Phone
+  - value: tablet
+    label: Tablet
+  default: desktop
+  advanced: false

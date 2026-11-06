@@ -1,0 +1,67 @@
+[
+  {
+    "kind": "handler",
+    "id": "generator",
+    "content_hash": "a8dcbe523e9d36450d733f93e45f7708089df6d2c794c6cac82703213279f0f1"
+  },
+  {
+    "kind": "handler",
+    "id": "handler",
+    "content_hash": "398bb5928e1aad82a5c85957d43d84f7471111bf0c4851c3fdaf68ba2cafda24"
+  },
+  {
+    "kind": "handler",
+    "id": "library",
+    "content_hash": "918cef9400dde9166fd9803efff7813a1851f6188c9891a01ca2d862e22ce251"
+  },
+  {
+    "kind": "handler",
+    "id": "options",
+    "content_hash": "5d066900f5184a4fbeecdf7742fedbad00eccb0d35d3d568b5cc73e90ddcfb19"
+  },
+  {
+    "kind": "handler",
+    "id": "renderer",
+    "content_hash": "bd91f6cc2316d29eb9042be0a2a41c4397d4d30814a4836be9884ea689ec7dba"
+  },
+  {
+    "kind": "handler",
+    "id": "runner",
+    "content_hash": "cdbc94a16f3538a8d7e047b223fae7dabebf86b064f80c63c41e555d5830f832"
+  },
+  {
+    "kind": "renderer",
+    "id": "assistant",
+    "content_hash": "510710fcaed308ae3130f7f39181ac00afcc1bf28a692cd1af0ecbf6b29b4932"
+  },
+  {
+    "kind": "renderer",
+    "id": "renderer_example",
+    "content_hash": "3d99397de0c6e6660d6077577760f8eebdce7500ca4eb3270b22aae4415b20df"
+  },
+  {
+    "kind": "renderer",
+    "id": "run",
+    "content_hash": "0cc627f6010650d42335fdeccad3a13686e9ab2e8121207d8f92ee6d62931e11"
+  },
+  {
+    "kind": "renderer",
+    "id": "terminal",
+    "content_hash": "38ffc192667d604cb543f1c6f6dc603e93f064b4ca0a8c74beb253e233603576"
+  },
+  {
+    "kind": "renderer",
+    "id": "text",
+    "content_hash": "0431598c91f4335bf1158e98f40a8de5789a52b2c7f7a3b15ea5abfbaec6c979"
+  },
+  {
+    "kind": "renderer",
+    "id": "website",
+    "content_hash": "4118915ae12d87925217b9811d96442066b002e2a35e2e215a155e84a26e16d4"
+  },
+  {
+    "kind": "renderer",
+    "id": "webview",
+    "content_hash": "833ac40a233069d8479afc02d24669463c8231d03c7240363048efdb75336258"
+  }
+]

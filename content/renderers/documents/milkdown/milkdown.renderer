@@ -1,0 +1,17 @@
+id: "milkdown"
+name: "Milkdown Editor"
+version: "1.6.0"
+summary: "WYSIWYG markdown editor powered by @milkdown/crepe, with cell-file links and embeds (images, video and audio previews and file cards, sized and aligned in the markdown, each switchable between preview and link), Insert or drag from the Files pane for a file of the cell (no uploads), a style control (the skin or Crepe's Classic, Frame and Nord themes, the prose font, text size) and Obsidian-style heading folding. Powered by React SDK."
+entrypoint: "main.tsx"
+embed: "iframe"
+
+extensions:
+  - ".md"
+  - ".markdown"
+  - ".mdx"
+
+supports_diff: true
+
+# The host delivers revision-selected content in place, preserving the editor's
+# selection, scroll and folding state across accepted external writes.
+live_refresh: true

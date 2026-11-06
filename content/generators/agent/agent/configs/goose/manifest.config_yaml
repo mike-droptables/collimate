@@ -1,0 +1,23 @@
+name: goose
+description: 'goose (AAIF) in its own container (or this machine''s goose under docker: none), on the
+  Annotation surface. Anthropic, OpenAI, Gemini, Groq, Cerebras or OpenRouter key'
+tags:
+- agent
+- goose
+prompt: ''
+settings:
+  agent-config.set_yaml:
+    surface: annotation
+    session: interactive
+    backend: goose
+    system_prompt: ''
+    mcp: 'off'
+    approvals: auto
+    selected_file_first: false
+folders: []
+accounts: {}
+permissions:
+  docker: full
+  internet: full
+  commands: allow
+packages: {}

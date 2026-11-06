@@ -1,0 +1,15 @@
+id: "video"
+name: "Video"
+version: "1.0.0"
+summary: "Plays common video formats (MP4, WebM, MOV, M4V, OGV) with native controls."
+entrypoint: "main.tsx"
+embed: "native"
+
+extensions:
+  - ".mp4"
+  - ".webm"
+  - ".mov"
+  - ".m4v"
+  - ".ogv"
+
+supports_diff: false

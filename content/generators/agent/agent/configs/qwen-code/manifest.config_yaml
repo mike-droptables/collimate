@@ -1,0 +1,23 @@
+name: Qwen Code
+description: Qwen Code in its own container, on the Annotation surface. Anthropic, OpenAI, Gemini, Groq,
+  Cerebras or OpenRouter key
+tags:
+- agent
+- qwen-code
+prompt: ''
+settings:
+  agent-config.set_yaml:
+    surface: annotation
+    session: interactive
+    backend: qwen-code
+    system_prompt: ''
+    mcp: 'off'
+    approvals: auto
+    selected_file_first: false
+folders: []
+accounts: {}
+permissions:
+  docker: full
+  internet: full
+  commands: allow
+packages: {}

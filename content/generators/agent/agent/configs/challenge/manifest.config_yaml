@@ -1,0 +1,24 @@
+name: Challenge
+description: One-shot pass; reproductions use the tools allowed by this run's grant
+tags:
+- challenge
+prompt: Run the challenge skill over the candidate options in this input. Derive the challenges from the load-bearing
+  assumptions the candidates enact, run one reproduction per challenge and candidate, and emit the survived/failed
+  evidence matrix.
+settings:
+  agent-config.set_yaml:
+    surface: annotation
+    session: oneshot
+    backend: pydantic-ai
+    system_prompt: ''
+    mcp: 'off'
+    approvals: auto
+    selected_file_first: false
+folders:
+- _skills
+accounts: {}
+permissions:
+  docker: full
+  internet: full
+  commands: allow
+packages: {}

@@ -1,0 +1,20 @@
+name: Update
+description: Bring the remote's new commits into the folder's branch (git pull, stashing uncommitted changes)
+tags:
+- git
+prompt: ''
+settings:
+  settings.set_yaml:
+    action: update
+    folder: ''
+    branch: ''
+    on_divergence: merge
+    base_commit: ''
+    commit_message: ''
+    push_branch: ''
+folders: []
+accounts: {}
+permissions:
+  docker: none
+  internet: full
+packages: {}

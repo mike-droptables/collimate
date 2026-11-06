@@ -1,0 +1,6 @@
+# The one generator cell of the browser demo. Every generator in it plays a
+# scripted timeline instead of doing real work (see timeline.py beside each
+# manifest); the runner picker lists them under this name.
+name: Demo generators
+icon: sparkles
+order: 10

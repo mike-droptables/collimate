@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "upstreams": ["https://esm.sh/", "https://cdn.jsdelivr.net/"],
+  "rewrite": 1,
+  "lexer": "es-module-lexer@3.0.4/minimal",
+  "max_module_bytes": 33554432,
+  "timeout_seconds": 30,
+  "connect_timeout_seconds": 5,
+  "max_redirects": 5,
+  "user_agent": "collimate-module-mirror/1",
+  "floating": "[~^*]|@(?:latest|next|canary|stable)(?:[/?&]|$)",
+  "version": "(?:@|/v?)\\d+\\.\\d+\\.\\d+(?:[-+][\\w.-]+)?(?:/|$)",
+  "immutable": "(?:^|/)(?:[a-fA-F0-9]{40}|[a-fA-F0-9]{64})(?:/|$)",
+  "snapshot_max_bytes": 100663296,
+  "esm_builder_image": "ghcr.io/esm-dev/esm.sh:v140"
+}

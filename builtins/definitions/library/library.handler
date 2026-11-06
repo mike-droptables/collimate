@@ -1,0 +1,18 @@
+id: library
+name: Library packages
+description: 'A library is code several generators share: the folder <id>/ at the top of its cell, named by
+  its id (an underscore name such as _my_helpers, which is also its import name), holding <id>.library and
+  the code. Write the code first, then the definition with a name and a description that tells an agent
+  what the library offers and how to import it; a generator''s cell names it under shared: in its cell.yaml.'
+types:
+- ext: .library
+guidance: 'A library is code several generators share: the folder <id>/ at the top of its cell, named by
+  its id (an underscore name such as _my_helpers, which is also its import name), holding <id>.library and
+  the code. Write the code first, then the definition with a name and a description that tells an agent
+  what the library offers and how to import it; a generator''s cell names it under shared: in its cell.yaml.'
+examples:
+- folder: basic
+  description: A minimal library at the top of its cell with its code beside its definition.
+  expect: valid
+  feedback: The declaration names its folder and carries a name and description.
+derived: 65d1b8290157865ea31b5921d10c27d3fdc9415d06c3fbc01fa2d8f0893f1e67

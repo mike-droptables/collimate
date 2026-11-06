@@ -1,0 +1,22 @@
+id: git-clone
+generator: git
+name: Git Clone
+description: Clone the Repository into a folder of this cell (or its root), with its .git
+tags:
+- git
+prompt: ''
+settings:
+  settings.set_yaml:
+    action: clone
+    folder: ''
+    branch: ''
+    on_divergence: merge
+    base_commit: ''
+    commit_message: ''
+    push_branch: ''
+folders: []
+accounts: {}
+permissions:
+  docker: none
+  internet: full
+packages: {}

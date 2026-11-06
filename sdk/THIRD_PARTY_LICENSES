@@ -1,0 +1,99 @@
+Third-Party Licenses
+====================
+
+This project makes use of the following open source packages. Their licenses
+are reproduced at the linked upstream locations.
+
+-------------------------------------------------------------------------------
+
+RUNTIME DEPENDENCIES
+====================
+
+pydantic
+  License: MIT
+  https://github.com/pydantic/pydantic
+
+pyyaml
+  License: MIT
+  https://github.com/yaml/pyyaml
+
+-------------------------------------------------------------------------------
+
+DEV DEPENDENCIES
+================
+
+pytest
+  License: MIT
+  https://github.com/pytest-dev/pytest
+
+ruff
+  License: MIT
+  https://github.com/astral-sh/ruff
+
+build (pypa/build)
+  License: MIT
+  https://github.com/pypa/build
+
+hatchling (build backend, declared in [build-system])
+  License: MIT
+  https://github.com/pypa/hatch
+
+-------------------------------------------------------------------------------
+
+BUNDLED GENERATORS — INLINE DEPENDENCIES
+========================================
+
+The generators under generators/ each declare their own inline runtime
+dependencies via PEP-723 metadata in the entrypoint script's
+# /// script header. The generators install these on first run (via uv) —
+they do not ship inside the SDK wheel. The complete list across the bundled
+generators:
+
+pyyaml
+  License: MIT
+  https://github.com/yaml/pyyaml
+
+google-genai
+  License: Apache-2.0
+  https://github.com/googleapis/python-genai
+
+anthropic
+  License: MIT
+  https://github.com/anthropics/anthropic-sdk-python
+
+docker (docker-py)
+  License: Apache-2.0
+  https://github.com/docker/docker-py
+
+-------------------------------------------------------------------------------
+
+BUNDLED RENDERERS — RUNTIME (CDN-LOADED)
+========================================
+
+The renderers under renderers/ and builtin/ load their heavy libraries from public CDNs
+(https://esm.sh/…, jsdelivr) at runtime rather than vendoring them. The SDK
+neither modifies nor redistributes their source. A user-friendly list with
+upstream links lives in renderers/CREDITS.md; notable components:
+
+  Monaco Editor          Microsoft                MIT
+  Milkdown / Crepe       Milkdown community       MIT
+  Excalidraw             Excalidraw Authors       MIT
+  Mermaid                Mermaid contributors     MIT
+  KaTeX                  KaTeX contributors       MIT
+  React, ReactDOM        Facebook / Meta          MIT
+
+See renderers/CREDITS.md for the full list with repository URLs and
+manifest entries.
+
+-------------------------------------------------------------------------------
+
+NOTES ON COMPATIBILITY
+======================
+
+All direct and bundled-generator dependencies listed above are permissive
+(MIT / BSD / Apache-2.0). The SDK itself is Apache-2.0. No GPL, AGPL, LGPL,
+or MPL components are shipped in the wheel. CDN-loaded renderer components
+retain their own licenses at the consumer's end — they are not bundled
+into the SDK distribution.
+
+-------------------------------------------------------------------------------

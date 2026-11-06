@@ -1,0 +1,11 @@
+id: "schema_form"
+name: "Schema Form"
+version: "1.0.1"
+summary: "Form-based editor for .set_yaml settings files. Eliminates hand-editing errors by exposing dropdowns, checkboxes, and validated text fields."
+entrypoint: "main.tsx"
+embed: "native"
+
+extensions:
+  - ".set_yaml"
+
+supports_diff: false

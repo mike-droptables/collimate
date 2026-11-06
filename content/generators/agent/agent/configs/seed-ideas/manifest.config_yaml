@@ -1,0 +1,24 @@
+name: Seed Ideas
+description: Fan out N genuinely distinct idea directions along an axis you name — each idea its own cell.
+  Guided by the seed-ideas judgment skill.
+tags:
+- seed-ideas
+prompt: Run the seed-ideas skill on the axis this cell's files name — fan out several genuinely distinct directions
+  along it and develop each one into its own cell.
+settings:
+  agent-config.set_yaml:
+    surface: annotation
+    session: oneshot
+    backend: pydantic-ai
+    system_prompt: ''
+    mcp: 'off'
+    approvals: auto
+    selected_file_first: false
+folders:
+- _skills
+accounts: {}
+permissions:
+  docker: none
+  internet: full
+  commands: deny
+packages: {}

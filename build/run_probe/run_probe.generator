@@ -1,0 +1,5 @@
+entrypoint: main.py
+id: run-probe
+main_config: settings.set_yaml
+name: Run probe
+summary: Writes which uv and Python ran it
