@@ -1,0 +1,5 @@
+name: Launch
+order: 30
+icon: terminal
+shared:
+- _env_shared

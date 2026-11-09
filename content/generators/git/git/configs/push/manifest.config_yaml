@@ -1,0 +1,20 @@
+name: Push
+description: Push the folder's branch to its remote, committing uncommitted changes first when a Commit message is set; never force-pushes
+tags:
+- git
+prompt: ''
+settings:
+  settings.set_yaml:
+    action: push
+    folder: ''
+    branch: ''
+    on_divergence: merge
+    base_commit: ''
+    commit_message: ''
+    push_branch: ''
+folders: []
+accounts: {}
+permissions:
+  docker: none
+  internet: full
+packages: {}

@@ -1,0 +1,74 @@
+fields:
+- key: action
+  type: dropdown
+  label: Action
+  description: Clone brings the Repository into a folder of this cell with its .git. Update brings the remote's new
+    commits into the folder's branch (git pull). Push sends the branch's commits to the remote (git push).
+  options:
+  - value: clone
+    label: Clone
+  - value: update
+    label: Update
+  - value: push
+    label: Push
+  default: clone
+  advanced: false
+- key: folder
+  type: text
+  label: Folder
+  description: The repository's folder in this cell, such as app or libs/app, or . for the cell root. Blank clones
+    into a folder named after the repository, and updates or pushes the cell's only repository.
+  default: ''
+  advanced: false
+- key: branch
+  type: text
+  label: Branch
+  description: The branch (or tag) to clone. Blank is the repository's default branch.
+  default: ''
+  show_if:
+    action: clone
+  advanced: true
+- key: on_divergence
+  type: dropdown
+  label: On divergence
+  description: How Update joins the remote's commits when the branch has commits of its own. Merge makes a merge
+    commit, Rebase replays the branch's commits on the remote's, Fast-forward only stops instead. Uncommitted
+    changes are stashed and put back either way.
+  options:
+  - value: merge
+    label: Merge
+  - value: rebase
+    label: Rebase
+  - value: ff-only
+    label: Fast-forward only
+  default: merge
+  show_if:
+    action: update
+  advanced: false
+- key: base_commit
+  type: text
+  label: Base commit
+  description: When the folder already holds the repository's files without a .git, the commit they are based on.
+    Clone then makes the folder a checkout of that commit, and your edits since show as changes.
+  default: ''
+  show_if:
+    action: clone
+  advanced: true
+- key: commit_message
+  type: text
+  label: Commit message
+  description: With uncommitted changes, Push commits all of them with this message first. Blank pushes only
+    what is committed, and refuses while anything is uncommitted.
+  default: ''
+  show_if:
+    action: push
+  advanced: false
+- key: push_branch
+  type: text
+  label: Push to branch
+  description: The remote branch to push to. Blank pushes to the branch's upstream, or to a branch of the same name
+    (which then becomes its upstream). Pushing never force-pushes.
+  default: ''
+  show_if:
+    action: push
+  advanced: true

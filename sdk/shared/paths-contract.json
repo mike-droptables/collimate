@@ -1,0 +1,31 @@
+{
+  "about": "Reserved cell paths (git's t0060/t1450 for .git): collimate.pointers.is_reserved_path (which api/collimate_server/reserved_paths.py serves to the host) and frontend/src/lib/transfer/cellPaths.ts isReservedPath agree on every row, the whitespace they strip included.",
+  "paths": [
+    {"path":".git","reserved":true},
+    {"path":"a/.git/x","reserved":true},
+    {"path":".GIT","reserved":true},
+    {"path":".git.","reserved":true},
+    {"path":".git ","reserved":true},
+    {"path":" .git","reserved":true},
+    {"path":"GIT~1","reserved":true},
+    {"path":".g\u200cit","reserved":true},
+    {"path":".git::$INDEX_ALLOCATION","reserved":true},
+    {"path":".collrun/x","reserved":true},
+    {"path":".collrun","reserved":true},
+    {"path":"a/b/.Git/config","reserved":true},
+    {"path":".git\ufeff/HEAD","reserved":true},
+    {"path":"src/GIT~1/x","reserved":true},
+    {"path":"\u001c.git","reserved":true},
+    {"path":".git\u001f","reserved":true},
+    {"path":".git\u0085/x","reserved":true},
+    {"path":"\u3000.git\u00a0","reserved":true},
+    {"path":".gitignore","reserved":false},
+    {"path":".github","reserved":false},
+    {"path":"git~2","reserved":false},
+    {"path":"git","reserved":false},
+    {"path":"a/.gitkeep","reserved":false},
+    {"path":"x.git","reserved":false},
+    {"path":".collrunx/a","reserved":false},
+    {"path":"a/.collrun/x","reserved":false}
+  ]
+}

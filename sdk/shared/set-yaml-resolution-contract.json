@@ -1,0 +1,10 @@
+[
+  {"name":"empty checkbox differs deliberately","text":"fields:\n  - {key: enabled, type: checkbox}\n  - {key: title, type: text}\n","generator":{},"form":{"enabled":false,"title":null}},
+  {"name":"defaults and explicit unknown values","text":"fields:\n  - {key: enabled, type: checkbox, default: true}\n  - {key: count, type: number, default: 5}\nvalues: {count: 0, extra: keep}\n","generator":{"enabled":true,"count":0,"extra":"keep"},"form":{"enabled":true,"count":0,"extra":"keep"}},
+  {"name":"plain yaml belongs to generator","text":"host: local\nport: 1234\n","generator":{"host":"local","port":1234},"form":{}},
+  {"name":"malformed yaml","text":"[broken","generator":{},"form":{}},
+  {"name":"non mapping root","text":"- item","generator":{},"form":{}},
+  {"name":"empty values marks schema","text":"name: ignored\nvalues: null\n","generator":{},"form":{}},
+  {"name":"false is an explicit value","text":"fields:\n  - {key: enabled, type: checkbox, default: true}\nvalues: {enabled: false}\n","generator":{"enabled":false},"form":{"enabled":false}},
+  {"name":"invalid field shapes are ignored","text":"fields: [false, {key: 5, default: wrong}, {key: good, default: yes}]\n","generator":{"good":true},"form":{"good":true}}
+]

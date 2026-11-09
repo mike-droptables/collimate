@@ -1,0 +1,12 @@
+# Authors
+
+This is the list of significant contributors to the Collimate SDK.
+Names are added in order of first contribution.
+
+For the full commit-by-commit contributor list, run:
+
+    git log --format='%aN <%aE>' | sort -u
+
+---
+
+Michael <michael@collimate.dev>

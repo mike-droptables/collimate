@@ -1,0 +1,9 @@
+# Build staging (a patched copy of api/ + frontend/), the vendored-wheel
+# download cache, the assembled site, and Playwright output.
+.stage/
+.wheels/
+dist/
+node_modules/
+__pycache__/
+test-results/
+playwright-report/

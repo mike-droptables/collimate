@@ -1,0 +1,22 @@
+name: Guide
+description: 'A chat for Collimate orientation and questions, grounded in its two bundled references and the current handler catalog. Reads accepted handler skills and reports structural validation results; the user selects runners, adds packages and accepts builds in the UI.'
+tags:
+- guide
+prompt: ''
+settings:
+  agent-config.set_yaml:
+    surface: chat
+    session: interactive
+    backend: pydantic-ai
+    system_prompt: ''
+    mcp: 'off'
+    approvals: auto
+    selected_file_first: false
+folders:
+- _skills
+accounts: {}
+permissions:
+  docker: none
+  internet: full
+  commands: deny
+packages: {}

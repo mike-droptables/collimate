@@ -1,0 +1,52 @@
+{
+  "$comment": "Cross-language 'empty value' contract for .set_yaml schema-form fields. Implementations pinned to this table: collimate.config_values.is_empty (Python SDK; tests/test_config_values.py), the frontend's isEmptyValue in src/lib/setYaml.ts (src/lib/__tests__/setYaml.test.ts), and the schema_form renderer's validate. 0 and false are never empty. JSON cannot express undefined; JS implementations treat undefined like null. Types outside the seven known ones get text semantics.",
+  "cases": [
+    {"type": "text", "value": null, "empty": true},
+    {"type": "text", "value": "", "empty": true},
+    {"type": "text", "value": "   ", "empty": true},
+    {"type": "text", "value": " \t\n ", "empty": true},
+    {"type": "text", "value": "x", "empty": false},
+    {"type": "text", "value": "0", "empty": false},
+    {"type": "text", "value": 0, "empty": false},
+    {"type": "text", "value": false, "empty": false},
+
+    {"type": "textarea", "value": null, "empty": true},
+    {"type": "textarea", "value": "", "empty": true},
+    {"type": "textarea", "value": "  \n ", "empty": true},
+    {"type": "textarea", "value": "body", "empty": false},
+
+    {"type": "number", "value": null, "empty": true},
+    {"type": "number", "value": 0, "empty": false},
+    {"type": "number", "value": -1, "empty": false},
+    {"type": "number", "value": 42.5, "empty": false},
+    {"type": "number", "value": "", "empty": false},
+
+    {"type": "dropdown", "value": null, "empty": true},
+    {"type": "dropdown", "value": "", "empty": true},
+    {"type": "dropdown", "value": " ", "empty": false},
+    {"type": "dropdown", "value": "opt", "empty": false},
+    {"type": "dropdown", "value": 0, "empty": false},
+
+    {"type": "checkbox", "value": null, "empty": false},
+    {"type": "checkbox", "value": false, "empty": false},
+    {"type": "checkbox", "value": true, "empty": false},
+    {"type": "checkbox", "value": "", "empty": false},
+
+    {"type": "list", "value": null, "empty": true},
+    {"type": "list", "value": [], "empty": true},
+    {"type": "list", "value": [0], "empty": false},
+    {"type": "list", "value": [false], "empty": false},
+    {"type": "list", "value": [""], "empty": false},
+    {"type": "list", "value": "", "empty": false},
+
+    {"type": "object", "value": null, "empty": true},
+    {"type": "object", "value": {}, "empty": false},
+    {"type": "object", "value": {"a": 0}, "empty": false},
+    {"type": "object", "value": 0, "empty": false},
+
+    {"type": "unknown_custom", "value": null, "empty": true},
+    {"type": "unknown_custom", "value": "  ", "empty": true},
+    {"type": "unknown_custom", "value": "x", "empty": false},
+    {"type": "unknown_custom", "value": 0, "empty": false}
+  ]
+}

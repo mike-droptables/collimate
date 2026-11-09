@@ -1,0 +1,57 @@
+id: launch
+name: Launch
+version: 0.3.0
+summary: 'One runner behind every environment surface, on this machine (docker: none) or in a container (docker:
+  full). A `mode` picks the shape: a one-shot command over the cell''s files, a live terminal app, or a daemon web
+  app (VS Code-style, container only).'
+entrypoint: run.py
+daemon: true
+ui_files:
+- .terminal
+- .website
+live_files_mode: manual
+# App mode runs a Docker image's entrypoint; one-shot and terminal runs also
+# run on this machine under docker: none (the grant picks where Launch runs).
+requires_docker_if:
+  mode:
+  - app
+draft_files:
+- settings.set_yaml
+config_folders:
+- name: build
+  description: A Dockerfile + build context to build a custom image for a container run (docker full; a run on
+    this machine refuses it). When present the image is built lazily (tagged by the folder's content) instead of
+    pulled; declare `ARG BASE=collimate-linux-small:v3` then `FROM ${BASE}` to layer on the shared base (the
+    host builds the base and injects its content-addressed tag).
+  sample: samples/build
+- name: scripts
+  description: Setup scripts run (sorted by filename) before startup_commands and the main command / app, staged
+    into the container or run from the cell's workspace on this machine. Built-in images use a writable per-user
+    Python venv for scripts and their prepared command; custom images and this machine own their Python install
+    policy. Use for package installs, fetches, or environment bootstrap that should version with the cell.
+  sample: samples/scripts
+main_config: settings.set_yaml
+configs:
+- id: default
+  name: Default
+  path: configs/default/manifest.config_yaml
+- id: vscode
+  name: VS Code
+  path: configs/vscode/manifest.config_yaml
+- id: code-runner
+  name: Code Runner
+  path: configs/code-runner/manifest.config_yaml
+- id: terminal
+  name: Terminal
+  path: configs/terminal/manifest.config_yaml
+- id: lazygit
+  name: Lazygit
+  path: configs/lazygit/manifest.config_yaml
+required_files: []
+account_requirements:
+  git:
+    label: Git account
+    kind: git
+    capabilities:
+    - git
+    required: false

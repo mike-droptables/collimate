@@ -1,0 +1,78 @@
+[
+  {
+    "address": "127.0.0.1",
+    "blocked": true
+  },
+  {
+    "address": "10.1.2.3",
+    "blocked": true
+  },
+  {
+    "address": "192.168.0.5",
+    "blocked": true
+  },
+  {
+    "address": "169.254.169.254",
+    "blocked": true
+  },
+  {
+    "address": "100.64.0.1",
+    "blocked": true
+  },
+  {
+    "address": "100.127.255.254",
+    "blocked": true
+  },
+  {
+    "address": "0.0.0.0",
+    "blocked": true
+  },
+  {
+    "address": "::1",
+    "blocked": true
+  },
+  {
+    "address": "fe80::1",
+    "blocked": true
+  },
+  {
+    "address": "::ffff:127.0.0.1",
+    "blocked": true
+  },
+  {
+    "address": "::ffff:100.64.0.1",
+    "blocked": true
+  },
+  {
+    "address": "224.0.0.1",
+    "blocked": true
+  },
+  {
+    "address": "192.0.2.1",
+    "blocked": true
+  },
+  {
+    "address": "198.18.0.1",
+    "blocked": true
+  },
+  {
+    "address": "2001:db8::1",
+    "blocked": true
+  },
+  {
+    "address": "ff02::1",
+    "blocked": true
+  },
+  {
+    "address": "93.184.215.14",
+    "blocked": false
+  },
+  {
+    "address": "2606:2800:21f:cb07:6820:80da:af6b:8b2c",
+    "blocked": false
+  },
+  {
+    "address": "::ffff:93.184.215.14",
+    "blocked": false
+  }
+]

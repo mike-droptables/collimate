@@ -1,0 +1,9 @@
+# The SDK's lint (`uv run ruff check sdk`): its packages stay importable on
+# Python 3.12, where the generators' PEP 723 headers allow it. The server's
+# lint is the root pyproject.toml's.
+line-length = 100
+target-version = "py312"
+
+[lint]
+select = ["E", "F"]
+ignore = ["E501", "E701", "E741"]

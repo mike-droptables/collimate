@@ -1,0 +1,43 @@
+#!/bin/sh
+# pi under the runner grant's `commands` level — the command pi-acp spawns
+# (PI_ACP_PI_COMMAND) and the terminal leg runs. Root-owned in the image, so
+# the agent cannot rewrite what it sets.
+#
+#   deny  — the shell tools are removed; the gate blocks edits outside
+#           /workspace.
+#   ask   — the gate confirms each shell call through the client (or the
+#           TUI's own dialog) and blocks edits outside /workspace.
+#   allow — pi as shipped.
+# An unset or unknown level is deny. At every level the cell's project-local
+# files are trusted for the run (`--approve`): pi loads its project settings,
+# extensions and other .pi resources without a trust decision, in the RPC
+# chat (which would otherwise skip them) and the TUI (which would ask).
+set -eu
+# pi-acp drains the stderr of the pi it spawns and drops it, so pi's own
+# diagnostics would never reach the run's adapter log. The ACP leg sets
+# COLLIMATE_PI_STDERR and pi's stderr is joined to its parent's (the
+# adapter's): pi-acp spawns this script directly, so the parent is pi-acp.
+# When that stream cannot be opened, pi keeps the stderr pi-acp gave it.
+if [ -n "${COLLIMATE_PI_STDERR:-}" ] && { : >>"/proc/$PPID/fd/2"; } 2>/dev/null; then
+  exec 2>>"/proc/$PPID/fd/2"
+fi
+unset COLLIMATE_PI_STDERR
+# The ACP leg's session context: the harness home's instruction file, which
+# the pipeline writes before the session opens (the terminal leg passes the
+# flag itself). An empty or missing file appends nothing.
+if [ -n "${COLLIMATE_PI_CONTEXT:-}" ] && [ -s "$COLLIMATE_PI_CONTEXT" ]; then
+  context=$(cat "$COLLIMATE_PI_CONTEXT")
+  unset COLLIMATE_PI_CONTEXT
+  set -- --append-system-prompt "$context" "$@"
+fi
+unset COLLIMATE_PI_CONTEXT
+PI=/usr/bin/pi
+GATE=/opt/collimate/pi/gate.ts
+MCP=/opt/collimate/pi/mcp.js
+case "${COLLIMATE_COMMANDS:-}" in
+  allow) exec "$PI" --approve -e "$MCP" "$@" ;;
+  ask) exec "$PI" --approve -e "$MCP" -e "$GATE" "$@" ;;
+  *) COLLIMATE_COMMANDS=deny
+     export COLLIMATE_COMMANDS
+     exec "$PI" --approve --exclude-tools bash,powershell -e "$MCP" -e "$GATE" "$@" ;;
+esac

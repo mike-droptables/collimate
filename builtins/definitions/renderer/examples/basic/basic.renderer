@@ -1,0 +1,6 @@
+id: example
+name: Example
+summary: Minimal native renderer.
+entrypoint: main.tsx
+embed: native
+extensions: [.example]

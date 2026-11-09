@@ -1,0 +1,5 @@
+#!/bin/sh
+# Native Qwen replaces its settings through a newly created temporary file.
+# Keep selected credentials private on every native rewrite, not just seeding.
+umask 077
+exec /opt/collimate/qwen/native-cli "$@"

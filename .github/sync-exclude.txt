@@ -1,0 +1,18 @@
+# Paths the public mirror never receives. build/push_public.py stages
+# `git archive <ref>`, removes every entry below and asserts it is absent
+# before it builds the one orphan commit it pushes to the public main.
+# One literal path per line (no globs), anchored to the repo root with a
+# leading '/', so only the path named is dropped, never a same-named folder
+# deeper in the tree: the nested docs/ folders, sdk/shared/docs/ among them,
+# are published, and the tool asserts they are.
+# Lines starting with '#' are comments. This file itself is published: it
+# tells readers of the public repo what is filtered out.
+
+/docs/
+/.claude/
+/AGENTS.md
+/CLAUDE.md
+/changes.patch
+/llm_update.md
+/gemini.geminirules
+/sdk/.claude/

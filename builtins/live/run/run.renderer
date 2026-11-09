@@ -1,0 +1,11 @@
+# The run card (`_runs/<label>/<label>.run`): the host writes it when a run
+# starts and removes it when the run ends — the run's first UI file.
+id: run
+name: "Run Card"
+version: "1.1.0"
+summary: "A live run's card: its runner, label, generator and start time, and where the run's Stop and log are."
+entrypoint: main.tsx
+embed: "native"
+extensions: [".run"]
+# The card is a live handle on a run, not a document: nothing to diff.
+supports_diff: false

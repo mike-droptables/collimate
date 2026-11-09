@@ -1,0 +1,10 @@
+{
+  "name": "Basic",
+  "description": "Only what the app itself needs: the built-in definitions, the live surfaces and the plain-text editor. Add generators, renderers and libraries later from the catalog in Capabilities.",
+  "order": 20,
+  "generators": [],
+  "renderers": [],
+  "libraries": [],
+  "tutorial": [],
+  "quick_fields": {}
+}

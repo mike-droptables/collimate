@@ -1,0 +1,7 @@
+id: _web_shared
+name: Web library
+version: 1.0.0
+description: 'A web-session daemon for a generator whose run is a browser: daemon.run_web_session serves the
+  control socket the client''s own native guest view connects to (the client is the browser; the daemon
+  launches none), protocol holds the renderer-facing wire shapes and the tab-<n>.webview file, and capture
+  is the handle a capture callback gets. Import it as _web_shared (from _web_shared import run_web_session).'

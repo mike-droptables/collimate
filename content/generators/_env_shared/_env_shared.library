@@ -1,0 +1,12 @@
+id: _env_shared
+name: Environment library
+version: 1.0.0
+description: 'Container and Git helpers for a generator that works on its cell. DockerEnvironment drives a
+  container the host places for the run (mount the workspace, exec commands, read and write files, expose
+  ports); base_image_spec() runs the host''s collimate-linux-small base image (Python, Node, uv and the SDK)
+  and layered_image_spec(name, context, build_args=...) builds your own Dockerfile on top of it (ARG
+  BASE=collimate-linux-small:v3, FROM ${BASE}). git_account reads the runner''s Git account role into a
+  GitAccount, git_run runs git with no ambient configuration, credential helpers or hooks and with the
+  HTTPS header or SSH key a remote gets, and upstream resolves the latest release of a tool a Dockerfile
+  installs. Import it as _env_shared (from _env_shared import git_run); name it under shared: in the
+  generator''s cell.yaml.'

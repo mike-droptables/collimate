@@ -1,0 +1,5 @@
+entrypoint: main.py
+id: dependency-probe
+main_config: settings.set_yaml
+name: Dependency probe
+summary: Writes where its pydantic came from
