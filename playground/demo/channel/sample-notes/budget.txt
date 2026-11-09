@@ -1,0 +1,8 @@
+Trip budget (EUR)
+
+Flights                 184
+Flat, three nights      312
+Food and drink          160
+Trams and metro          24
+Museum tickets           31
+Pastries                 12

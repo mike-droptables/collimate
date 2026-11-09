@@ -1,0 +1,364 @@
+name: Compiler-free native wheels
+
+# The one distribution, collimate, per native target: the wheel is tagged by
+# the SDK's private QuickJS verifier binding, so each supported host (glibc
+# Linux and macOS 11+, x64 and ARM64) gets its own wheel; Windows is
+# connect-only and ships no server. Every wheel carries the same SDK, server,
+# UI and bundled trees; only the payload and the tag differ. The install legs
+# install each wheel with pip and uvx with compilers and Node denied, prove
+# the verifier, start the server to /ready, and the distribution job builds
+# the sdist and rebuilds a wheel from it offline.
+
+on:
+  workflow_call:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  PYTHON_KEYRING_BACKEND: keyring.backends.null.Keyring
+
+jobs:
+  # The UI every wheel carries, built once.
+  ui:
+    name: Build the UI
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '>=24.15.0 <25'
+          cache: "npm"
+          cache-dependency-path: frontend/package-lock.json
+      - name: Build the frontend
+        run: |
+          set -euo pipefail
+          npm ci --prefix frontend
+          (cd frontend && npm run build)
+      - uses: actions/upload-artifact@v7
+        with:
+          name: ui-static
+          path: frontend/dist/
+          if-no-files-found: error
+
+  prepare:
+    name: Build ${{ matrix.target }}
+    needs: ui
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - target: linux-x64
+            runner: ubuntu-24.04
+          - target: linux-arm64
+            runner: ubuntu-24.04-arm
+          - target: darwin-x64
+            runner: macos-15-intel
+          - target: darwin-arm64
+            runner: macos-15
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.13'
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '>=24.15.0 <25'
+      # The wheel carries module-snapshot/, whose bodies main does not.
+      - name: Fetch the module snapshot bodies
+        run: |
+          set -euo pipefail
+          git fetch --depth=1 origin module-snapshot
+          python3 build/snapshot_store.py fetch
+      - uses: actions/download-artifact@v8
+        with:
+          name: ui-static
+          path: api/collimate_server/static
+      - name: Generate canonical renderer resources
+        run: |
+          npm ci --prefix sdk/scripts
+          npm ci --prefix sdk/packages/renderer-hooks
+          node sdk/scripts/build_renderer_runtime.mjs
+          python sdk/scripts/prepare_renderer_compilers.py
+      - name: Prepare pinned private verifier
+        env:
+          TARGET: ${{ matrix.target }}
+        run: |
+          set -euo pipefail
+          if [ "$TARGET" = darwin-x64 ]; then
+            python -m pip install setuptools==80.9.0 wheel==0.45.1
+            clang --version
+            python sdk/scripts/prepare_verifier_engine.py --target "$TARGET" --build-source
+            otool -L sdk/src/collimate/native_verifier/darwin-x64/_quickjs.abi3.so
+            otool -l sdk/src/collimate/native_verifier/darwin-x64/_quickjs.abi3.so
+          else
+            python sdk/scripts/prepare_verifier_engine.py --target "$TARGET"
+          fi
+          python sdk/scripts/prepare_verifier_engine.py --target linux-x64
+          python sdk/scripts/prepare_verifier_engine.py --target linux-arm64
+          python sdk/scripts/prepare_verifier_engine.py --verify-only
+      - name: Build the target wheel without source compilation
+        run: |
+          set -euo pipefail
+          python -m pip install build
+          python -m build --wheel
+          python sdk/scripts/check_native_wheels.py dist
+          python build/release_policy.py check-wheel --wheel dist/collimate-*.whl
+      - uses: actions/upload-artifact@v7
+        with:
+          name: native-${{ matrix.target }}
+          path: sdk/src/collimate/native_verifier/${{ matrix.target }}/
+          if-no-files-found: error
+      - uses: actions/upload-artifact@v7
+        with:
+          name: wheel-${{ matrix.target }}
+          path: dist/*.whl
+          if-no-files-found: error
+
+  install:
+    name: Install ${{ matrix.target }} Python ${{ matrix.python }}
+    needs: prepare
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ['3.13', '3.14']
+        target: [linux-x64, linux-arm64, darwin-x64, darwin-arm64]
+        include:
+          - target: linux-x64
+            runner: ubuntu-24.04
+          - target: linux-arm64
+            runner: ubuntu-24.04-arm
+          - target: darwin-x64
+            runner: macos-15-intel
+          - target: darwin-arm64
+            runner: macos-15
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: ${{ matrix.python }}
+      - uses: actions/download-artifact@v8
+        with:
+          name: wheel-${{ matrix.target }}
+          path: candidates
+      - name: Download only existing binary dependencies for the exact candidate
+        shell: bash
+        run: |
+          set -euo pipefail
+          # The first-party wheel as an explicit input prevents any unpublished version lookup.
+          python -m pip download --only-binary=:all: --dest candidates candidates/*.whl
+          python -m pip install uv==0.13.6
+          python -m venv "$RUNNER_TEMP/native-pip"
+      - name: Ordinary pip and uvx resolution, the native verifier and a real startup
+        shell: bash
+        run: |
+          set -euo pipefail
+          export NATIVE_DENIED_LOG="$RUNNER_TEMP/native-denied.log"
+          denied="$RUNNER_TEMP/native-denied-bin"
+          mkdir -p "$denied"
+          for command in cc gcc g++ c++ clang clang++ make cmake node npm npx; do
+            # shellcheck disable=SC2016  # the stub expands $0 $* when it runs, not here
+            printf '#!/bin/sh\necho "$0 $*" >> "$NATIVE_DENIED_LOG"\nexit 87\n' > "$denied/$command"
+            chmod +x "$denied/$command"
+          done
+          export PATH="$denied:$PATH"
+          version="$(python -c 'import tomllib;print(tomllib.load(open("pyproject.toml","rb"))["project"]["version"])')"
+          "$RUNNER_TEMP/native-pip/bin/python" -m pip install --no-index --find-links candidates --only-binary=:all: "collimate==$version"
+          "$RUNNER_TEMP/native-pip/bin/python" sdk/scripts/prove_native_verifier.py
+          export UV_TOOL_DIR="$RUNNER_TEMP/native-uv-tools"
+          UV_PYTHON="$(command -v python)"
+          export UV_PYTHON
+          export UV_PYTHON_DOWNLOADS=never
+          uv tool run --no-cache --no-index --find-links "$PWD/candidates" --no-build --from "collimate==$version" collimate-lint --help
+          uv tool run --no-cache --no-index --find-links "$PWD/candidates" --no-build --from "collimate==$version" collimate --help
+          # Probe each installed owner with private roots; no source import path.
+          "$RUNNER_TEMP/native-pip/bin/python" -I - <<'PY'
+          import importlib.metadata,json,os,pathlib,signal,socket,subprocess,sys,tempfile,time,urllib.request
+          from collimate._host.verifier_engine import native_target,payload_directory,verify_payload
+          record=verify_payload(payload_directory(native_target()),native_target())
+          version=importlib.metadata.version('collimate')
+          candidates=str(pathlib.Path('candidates').resolve())
+          worker_proof = '''
+          """Fixed installed-artifact proof: real app pool, worker, engine and compiler."""
+          import importlib.metadata
+          import json
+          from pathlib import Path
+          import sys
+          import time
+
+          from collimate_server import verifier_pool
+
+          installed = importlib.metadata.distribution('collimate')
+          assert Path(verifier_pool.__file__).resolve() == Path(installed.locate_file('collimate_server/verifier_pool.py')).resolve()
+          root = Path.cwd() / 'worker-proof'
+          workers = []
+          with verifier_pool.VerifierPool(root=root, cap=1) as pool:
+              assert pool.script == Path(installed.locate_file('collimate_server/_verifier_worker.py')).resolve()
+              with pool.lease(time.monotonic()+20) as lease:
+                  workers.append(lease.worker)
+                  def verify(body, value=None, **kwargs):
+                      return lease.verify('var __collimate_verifier={default:input=>{' + body + '}}', value or {}, **kwargs)
+                  assert verify('globalThis.previous=42;return {valid:true}') == {'valid':True}
+                  assert verify('return {valid:typeof previous==="undefined" && typeof process==="undefined" && typeof fetch==="undefined" && typeof require==="undefined"}') == {'valid':True}
+                  assert verify('return {valid:false,error:"intentional refusal"}') == {'valid':False,'error':'intentional refusal'}
+                  bundle = verify('const b=__collimate_bundle(input.files,input.entrypoint);return {valid:typeof b.entrypoint_js==="string" && b.code.includes("__collimate_renderer__")}',
+                                  {'files':{'main.ts':'export default {__collimate_renderer__:true,component:()=>null}'},'entrypoint':'main.ts'})
+                  assert bundle == {'valid':True}, bundle
+                  for body in ('new ArrayBuffer(70*1024*1024);return {valid:true}',
+                               'function recurse(){recurse()};recurse();return {valid:true}'):
+                      refused = verify(body)
+                      assert refused['valid'] is False and refused['error'] != 'Verifier timed out', refused
+                  timeout = verify('while(true){}', deadline=time.monotonic()+.2)
+                  assert timeout == {'valid':False,'error':'Verifier timed out'}, timeout
+              assert pool.worker_count == 0
+              assert workers[0].process.poll() is not None
+              with pool.lease(time.monotonic()+5) as lease:
+                  workers.append(lease.worker)
+                  assert lease.verify('var __collimate_verifier={default:()=>({valid:true})}',{}) == {'valid':True}
+          assert pool.worker_count == 0
+          assert all(worker.process.poll() is not None for worker in workers)
+          assert not list(root.iterdir())
+          print(json.dumps({'owner_python':sys.executable,'installed_worker':str(pool.script),
+                            'valid_invalid_fresh_context':True,'native_bundle':True,'heap_stack_refusal':True,
+                            'deadline_recovery_reaped':True}))
+          '''
+          for owner in ('pip','uvx'):
+              with tempfile.TemporaryDirectory(prefix='native-app-',dir=os.environ['RUNNER_TEMP']) as scratch:
+                  root=pathlib.Path(scratch)
+                  env={key:os.environ[key] for key in ('PATH','SSL_CERT_FILE','NATIVE_DENIED_LOG','UV_PYTHON','UV_PYTHON_DOWNLOADS') if key in os.environ}
+                  for key in ('HOME','XDG_CONFIG_HOME','XDG_CACHE_HOME','XDG_DATA_HOME','XDG_STATE_HOME','TMPDIR'):
+                      path=root/key;path.mkdir();env[key]=str(path)
+                  env['PYTHON_KEYRING_BACKEND']='keyring.backends.null.Keyring'
+                  env['COLLIMATE_TOKEN']='native-ci-synthetic'
+                  env['UV_TOOL_DIR']=str(root/'uv-tools')
+                  env['UV_CACHE_DIR']=str(root/'uv-cache')
+                  proof=root/'worker-proof.py';proof.write_text(worker_proof)
+                  proof_command=([sys.executable] if owner=='pip' else
+                                 ['uv','tool','run','--no-cache','--no-index','--find-links',candidates,'--no-build','--from','collimate=='+version,'python'])
+                  subprocess.run(proof_command+['-I',str(proof)],cwd=root,env=env,check=True,timeout=45)
+                  with socket.socket() as reserved:
+                      reserved.bind(('127.0.0.1',0));port=reserved.getsockname()[1]
+                  arguments=['--port',str(port),'--data-dir',str(root/'data')]
+                  command=([str(pathlib.Path(sys.executable).with_name('collimate'))] if owner=='pip' else
+                           ['uv','tool','run','--no-cache','--no-index','--find-links',candidates,'--no-build','--from','collimate=='+version,'collimate'])+arguments
+                  with (root/'server.log').open('w') as log:
+                      child=subprocess.Popen(command,cwd=root,env=env,stdout=log,stderr=log,start_new_session=True)
+                      try:
+                          deadline=time.monotonic()+45
+                          while True:
+                              assert child.poll() is None, (root/'server.log').read_text()
+                              try:
+                                  request=urllib.request.Request(f'http://127.0.0.1:{port}/ready',headers={'Authorization':'Bearer native-ci-synthetic'})
+                                  with urllib.request.urlopen(request,timeout=1) as response:
+                                      readiness=json.load(response)
+                                  assert readiness['status']=='ok',readiness
+                                  break
+                              except (OSError,ValueError):
+                                  if time.monotonic()>=deadline:raise AssertionError((root/'server.log').read_text())
+                                  time.sleep(.1)
+                      finally:
+                          try:os.killpg(child.pid,signal.SIGTERM)
+                          except ProcessLookupError:pass
+                          try:child.wait(timeout=10)
+                          except subprocess.TimeoutExpired:os.killpg(child.pid,signal.SIGKILL);child.wait(timeout=5)
+                  print(json.dumps({'owner':owner,'target':native_target(),'python':sys.version,'ready':readiness,'binary_sha256':record['files']['_quickjs.abi3.so']}))
+          PY
+          test ! -e "$NATIVE_DENIED_LOG"
+
+  distribution:
+    name: Complete verified distribution
+    needs: install
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.13'
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '>=24.15.0 <25'
+      - name: Fetch the module snapshot bodies
+        run: |
+          set -euo pipefail
+          git fetch --depth=1 origin module-snapshot
+          python3 build/snapshot_store.py fetch
+      - uses: actions/download-artifact@v8
+        with:
+          name: ui-static
+          path: api/collimate_server/static
+      - uses: actions/download-artifact@v8
+        with:
+          pattern: wheel-*
+          path: dist
+          merge-multiple: true
+      - uses: actions/download-artifact@v8
+        with:
+          pattern: native-*
+          path: native-payloads
+      - name: Assemble and verify the complete payload set, then the sdist
+        run: |
+          python - <<'PY'
+          import shutil, sys
+          from pathlib import Path
+          sys.path.insert(0,'sdk/src')
+          from collimate._host.verifier_engine import contract
+          for target in contract()['targets']:
+              shutil.copytree(Path('native-payloads') / ('native-'+target), Path('sdk/src/collimate/native_verifier') / target)
+          PY
+          npm ci --prefix sdk/scripts
+          npm ci --prefix sdk/packages/renderer-hooks
+          node sdk/scripts/build_renderer_runtime.mjs
+          python sdk/scripts/prepare_renderer_compilers.py
+          python sdk/scripts/prepare_verifier_engine.py --all --verify-only
+          python sdk/scripts/check_native_wheels.py dist --all
+          python -m pip install build
+          python -m build --sdist
+      - name: Rebuild a wheel from the source distribution using only its bundled resources
+        run: |
+          set -euo pipefail
+          python -m pip install hatchling
+          denied="$RUNNER_TEMP/sdist-denied-bin"
+          mkdir -p "$denied"
+          export NATIVE_DENIED_LOG="$RUNNER_TEMP/sdist-denied.log"
+          for command in cc gcc g++ c++ clang clang++ make cmake node npm npx; do
+            # shellcheck disable=SC2016  # the stub expands $0 $* when it runs, not here
+            printf '#!/bin/sh\necho "$0 $*" >> "$NATIVE_DENIED_LOG"\nexit 87\n' > "$denied/$command"
+            chmod +x "$denied/$command"
+          done
+          export PATH="$denied:$PATH"
+          audit="$RUNNER_TEMP/sdist-no-network"
+          mkdir -p "$audit"
+          cat > "$audit/sitecustomize.py" <<'PY'
+          import sys
+          def offline(event, args):
+              if event in ('socket.connect', 'socket.getaddrinfo'):
+                  raise RuntimeError('Source wheel assembly must not access the network')
+          sys.addaudithook(offline)
+          PY
+          export PYTHONPATH="$audit"
+          mkdir "$RUNNER_TEMP/native-sdist"
+          tar -xzf dist/*.tar.gz -C "$RUNNER_TEMP/native-sdist"
+          python sdk/scripts/check_native_wheels.py dist --all
+          python - <<'PY'
+          import subprocess,sys
+          from pathlib import Path
+          roots=list(Path(__import__('os').environ['RUNNER_TEMP'],'native-sdist').iterdir())
+          assert len(roots)==1
+          subprocess.run([sys.executable,'sdk/scripts/prepare_verifier_engine.py','--all','--offline','--verify-only'],cwd=roots[0],check=True)
+          subprocess.run([sys.executable,'-m','build','--wheel','--no-isolation','--outdir',str(Path.cwd()/'sdist-wheel')],cwd=roots[0],check=True)
+          PY
+          python sdk/scripts/check_native_wheels.py sdist-wheel
+          python build/release_policy.py check-wheel --wheel sdist-wheel/collimate-*.whl
+          test ! -e "$NATIVE_DENIED_LOG"
+      - uses: actions/upload-artifact@v7
+        with:
+          name: native-dist
+          path: dist/
+          if-no-files-found: error

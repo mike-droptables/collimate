@@ -1,0 +1,15 @@
+name: Web
+description: Stays open until you stop it; Capture saves a generic snapshot of the page on screen
+tags:
+- web
+prompt: ''
+settings:
+  settings.set_yaml:
+    profile: default
+    device: desktop
+folders: []
+accounts: {}
+permissions:
+  internet: full
+  docker: none
+packages: {}

@@ -1,0 +1,9 @@
+generator: example
+id: example
+name: Example
+permissions:
+  commands: deny
+  docker: none
+  internet: full
+settings:
+  settings.set_yaml: {}

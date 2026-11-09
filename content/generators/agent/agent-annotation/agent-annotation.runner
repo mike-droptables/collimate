@@ -1,0 +1,24 @@
+id: agent-annotation
+generator: agent
+name: Agent Annotation
+description: 'The Agent on the Annotation surface: post it messages that point at the
+  cell''s files, and it reads them, answers in place and edits the files'
+tags:
+- agent
+prompt: ''
+settings:
+  agent-config.set_yaml:
+    surface: annotation
+    session: interactive
+    backend: pydantic-ai
+    system_prompt: ''
+    mcp: 'off'
+    approvals: auto
+    selected_file_first: false
+folders: []
+accounts: {}
+permissions:
+  docker: none
+  internet: full
+  commands: deny
+packages: {}

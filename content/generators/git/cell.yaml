@@ -1,0 +1,5 @@
+name: Git
+order: 20
+icon: git
+shared:
+- _env_shared

@@ -1,0 +1,5 @@
+[
+  {"name":"nested literal root and overlap","path":"nested/choices.options_stack","document":{"options":[{"name":"One","root":"a[1]","files":["**","../brief.md"]},{"name":"Overlap","files":["a[1]/**"]}]},"paths":["nested/choices.options_stack","nested/a[1]/x.bin","nested/brief.md","loose.txt"],"protected":[],"options":[{"name":"One","files":{"x.bin":"nested/a[1]/x.bin","brief.md":"nested/brief.md"}},{"name":"Overlap","files":{"a[1]/x.bin":"nested/a[1]/x.bin"}}],"kept":["loose.txt"],"retain_source":true},
+  {"name":"each preserves original remainder paths","path":".options_stack","document":{"options":[{"name":"One","root":"a","files":["**"]}],"rest":"each"},"paths":[".options_stack","a/x.bin","extra/path.md","status"],"protected":["status"],"options":[{"name":"One","files":{"x.bin":"a/x.bin","extra/path.md":"extra/path.md"}}],"kept":["status"],"retain_source":true},
+  {"name":"drop leaves only protection","path":".options_stack","document":{"options":[{"name":"One","files":["*.md"]}],"rest":"drop"},"paths":[".options_stack","brief.md","sub/brief.md"],"protected":[],"options":[{"name":"One","files":{"brief.md":"brief.md"}}],"kept":[],"retain_source":false}
+]

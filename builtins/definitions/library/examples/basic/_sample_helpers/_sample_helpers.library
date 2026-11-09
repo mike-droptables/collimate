@@ -1,0 +1,3 @@
+id: _sample_helpers
+name: Sample helpers
+description: Formats a greeting. Import it as _sample_helpers (from _sample_helpers import greet).

@@ -1,0 +1,38 @@
+{
+  "totalGzipKb": 627.1,
+  "generatedAt": "2026-11-06T04:07:45.435Z",
+  "previousBaselineGzipKb": 543.4,
+  "plan1011PreviousBaselineGzipKb": 493.9,
+  "openingBaselineGzipKb": 394,
+  "plannedRendererWorkerGzipKb": 22.8,
+  "plannedDefinitionUiGzipBytes": 24975,
+  "prePreparationBaselineGzipKb": 441.2,
+  "prePreparationMeasuredGzipKb": 479.6,
+  "plannedPreviewPreparationGzipKb": 12.8,
+  "currentMeasuredGzipKb": 493.9,
+  "p6PreviousBaselineGzipKb": 454,
+  "p6ClosingMeasurement": {
+    "app": "2f84f13884a492b66a7490f5ff1ebb276944bd96",
+    "sdk": "71da8673dc3e0651f61a1b520f6efcc7e87b12c1",
+    "gzipBytes": 505710,
+    "chunkCount": 10
+  },
+  "plan1011ClosingMeasurement": {
+    "sdk": "0859484",
+    "app": "the phase 6 commit of plan1011 (2026-10-12)",
+    "gzipKb": 543.4,
+    "prePlanGzipKb": 534.2,
+    "afterPhase1GzipKb": 529.0
+  },
+  "reason": "2026-11-06: the baseline moves to the measured size of main at 87b11aaf (627.1 kB), every landed feature since the plan1011 baseline of 2026-10-12 (543.4 kB) having its measured cost in its ledger row in docs/plan1105/output/2026-11-06/bundle-ledger.md: the 2026-10-13 to 11-04 UI work (the Capabilities stack, the annotation status pane, git in cells, skin scenes and the Manage tab among it), plan 1104 and plan 1105's channels page. Keep 10% growth and the 800 KiB ceiling. Later baseline moves still require a landed feature's measured cost recorded in its ledger row; a failing gate alone never permits a baseline change.",
+  "bundleLedger20261106": {
+    "app": "87b11aaf",
+    "gzipBytes": 642123,
+    "gzipKb": 627.1,
+    "chunkCount": 10,
+    "ledger": "docs/plan1105/output/2026-11-06/bundle-ledger.md",
+    "plan1011BaselineReproducedAt": "23eee042",
+    "beforePlan1104GzipKb": 606.3,
+    "beforePlan1105P7GzipKb": 614.5
+  }
+}

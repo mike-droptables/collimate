@@ -1,0 +1,31 @@
+{
+  "name": "Standard",
+  "description": "Every shipped generator and optional renderer: Agent, Git, Launch and Web runs, and renderers for documents, visuals and utilities.",
+  "order": 10,
+  "generators": [
+    ["Web", "generators/web"],
+    ["Git", "generators/git"],
+    ["Launch", "generators/launch"],
+    ["Agent", "generators/agent"]
+  ],
+  "renderers": [
+    ["Documents", "renderers/documents"],
+    ["Visual", "renderers/visual"],
+    ["Utility", "renderers/utility"]
+  ],
+  "libraries": [
+    ["Environment library", "generators/_env_shared"],
+    ["Agent library", "generators/_agent_shared"],
+    ["Web library", "generators/_web_shared"]
+  ],
+  "tutorial": [
+    ["Welcome", "suggested/tutorial/welcome"]
+  ],
+  "quick_fields": {
+    "agent-annotation": [{"account": "model"}],
+    "agent-chat": [{"account": "model"}],
+    "git-clone": [{"prompt": true}, {"account": "git"}],
+    "git-update": [{"account": "git"}],
+    "git-push": [{"account": "git"}]
+  }
+}

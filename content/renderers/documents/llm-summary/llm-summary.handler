@@ -1,0 +1,9 @@
+id: llm-summary
+name: LLM summary
+description: A markdown summary an agent writes on request so a later session can pick up the work.
+types:
+- ext: .llm_summary
+  render_as: .md
+guidance: Markdown. An agent writes <name>.llm_summary at the cell root when asked for a summary or a handoff, and a
+  later run reads it in full when asked to continue from it.
+examples: []

@@ -1,0 +1,76 @@
+name: SDK CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: sdk-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Test (Python 3.13, workspace)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+      - uses: ./.github/actions/setup-toolchain
+      - name: Fetch the module snapshot bodies
+        run: |
+          set -euo pipefail
+          git fetch --depth=1 origin module-snapshot
+          python3 build/snapshot_store.py fetch
+      # First, before any test: every committed generated file matches its
+      # source (the toolchain pins among them). setup-toolchain only installs
+      # tooling, so this checks the files as committed.
+      - name: Generated files match their sources
+        run: python3 scripts/generate.py --check
+      - name: Lint
+        run: uv run ruff check sdk
+      - name: Run tests
+        run: uv run pytest sdk/tests -q
+
+  # The generators' PEP 723 headers accept Python 3.12, and a generator
+  # reaches the SDK as source (PYTHONPATH), never as the collimate
+  # distribution, which needs 3.13 for the server. So this leg runs
+  # sdk/tests on 3.12 against sdk/src, in an isolated venv holding the dev
+  # group and the SDK's own requirement only, checkout present.
+  source-312:
+    name: SDK source (Python 3.12)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v7
+      - uses: ./.github/actions/setup-toolchain
+      - name: Fetch the module snapshot bodies
+        run: |
+          set -euo pipefail
+          git fetch --depth=1 origin module-snapshot
+          python3 build/snapshot_store.py fetch
+      - name: Install the dev group and the SDK's requirement into a Python 3.12 venv
+        run: |
+          set -euo pipefail
+          uv venv --no-project --python 3.12 "$RUNNER_TEMP/venv312"
+          read -r -a sdk_requirements <<< "$(PYTHONPATH=sdk/src python3 -c 'from collimate.shared import SDK_REQUIREMENTS; print(*SDK_REQUIREMENTS)')"
+          uv pip install --python "$RUNNER_TEMP/venv312/bin/python" --group pyproject.toml:dev "${sdk_requirements[@]}"
+      - name: Prove the SDK imports from sdk/src on 3.12 and the server is absent
+        run: |
+          set -euo pipefail
+          cd "$RUNNER_TEMP"
+          PYTHONPATH="$GITHUB_WORKSPACE/sdk/src" "$RUNNER_TEMP/venv312/bin/python" -c 'import collimate, gen, importlib.util, sys; from pathlib import Path; src = Path(sys.argv[1]).resolve(); paths = [Path(module.__file__).resolve() for module in (collimate, gen)]; assert sys.version_info[:2] == (3, 12), sys.version; assert all(path.is_relative_to(src) for path in paths), paths; assert importlib.util.find_spec("collimate_server") is None; print(*paths)' "$GITHUB_WORKSPACE/sdk/src"
+      - name: Run sdk/tests against the source on 3.12
+        run: |
+          set -euo pipefail
+          cd "$RUNNER_TEMP"
+          PYTHONPATH="$GITHUB_WORKSPACE/sdk/src" "$RUNNER_TEMP/venv312/bin/python" -m pytest --rootdir "$GITHUB_WORKSPACE" -c "$GITHUB_WORKSPACE/pyproject.toml" -p no:cacheprovider -q "$GITHUB_WORKSPACE/sdk/tests"
+
+  build:
+    name: Build and execute all native wheels
+    uses: ./.github/workflows/native-wheels.yml

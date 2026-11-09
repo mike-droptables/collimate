@@ -1,0 +1,23 @@
+name: GitHub Copilot CLI
+description: GitHub Copilot CLI in its own container, on the Annotation surface. Your GitHub Copilot subscription
+  through a fine-grained token, or a provider key through Copilot's BYOK
+tags:
+- agent
+- copilot
+prompt: ''
+settings:
+  agent-config.set_yaml:
+    surface: annotation
+    session: interactive
+    backend: copilot
+    system_prompt: ''
+    mcp: 'off'
+    approvals: auto
+    selected_file_first: false
+folders: []
+accounts: {}
+permissions:
+  docker: full
+  internet: full
+  commands: allow
+packages: {}

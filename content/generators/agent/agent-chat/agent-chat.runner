@@ -1,0 +1,24 @@
+id: agent-chat
+generator: agent
+name: Agent Chat
+description: 'The Agent on the Chat surface: a conversation over the cell''s files,
+  editing them as it goes'
+tags:
+- agent
+prompt: ''
+settings:
+  agent-config.set_yaml:
+    surface: chat
+    session: interactive
+    backend: pydantic-ai
+    system_prompt: ''
+    mcp: 'off'
+    approvals: auto
+    selected_file_first: false
+folders: []
+accounts: {}
+permissions:
+  docker: none
+  internet: full
+  commands: deny
+packages: {}

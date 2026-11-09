@@ -1,0 +1,10 @@
+{
+  "axes": ["update_packages", "docker", "internet", "internet_allow", "commands"],
+  "levels": {"docker":["none","limited","full"],"internet":["none","proxy","full"],"commands":["deny","ask","allow"]},
+  "definitions": [
+    {"definition":{},"grant":{"update_packages":true,"docker":"none","internet":"full","internet_allow":[],"commands":"deny"}},
+    {"definition":{"update_packages":false,"docker":"full","commands":"ask"},"grant":{"update_packages":false,"docker":"full","internet":"full","internet_allow":[],"commands":"ask"}},
+    {"definition":{"docker":"limited","internet":"proxy","internet_allow":[" .Example.COM. ","api.example.com","other.test"],"commands":"allow"},"grant":{"update_packages":true,"docker":"limited","internet":"proxy","internet_allow":["example.com","other.test"],"commands":"allow"}},
+    {"definition":{"internet":"none","internet_allow":["ignored.test"]},"grant":{"update_packages":true,"docker":"none","internet":"none","internet_allow":[],"commands":"deny"}}
+  ]
+}

@@ -1,0 +1,23 @@
+name: pi
+description: The pi coding agent in its own container, on the Annotation surface. Provider key, or your
+  ChatGPT or SuperGrok subscription
+tags:
+- agent
+- pi
+prompt: ''
+settings:
+  agent-config.set_yaml:
+    surface: annotation
+    session: interactive
+    backend: pi
+    system_prompt: ''
+    mcp: 'off'
+    approvals: auto
+    selected_file_first: false
+folders: []
+accounts: {}
+permissions:
+  docker: full
+  internet: full
+  commands: allow
+packages: {}

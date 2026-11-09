@@ -1,0 +1,18 @@
+id: "audio"
+name: "Audio"
+version: "1.0.0"
+summary: "Plays common audio formats (MP3, WAV, OGG, FLAC, M4A, AAC, Opus) with native controls."
+entrypoint: "main.tsx"
+embed: "native"
+
+extensions:
+  - ".mp3"
+  - ".wav"
+  - ".ogg"
+  - ".oga"
+  - ".flac"
+  - ".m4a"
+  - ".aac"
+  - ".opus"
+
+supports_diff: false

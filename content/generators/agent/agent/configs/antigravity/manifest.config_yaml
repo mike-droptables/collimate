@@ -1,0 +1,24 @@
+name: Antigravity
+description: Google's Antigravity ACP server (antigravity-acp) in its own container, on the Annotation
+  surface; the agy CLI on the terminal, this machine's under your Google sign-in or in the container on
+  a Gemini key. Gemini key or your Google account
+tags:
+- agent
+- antigravity
+prompt: ''
+settings:
+  agent-config.set_yaml:
+    surface: annotation
+    session: interactive
+    backend: antigravity
+    system_prompt: ''
+    mcp: 'off'
+    approvals: auto
+    selected_file_first: false
+folders: []
+accounts: {}
+permissions:
+  docker: full
+  internet: full
+  commands: allow
+packages: {}

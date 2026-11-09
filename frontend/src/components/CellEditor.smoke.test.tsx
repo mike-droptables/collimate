@@ -1,0 +1,712 @@
+import 'fake-indexeddb/auto';
+import { fixtureBodyHash } from '@/test/fileFixtures';
+import { fileFixture } from '@/test/fileFixtures';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { render, screen, act, fireEvent, waitFor, within } from '@testing-library/react';
+import { useState } from 'react';
+import { FocusProvider } from '@/contexts/FocusContext';
+import { useCollimateStore } from '@/stores/useCollimateStore';
+import type { Cell, VirtualFile } from '@/lib/types';
+
+// The guest pool: a recorder for the reclaim of a vanished `.webview`'s
+// guest and of its wakes; every other member is the context's inert default.
+const pool = vi.hoisted(() => ({ destroyGuestsWhere: vi.fn(), invalidate: vi.fn() }));
+vi.mock('@/contexts/GuestPoolContext', async (importOriginal) => {
+    const actual = await importOriginal<typeof import('@/contexts/GuestPoolContext')>();
+    return {
+        ...actual,
+        useGuestPool: () => ({
+            acquire: () => {}, acquireGuest: () => null, release: () => {}, destroyGuest: () => {},
+            destroyGuestsWhere: pool.destroyGuestsWhere, containerOf: () => null,
+            setPointerEvents: () => {}, getContentWindow: () => null,
+            getElement: () => null, getGuestId: () => null, setGuestReady: () => {},
+            setGuestInteractive: () => {}, setGuestConcealed: () => {}, setGuestCrashed: () => {},
+            refreshGuestLayout: () => {}, broadcastToCell: () => {},
+            registerOverlay: () => {}, invalidate: pool.invalidate, markMoving: () => {},
+            registerMotionLayer: () => () => {}, waitUntilReady: () => Promise.resolve(),
+            setVisible: () => {}, bringCellsToFront: () => {}, onMessage: () => () => {},
+        }),
+    };
+});
+// The conceal around the content pane: records each `open` it is given,
+// then provides as the real one does.
+const conceal = vi.hoisted(() => ({ open: [] as boolean[] }));
+vi.mock('./cellPanel/CellPanel', async (importOriginal) => {
+    const actual = await importOriginal<typeof import('./cellPanel/CellPanel')>();
+    return {
+        ...actual,
+        CellPanelConceal: (props: Parameters<typeof actual.CellPanelConceal>[0]) => {
+            conceal.open.push(props.open);
+            return <actual.CellPanelConceal {...props} />;
+        },
+    };
+});
+vi.mock('@/stores/useRunnerStore',()=>({useRunnerCatalog:()=>({data:[],error:null,busy:false,refresh:async()=>{}})}));
+vi.mock('./runner/RunnerPicker', () => ({ RunnerPicker: () => <div data-testid="runner-picker" /> }));
+vi.mock('./cellPanel/FilesPanel', () => ({ FilesPanel: () => <div data-testid="files-panel" /> }));
+// The Manage body with a piece of component state (its count), standing in
+// for an open editor's draft.
+vi.mock('./capabilities/CapabilitiesManageBody', async () => {
+    const { useState: useBodyState } = await vi.importActual<typeof import('react')>('react');
+    return {
+        CapabilitiesManageBody: function Body({ scope }: { scope?: { cellId: string } }) {
+            const [count, setCount] = useBodyState(0);
+            return <div data-testid="manage-body" data-count={count}>{scope?.cellId}
+                <button type="button" aria-label="Count" onClick={() => setCount(n => n + 1)} /></div>;
+        },
+    };
+});
+const flushers = vi.hoisted(() => ({ register: vi.fn((_cellId: string, _fn: () => void) => () => {}) }));
+vi.mock('@/lib/cellSaveBarrier', async (importOriginal) => ({
+    ...(await importOriginal<Record<string, unknown>>()),
+    registerCellSaveBarrier: flushers.register,
+}));
+vi.mock('@/hooks/useZoomTransition', () => ({ useIsZoomTransitioning: () => false }));
+vi.mock('@/hooks/useRendererId', async (importOriginal) => ({
+    ...(await importOriginal<Record<string, unknown>>()),
+    useSupportedExtensions: () => [{ ext: '.txt', renderers: ['Text'] }],
+}));
+vi.mock('@/hooks/useIdleCheckpoint', () => ({
+    useIdleCheckpoint: () => ({ notifyEdit: vi.fn(), flushCheckpoint: vi.fn() }),
+}));
+vi.mock('@/lib/api', async (importOriginal) => ({
+    ...(await importOriginal<Record<string, unknown>>()),
+    listCellVersions: vi.fn().mockResolvedValue({ versions: [] }),
+    fetchCellHistory: vi.fn().mockResolvedValue({ nodes: [], total_versions: 1, current: { node_id: null, version_cell_id: 'cell-1' } }),
+}));
+
+vi.mock('@/lib/api/client',async original=>({...await original<Record<string,unknown>>(),requestJson:vi.fn(async (_path,_method,operation)=> {
+    if(!operation?.mutations)return {conflicts:[],verdicts:{},pending:false};
+    return {operation_id:operation.operation_id,outcome:'accepted',conflicts:[],files:operation.mutations.map((mutation:import('@/lib/fileProtocol').FileMutation)=>({
+        path:mutation.path,file_revision:mutation.base_revision+1,body_hash:mutation.kind==='delete'?null:mutation.blob_hash??fixtureBodyHash(mutation.content_text??''),
+        encoding:mutation.encoding??'utf-8',language:mutation.language??'text',writer_id:mutation.writer_id,edit_seq:mutation.edit_seq,deleted:mutation.kind==='delete',
+    }))};
+})}));
+import CellEditor from './CellEditor';
+import { allLeaves, allTabs, createDefaultLayout, findFileTab, openCompareTab, openFileTab, openRunsPane, setActiveLeaf, setFilesPane, splitWithTab } from '@/lib/cellLayout';
+import { GUEST_FOCUS_EVENT } from './guestMount';
+import { isCellOccluded } from '@/lib/guestOcclusion';
+
+const file = (name: string, content = 'x'): VirtualFile => (fileFixture(name, content, {language: 'plaintext'}));
+const cell = (extra: Partial<Cell> = {}): Cell => ({
+    id: 'cell-1', name: 'Test cell', files: [file('a.txt')], ...extra,
+});
+
+function seed(c: Cell) {
+    const channel={id:'ch-id',name:'ch',nav_stacks:[],nav_selection_id:null,main_selection_id:'s',main_stacks:[{id:'s',name:'S',cells:[c]}]};
+    useCollimateStore.setState({state:{active_channel_id:'ch-id',channels:[channel]},activeChannel:channel,cellCache:{[c.id]:c}});
+}
+const mount = (c: Cell, props: Record<string, unknown> = {}) => {
+    seed(c);
+    return render(<FocusProvider><div style={{width:600,height:400}}><CellEditor cell={c} onUpdate={vi.fn()} {...props}/></div></FocusProvider>);
+};
+
+function EditableCell({ initial, onUpdate }: { initial: Cell; onUpdate: (cell: Cell) => void }) {
+    const [current, setCurrent] = useState(()=>{seed(initial);return initial;});
+    return <FocusProvider><CellEditor cell={current} onUpdate={next => { setCurrent(next); onUpdate(next); }} /></FocusProvider>;
+}
+
+describe('CellEditor — layout integration smoke', () => {
+    beforeEach(() => {
+        useCollimateStore.setState({
+            cellLayouts: {}, cellCache: {}, tabDrag: null, dockDrag: null,
+            activeChannel: { id: 'ch-id', name: 'ch', main_stacks: [], nav_stacks: [], main_selection_id: null, nav_selection_id: null },
+            runs: {}, stoppingRunIds: new Set(), pickSessions: {}, cellHistory: {},
+        });
+        vi.clearAllMocks();
+        seed(cell());
+        // Native embedding may request transport URLs in jsdom.
+        (URL as unknown as Record<string, unknown>).createObjectURL = () => 'blob:x';
+        (URL as unknown as Record<string, unknown>).revokeObjectURL = () => {};
+    });
+
+    it('starts an untouched empty tab with the Files pane hidden; the tab bar\'s toggle shows it on the left (C12)', async () => {
+        await act(async () => { mount(cell()); });
+        expect(screen.getByRole('tablist')).toBeTruthy();
+        expect(screen.getByText('New tab')).toBeTruthy();
+        expect(screen.getByRole('button', { name: 'Open existing or create a new file' })).toBeTruthy();
+        expect(screen.queryByRole('button', { name: 'Folder' })).toBeNull();
+        await act(async () => { screen.getByRole('button', { name: 'Show files' }).click(); });
+        // Shown, the rail carries the views and the toggle leaves the tab bar.
+        expect(screen.getByRole('button', { name: 'Folder' })).toBeTruthy();
+        expect(screen.getByRole('button', { name: 'Tree' })).toBeTruthy();
+        expect(screen.queryByRole('button', { name: 'Show files' })).toBeNull();
+        const pane = screen.getByRole('complementary', { name: 'Files' });
+        expect(pane.style.width).toBe('194px');
+        // Left of the tab/split view, inside the cell's width.
+        expect(pane.compareDocumentPosition(screen.getByRole('tablist')) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+        expect(useCollimateStore.getState().cellLayouts['cell-1'].filesPane.collapsed).toBe(false);
+        await act(async () => { screen.getByRole('button', { name: 'Hide files' }).click(); });
+        expect(screen.queryByRole('complementary', { name: 'Files' })).toBeNull();
+        expect(screen.getByRole('button', { name: 'Show files' })).toBeTruthy();
+    });
+
+    it('the pane row runs per dock side with the pane first (FP-02)', async () => {
+        const layout = createDefaultLayout({ filePaths: ['a.txt'], pinnedPath: null });
+        layout.filesPane = { ...layout.filesPane, collapsed: false };
+        useCollimateStore.setState({ cellLayouts: { 'cell-1': layout } });
+        let view!: ReturnType<typeof mount>;
+        await act(async () => { view = mount(cell()); });
+        const row = view.container.querySelector('[data-files-dock-region]') as HTMLElement;
+        const content = () => row.lastElementChild as HTMLElement;
+        const before = content();
+        const expected = { left: 'flex-row', top: 'flex-col' } as const;
+        for (const side of ['left', 'top', 'left'] as const) {
+            await act(async () => { useCollimateStore.getState().updateCellLayout('cell-1', l => setFilesPane(l, { side })); });
+            expect(row.className.split(/\s+/)).toContain(expected[side]);
+            expect(row.firstElementChild).toBe(screen.getByRole('complementary', { name: 'Files' }));
+        }
+        // The content pane is the same element throughout: no remount.
+        expect(content()).toBe(before);
+    });
+
+    it('a dock drag over the cell draws the band on its edge and occludes the cell\'s guests; none otherwise (FP-04)', async () => {
+        let view!: ReturnType<typeof mount>;
+        await act(async () => { view = mount(cell()); });
+        const band = () => view.container.querySelector('[data-dock-preview]') as HTMLElement | null;
+        expect(band()).toBeNull();
+        expect(isCellOccluded('cell-1')).toBe(false);
+        await act(async () => { useCollimateStore.getState().setDockDrag({ cellId: 'cell-1', pane: 'files', side: null }); });
+        expect(band()).toBeNull();
+        // The band is cell DOM: the cell's native guests freeze for the drag.
+        expect(isCellOccluded('cell-1')).toBe(true);
+        await act(async () => { useCollimateStore.getState().setDockDrag({ cellId: 'cell-1', pane: 'files', side: 'left' }); });
+        expect(band()).toHaveAttribute('data-dock-preview', 'left');
+        expect(band()!.textContent).toBe('Dock files on the left');
+        expect(band()!.className).toContain('pointer-events-none');
+        expect(band()!.className).toContain('border-dashed');
+        expect(band()!.className.split(' ')).toEqual(expect.arrayContaining(['left-1', 'top-1', 'bottom-1']));
+        expect(band()!.style.width).toBe('194px');
+        expect(band()!.closest('[data-pane-region]')).not.toBeNull();
+        await act(async () => { useCollimateStore.getState().setDockDrag({ cellId: 'cell-1', pane: 'files', side: 'top' }); });
+        expect(band()).toHaveAttribute('data-dock-preview', 'top');
+        expect(band()!.textContent).toBe('Dock files on the top');
+        expect(band()!.className.split(' ')).toEqual(expect.arrayContaining(['top-1', 'left-1', 'right-1']));
+        expect(band()!.style.height).toBe('198px');
+        await act(async () => { useCollimateStore.getState().setDockDrag({ cellId: 'other', pane: 'files', side: 'left' }); });
+        expect(band()).toBeNull();
+        expect(isCellOccluded('cell-1')).toBe(false);
+        await act(async () => { useCollimateStore.getState().setDockDrag(null); });
+    });
+
+    it('retains a persisted open sidebar and its selected folder', async () => {
+        const layout = createDefaultLayout({ filePaths: ['sub/a.txt'], pinnedPath: null });
+        layout.filesPane = { ...layout.filesPane, collapsed: false, currentFolder: 'sub' };
+        useCollimateStore.setState({ cellLayouts: { 'cell-1': layout } });
+        await act(async () => { mount(cell({ files: [file('sub/a.txt')] })); });
+        expect(screen.getByRole('button', { name: 'Folder' })).toBeTruthy();
+        expect(useCollimateStore.getState().cellLayouts['cell-1'].filesPane).toMatchObject({ collapsed: false, currentFolder: 'sub' });
+    });
+
+    it('the empty tab\'s button opens the cell\'s Files panel', async () => {
+        await act(async () => { mount(cell()); });
+        expect(screen.queryByTestId('files-panel')).toBeNull();
+        await act(async () => { fireEvent.click(screen.getByRole('button', { name: 'Open existing or create a new file' })); });
+        expect(useCollimateStore.getState().pickSessions['cell-1']?.kind).toBe('files');
+        expect(screen.getByTestId('files-panel')).toBeTruthy();
+    });
+
+    it('a read-only cell\'s empty tab offers no panel', async () => {
+        await act(async () => { mount(cell(), { readOnly: true }); });
+        expect(screen.getByRole('button', { name: 'Open existing or create a new file' })).toBeDisabled();
+    });
+
+    it('seeds a pinned file tab and reconciles a vanished file away', async () => {
+        const c = cell({ pinned: 'a.txt' });
+        const { rerender } = await act(async () => mount(c));
+        expect(screen.getByRole('tab', { name: /a\.txt/ })).toBeTruthy();
+        let layout = useCollimateStore.getState().cellLayouts['cell-1'];
+        expect(layout.root.type).toBe('leaf');
+        expect(layout.root.type === 'leaf' && layout.root.tabs.length).toBe(1);
+
+        await act(async () => {
+            rerender(
+                <FocusProvider>
+                    <div style={{ width: 600, height: 400 }}>
+                        <CellEditor cell={{ ...c, files: [], pinned: undefined }} onUpdate={vi.fn()} />
+                    </div>
+                </FocusProvider>,
+            );
+        });
+        layout = useCollimateStore.getState().cellLayouts['cell-1'];
+        expect(layout.root.type === 'leaf' && layout.root.tabs.map(t => t.kind)).toEqual(['empty']);
+    });
+
+    it('a structural edit preserves an untouched large accepted descriptor', async () => {
+        const onUpdate = vi.fn();
+        const big: VirtualFile = fileFixture('big.md', 'large body '.repeat(20000), {language: 'markdown'});
+        await act(async () => { render(<EditableCell initial={cell({ files: [file('sub/a.txt'), big] })} onUpdate={onUpdate} />); });
+        // The Files pane's tree: a new file in the `sub` folder.
+        await act(async () => { screen.getByRole('button', { name: 'Show files' }).click(); });
+        fireEvent.click(document.querySelector('[data-filenode-path="sub"] [title="New file in this folder"]')!);
+        fireEvent.change(screen.getByPlaceholderText('filename'), { target: { value: 'created.txt' } });
+        fireEvent.click(screen.getByRole('button', { name: 'Create' }));
+        await waitFor(()=>expect(useCollimateStore.getState().cellCache['cell-1'].files.some(f=>f.name==='sub/created.txt')).toBe(true));
+        expect(useCollimateStore.getState().cellCache['cell-1'].files.find(f=>f.name==='big.md')).toEqual(big);
+    });
+
+    it('Esc never closes a tab: a focused file tab and a focused compare tab stay open', async () => {
+        const files = [file('a.txt', 'one\n'), file('b.txt', 'two\n')];
+        useCollimateStore.setState({ state: { channels: [{
+            id: 'ch-id', name: 'ch', main_selection_id: 's', nav_selection_id: null, nav_stacks: [],
+            main_stacks: [{ id: 's', name: 'Work', cells: [cell({ files })] }],
+        }], active_channel_id: 'ch-id' } } as never);
+        const side = (fileName: string) => ({ channel: 'ch', cellId: 'cell-1', fileName, label: 'Work / Test cell' });
+        const base = createDefaultLayout({ filePaths: ['a.txt', 'b.txt'], pinnedPath: null });
+        const kinds = () => allTabs(useCollimateStore.getState().cellLayouts['cell-1']).map(t => t.kind);
+        try {
+            for (const [layout, kind] of [
+                [openFileTab(base, 'a.txt', null), 'file'],
+                [openCompareTab(base, { base: side('b.txt'), current: side('a.txt') }), 'compare'],
+            ] as const) {
+                useCollimateStore.setState({ cellLayouts: { 'cell-1': layout } });
+                const view = await act(async () => render(<CellEditor cell={cell({ files })} onUpdate={vi.fn()} isActive />));
+                expect(kinds()).toEqual([kind]);
+                await act(async () => { fireEvent.keyDown(window, { key: 'Escape', code: 'Escape' }); });
+                await act(async () => { fireEvent.keyDown(window, { key: 'Escape', code: 'Escape' }); });
+                expect(kinds()).toEqual([kind]);
+                view.unmount();
+            }
+        } finally {
+            useCollimateStore.setState({ state: null } as never);
+        }
+    });
+});
+
+describe('CellEditor — runs in the cell', () => {
+    // A synthetic run; every file under its folder is its lock.
+    const run = (key: 'a' | 'b') => ({
+        runId: `run-${key}`, cellId: 'cell-1', channel: 'ch', runnerId: `r${key}`, runnerName: `Runner ${key.toUpperCase()}`,
+        generatorName: 'g', label: `r${key}-${key.repeat(8)}`, folder: `_runs/r${key}-${key.repeat(8)}`,
+    });
+    const RUN_A = run('a');
+    const A_FILE = `${RUN_A.folder}/out.txt`;
+    const liveRuns = (...runs: ReturnType<typeof run>[]) => useCollimateStore.setState({
+        runs: Object.fromEntries(runs.map(r => [r.runId, r])),
+    });
+    const withTabs = (files: string[], ...open: string[]) => {
+        let layout = createDefaultLayout({ filePaths: files, pinnedPath: null });
+        for (const path of open) layout = openFileTab(layout, path, null, undefined, { newTab: true });
+        useCollimateStore.setState({ cellLayouts: { 'cell-1': layout } });
+    };
+
+    beforeEach(() => {
+        useCollimateStore.setState({
+            cellLayouts: {}, cellCache: {}, tabDrag: null,
+            activeChannel: { id: 'ch-id', name: 'ch', main_stacks: [], nav_stacks: [], main_selection_id: null, nav_selection_id: null },
+            runs: {}, stoppingRunIds: new Set(), pickSessions: {}, cellHistory: {}, cellLogRuns: {},
+        });
+        vi.clearAllMocks();
+        (URL as unknown as Record<string, unknown>).createObjectURL = () => 'blob:x';
+        (URL as unknown as Record<string, unknown>).revokeObjectURL = () => {};
+    });
+
+    it('a run\'s file tab reads "<basename> · <runner> <short id>" and its renderer host names the file', async () => {
+        liveRuns(RUN_A);
+        withTabs(['a.txt', A_FILE], A_FILE);
+        await act(async () => { mount(cell({ files: [file('a.txt'), file(A_FILE)] }), { isActive: true }); });
+        const tab = screen.getByRole('tab', { name: /out\.txt/ });
+        expect(within(tab).getByTestId('tab-run-chip').textContent).toContain('Runner A aaaaaaaa');
+        expect(tab).toHaveAccessibleName(/out\.txt\s*·\s*Runner A aaaaaaaa/);
+        expect(document.querySelector(`[data-file-path="${A_FILE}"]`)).not.toBeNull();
+        // An ordinary, closable tab.
+        expect(screen.getByLabelText(/^Close out\.txt/)).toBeTruthy();
+    });
+
+    it('the content region is the pane region alone, reaching the cell\'s bottom: no bar, no inset declared; the log is in the annotation pane inside it', async () => {
+        const layout = openRunsPane(createDefaultLayout({ filePaths: ['a.txt'], pinnedPath: null }));
+        useCollimateStore.setState({ cellLayouts: { 'cell-1': layout }, annotationPaneView: { 'cell-1': { view: 'all', option: 'log' } } });
+        await act(async () => { mount(cell()); });
+        const region = document.querySelector('[data-content-region]') as HTMLElement;
+        const panes = region.firstElementChild as HTMLElement;
+        expect(panes).toHaveAttribute('data-pane-region');
+        expect([...region.children]).toEqual([panes]);
+        expect(panes.className).toMatch(/\bflex-1\b/);
+        expect(region.getAttribute('style')).toBeNull();
+        expect(panes.getAttribute('style')).toBeNull();
+        const log = screen.getByTestId('run-log');
+        const docked = panes.querySelector('[data-runs-dock-region]') as HTMLElement;
+        expect(docked.lastElementChild).toHaveAttribute('data-annotation-pane');
+        expect(docked.lastElementChild!.contains(log)).toBe(true);
+    });
+
+    it('the runners panel opens while runs are live on the cell (P02)', async () => {
+        liveRuns(RUN_A);
+        useCollimateStore.setState({ pickSessions: { 'cell-1': { kind: 'runners', query: '', at: 1 } } });
+        await act(async () => { mount(cell({ files: [file('a.txt'), file(A_FILE)] })); });
+        expect(screen.getByTestId('runner-picker')).toBeTruthy();
+    });
+
+    it('mounts one panel per cell, the one its session names, over an isolated pane row (P01)', async () => {
+        const kinds = [['runners', 'runner-picker'], ['files', 'files-panel']] as const;
+        for (const [kind, testId] of kinds) {
+            useCollimateStore.setState({ pickSessions: { 'cell-1': { kind, query: '', at: 1 } } });
+            const view = await act(async () => mount(cell()));
+            const panel = screen.getByTestId(testId);
+            for (const [, other] of kinds) if (other !== testId) expect(screen.queryByTestId(other)).toBeNull();
+            // The panel sits over the panes, whose row is its own stacking
+            // context, in a slot reaching the region's bottom: its scrim
+            // runs full height, its sheet ends 12px above it (CellPanel).
+            const slot = panel.closest('[data-cell-panel-slot]')!;
+            expect(slot).not.toBeNull();
+            expect(slot.className).toMatch(/\binset-0\b/);
+            expect(slot.parentElement!).toHaveAttribute('data-pane-region');
+            expect(slot.previousElementSibling!.className).toMatch(/\bisolate\b/);
+            view.unmount();
+        }
+    });
+
+    it('a Capabilities cell opens on its Manage tab, the manage view scoped to the cell; off Capabilities the tab goes', async () => {
+        const tree = (capabilitiesCell: boolean) => <FocusProvider><div style={{width:600,height:400}}><CellEditor cell={cell()} onUpdate={vi.fn()} capabilitiesCell={capabilitiesCell}/></div></FocusProvider>;
+        seed(cell());
+        const view = await act(async () => render(tree(true)));
+        const manage = screen.getByRole('tab', { name: 'Manage' });
+        expect(manage).toHaveAttribute('aria-selected', 'true');
+        expect(screen.getByTestId('manage-body')).toHaveTextContent('cell-1');
+        expect(screen.queryByRole('button', { name: 'Close Manage' })).toBeNull();
+        expect(allTabs(useCollimateStore.getState().cellLayouts['cell-1']).map(t => t.kind)).toEqual(['manage']);
+        await act(async () => { view.rerender(tree(false)); });
+        expect(screen.queryByRole('tab', { name: 'Manage' })).toBeNull();
+        expect(allTabs(useCollimateStore.getState().cellLayouts['cell-1']).map(t => t.kind)).toEqual(['empty']);
+    });
+
+    it('a Capabilities cell never shows the runners panel, yet shows its other panels (P01)', async () => {
+        useCollimateStore.setState({ pickSessions: { 'cell-1': { kind: 'runners', query: '', at: 1 } } });
+        let view = await act(async () => mount(cell(), { capabilitiesCell: true }));
+        expect(screen.queryByTestId('runner-picker')).toBeNull();
+        view.unmount();
+        useCollimateStore.setState({ pickSessions: { 'cell-1': { kind: 'files', query: '', at: 1 } } });
+        view = await act(async () => mount(cell(), { capabilitiesCell: true }));
+        expect(screen.getByTestId('files-panel')).toBeTruthy();
+        view.unmount();
+        useCollimateStore.setState({ pickSessions: { 'cell-1': { kind: 'files', query: '', at: 1 } } });
+        await act(async () => { mount(cell(), { readOnly: true }); });
+        expect(screen.queryByTestId('files-panel')).toBeNull();
+    });
+
+    it('a Capabilities cell mounts no annotation pane or status section: a persisted open pane and an open section are not rendered, and an annotation dock drag draws no band', async () => {
+        const layout = openRunsPane(createDefaultLayout({ filePaths: ['a.txt'], pinnedPath: null }));
+        useCollimateStore.setState({
+            cellLayouts: { 'cell-1': layout }, annotationPaneView: { 'cell-1': { view: 'all', option: 'default' } },
+            statusSection: { 'cell-1': { open: true, expandedRunId: null } },
+        });
+        const view = await act(async () => mount(cell(), { capabilitiesCell: true }));
+        expect(view.container.querySelector('[data-annotation-pane]')).toBeNull();
+        expect(screen.queryByTestId('status-section')).toBeNull();
+        // The persisted layout is left as it was: nothing rewrites it.
+        expect(useCollimateStore.getState().cellLayouts['cell-1'].runsPane.open).toBe(true);
+        await act(async () => { useCollimateStore.getState().setDockDrag({ cellId: 'cell-1', pane: 'runs', side: 'bottom' }); });
+        expect(view.container.querySelector('[data-dock-preview]')).toBeNull();
+        await act(async () => { useCollimateStore.getState().setDockDrag(null); });
+        view.unmount();
+        // The same layout on any other cell shows its annotation pane and
+        // its status section.
+        await act(async () => { mount(cell()); });
+        expect(document.querySelector('[data-annotation-pane]')).not.toBeNull();
+        expect(screen.getByTestId('status-section')).toBeTruthy();
+        useCollimateStore.setState({ statusSection: {} });
+    });
+
+    it('the status section is the pane region\'s first child, above the runs dock region (tabs, Files rail, annotation pane), only while open', async () => {
+        useCollimateStore.setState({ statusSection: {} });
+        await act(async () => { mount(cell()); });
+        expect(screen.queryByTestId('status-section')).toBeNull();
+        await act(async () => { useCollimateStore.getState().toggleStatusSection('cell-1'); });
+        const panes = document.querySelector('[data-pane-region]') as HTMLElement;
+        const section = screen.getByTestId('status-section');
+        expect(panes.firstElementChild).toBe(section);
+        expect(section.nextElementSibling).toHaveAttribute('data-runs-dock-region');
+        expect(section.contains(document.querySelector('[role="tablist"], [role="tab"]'))).toBe(false);
+        await act(async () => { useCollimateStore.getState().toggleStatusSection('cell-1'); });
+        expect(screen.queryByTestId('status-section')).toBeNull();
+        useCollimateStore.setState({ statusSection: {} });
+    });
+
+    it('the tab strip carries the annotation toggle on the canvas and in the full-window view, the status toggle only in the latter; a Capabilities cell neither', async () => {
+        for (const capabilitiesCell of [true, false]) {
+            const view = await act(async () => mount(cell(), { capabilitiesCell }));
+            expect(screen.queryAllByTestId('annotation-pane-toggle')).toHaveLength(capabilitiesCell ? 0 : 1);
+            expect(screen.queryByTestId('cell-status-toggle-strip')).toBeNull();
+            await act(async () => { fireEvent.click(screen.getByRole('button', { name: 'Expand the cell view to the full window' })); });
+            expect(screen.getByRole('button', { name: 'Back to the canvas' })).toBeTruthy();
+            expect(screen.queryAllByTestId('annotation-pane-toggle')).toHaveLength(capabilitiesCell ? 0 : 1);
+            expect(!!screen.queryByTestId('cell-status-toggle-strip')).toBe(!capabilitiesCell);
+            view.unmount();
+        }
+    });
+
+    // A split cell carries the right-hand tools on its top-right leaf's
+    // strip alone (topRightLeaf): the last child of a row, the first of a
+    // column. Each case splits files off a.txt's leaf and names the leaf
+    // (by the file it holds) whose strip must carry them.
+    it.each([
+        ['a single leaf', [], 'a.txt'],
+        ['a row split: b.txt to the right', [['b.txt', 'a.txt', 'right']], 'b.txt'],
+        ['a column split: b.txt below', [['b.txt', 'a.txt', 'bottom']], 'a.txt'],
+        ['a column inside a row: b.txt right, c.txt under it', [['b.txt', 'a.txt', 'right'], ['c.txt', 'b.txt', 'bottom']], 'b.txt'],
+        ['a row inside a column: b.txt below, c.txt right of a.txt', [['b.txt', 'a.txt', 'bottom'], ['c.txt', 'a.txt', 'right']], 'c.txt'],
+    ] as const)('%s: one annotation toggle and one expand button, on the top-right leaf\'s strip, and the strip pill once while maximized, opening the status section above every strip as the pane region\'s first child', async (_name, splits, topRight) => {
+        const files = [file('a.txt'), file('b.txt'), file('c.txt')];
+        let l = createDefaultLayout({ filePaths: files.map(f => f.name), pinnedPath: null });
+        l = openFileTab(l, 'a.txt', null);
+        for (const [path, target, edge] of splits) {
+            l = openFileTab(l, path, null, undefined, { newTab: true });
+            const tab = findFileTab(l, path)!.tab;
+            l = splitWithTab(l, findFileTab(l, target)!.leaf.id, tab.id, edge);
+        }
+        expect(allLeaves(l.root)).toHaveLength(splits.length + 1);
+        // The active leaf is the top-left one, so a press or wheel that
+        // reached the top-right leaf's handlers would show.
+        l = setActiveLeaf(l, allLeaves(l.root)[0].id);
+        useCollimateStore.setState({ cellLayouts: { 'cell-1': l }, statusSection: {} });
+        const expected = findFileTab(l, topRight)!.tab.id;
+        // The strip holding a tool (the nearest ancestor whose child is a
+        // tablist), named by the tab ids it holds.
+        const stripTabs = (tool: HTMLElement) => {
+            let strip = tool.parentElement;
+            while (strip && !strip.querySelector(':scope > [role="tablist"]')) strip = strip.parentElement;
+            return Array.from(strip!.querySelectorAll('[data-tab-id]')).map(el => el.getAttribute('data-tab-id'));
+        };
+        const view = await act(async () => mount(cell({ files })));
+        expect(screen.getAllByRole('tablist')).toHaveLength(splits.length + 1);
+        const toggles = screen.getAllByTestId('annotation-pane-toggle');
+        expect(toggles).toHaveLength(1);
+        expect(stripTabs(toggles[0])).toEqual([expected]);
+        const expand = screen.getAllByRole('button', { name: 'Expand the cell view to the full window' });
+        expect(expand).toHaveLength(1);
+        expect(stripTabs(expand[0])).toEqual([expected]);
+        expect(screen.queryByTestId('cell-status-toggle-strip')).toBeNull();
+        await act(async () => { fireEvent.click(expand[0]); });
+        const back = screen.getAllByRole('button', { name: 'Back to the canvas' });
+        expect(back).toHaveLength(1);
+        expect(stripTabs(back[0])).toEqual([expected]);
+        expect(screen.getAllByTestId('annotation-pane-toggle')).toHaveLength(1);
+        const pills = screen.getAllByTestId('cell-status-toggle-strip');
+        expect(pills).toHaveLength(1);
+        expect(stripTabs(pills[0])).toEqual([expected]);
+        // The pill opens the status section as on the card: the full-window
+        // pane region's first child, full width, before the runs dock region
+        // (the Files pane, every strip, the annotation pane), so above the
+        // strip the pill sits on.
+        expect(screen.queryByTestId('status-section')).toBeNull();
+        await act(async () => { fireEvent.click(pills[0]); });
+        const section = screen.getByTestId('status-section');
+        const panes = document.querySelector('[data-full-window] [data-pane-region]') as HTMLElement;
+        expect(panes.firstElementChild).toBe(section);
+        expect(section.nextElementSibling).toHaveAttribute('data-runs-dock-region');
+        expect(section.querySelector('[role="tablist"]')).toBeNull();
+        for (const tablist of screen.getAllByRole('tablist')) {
+            expect(section.compareDocumentPosition(tablist) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+        }
+        // It is the cell's, no leaf's: a press or a focusing wheel in it
+        // leaves the active leaf as it was.
+        const active = useCollimateStore.getState().cellLayouts['cell-1'].activeLeafId;
+        fireEvent.pointerDown(section);
+        fireEvent.wheel(section, { deltaY: 30 });
+        expect(useCollimateStore.getState().cellLayouts['cell-1'].activeLeafId).toBe(active);
+        view.unmount();
+        useCollimateStore.setState({ cellLayouts: {}, maximizedOverlayCellId: null, statusSection: {} });
+    });
+
+    it('registers its editors\' pending autosave for a run start', async () => {
+        await act(async () => { mount(cell()); });
+        expect(flushers.register).toHaveBeenCalledWith('cell-1', expect.any(Function));
+    });
+
+    it('a vanished `.webview` file reclaims its native guest', async () => {
+        const tab = `${RUN_A.folder}/tab-1.webview`;
+        const view = await act(async () => mount(cell({ files: [file('a.txt'), file(tab)] })));
+        expect(pool.destroyGuestsWhere).not.toHaveBeenCalled();
+        await act(async () => {
+            view.rerender(
+                <FocusProvider>
+                    <div style={{ width: 600, height: 400 }}>
+                        <CellEditor cell={cell({ files: [file('a.txt')] })} onUpdate={vi.fn()} />
+                    </div>
+                </FocusProvider>,
+            );
+        });
+        expect(pool.destroyGuestsWhere).toHaveBeenCalledTimes(1);
+        const match = pool.destroyGuestsWhere.mock.calls[0][0] as (id: string) => boolean;
+        expect(match(`guest::cell-1::web::${tab}::0`)).toBe(true);
+        expect(match(`guest::cell-1::web::other.webview::0`)).toBe(false);
+        expect(match(`guest::cell-2::web::${tab}::0`)).toBe(false);
+    });
+});
+
+describe('CellEditor — split panes follow focus the DOM cannot see', () => {
+    const files = [file('a.txt'), file('b.txt')];
+    // a.txt in the left leaf (active), b.txt split off to the right.
+    const seedSplit = () => {
+        let l = createDefaultLayout({ filePaths: files.map(f => f.name), pinnedPath: null });
+        l = openFileTab(l, 'a.txt', null);
+        l = openFileTab(l, 'b.txt', null, undefined, { newTab: true });
+        const b = findFileTab(l, 'b.txt')!;
+        l = splitWithTab(l, b.leaf.id, b.tab.id, 'right');
+        const left = allLeaves(l.root).find(leaf => leaf.tabs.some(t => t.kind === 'file' && t.path === 'a.txt'))!;
+        l = setActiveLeaf(l, left.id);
+        useCollimateStore.setState({ cellLayouts: { 'cell-1': l } });
+        return allLeaves(l.root).find(leaf => leaf.id !== left.id)!.id;
+    };
+
+    beforeEach(() => {
+        useCollimateStore.setState({
+            cellLayouts: {}, cellCache: {}, tabDrag: null,
+            activeChannel: { id: 'ch-id', name: 'ch', main_stacks: [], nav_stacks: [], main_selection_id: null, nav_selection_id: null },
+            runs: {}, stoppingRunIds: new Set(), pickSessions: {}, cellHistory: {},
+        });
+        (URL as unknown as Record<string, unknown>).createObjectURL = () => 'blob:x';
+        (URL as unknown as Record<string, unknown>).revokeObjectURL = () => {};
+    });
+
+    it('a native guest taking focus makes its leaf the active one', async () => {
+        const right = seedSplit();
+        await act(async () => { mount(cell({ files })); });
+        const host = document.querySelector('[data-file-path="b.txt"]') as HTMLElement;
+        await act(async () => { host.dispatchEvent(new CustomEvent(GUEST_FOCUS_EVENT, { bubbles: true })); });
+        expect(useCollimateStore.getState().cellLayouts['cell-1'].activeLeafId).toBe(right);
+    });
+
+    it('a vertical wheel over a leaf makes it the active one; a sideways or pinch wheel does not', async () => {
+        const right = seedSplit();
+        await act(async () => { mount(cell({ files })); });
+        const host = document.querySelector('[data-file-path="b.txt"]') as HTMLElement;
+        const wheel = (init: WheelEventInit) => act(async () => { host.dispatchEvent(new WheelEvent('wheel', { bubbles: true, ...init })); });
+        const active = () => useCollimateStore.getState().cellLayouts['cell-1'].activeLeafId;
+        const left = active();
+        await wheel({ deltaX: 60, deltaY: 10 });
+        await wheel({ deltaY: 30, ctrlKey: true });
+        expect(active()).toBe(left);
+        await wheel({ deltaY: 30 });
+        expect(active()).toBe(right);
+    });
+
+    it('an iframe taking focus (the window blurs into it) makes its leaf the active one', async () => {
+        const right = seedSplit();
+        await act(async () => { mount(cell({ files })); });
+        const host = document.querySelector('[data-file-path="b.txt"]') as HTMLElement;
+        const iframe = document.createElement('iframe');
+        host.appendChild(iframe);
+        const spy = vi.spyOn(document, 'activeElement', 'get').mockReturnValue(iframe);
+        try {
+            await act(async () => { window.dispatchEvent(new Event('blur')); });
+        } finally {
+            spy.mockRestore();
+        }
+        expect(useCollimateStore.getState().cellLayouts['cell-1'].activeLeafId).toBe(right);
+    });
+});
+
+describe('CellEditor — the full-window view under the Commands pane', () => {
+    beforeEach(() => {
+        useCollimateStore.setState({
+            cellLayouts: {}, cellCache: {}, tabDrag: null,
+            activeChannel: { id: 'ch-id', name: 'ch', main_stacks: [], nav_stacks: [], main_selection_id: null, nav_selection_id: null },
+            runs: {}, stoppingRunIds: new Set(), pickSessions: {}, cellHistory: {},
+            commandPane: { open: false, side: 'left', query: '', recents: [], view: { kind: 'commands' } }, maximizedOverlayCellId: null,
+        });
+        (URL as unknown as Record<string, unknown>).createObjectURL = () => 'blob:x';
+        (URL as unknown as Record<string, unknown>).revokeObjectURL = () => {};
+    });
+    const expand = async () => {
+        await act(async () => { screen.getByRole('button', { name: 'Expand the cell view to the full window' }).click(); });
+        const view = document.querySelector<HTMLElement>('[data-full-window]')!;
+        expect(view.parentElement).toBe(document.body);
+        expect(useCollimateStore.getState().maximizedOverlayCellId).toBe('cell-1');
+        return view;
+    };
+    const pane = (open: boolean, side: 'left' | 'right' = 'left') => act(() => {
+        useCollimateStore.setState({ commandPane: { open, side, query: '', recents: [], view: { kind: 'commands' } } });
+    });
+
+    it('the region insets by the open pane\'s width on its side, sliding with it, and the view keeps its whole width (polish)', async () => {
+        await act(async () => { mount(cell()); });
+        const view = await expand();
+        expect(view.querySelector('[data-content-region]')).not.toBeNull();
+        expect(view.className).toMatch(/\bfixed\b.*\binset-0\b.*\bz-\[450\]/);
+        expect(view.style.paddingLeft).toBe('0px');
+        expect(view.style.paddingRight).toBe('0px');
+        expect(view.style.transition).toContain('padding-left 160ms ease');
+        expect(view.style.transition).toContain('padding-right 160ms ease');
+        pane(true, 'left');
+        expect(view.style.paddingLeft).toBe('352px');
+        expect(view.style.paddingRight).toBe('0px');
+        pane(true, 'right');
+        expect(view.style.paddingLeft).toBe('0px');
+        expect(view.style.paddingRight).toBe('352px');
+        pane(false, 'right');
+        expect(view.style.paddingRight).toBe('0px');
+    });
+
+    it('the strip\'s line runs the window\'s width under the region, so it goes on under the pane (polish)', async () => {
+        await act(async () => { mount(cell()); });
+        const full = await expand();
+        pane(true, 'left');
+        const ground = full.querySelector<HTMLElement>('[data-full-window-ground]')!;
+        expect(ground).toHaveAttribute('aria-hidden');
+        // Behind the region: first in the view, the region after it.
+        expect(full.firstElementChild).toBe(ground);
+        expect(ground.nextElementSibling).toHaveAttribute('data-content-region');
+        expect(ground.className).toMatch(/\babsolute\b.*\binset-0\b/);
+        expect(ground.children).toHaveLength(1);
+        const strip = ground.firstElementChild as HTMLElement;
+        expect(strip.className).toMatch(/\binset-x-0\b.*\btop-0\b.*\bh-\[1\.875rem\].*\bborder-b\b.*\bborder-line\b/);
+        // The status section open above the strip moves the strip's line
+        // down: no ground line then, back once it closes.
+        await act(async () => { useCollimateStore.getState().toggleStatusSection('cell-1'); });
+        expect(full.querySelector('[data-full-window-ground]')).toBeNull();
+        expect(full.firstElementChild).toHaveAttribute('data-content-region');
+        await act(async () => { useCollimateStore.getState().toggleStatusSection('cell-1'); });
+        expect(full.querySelector('[data-full-window-ground]')).not.toBeNull();
+        useCollimateStore.setState({ statusSection: {} });
+    });
+
+    it('a Capabilities cell\'s Manage body stays mounted through the toggle both ways, its work kept', async () => {
+        await act(async () => { mount(cell(), { capabilitiesCell: true }); });
+        const body = screen.getByTestId('manage-body');
+        fireEvent.click(screen.getByRole('button', { name: 'Count' }));
+        fireEvent.click(screen.getByRole('button', { name: 'Count' }));
+        const full = await expand();
+        expect(screen.getByTestId('manage-body')).toBe(body);
+        expect(full.contains(body)).toBe(true);
+        expect(body.closest('[data-manage-tab]')).not.toBeNull();
+        expect(body).toHaveAttribute('data-count', '2');
+        // Released from outside (Esc's collapse, a pane command): back inline, still the same body.
+        await act(async () => { useCollimateStore.getState().setMaximizedOverlayCellId(null); });
+        await waitFor(() => expect(document.querySelector('[data-full-window]')).toBeNull());
+        expect(screen.getByTestId('manage-body')).toBe(body);
+        expect(body.closest('[data-manage-tab]')).not.toBeNull();
+        expect(body).toHaveAttribute('data-count', '2');
+    });
+
+    it('a press or a focusing wheel in the Manage body makes its leaf the active one', async () => {
+        let l = createDefaultLayout({ filePaths: ['a.txt'], pinnedPath: null, manageTab: true });
+        l = openFileTab(l, 'a.txt', null, undefined, { newTab: true });
+        const a = findFileTab(l, 'a.txt')!;
+        l = splitWithTab(l, a.leaf.id, a.tab.id, 'right');
+        const manageLeaf = allLeaves(l.root).find(leaf => leaf.tabs.some(t => t.kind === 'manage'))!.id;
+        const other = allLeaves(l.root).find(leaf => leaf.id !== manageLeaf)!.id;
+        useCollimateStore.setState({ cellLayouts: { 'cell-1': setActiveLeaf(l, other) } });
+        await act(async () => { mount(cell(), { capabilitiesCell: true }); });
+        const active = () => useCollimateStore.getState().cellLayouts['cell-1'].activeLeafId;
+        expect(active()).toBe(other);
+        await act(async () => { fireEvent.pointerDown(screen.getByTestId('manage-body')); });
+        expect(active()).toBe(manageLeaf);
+        await act(async () => { useCollimateStore.setState(s => ({ cellLayouts: { 'cell-1': setActiveLeaf(s.cellLayouts['cell-1'], other) } })); });
+        await act(async () => { screen.getByTestId('manage-body').dispatchEvent(new WheelEvent('wheel', { bubbles: true, deltaX: 60, deltaY: 10 })); });
+        expect(active()).toBe(other);
+        await act(async () => { screen.getByTestId('manage-body').dispatchEvent(new WheelEvent('wheel', { bubbles: true, deltaY: 30 })); });
+        expect(active()).toBe(manageLeaf);
+    });
+
+    it('closes when the store lets go of it (a pane command that leaves the cell), flushing first (polish)', async () => {
+        await act(async () => { mount(cell()); });
+        await expand();
+        await act(async () => { useCollimateStore.getState().setMaximizedOverlayCellId(null); });
+        await waitFor(() => expect(document.querySelector('[data-full-window]')).toBeNull());
+        expect(screen.getByRole('button', { name: 'Expand the cell view to the full window' })).toBeInTheDocument();
+        expect(useCollimateStore.getState().maximizedOverlayCellId).toBeNull();
+        // And expands again as before.
+        await expand();
+    });
+});

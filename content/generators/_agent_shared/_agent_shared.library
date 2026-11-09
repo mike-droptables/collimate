@@ -1,0 +1,8 @@
+id: _agent_shared
+name: Agent library
+version: 1.0.0
+description: 'The Agent generator''s runtime: its session (session, run on a document, a chat or the harness''s
+  own terminal), every harness adapter under harnesses/ with its pipeline, the ACP client, the MCP bridge
+  that serves the workspace, handler and web tools to a harness, model and Git account reading, command
+  approval, and the test_generator tool. It imports _env_shared, so a cell that names it under shared:
+  names _env_shared too. Import it as _agent_shared.'

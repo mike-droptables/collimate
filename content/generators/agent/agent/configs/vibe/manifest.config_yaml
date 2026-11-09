@@ -1,0 +1,23 @@
+name: Mistral Vibe
+description: Mistral Vibe in its own container, on the Annotation surface. Mistral key, or an OpenAI,
+  Groq, Cerebras or OpenRouter key
+tags:
+- agent
+- vibe
+prompt: ''
+settings:
+  agent-config.set_yaml:
+    surface: annotation
+    session: interactive
+    backend: vibe
+    system_prompt: ''
+    mcp: 'off'
+    approvals: auto
+    selected_file_first: false
+folders: []
+accounts: {}
+permissions:
+  docker: full
+  internet: full
+  commands: allow
+packages: {}

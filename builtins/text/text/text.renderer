@@ -1,0 +1,26 @@
+id: "text"
+name: "Text Editor"
+version: "1.2.0"
+summary: "Plain-text viewer and editor with a style control (mono font, text size). Powered by the React SDK."
+entrypoint: "main.tsx"
+embed: "native"
+
+extensions:
+  - ".txt"
+  - ".log"
+  - ".env"
+  - ".gitignore"
+  - ".collimateignore"
+  - ".cfg"
+  - ".ini"
+  - ".csv"
+  - ".sh"
+  - ".bash"
+
+# Plain text is on every text file's "Open with" menu, so a broken renderer
+# never leaves the user without a way to see the bytes. (It is also the
+# app's floor: a text file no renderer claims opens here.)
+default_for:
+  - "*"
+
+supports_diff: true

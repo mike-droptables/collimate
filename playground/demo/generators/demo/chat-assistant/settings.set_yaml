@@ -1,0 +1,28 @@
+fields:
+- key: pace
+  type: dropdown
+  label: Pace
+  description: How quickly replies stream. The words are the same at every pace.
+  default: normal
+  options:
+  - value: relaxed
+    label: Relaxed
+  - value: normal
+    label: Normal
+  - value: brisk
+    label: Brisk
+  advanced: false
+- key: show_thinking
+  type: checkbox
+  label: Show a thinking section
+  description: Stream a short "thinking" passage before the first reply, the way an extended-thinking model does.
+  default: true
+  advanced: false
+- key: idle_timeout_seconds
+  type: number
+  label: Idle timeout (seconds)
+  description: After the scripted turns the chat waits this long for your next message before the run completes.
+  default: 20
+  min: 5
+  max: 900
+  advanced: true

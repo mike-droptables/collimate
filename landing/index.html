@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Collimate — better, not faster</title>
+  <meta name="description" content="A local workbench for AI work where finding out what you want is still part of the work. Fork, see, challenge, pick. Most of it you throw away; that is how you find the one worth keeping.">
+  <meta name="theme-color" content="#151311">
+  <meta name="color-scheme" content="dark">
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+  <link rel="preload" href="./fonts/hanken-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="./fonts/fraunces-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="./fonts/fonts.css">
+  <style>
+    :root {
+      /* Night palette (the app's default theme) */
+      --canvas: #151311;
+      --sheet: #1c1a17;
+      --sheet-2: #23201c;
+      --sheet-3: #2a2621;
+      --line: #312d27;
+      --line-2: #3f3931;
+      --ink: #e2ddd4;
+      --ink-2: #a39d92;
+      --ink-3: #6f695f;
+      --brass: #c69d64;
+      --brass-soft: rgba(198,157,100,0.16);
+      --teal: #7fb0ab;
+      --teal-soft: rgba(127,176,171,0.14);
+      --red: #cf8b7c;
+      --green: #90b893;
+      --code-bg: #121008;
+      --prose-ink: #e9e4da;
+      --shadow: 0 1px 0 rgba(0,0,0,0.4), 0 8px 24px -16px rgba(0,0,0,0.65);
+      --radius: 8px;
+      /* aliases shared with the buttons above the install button */
+      --gold-soft: var(--brass-soft);
+      --gold-line: rgba(198,157,100,0.45);
+      --text: var(--ink);
+      --text-faint: var(--ink-2);
+
+      --pad-x: clamp(16px, 5vw, 40px);
+      --serif: "Fraunces", Georgia, "Times New Roman", serif;
+      --sans: "Hanken Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+      --mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { background: var(--canvas); -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+    @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+    body {
+      font-family: var(--sans);
+      background: var(--canvas);
+      background-image: radial-gradient(ellipse 120% 560px at 50% -180px, rgba(198,157,100,0.05), transparent 70%);
+      background-repeat: no-repeat;
+      color: var(--ink);
+      min-height: 100vh;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-wrap: break-word;
+    }
+    a { color: inherit; }
+    button { font: inherit; color: inherit; }
+    ::selection { background: rgba(198,157,100,0.32); color: var(--prose-ink); }
+    :focus-visible { outline: 2px solid var(--brass); outline-offset: 3px; border-radius: 2px; }
+
+    .wide { max-width: 1000px; margin: 0 auto; padding: 0 var(--pad-x); }
+    .column { max-width: 760px; margin: 0 auto; padding: 0 var(--pad-x); }
+    .rule { max-width: 1000px; margin: 0 auto; padding: 0 var(--pad-x); }
+    .rule::before { content: ""; display: block; border-top: 1px solid var(--line); }
+
+    /* nav */
+    .site-nav {
+      max-width: 1000px; margin: 0 auto; padding: 28px var(--pad-x);
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    }
+    .brand {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-family: var(--serif); font-optical-sizing: auto; font-weight: 600;
+      font-size: 1.4rem; letter-spacing: -0.01em; line-height: 1;
+      color: var(--ink); text-decoration: none;
+    }
+    .nav-mark { width: 22px; height: 22px; flex: none; color: var(--brass); }
+    .nav-links { display: flex; align-items: center; gap: 28px; list-style: none; }
+    .nav-links li { display: flex; }
+    .nav-links a {
+      display: inline-flex; align-items: center; gap: 7px;
+      font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--ink-2); text-decoration: none; transition: color 0.15s;
+    }
+    .nav-links a:hover { color: var(--ink); }
+    .nav-links svg { width: 14px; height: 14px; fill: currentColor; flex: none; }
+    /* the last link is Essay on one page and Home on the other: same box, so GitHub stays put */
+    .nav-links li:last-child a { min-width: 40px; justify-content: flex-end; }
+
+    /* hero */
+    .hero { max-width: 760px; margin: 0 auto; padding: 72px var(--pad-x) 80px; text-align: center; }
+    .hero h1 {
+      font-family: var(--serif); font-optical-sizing: auto; font-weight: 500;
+      font-size: clamp(2.4rem, 6vw, 4.4rem); line-height: 1.04; letter-spacing: -0.02em;
+      color: var(--prose-ink);
+    }
+    .lede {
+      max-width: 640px; margin: 28px auto 0;
+      font-size: clamp(1.08rem, 1.5vw, 1.3rem); line-height: 1.6; color: var(--ink);
+    }
+    .hero-actions {
+      margin-top: 40px;
+      display: flex; flex-direction: column; align-items: center; gap: 14px;
+    }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 9px; padding: 12px 24px;
+      background: var(--brass-soft); border: 1px solid var(--gold-line); border-radius: var(--radius);
+      font-family: var(--mono); font-size: 0.8rem; font-weight: 500; letter-spacing: 0.07em; text-transform: uppercase;
+      color: var(--ink); text-decoration: none; transition: background 0.18s;
+    }
+    .btn-primary:hover { background: rgba(198,157,100,0.45); }
+    .btn-primary svg { width: 13px; height: 13px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+    .essay-link {
+      display: block; margin-top: 4px; max-width: 100%;
+      font-family: var(--mono); font-size: 0.8rem; letter-spacing: 0.02em; line-height: 1.9;
+      color: var(--ink-2); text-decoration: none; transition: color 0.15s;
+    }
+    /* the rule sits on the inner span so it follows each line when the link wraps on phones */
+    .essay-link span {
+      padding-bottom: 3px; border-bottom: 1px solid var(--line-2);
+      -webkit-box-decoration-break: clone; box-decoration-break: clone;
+      transition: border-color 0.15s;
+    }
+    .essay-link:hover { color: var(--ink); }
+    .essay-link:hover span { border-color: var(--gold-line); }
+
+    /* diagram */
+    .pipes-section { padding-top: 64px; padding-bottom: 80px; }
+    .hero h1, .lede, .essay-link, .pipes-lead, .pipes figcaption, .block h2, .block .intro { text-wrap: balance; }
+    .pipes-lead { text-align: center; font-size: 0.95rem; color: var(--ink-2); margin-bottom: 20px; }
+    .pipes { margin: 0; }
+    .pipes svg, .pipes-static { display: block; width: 100%; height: auto; }
+    .pipes svg text, .pipes-static text { user-select: none; }
+    .pipes figcaption {
+      margin-top: 12px; text-align: center;
+      font-size: 1rem; line-height: 1.5; color: var(--ink-2);
+    }
+    /* the one control on the figure: shown by the script only while it animates */
+    .pipes-toggle {
+      display: block; margin: 14px auto 0; padding: 0 0 3px;
+      background: none; border: 0; border-bottom: 1px solid var(--line-2); border-radius: 0;
+      font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.02em; line-height: 1.6;
+      color: var(--ink-2); cursor: pointer; transition: color 0.15s, border-color 0.15s;
+    }
+    .pipes-toggle:hover { color: var(--ink); border-color: var(--gold-line); }
+    .pipes-toggle[hidden] { display: none; }
+    /* Text scale used before the script measures the figure (and by the static copy). */
+    #pipes, .pipes-static { --k: 1; }
+    .pipes-static .lbl-s { display: none; }
+    @media (max-width: 751px) {
+      #pipes, .pipes-static { --k: 1.3; }
+      .pipes-static .lbl-l { display: none; }
+      .pipes-static .lbl-s { display: inline; }
+    }
+    @media (max-width: 512px) {
+      #pipes, .pipes-static { --k: 1.9; }
+    }
+
+    /* sections */
+    .block { padding-top: 72px; padding-bottom: 80px; }
+    .block h2 {
+      font-family: var(--serif); font-optical-sizing: auto; font-weight: 500;
+      font-size: clamp(1.7rem, 3.2vw, 2.2rem); line-height: 1.15; letter-spacing: -0.018em;
+      color: var(--prose-ink); text-align: center;
+    }
+    .block .intro { margin-top: 14px; text-align: center; font-size: 1.05rem; color: var(--ink-2); }
+    .prose p { font-size: 1.05rem; line-height: 1.8; color: var(--prose-ink); }
+    .prose p + p { margin-top: 1.1em; }
+    .block h2 + .prose { margin-top: 32px; }
+
+    /* four moves */
+    .moves { margin-top: 48px; }
+    .move { padding: 44px 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: 24px; }
+    .move + .move { border-top: 1px solid var(--line); }
+    .move:last-child { padding-bottom: 0; }
+    .move h3 {
+      font-family: var(--serif); font-optical-sizing: auto; font-weight: 500;
+      font-size: 1.5rem; line-height: 1.2; letter-spacing: -0.012em; color: var(--prose-ink);
+    }
+    .move p { margin-top: 12px; font-size: 1.02rem; line-height: 1.75; color: var(--prose-ink); }
+    @media (min-width: 880px) {
+      .move { grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: 56px; align-items: center; }
+      .move-text { max-width: 380px; }
+    }
+    .clip { margin: 0; }
+    .clip-frame {
+      position: relative; aspect-ratio: 16 / 10; overflow: hidden;
+      background-color: var(--sheet);
+      background-image:
+        linear-gradient(rgba(226,221,212,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(226,221,212,0.03) 1px, transparent 1px);
+      background-size: 56px 56px;
+      background-position: -1px -1px;
+      border: 1px solid var(--line-2); border-radius: var(--radius);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .clip-frame video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .clip-play { width: 28px; height: 28px; fill: var(--ink-3); }
+    .clip-tag {
+      position: absolute; left: 16px; bottom: 13px; right: 16px;
+      font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase;
+      line-height: 1.4; color: var(--ink-2);
+    }
+
+    /* install */
+    .install { margin-top: 36px; }
+    .install-block + .install-block { margin-top: 22px; }
+    .install-heading {
+      margin-bottom: 9px;
+      font-family: var(--mono); font-size: 0.74rem; letter-spacing: 0.03em; line-height: 1.5; color: var(--ink-2);
+    }
+    .install-heading strong { color: var(--ink); font-weight: 600; text-transform: uppercase; letter-spacing: 0.09em; margin-right: 4px; }
+    .cmd-line {
+      display: flex; flex-wrap: wrap; align-items: center; column-gap: 10px; row-gap: 4px;
+      width: 100%; padding: 10px 12px 10px 14px;
+      background: var(--code-bg); border: 1px solid var(--line-2); border-radius: 6px;
+      font-family: var(--mono); font-size: 0.82rem; line-height: 1.5; color: var(--ink);
+      cursor: pointer; text-align: left; text-decoration: none; transition: border-color 0.18s;
+    }
+    .cmd-line:hover { border-color: var(--gold-line); }
+    .cmd-line .cmd { white-space: nowrap; }
+    .cmd-line .dollar { color: var(--ink-3); user-select: none; }
+    .cmd-line .cmd-hl { color: var(--brass); font-weight: 500; }
+    .cmd-line .cmd-note { font-size: 0.72rem; color: var(--ink-2); }
+    .cmd-icon {
+      margin-left: auto; flex: none;
+      display: flex; align-items: center; justify-content: center; width: 26px; height: 26px;
+      border-radius: 5px; border: 1px solid var(--line-2); background: var(--sheet);
+      transition: border-color 0.18s;
+    }
+    .cmd-icon svg { width: 12px; height: 12px; fill: var(--ink-2); transition: fill 0.18s; }
+    .cmd-line:hover .cmd-icon { border-color: var(--gold-line); }
+    .cmd-line:hover .cmd-icon svg { fill: var(--brass); }
+    .install-small { margin-top: 22px; font-size: 0.92rem; line-height: 1.7; color: var(--ink-2); }
+    .text-link {
+      color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--line-2);
+      transition: border-color 0.15s;
+    }
+    .text-link:hover { border-color: var(--gold-line); }
+    .source-row {
+      margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--line);
+      display: flex; flex-wrap: wrap; gap: 14px 48px;
+      font-family: var(--mono); font-size: 0.78rem; letter-spacing: 0.02em; line-height: 1.6;
+    }
+    .source-row div { display: flex; flex-direction: column; gap: 2px; }
+    .source-row a { color: var(--ink); text-decoration: none; display: inline-flex; align-items: center; gap: 8px; }
+    .source-row a svg { width: 14px; height: 14px; fill: var(--ink-2); flex: none; transition: fill 0.15s; }
+    .source-row a span { border-bottom: 1px solid var(--line-2); transition: border-color 0.15s; }
+    .source-row a:hover span { border-color: var(--gold-line); }
+    .source-row a:hover svg { fill: var(--brass); }
+    .source-row .lic { color: var(--ink-2); font-size: 0.72rem; padding-left: 22px; }
+
+    /* footer */
+    .site-footer {
+      margin-top: 16px; border-top: 1px solid var(--line);
+      padding: 56px var(--pad-x) 56px; text-align: center;
+      font-family: var(--mono); font-size: 0.78rem; letter-spacing: 0.03em; line-height: 1.9;
+      color: var(--ink-2);
+    }
+    .footer-links { display: flex; flex-wrap: wrap; justify-content: center; align-items: baseline; column-gap: 12px; row-gap: 4px; }
+    .footer-links a { color: var(--ink-2); text-decoration: none; transition: color 0.15s; }
+    .footer-links a:hover { color: var(--ink); }
+    .footer-links .sep { color: var(--ink-3); }
+    .footer-def {
+      margin-top: 24px; font-family: var(--serif); font-style: italic; font-size: 0.95rem;
+      letter-spacing: 0; color: var(--ink-2);
+    }
+    .footer-legal { margin-top: 10px; }
+
+    /* copy confirmation */
+    #toast {
+      position: fixed; left: 50%; bottom: 32px; z-index: 50;
+      transform: translate(-50%, 12px); opacity: 0; pointer-events: none;
+      padding: 10px 20px; border-radius: var(--radius);
+      background: var(--sheet-2); border: 1px solid var(--gold-line); box-shadow: var(--shadow);
+      font-family: var(--mono); font-size: 0.8rem; letter-spacing: 0.04em; color: var(--ink);
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    #toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+    @media (max-width: 600px) {
+      .site-nav { padding-top: 20px; padding-bottom: 20px; }
+      .brand { font-size: 1.25rem; gap: 8px; }
+      .nav-links { gap: 20px; }
+      .hero { padding-top: 44px; padding-bottom: 60px; }
+      .lede { margin-top: 22px; }
+      .hero-actions { margin-top: 32px; }
+      .pipes-section { padding-top: 48px; padding-bottom: 60px; }
+      .block { padding-top: 56px; padding-bottom: 60px; }
+      .moves { margin-top: 32px; }
+      .move { padding: 36px 0; gap: 20px; }
+      .prose p { font-size: 1.02rem; line-height: 1.75; }
+      .cmd-line .cmd-note { order: 3; flex-basis: 100%; }
+      .footer-links { column-gap: 20px; }
+      .footer-links .sep { display: none; }
+      .site-footer { padding-top: 44px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { transition: none !important; animation: none !important; }
+    }
+  </style>
+  <noscript><style>#pipes { display: none; }</style></noscript>
+</head>
+<body>
+
+  <nav class="site-nav" aria-label="Primary">
+    <a class="brand" href="./"><svg class="nav-mark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6 8.11 7.56M3 12 6.1 12M3 18 7.89 16.23"/><path d="M17.3 9.8 21.6 12 17.3 14.2Z" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="3.2"/></svg>Collimate</a>
+    <ul class="nav-links">
+      <li><a href="https://github.com/mike-droptables/collimate" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>GitHub</a></li>
+      <li><a href="./why.html">Essay</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <header class="hero">
+      <h1>Better, not faster.</h1>
+      <p class="lede">A local workbench for AI work where finding out what you want is still part of the work. Ask the model for the possibilities, not the answer. Fork them, see them side by side, challenge them, pick one. Most of it you throw away. That is how you find the one worth keeping.</p>
+      <div class="hero-actions">
+        <a class="btn-primary" href="#install">Install<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 3v9M4 8.5 8 12.5 12 8.5"/></svg></a>
+        <a class="essay-link" href="./why.html"><span>Read the longer essay: Collimate · Worth Throwing Away</span></a>
+      </div>
+    </header>
+
+    <div class="rule" role="presentation"></div>
+
+    <section class="pipes-section wide" aria-label="Where the bottleneck went">
+      <p class="pipes-lead">Where the bottleneck went.</p>
+      <noscript><svg class="pipes-static" viewBox="0 0 1000 1262" role="img" aria-label="Three software pipelines. Before: implementation is the bottleneck. Now, as usually drawn: review is the bottleneck. Now, with Collimate: design and implementation merge into one wide explore stage; most candidates are dropped by choice, and implementation, review and ship flow freely."><g transform="translate(0,0)"><text x="60" y="40" fill="#a39d92" font-family="&quot;JetBrains Mono&quot;, ui-monospace, monospace" font-weight="500" letter-spacing="4" style="font-size:calc(15px * min(var(--k, 1), 1.52))">BEFORE</text><line x1="280" x2="280" y1="45" y2="395" stroke="#3f3931" stroke-dasharray="5 6" stroke-width="1.5"/><line x1="500" x2="500" y1="45" y2="395" stroke="#3f3931" stroke-dasharray="5 6" stroke-width="1.5"/><line x1="720" x2="720" y1="45" y2="395" stroke="#3f3931" stroke-dasharray="5 6" stroke-width="1.5"/><path d="M60,90 L64,90 L68,90 L72,90 L76,90 L80,90 L84,90 L88,90 L92,90 L96,90 L100,90 L104,90 L108,90 L112,90 L116,90 L120,90 L124,90 L128,90 L132,90 L136,90 L140,90 L144,90 L148,90 L152,90 L156,90 L160,90 L164,90 L168,90 L172,90 L176,90 L180,90 L184,90 L188,90 L192,90 L196,90 L200,90 L204,90 L208,90 L212,90 L216,90 L220,90 L224,90 L228,90 L232,90 L236,90 L240,90 L244,90 L248,90 L252,90 L256,90 L260,90 L264,90 L268,90 L272,90 L276,90 L280,90 L284,90.3 L288,91.3 L292,92.8 L296,94.8 L300,97.3 L304,100.3 L308,103.6 L312,107.2 L316,111.1 L320,115.2 L324,119.6 L328,124 L332,128.6 L336,133.1 L340,137.7 L344,142.2 L348,146.6 L352,150.9 L356,154.9 L360,158.7 L364,162.1 L368,165.3 L372,168 L376,170.3 L380,172 L384,173.3 L388,173.9 L392,173.9 L396,173.3 L400,172 L404,170.3 L408,168 L412,165.3 L416,162.1 L420,158.7 L424,154.9 L428,150.9 L432,146.6 L436,142.2 L440,137.7 L444,133.1 L448,128.6 L452,124 L456,119.6 L460,115.2 L464,111.1 L468,107.2 L472,103.6 L476,100.3 L480,97.3 L484,94.8 L488,92.8 L492,91.3 L496,90.3 L500,90 L504,90 L508,90 L512,90 L516,90 L520,90 L524,90 L528,90 L532,90 L536,90 L540,90 L544,90 L548,90 L552,90 L556,90 L560,90 L564,90 L568,90 L572,90 L576,90 L580,90 L584,90 L588,90 L592,90 L596,90 L600,90 L604,90 L608,90 L612,90 L616,90 L620,90 L624,90 L628,90 L632,90 L636,90 L640,90 L644,90 L648,90 L652,90 L656,90 L660,90 L664,90 L668,90 L672,90 L676,90 L680,90 L684,90 L688,90 L692,90 L696,90 L700,90 L704,90 L708,90 L712,90 L716,90 L720,90 L724,90 L728,90 L732,90 L736,90 L740,90 L744,90 L748,90 L752,90 L756,90 L760,90 L764,90 L768,90 L772,90 L776,90 L780,90 L784,90 L788,90 L792,90 L796,90 L800,90 L804,90 L808,90 L812,90 L816,90 L820,90 L824,90 L828,90 L832,90 L836,90 L840,90 L844,90 L848,90 L852,90 L856,90 L860,90 L864,90 L868,90 L872,90 L876,90 L880,90 L884,90 L888,90 L892,90 L896,90 L900,90 L904,90 L908,90 L912,90 L916,90 L920,90 L924,90 L928,90 L932,90 L936,90 L940,90 " fill="none" stroke="#a39d92" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/><path d="M60,290 L64,290 L68,290 L72,290 L76,290 L80,290 L84,290 L88,290 L92,290 L96,290 L100,290 L104,290 L108,290 L112,290 L116,290 L120,290 L124,290 L128,290 L132,290 L136,290 L140,290 L144,290 L148,290 L152,290 L156,290 L160,290 L164,290 L168,290 L172,290 L176,290 L180,290 L184,290 L188,290 L192,290 L196,290 L200,290 L204,290 L208,290 L212,290 L216,290 L220,290 L224,290 L228,290 L232,290 L236,290 L240,290 L244,290 L248,290 L252,290 L256,290 L260,290 L264,290 L268,290 L272,290 L276,290 L280,290 L284,289.7 L288,288.7 L292,287.2 L296,285.2 L300,282.7 L304,279.7 L308,276.4 L312,272.8 L316,268.9 L320,264.8 L324,260.4 L328,256 L332,251.4 L336,246.9 L340,242.3 L344,237.8 L348,233.4 L352,229.1 L356,225.1 L360,221.3 L364,217.9 L368,214.7 L372,212 L376,209.7 L380,208 L384,206.7 L388,206.1 L392,206.1 L396,206.7 L400,208 L404,209.7 L408,212 L412,214.7 L416,217.9 L420,221.3 L424,225.1 L428,229.1 L432,233.4 L436,237.8 L440,242.3 L444,246.9 L448,251.4 L452,256 L456,260.4 L460,264.8 L464,268.9 L468,272.8 L472,276.4 L476,279.7 L480,282.7 L484,285.2 L488,287.2 L492,288.7 L496,289.7 L500,290 L504,290 L508,290 L512,290 L516,290 L520,290 L524,290 L528,290 L532,290 L536,290 L540,290 L544,290 L548,290 L552,290 L556,290 L560,290 L564,290 L568,290 L572,290 L576,290 L580,290 L584,290 L588,290 L592,290 L596,290 L600,290 L604,290 L608,290 L612,290 L616,290 L620,290 L624,290 L628,290 L632,290 L636,290 L640,290 L644,290 L648,290 L652,290 L656,290 L660,290 L664,290 L668,290 L672,290 L676,290 L680,290 L684,290 L688,290 L692,290 L696,290 L700,290 L704,290 L708,290 L712,290 L716,290 L720,290 L724,290 L728,290 L732,290 L736,290 L740,290 L744,290 L748,290 L752,290 L756,290 L760,290 L764,290 L768,290 L772,290 L776,290 L780,290 L784,290 L788,290 L792,290 L796,290 L800,290 L804,290 L808,290 L812,290 L816,290 L820,290 L824,290 L828,290 L832,290 L836,290 L840,290 L844,290 L848,290 L852,290 L856,290 L860,290 L864,290 L868,290 L872,290 L876,290 L880,290 L884,290 L888,290 L892,290 L896,290 L900,290 L904,290 L908,290 L912,290 L916,290 L920,290 L924,290 L928,290 L932,290 L936,290 L940,290 " fill="none" stroke="#a39d92" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/><circle cx="86" cy="190.6" r="10" fill="#c69d64"/><circle cx="107.3" cy="158.7" r="10" fill="#c69d64"/><circle cx="94.2" cy="130.2" r="10" fill="#c69d64"/><circle cx="116.1" cy="221.6" r="10" fill="#c69d64"/><circle cx="111.7" cy="104.7" r="10" fill="#c69d64"/><circle cx="140.4" cy="109.4" r="10" fill="#c69d64"/><circle cx="135.2" cy="149.6" r="10" fill="#c69d64"/><circle cx="178" cy="132.9" r="10" fill="#c69d64"/><circle cx="124.4" cy="186.8" r="10" fill="#c69d64"/><circle cx="151.2" cy="244.5" r="10" fill="#c69d64"/><circle cx="159.5" cy="202.8" r="10" fill="#c69d64"/><circle cx="159.9" cy="274" r="10" fill="#c69d64"/><circle cx="173.6" cy="176.1" r="10" fill="#c69d64"/><circle cx="198.3" cy="112.9" r="10" fill="#c69d64"/><circle cx="211.5" cy="139" r="10" fill="#c69d64"/><circle cx="225.4" cy="104.1" r="10" fill="#c69d64"/><circle cx="204.6" cy="168.3" r="10" fill="#c69d64"/><circle cx="194.3" cy="202.5" r="10" fill="#c69d64"/><circle cx="250.4" cy="115.9" r="10" fill="#c69d64"/><circle cx="192.3" cy="230.7" r="10" fill="#c69d64"/><circle cx="115.2" cy="269" r="10" fill="#c69d64"/><circle cx="83.8" cy="239.5" r="10" fill="#c69d64"/><circle cx="246" cy="160.7" r="10" fill="#c69d64"/><circle cx="84.6" cy="268.9" r="10" fill="#c69d64"/><circle cx="227" cy="210.8" r="10" fill="#c69d64"/><circle cx="200.7" cy="259.7" r="10" fill="#c69d64"/><circle cx="266.6" cy="196.4" r="10" fill="#c69d64"/><circle cx="241.4" cy="245.8" r="10" fill="#c69d64"/><circle cx="271.4" cy="145.6" r="10" fill="#c69d64"/><circle cx="295.9" cy="158.5" r="10" fill="#c69d64"/><circle cx="305.5" cy="196.1" r="10" fill="#c69d64"/><circle cx="269" cy="260.9" r="10" fill="#c69d64"/><circle cx="229.7" cy="270.9" r="10" fill="#c69d64"/><circle cx="335" cy="176.4" r="10" fill="#c69d64"/><circle cx="298.6" cy="118.7" r="10" fill="#c69d64"/><circle cx="328.2" cy="213.6" r="10" fill="#c69d64"/><circle cx="322.7" cy="144.4" r="10" fill="#c69d64"/><circle cx="298.2" cy="232.8" r="10" fill="#c69d64"/><circle cx="296.7" cy="261.9" r="10" fill="#c69d64"/><circle cx="262.6" cy="224.9" r="10" fill="#c69d64"/><circle cx="361.9" cy="182.4" r="10" fill="#c69d64"/><circle cx="470" cy="190" r="10" fill="#c69d64"/><circle cx="580" cy="190" r="10" fill="#c69d64"/><circle cx="680" cy="190" r="10" fill="#c69d64"/><circle cx="790" cy="190" r="10" fill="#c69d64"/><circle cx="890" cy="190" r="10" fill="#c69d64"/><text class="lbl-l" style="font-size:calc(24px * var(--k, 1))" x="170" y="352" text-anchor="middle" font-family="&quot;Hanken Grotesk&quot;, system-ui, sans-serif" font-weight="500" fill="#e2ddd4">Ideation / Design</text><text class="lbl-s" style="font-size:calc(19px * var(--k, 1))" display="none" x="170" y="352" text-anchor="middle" font-family="&quot;Hanken Grotesk&quot;, system-ui, sans-serif" font-weight="500" fill="#e2ddd4">Design</text><text class="lbl-l" style="font-size:calc(24px * var(--k, 1))" x="390" y="352" text-anchor="middle" font-family="&quot;Hanken Grotesk&quot;, system-ui, sans-serif" font-weight="600" fill="#c69d64">Implementation</text><text class="lbl-s" style="font-size:calc(19px * var(--k, 1))" display="none" x="390" y="352" text-anchor="middle" font-family="&quot;Hanken Grotesk&quot;, system-ui, sans-serif" font-weight="600" fill="#c69d64">Build</text><text class="lbl-l" style="font-size:calc(24px * var(--k, 1))" x="610" y="352" text-anchor="middle" font-family="&quot;Hanken Grotesk&quot;, system-ui, sans-serif" font-weight="500" fill="#e2ddd4">Review</text><text class="lbl-s" style="font-size:calc(19px * var(--k, 1))" display="none" x="610" y="352" text-anchor="middle" font-family="&quot;Hanken Grotesk&quot;, system-ui, sans-serif" font-weight="500" fill="#e2ddd4">Review</text><text class="lbl-l" style="font-size:calc(24px * var(--k, 1))" x="830" y="352" text-anchor="middle" font-family="&quot;Hanken Grotesk&quot;, system-ui, sans-serif" font-weight="500" fill="#e2ddd4">Ship</text><text class="lbl-s" style="font-size:calc(19px * var(--k, 1))" display="none" x="830" y="352" text-anchor="middle" font-family="&quot;Hanken Grotesk&quot;, system-ui, sans-serif" font-weight="500" fill="#e2ddd4">Ship</text></g><g transform="translate(0,410)"><text x="60" y="40" fill="#a39d92" font-family="&quot;JetBrains Mono&quot;, ui-monospace, monospace" font-weight="500" letter-spacing="4" style="font-size:calc(15px * min(var(--k, 1), 1.52))">NOW, AS USUALLY DRAWN</text><line x1="280" x2="280" y1="45" y2="395" stroke="#3f3931" stroke-dasharray="5 6" stroke-width="1.5"/><line x1="500" x2="500" y1="45" y2="395" stroke="#3f3931" stroke-dasharray="5 6" stroke-width="1.5"/><line x1="720" x2="720" y1="45" y2="395" stroke="#3f3931" stroke-dasharray="5 6" stroke-width="1.5"/><path d="M60,90 L64,90 L68,90 L72,90 L76,90 L80,90 L84,90 L88,90 L92,90 L96,90 L100,90 L104,90 L108,90 L112,90 L116,90 L120,90 L124,90 L128,90 L132,90 L136,90 L140,90 L144,90 L148,90 L152,90 L156,90 L160,90 L164,90 L168,90 L172,90 L176,90 L180,90 L184,90 L188,90 L192,90 L196,90 L200,90 L204,90 L208,90 L212,90 L216,90 L220,90 L224,90 L228,90 L232,90 L236,90 L240,90 L244,90 L248,90 L252,90 L256,90 L260,90 L264,90 L268,90 L272,90 L276,90 L280,90 L284,90 L288,90 L292,90 L296,90 L300,90 L304,90 L308,90 L312,90 L316,90 L320,90 L324,90 L328,90 L332,90 L336,90 L340,90 L344,90 L348,90 L352,90 L356,90 L360,90 L364,90 L368,90 L372,90 L376,90 L380,90 L384,90 L388,90 L392,90 L396,90 L400,90 L404,90 L408,90 L412,90 L416,90 L420,90 L424,90 L428,90 L432,90 L436,90 L440,90 L444,90 L448,90 L452,90 L456,90 L460,90 L464,90 L468,90 L472,90 L476,90 L480,90 L484,90 L488,90 L492,90 L496,90 L500,90 L504,90.3 L508,91 L512,92.2 L516,93.8 L520,95.8 L524,98.1 L528,100.7 L532,103.5 L536,106.6 L540,109.8 L544,113.2 L548,116.7 L552,120.3 L556,123.9 L560,127.5 L564,131 L568,134.5 L572,137.8 L576,141 L580,144 L584,146.7 L588,149.1 L592,151.3 L596,153.1 L600,154.5 L604,155.4 L608,155.9 L612,155.9 L616,155.4 L620,154.5 L624,153.1 L628,151.3 L632,149.1 L636,146.7 L640,144 L644,141 L648,137.8 L652,134.5 L656,131 L660,127.5 L664,123.9 L668,120.3 L672,116.7 L676,113.2 L680,109.8 L684,106.6 L688,103.5 L692,100.7 L696,98.1 L700,95.8 L704,93.8 L708,92.2 L712,91 L716,90.3 L720,90 L724,90 L728,90 L732,90 L736,90 L740,90 L744,90 L748,90 L752,90 L756,90 L760,90 L764,90 L768,90 L772,90 L776,90 L780,90 L784,90 L788,90 L792,90 L796,90 L800,90 L804,90 L808,90 L812,90 L816,90 L820,90 L824,90 L828,90 L832,90 L836,90 L840,90 L844,90 L848,90 L852,90 L856,90 L860,90 L864,90 L868,90 L872,90 L876,90 L880,90 L884,90 L888,90 L892,90 L896,90 L900,90 L904,90 L908,90 L912,90 L916,90 L920,90 L924,90 L928,90 L932,90 L936,90 L940,90 " fill="none" stroke="#a39d92" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/><path d="M60,290 L64,290 L68,290 L72,290 L76,290 L80,290 L84,290 L88,290 L92,290 L96,290 L100,290 L104,290 L108,290 L112,290 L116,290 L120,290 L124,290 L128,290 L132,290 L136,290 L140,290 L144,290 L148,290 L152,290 L156,290 L160,290 L164,290 L168,290 L172,290 L176,290 L180,290 L184,290 L188,290 L192,290 L196,290 L200,290 L204,290 L208,290 L212,290 L216,290 L220,290 L224,290 L228,290 L232,290 L236,290 L240,290 L244,290 L248,290 L252,290 L256,290 L260,290 L264,290 L268,290 L272,290 L276,290 L280,290 L284,290 L288,290 L292,290 L296,290 L300,290 L304,290 L308,290 L312,290 L316,290 L320,290 L324,290 L328,290 L332,290 L336,290 L340,290 L344,290 L348,290 L352,290 L356,290 L360,290 L364,290 L368,290 L372,290 L376,290 L380,290 L384,290 L388,290 L392,290 L396,290 L400,290 L404,290 L408,290 L412,290 L416,290 L420,290 L424,290 L428,290 L432,290 L436,290 L440,290 L444,290 L448,290 L452,290 L456,290 L460,290 L464,290 L468,290 L472,290 L476,290 L480,290 L484,290 L488,290 L492,290 L496,290 L500,290 L504,289.7 L508,289 L512,287.8 L516,286.2 L520,284.2 L524,281.9 L528,279.3 L532,276.5 L536,273.4 L540,270.2 L544,266.8 L548,263.3 L552,259.7 L556,256.1 L560,252.5 L564,249 L568,245.5 L572,242.2 L576,239 L580,236 L584,233.3 L588,230.9 L592,228.7 L596,226.9 L600,225.5 L604,224.6 L608,224.1 L612,224.1 L616,224.6 L620,225.5 L624,226.9 L628,228.7 L632,230.9 L636,233.3 L640,236 L644,239 L648,242.2 L652,245.5 L656,249 L660,252.5 L664,256.1 L668,259.7 L672,263.3 L676,266.8 L680,270.2 L684,273.4 L688,276.5 L692,279.3 L696,281.9 L700,284.2 L704,286.2 L708,287.8 L712,289 L716,289.7 L720,290 L724,290 L728,290 L732,290 L736,290 L740,290 L744,290 L748,290 L752,290 L756,290 L760,290 L764,290 L768,290 L772,290 L776,290 L780,290 L784,290 L788,290 L792,290 L796,290 L800,290 L804,290 L808,290 L812,290 L816,290 L820,290 L824,290 L828,290 L832,290 L836,290 L840,290 L844,290 L848,290 L852,290 L856,290 L860,290 L864,290 L868,290 L872,290 L876,290 L880,290 L884,290 L888,290 L892,290 L896,290 L900,290 L904,290 L908,290 L912,290 L916,290 L920,290 L924,290 L928,290 L932,290 L936,290 L940,290 " fill="none" stroke="#a39d92" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/><circle cx="100" cy="145" r="10" fill="#c69d64"/><circle cx="160" cy="245" r="10" fill="#c69d64"/><circle cx="205" cy="118" r="10" fill="#c69d64"/><circle cx="245" cy="200" r="10" fill="#c69d64"/><circle cx="125" cy="258" r="10" fill="#c69d64"/><circle cx="260" cy="160" r="10" fill="#c69d64"/><circle cx="185" cy="178" r="10" fill="#c69d64"/><circle cx="304.4" cy="181.4" r="10" fill="#c69d64"/><circle cx="313.5" cy="221.2" r="10" fill="#c69d64"/><circle cx="359.4" cy="248.8" r="10" fill="#c69d64"/><circle cx="313.1" cy="257" r="10" fill="#c69d64"/><circle cx="337" cy="178.4" r="10" fill="#c69d64"/><circle cx="341" cy="210.3" r="10" fill="#c69d64"/><circle cx="381.9" cy="162.6" r="10" fill="#c69d64"/><circle cx="419.9" cy="139.5" r="10" fill="#c69d64"/><circle cx="373.5" cy="130.8" r="10" fill="#c69d64"/><circle cx="406" cy="234.3" r="10" fill="#c69d64"/><circle cx="392.7" cy="198.6" r="10" fill="#c69d64"/><circle cx="327" cy="121.9" r="10" fill="#c69d64"/><circle cx="319.4" cy="154.9" r="10" fill="#c69d64"/><circle cx="462.2" cy="121.9" r="10" fill="#c69d64"/><circle cx="404.2" cy="269.8" r="10" fill="#c69d64"/><circle cx="423.9" cy="203.2" r="10" fill="#c69d64"/><circle cx="433.3" cy="232.8" r="10" fill="#c69d64"/><circle cx="439.3" cy="263" r="10" fill="#c69d64"/><circle cx="456.2" cy="172.5" r="10" fill="#c69d64"/><circle cx="462.8" cy="224.8" r="10" fill="#c69d64"/><circle cx="497.8" cy="255.4" r="10" fill="#c69d64"/><circle cx="348.6" cy="146.9" r="10" fill="#c69d64"/><circle cx="353" cy="107.7" r="10" fill="#c69d64"/><circle cx="365.3" cy="197.1" r="10" fill="#c69d64"/><circle cx="424.5" cy="176.1" r="10" fill="#c69d64"/><circle cx="432.3" cy="104" r="10" fill="#c69d64"/><circle cx="385.7" cy="106.4" r="10" fill="#c69d64"/><circle cx="498.9" cy="154.3" r="10" fill="#c69d64"/><circle cx="505.4" cy="105.3" r="10" fill="#c69d64"/><circle cx="514.2" cy="178.6" r="10" fill="#c69d64"/><circle cx="533.4" cy="134" r="10" fill="#c69d64"/><circle cx="378.2" cy="225" r="10" fill="#c69d64"/><circle cx="304" cy="105.9" r="10" fill="#c69d64"/><circle cx="469.3" cy="267.3" r="10" fill="#c69d64"/><circle cx="534.6" cy="256" r="10" fill="#c69d64"/><circle cx="367.8" cy="274.9" r="10" fill="#c69d64"/><circle cx="545.8" cy="169.1" r="10" fill="#c69d64"/><circle cx="529.2" cy="202.5" r="10" fill="#c69d64"/><circle cx="567.4" cy="219.7" r="10" fill="#c69d64"/><circle cx="480" cy="195" r="10" fill="#c69d64"/><circle cx="569.5" cy="186.3" r="10" fill="#c69d64"/><circle cx="570" cy="151.3" r="10" fill="#c69d64"/><circle cx="541.4" cy="227.4" r="10" fill="#c69d64"/><circle cx="502.6" cy="227.4" r="10" fill="#c69d64"/><circle cx="600" cy="190" r="10" fill="#c69d64"/><circle cx="646" cy="190" r="10" fill="#c69d64"/><circle cx="692" cy="190" r="10" fill="#c69d64"/><circle cx="738" cy="190" r="10" fill="#c69d64"/><circle cx="784" cy="190" r="10" fill="#c69d64"/><circle cx="830" cy="190" r="10" fill="#c69d64"/><circle cx="876" cy="190" r="10" fill="#c69d64"/><circle cx="922" cy="190" r="10" fill="#c69d64"/><text class="lbl-l" style="font-size:calc(24px * var(--k, 1))" x="170" y="352" text-anchor="middle" font-family="&quot;Hanken Grotesk&quot;, system-ui, sans-serif" font-weight="500" fill="#e2ddd4">Ideation / Design</text><text class="lbl-s" style="font-size:calc(19px * var(--k, 1))" display="none" x="170" y="352" text-anchor="middle" font-family="&quot;Hanken Grotesk&quot;, system-ui, sans-serif" font-weight="500" fill="#e2ddd4">Design</text><text class="lbl-l" style="font-size:calc(24px * var(--k, 1))" x="390" y="352" text-anchor="middle" font-family="&quot;Hanken Grotesk&quot;, system-ui, sans-serif" font-weight="500" fill="#e2ddd4">Implementation</text><text class="lbl-s" style="font-size:calc(19px * var(--k, 1))" display="none" x="390" y="352" text-anchor="middle" font-family="&quot;Hanken Grotesk&quot;, system-ui, sans-serif" font-weight="500" fill="#e2ddd4">Build</text><text class="lbl-l" style="font-size:calc(24px * var(--k, 1))" x="610" y="352" text-anchor="middle" font-family="&quot;Hanken Grotesk&quot;, system-ui, sans-serif" font-weight="600" fill="#c69d64">Review</text><text class="lbl-s" style="font-size:calc(19px * var(--k, 1))" display="none" x="610" y="352" text-anchor="middle" font-family="&quot;Hanken Grotesk&quot;, system-ui, sans-serif" font-weight="600" fill="#c69d64">Review</text><text class="lbl-l" style="font-size:calc(24px * var(--k, 1))" x="830" y="352" text-anchor="middle" font-family="&quot;Hanken Grotesk&quot;, system-ui, sans-serif" font-weight="500" fill="#e2ddd4">Ship</text><text class="lbl-s" style="font-size:calc(19px * var(--k, 1))" display="none" x="830" y="352" text-anchor="middle" font-family="&quot;Hanken Grotesk&quot;, system-ui, sans-serif" font-weight="500" fill="#e2ddd4">Ship</text></g><g transform="translate(0,820)"><text x="60" y="40" fill="#a39d92" font-family="&quot;JetBrains Mono&quot;, ui-monospace, monospace" font-weight="500" letter-spacing="4" style="font-size:calc(15px * min(var(--k, 1), 1.52))">NOW, WITH COLLIMATE</text><line x1="560" x2="560" y1="45" y2="395" stroke="#3f3931" stroke-dasharray="5 6" stroke-width="1.5"/><line x1="700" x2="700" y1="45" y2="395" stroke="#3f3931" stroke-dasharray="5 6" stroke-width="1.5"/><line x1="840" x2="840" y1="45" y2="395" stroke="#3f3931" stroke-dasharray="5 6" stroke-width="1.5"/><path d="M60,90 L64,90 L68,90 L72,90 L76,90 L80,90 L84,90 L88,90 L92,90 L96,90 L100,90 L104,90 L108,90 L112,90 L116,90 L120,90 L124,90 L128,90 L132,90 L136,90 L140,90 L144,90 L148,90 L152,90 L156,90 L160,90 L164,90 L168,90 L172,90 L176,90 L180,90 L184,90 L188,90 L192,90 L196,90 L200,90 L204,90 L208,90 L212,90 L216,90 L220,90 L224,90 L228,90 L232,90 L236,90 L240,90 L244,90 L248,90 L252,90 L256,90 L260,90 L264,90 L268,90 L272,90 L276,90 L280,90 L284,90 L288,90 L292,90 L296,90 L300,90 L304,90 L308,90 L312,90 L316,90 L320,90 L324,90 L328,90 L332,90 L336,90 L340,90 L344,90 L348,90 L352,90 L356,90 L360,90 L364,90 L368,90 L372,90 L376,90 L380,90 L384,90 L388,90 L392,90 L396,90 L400,90 L404,90 L408,90 L412,90 L416,90 L420,90 L424,90 L428,90 L432,90 L436,90 L440,90 L444,90 L448,90 L452,90 L456,90 L460,90 L464,90 L468,90 L472,90 L476,90 L480,90 L484,90 L488,90 L492,90 L496,90 L500,90 L504,90 L508,90 L512,90 L516,90 L520,90 L524,90 L528,90 L532,90 L536,90 L540,90 L544,90 L548,90 L552,90 L556,90 L560,90 L564,90 L568,90 L572,90 L576,90 L580,90 L584,90 L588,90 L592,90 L596,90 L600,90 L604,90 L608,90 L612,90 L616,90 L620,90 L624,90 L628,90 L632,90 L636,90 L640,90 L644,90 L648,90 L652,90 L656,90 L660,90 L664,90 L668,90 L672,90 L676,90 L680,90 L684,90 L688,90 L692,90 L696,90 L700,90 L704,90 L708,90 L712,90 L716,90 L720,90 L724,90 L728,90 L732,90 L736,90 L740,90 L744,90 L748,90 L752,90 L756,90 L760,90 L764,90 L768,90 L772,90 L776,90 L780,90 L784,90 L788,90 L792,90 L796,90 L800,90 L804,90 L808,90 L812,90 L816,90 L820,90 L824,90 L828,90 L832,90 L836,90 L840,90 L844,90 L848,90 L852,90 L856,90 L860,90 L864,90 L868,90 L872,90 L876,90 L880,90 L884,90 L888,90 L892,90 L896,90 L900,90 L904,90 L908,90 L912,90 L916,90 L920,90 L924,90 L928,90 L932,90 L936,90 L940,90 " fill="none" stroke="#a39d92" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/><path d="M60,290 L64,290 L68,290 L72,290 L76,290 L80,290 L84,290 L88,290 L92,290 L96,290 L100,290 L104,290 L108,290 L112,290 L116,290 L120,290 L124,290 L128,290 L132,290 L136,290 L140,290 L144,290 L148,290 L152,290 L156,290 L160,290 L164,290 L168,290 L172,290 L176,290 L180,290 L184,290 L188,290 L192,290 L196,290 L200,290 L204,290 L208,290 L212,290 L216,290 L220,290 L224,290 L228,290 L232,290 L236,290 L240,290 L244,290 L248,290 L252,290 L256,290 L260,290 L264,290 L268,290 L272,290 L276,290 L280,290 L284,290 L288,290 L292,290 L296,290 L300,290 L304,290 L308,290 L312,290 L316,290 L320,290 L324,290 L328,290 L332,290 L336,290 L340,290 L344,290 L348,290 L352,290 L356,290 L360,290 L364,290 L368,290 L372,290 L376,290 L380,290 L384,290 L388,290 L392,290 L396,290 L400,290 L404,290 L408,290 L412,290 L416,290 L420,290 L424,290 L428,290 L432,290 L436,290 L440,290 L444,290 L448,290 L452,290 L456,290 L460,290 L464,290 L468,290 L472,290 L476,290 L480,290 L484,290 L488,290 L492,290 L496,290 L500,290 L504,290 L508,290 L512,290 L516,290 L520,290 L524,290 L528,290 L532,290 L536,290 L540,290 L544,290 L548,290 L552,290 L556,290 L560,290 L564,290 L568,290 L572,290 L576,290 L580,290 L584,290 L588,290 L592,290 L596,290 L600,290 L604,290 L608,290 L612,290 L616,290 L620,290 L624,290 L628,290 L632,290 L636,290 L640,290 L644,290 L648,290 L652,290 L656,290 L660,290 L664,290 L668,290 L672,290 L676,290 L680,290 L684,290 L688,290 L692,290 L696,290 L700,290 L704,290 L708,290 L712,290 L716,290 L720,290 L724,290 L728,290 L732,290 L736,290 L740,290 L744,290 L748,290 L752,290 L756,290 L760,290 L764,290 L768,290 L772,290 L776,290 L780,290 L784,290 L788,290 L792,290 L796,290 L800,290 L804,290 L808,290 L812,290 L816,290 L820,290 L824,290 L828,290 L832,290 L836,290 L840,290 L844,290 L848,290 L852,290 L856,290 L860,290 L864,290 L868,290 L872,290 L876,290 L880,290 L884,290 L888,290 L892,290 L896,290 L900,290 L904,290 L908,290 L912,290 L916,290 L920,290 L924,290 L928,290 L932,290 L936,290 L940,290 " fill="none" stroke="#a39d92" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/><path d="M60,90 L64,90 L68,90 L72,90 L76,90 L80,90 L84,90 L88,90 L92,90 L96,90 L100,90 L104,90 L108,90 L112,90 L116,90 L120,90 L124,90 L128,90 L132,90 L136,90 L140,90 L144,90 L148,90 L152,90 L156,90 L160,90 L164,90 L168,90 L172,90 L176,90 L180,90 L184,90 L188,90.4 L192,91.4 L196,92.5 L200,93.5 L204,94.6 L208,95.7 L212,96.8 L216,97.9 L220,99.1 L224,100.2 L228,101.4 L232,102.6 L236,103.8 L240,105 L244,106.3 L248,107.5 L252,108.8 L256,110 L260,111.3 L264,112.6 L268,113.9 L272,115.1 L276,116.4 L280,117.7 L284,119 L288,120.3 L292,121.6 L296,122.9 L300,124.1 L304,125.4 L308,126.7 L312,128 L316,129.2 L320,130.5 L324,131.7 L328,133 L332,134.2 L336,135.4 L340,136.6 L344,137.8 L348,138.9 L352,140.1 L356,141.2 L360,142.3 L364,143.4 L368,144.5 L372,145.5 L376,146.6 L380,147.6 L384,148.6 L388,149.5 L392,150.4 L396,151.3 L400,152.2 L404,153.1 L408,153.9 L412,154.6 L416,155.4 L420,156.1 L424,156.8 L428,157.4 L432,158 L436,158.6 L440,159.1 L444,159.6 L448,160 L452,160.4 L456,160.8 L460,161.1 L464,161.4 L468,161.6 L472,161.8 L476,161.9 L480,162 L484,162 L488,162 L492,162 L496,162 L500,162 L504,162 L508,162 L512,162 L516,162 L520,162 L524,162 L528,162 L532,162 L536,162 L540,162 L544,162 L548,162 L552,162 L556,162 L560,162 " fill="none" stroke="#a39d92" stroke-width="2.5" stroke-dasharray="8 8" stroke-linecap="round" opacity="0.85"/><path d="M60,290 L64,290 L68,290 L72,290 L76,290 L80,290 L84,290 L88,290 L92,290 L96,290 L100,290 L104,290 L108,290 L112,290 L116,290 L120,290 L124,290 L128,290 L132,290 L136,290 L140,290 L144,290 L148,290 L152,290 L156,290 L160,290 L164,290 L168,290 L172,290 L176,290 L180,290 L184,290 L188,289.6 L192,288.6 L196,287.5 L200,286.5 L204,285.4 L208,284.3 L212,283.2 L216,282.1 L220,280.9 L224,279.8 L228,278.6 L232,277.4 L236,276.2 L240,275 L244,273.7 L248,272.5 L252,271.2 L256,270 L260,268.7 L264,267.4 L268,266.1 L272,264.9 L276,263.6 L280,262.3 L284,261 L288,259.7 L292,258.4 L296,257.1 L300,255.9 L304,254.6 L308,253.3 L312,252 L316,250.8 L320,249.5 L324,248.3 L328,247 L332,245.8 L336,244.6 L340,243.4 L344,242.2 L348,241.1 L352,239.9 L356,238.8 L360,237.7 L364,236.6 L368,235.5 L372,234.5 L376,233.4 L380,232.4 L384,231.4 L388,230.5 L392,229.6 L396,228.7 L400,227.8 L404,226.9 L408,226.1 L412,225.4 L416,224.6 L420,223.9 L424,223.2 L428,222.6 L432,222 L436,221.4 L440,220.9 L444,220.4 L448,220 L452,219.6 L456,219.2 L460,218.9 L464,218.6 L468,218.4 L472,218.2 L476,218.1 L480,218 L484,218 L488,218 L492,218 L496,218 L500,218 L504,218 L508,218 L512,218 L516,218 L520,218 L524,218 L528,218 L532,218 L536,218 L540,218 L544,218 L548,218 L552,218 L556,218 L560,218 " fill="none" stroke="#a39d92" stroke-width="2.5" stroke-dasharray="8 8" stroke-linecap="round" opacity="0.85"/><circle cx="86.1" cy="199.9" r="10" fill="#c69d64"/><circle cx="83.9" cy="167.7" r="10" fill="#c69d64"/><circle cx="129.4" cy="144.9" r="10" fill="#c69d64"/><circle cx="135.6" cy="187.7" r="10" fill="#c69d64"/><circle cx="166.4" cy="212.9" r="10" fill="#c69d64"/><circle cx="108.9" cy="223.7" r="10" fill="#c69d64"/><circle cx="155" cy="162.6" r="10" fill="#c69d64"/><circle cx="82.4" cy="127.4" r="10" fill="#c69d64"/><circle cx="125.6" cy="105.2" r="10" fill="#c69d64"/><circle cx="187.5" cy="190.4" r="10" fill="#c69d64"/><circle cx="210.1" cy="166.7" r="10" fill="#c69d64"/><circle cx="115.9" cy="257.6" r="10" fill="#c69d64"/><circle cx="191.3" cy="236.6" r="10" fill="#c69d64"/><circle cx="164.5" cy="127" r="10" fill="#c69d64"/><circle cx="224.7" cy="193.2" r="10" fill="#c69d64"/><circle cx="90.1" cy="246.6" r="10" fill="#c69d64"/><circle cx="221.6" cy="222.5" r="10" fill="#c69d64"/><circle cx="208.7" cy="114.2" r="10" fill="#c69d64"/><circle cx="219.5" cy="258.7" r="10" fill="#c69d64"/><circle cx="136" cy="219.4" r="10" fill="#c69d64"/><circle cx="240.4" cy="129.9" r="10" fill="#c69d64"/><circle cx="185.4" cy="145.8" r="10" fill="#c69d64"/><circle cx="239.3" cy="163.4" r="10" fill="#c69d64"/><circle cx="153.9" cy="259.8" r="10" fill="#c69d64"/><circle cx="266.2" cy="157.5" r="10" fill="#c69d64"/><circle cx="251.2" cy="198.9" r="10" fill="#c69d64"/><circle cx="93.5" cy="275.9" r="10" fill="#c69d64"/><circle cx="265.3" cy="227.1" r="10" fill="#c69d64"/><circle cx="277.8" cy="190.7" r="10" fill="#c69d64"/><circle cx="296.1" cy="233.1" r="10" fill="#c69d64"/><circle cx="248.9" cy="252.7" r="10" fill="#c69d64"/><circle cx="320.3" cy="173.7" r="10" fill="#c69d64"/><circle cx="279.3" cy="258.5" r="9" fill="none" stroke="#c69d64" stroke-width="2" opacity="0.38"/><circle cx="306.3" cy="261.7" r="9" fill="none" stroke="#c69d64" stroke-width="2" opacity="0.38"/><circle cx="326.4" cy="212.4" r="10" fill="#c69d64"/><circle cx="371.7" cy="210.7" r="10" fill="#c69d64"/><circle cx="283.4" cy="120" r="9" fill="none" stroke="#c69d64" stroke-width="2" opacity="0.38"/><circle cx="182.3" cy="272.9" r="10" fill="#c69d64"/><circle cx="318.2" cy="115.1" r="9" fill="none" stroke="#c69d64" stroke-width="2" opacity="0.38"/><circle cx="296.2" cy="149.9" r="10" fill="#c69d64"/><circle cx="345.8" cy="236.6" r="9" fill="none" stroke="#c69d64" stroke-width="2" opacity="0.38"/><circle cx="335.2" cy="146.1" r="9" fill="none" stroke="#c69d64" stroke-width="2" opacity="0.38"/><circle cx="341.5" cy="266" r="9" fill="none" stroke="#c69d64" stroke-width="2" opacity="0.38"/><circle cx="356.1" cy="175.3" r="10" fill="#c69d64"/><circle cx="378.2" cy="157.9" r="9" fill="none" stroke="#c69d64" stroke-width="2" opacity="0.38"/><circle cx="363.8" cy="109.8" r="9" fill="none" stroke="#c69d64" stroke-width="2" opacity="0.38"/><circle cx="380.1" cy="237.8" r="9" fill="none" stroke="#c69d64" stroke-width="2" opacity="0.38"/><circle cx="419.4" cy="231.6" r="9" fill="none" stroke="#c69d64" stroke-width="2" opacity="0.38"/><circle cx="452.4" cy="204.8" r="10" fill="#c69d64"/><circle cx="405.2" cy="194.7" r="10" fill="#c69d64"/><circle cx="432.4" cy="167.5" r="9" fill="none" stroke="#c69d64" stroke-width="2" opacity="0.38"/><circle cx="422.3" cy="258.7" r="9" fill="none" stroke="#c69d64" stroke-width="2" opacity="0.38"/><circle cx="459.3" cy="268" r="9" fill="none" stroke="#c69d64" stroke-width="2" opacity="0.38"/><circle cx="450" cy="128.9" r="9" fill="none" stroke="#c69d64" stroke-width="2" opacity="0.38"/><circle cx="412.4" cy="121.3" r="9" fill="none" stroke="#c69d64" stroke-width="2" opacity="0.38"/><circle cx="404.9" cy="163.8" r="9" fill="none" stroke="#c69d64" stroke-width="2" opacity="0.38"/><circle cx="471.5" cy="160.5" r="9" fill="none" stroke="#c69d64" stroke-width="2" opacity="0.38"/><circle cx="393.1" cy="266" r="9" fill="none" stroke="#c69d64" stroke-width="2" opacity="0.38"/><circle cx="478.3" cy="223.2" r="9" fill="none" stroke="#c69d64" stroke-width="2" opacity="0.38"/><circle cx="502.7" cy="133.3" r="9" fill="none" stroke="#c69d64" stroke-width="2" opacity="0.38"/><circle cx="500.7" cy="264.6" r="9" fill="none" stroke="#c69d64" stroke-width="2" opacity="0.38"/><circle cx="488" cy="185.3" r="10" fill="#c69d64"/><circle cx="528.7" cy="268.2" r="9" fill="none" stroke="#c69d64" stroke-width="2" opacity="0.38"/><circle cx="516.6" cy="235.7" r="9" fill="none" stroke="#c69d64" stroke-width="2" opacity="0.38"/><circle cx="528.6" cy="154.6" r="9" fill="none" stroke="#c69d64" stroke-width="2" opacity="0.38"/><circle cx="456.3" cy="239.3" r="9" fill="none" stroke="#c69d64" stroke-width="2" opacity="0.38"/><circle cx="537.7" cy="105.8" r="9" fill="none" stroke="#c69d64" stroke-width="2" opacity="0.38"/><circle cx="461.7" cy="104.4" r="9" fill="none" stroke="#c69d64" stroke-width="2" opacity="0.38"/><circle cx="536.8" cy="217" r="9" fill="none" stroke="#c69d64" stroke-width="2" opacity="0.38"/><circle cx="516.9" cy="197.7" r="10" fill="#c69d64"/><circle cx="501.5" cy="104.7" r="9" fill="none" stroke="#c69d64" stroke-width="2" opacity="0.38"/><circle cx="578" cy="190" r="10" fill="#c69d64"/><circle cx="624" cy="190" r="10" fill="#c69d64"/><circle cx="670" cy="190" r="10" fill="#c69d64"/><circle cx="716" cy="190" r="10" fill="#c69d64"/><circle cx="762" cy="190" r="10" fill="#c69d64"/><circle cx="808" cy="190" r="10" fill="#c69d64"/><circle cx="854" cy="190" r="10" fill="#c69d64"/><circle cx="900" cy="190" r="10" fill="#c69d64"/><text class="lbl-l" style="font-size:calc(24px * var(--k, 1))" x="310" y="352" text-anchor="middle" font-family="&quot;Hanken Grotesk&quot;, system-ui, sans-serif" font-weight="600" fill="#c69d64">Collimate</text><text class="lbl-s" style="font-size:calc(19px * var(--k, 1))" display="none" x="310" y="352" text-anchor="middle" font-family="&quot;Hanken Grotesk&quot;, system-ui, sans-serif" font-weight="600" fill="#c69d64">Collimate</text><text x="310" y="352" text-anchor="middle" font-family="&quot;Hanken Grotesk&quot;, system-ui, sans-serif" fill="#a39d92" style="font-size:calc(13.5px * var(--k, 1))"><tspan x="310" dy="1.8em">design + implementation merged</tspan><tspan x="310" dy="1.35em">prototypes, tests, surveys, bake-offs</tspan></text><text class="lbl-l" style="font-size:calc(24px * var(--k, 1))" x="630" y="352" text-anchor="middle" font-family="&quot;Hanken Grotesk&quot;, system-ui, sans-serif" font-weight="500" fill="#e2ddd4">Harden</text><text class="lbl-s" style="font-size:calc(19px * var(--k, 1))" display="none" x="630" y="352" text-anchor="middle" font-family="&quot;Hanken Grotesk&quot;, system-ui, sans-serif" font-weight="500" fill="#e2ddd4">Harden</text><text class="lbl-l" style="font-size:calc(24px * var(--k, 1))" x="770" y="352" text-anchor="middle" font-family="&quot;Hanken Grotesk&quot;, system-ui, sans-serif" font-weight="500" fill="#e2ddd4">Review</text><text class="lbl-s" style="font-size:calc(19px * var(--k, 1))" display="none" x="770" y="352" text-anchor="middle" font-family="&quot;Hanken Grotesk&quot;, system-ui, sans-serif" font-weight="500" fill="#e2ddd4">Review</text><text class="lbl-l" style="font-size:calc(24px * var(--k, 1))" x="890" y="352" text-anchor="middle" font-family="&quot;Hanken Grotesk&quot;, system-ui, sans-serif" font-weight="500" fill="#e2ddd4">Ship</text><text class="lbl-s" style="font-size:calc(19px * var(--k, 1))" display="none" x="890" y="352" text-anchor="middle" font-family="&quot;Hanken Grotesk&quot;, system-ui, sans-serif" font-weight="500" fill="#e2ddd4">Ship</text><g class="legend" style="transform:translate(940px,40px) scale(var(--k, 1))"><circle cy="-5" r="7" fill="#c69d64" cx="-218.9"/><text y="0" fill="#a39d92" font-family="&quot;Hanken Grotesk&quot;, system-ui, sans-serif" font-size="15" x="-203.9">kept</text><circle cy="-5" r="6.5" fill="none" stroke="#c69d64" stroke-width="2" opacity="0.5" cx="-146"/><text y="0" fill="#a39d92" font-family="&quot;Hanken Grotesk&quot;, system-ui, sans-serif" font-size="15" x="-131.5">tried, then dropped</text></g></g></svg></noscript>
+      <figure class="pipes" id="pipes-figure">
+        <svg id="pipes" viewBox="0 0 1000 1262" role="img" aria-label="Three software pipelines. Before: implementation is the bottleneck. Now, as usually drawn: review is the bottleneck. Now, with Collimate: design and implementation merge into one wide explore stage; most candidates are dropped by choice, and implementation, review and ship flow freely."></svg>
+        <figcaption>The pipe never narrows. What narrows is what you choose to keep.</figcaption>
+        <button class="pipes-toggle" id="pipes-toggle" type="button" aria-pressed="false" hidden>Pause animation</button>
+      </figure>
+      <script src="./diagram.js" defer></script>
+    </section>
+
+    <div class="rule" role="presentation"></div>
+
+    <section id="moves" class="block wide">
+      <h2>Four moves</h2>
+      <p class="intro">A tool for this has to make four moves easy.</p>
+      <div class="moves">
+
+        <article class="move">
+          <div class="move-text">
+            <h3>Fork</h3>
+            <p>Fork in the middle, and vary the premise, not the attempt. One branch assumes reads dominate, one that the data can go a minute stale. Each runs far enough to show its cost, and they land side by side.</p>
+          </div>
+          <figure class="clip">
+            <div class="clip-frame" role="img" aria-label="Video placeholder: fork in the middle">
+              <!-- To ship a real clip, replace this div's children with:
+                   <video autoplay loop muted playsinline poster="./clips/fork.jpg"><source src="./clips/fork.webm" type="video/webm"></video>
+                   Film the move itself, 10–20 s, silent. -->
+              <svg class="clip-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+              <span class="clip-tag">clip · fork in the middle</span>
+            </div>
+          </figure>
+        </article>
+
+        <article class="move">
+          <div class="move-text">
+            <h3>See</h3>
+            <p>Look at the work in the shape the problem has: a map of the camps, a heatmap of the contested claims, a dozen jump variants on one level. Views are yours to write, and models can already produce them.</p>
+          </div>
+          <figure class="clip">
+            <div class="clip-frame" role="img" aria-label="Video placeholder: one problem, several views">
+              <!-- To ship a real clip, replace this div's children with:
+                   <video autoplay loop muted playsinline poster="./clips/see.jpg"><source src="./clips/see.webm" type="video/webm"></video>
+                   Film the move itself, 10–20 s, silent. -->
+              <svg class="clip-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+              <span class="clip-tag">clip · one problem, several views</span>
+            </div>
+          </figure>
+        </article>
+
+        <article class="move">
+          <div class="move-text">
+            <h3>Challenge</h3>
+            <p>Ask the question outside the session that is producing. A question stays a question until you decide what to do with it.</p>
+          </div>
+          <figure class="clip">
+            <div class="clip-frame" role="img" aria-label="Video placeholder: challenge without steering">
+              <!-- To ship a real clip, replace this div's children with:
+                   <video autoplay loop muted playsinline poster="./clips/challenge.jpg"><source src="./clips/challenge.webm" type="video/webm"></video>
+                   Film the move itself, 10–20 s, silent. -->
+              <svg class="clip-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+              <span class="clip-tag">clip · challenge without steering</span>
+            </div>
+          </figure>
+        </article>
+
+        <article class="move">
+          <div class="move-text">
+            <h3>Pick</h3>
+            <p>Pick from the present or from history. Throwing a version away takes it out of your current workspace, not off the shelf of options.</p>
+          </div>
+          <figure class="clip">
+            <div class="clip-frame" role="img" aria-label="Video placeholder: pick from the shelf">
+              <!-- To ship a real clip, replace this div's children with:
+                   <video autoplay loop muted playsinline poster="./clips/pick.jpg"><source src="./clips/pick.webm" type="video/webm"></video>
+                   Film the move itself, 10–20 s, silent. -->
+              <svg class="clip-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+              <span class="clip-tag">clip · pick from the shelf</span>
+            </div>
+          </figure>
+        </article>
+
+      </div>
+    </section>
+
+    <div class="rule" role="presentation"></div>
+
+    <section id="know" class="block column">
+      <h2>What to know</h2>
+      <div class="prose">
+        <p>Runs on your machine. No cloud, no accounts. What you make is plain files in local content-addressed storage.</p>
+        <p>Generators are plain Python that can run anything: any model, any agent harness, or no AI at all. Renderers are TypeScript views for whatever they produce. Both are made in the app, and that layer is Apache-licensed and separate from it, so nothing you make is trapped.</p>
+        <p>Pre-1.0 and single-author. The hard parts are solved with care. Some of the polish isn't.</p>
+      </div>
+    </section>
+
+    <div class="rule" role="presentation"></div>
+
+    <section id="install" class="block column">
+      <h2>Install</h2>
+      <div class="install">
+        <div class="install-block">
+          <div class="install-heading"><strong>Get the app</strong> (macOS · Windows · Linux)</div>
+          <a class="cmd-line" href="https://github.com/mike-droptables/collimate/releases/latest" target="_blank" rel="noopener">
+            <span class="cmd"><span class="cmd-hl">Download</span> the app</span>
+            <span class="cmd-note"># latest release on GitHub</span>
+            <span class="cmd-icon" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/><path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/></svg></span>
+          </a>
+        </div>
+        <div class="install-block">
+          <div class="install-heading"><strong>Or run the server</strong> (nothing installed, runs from cache)</div>
+          <button class="cmd-line" type="button" data-copy="uvx collimate" aria-label="Copy the command: uvx collimate" aria-describedby="note-uvx">
+            <span class="cmd"><span class="dollar">$ </span><span class="cmd-hl">uvx</span> collimate</span>
+            <span class="cmd-note" id="note-uvx"># prints http://localhost:5001 · open it in your browser</span>
+            <span class="cmd-icon" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/><path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/></svg></span>
+          </button>
+        </div>
+        <div class="install-block">
+          <div class="install-heading"><strong>Keep it</strong> (puts collimate on your PATH)</div>
+          <button class="cmd-line" type="button" data-copy="uv tool install collimate" aria-label="Copy the command: uv tool install collimate" aria-describedby="note-keep">
+            <span class="cmd"><span class="dollar">$ </span><span class="cmd-hl">uv tool</span> install collimate</span>
+            <span class="cmd-note" id="note-keep"># then just: collimate</span>
+            <span class="cmd-icon" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/><path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/></svg></span>
+          </button>
+        </div>
+        <p class="install-small">The server path needs Python 3 and uv. No account, no cloud. <a class="text-link" href="https://docs.astral.sh/uv/getting-started/installation/" target="_blank" rel="noopener">Don't have uv? Get it here →</a></p>
+        <div class="source-row">
+          <div>
+            <a href="https://github.com/mike-droptables/collimate" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg><span>App source</span></a>
+            <span class="lic">MIT</span>
+          </div>
+          <div>
+            <a href="https://github.com/mike-droptables/collimate/tree/main/sdk" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg><span>SDK source</span></a>
+            <span class="lic">MIT</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-links">
+      <a href="https://github.com/mike-droptables/collimate" target="_blank" rel="noopener">GitHub</a>
+      <span class="sep" aria-hidden="true">·</span>
+      <a href="https://github.com/mike-droptables/collimate/tree/main/sdk" target="_blank" rel="noopener">SDK</a>
+      <span class="sep" aria-hidden="true">·</span>
+      <a href="./why.html">Essay</a>
+      <span class="sep" aria-hidden="true">·</span>
+      <a href="https://discord.gg/bKA3kXEGx" target="_blank" rel="noopener">Discord</a>
+      <span class="sep" aria-hidden="true">·</span>
+      <a href="mailto:michael@collimate.dev">michael@collimate.dev</a>
+    </div>
+    <p class="footer-def">col·li·mate, v. — to make divergent rays parallel.</p>
+    <p class="footer-legal">© 2026 Collimate · MIT</p>
+  </footer>
+
+  <div id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    (function () {
+      var toast = document.getElementById('toast');
+      var timer = 0;
+      function show() {
+        toast.textContent = 'Copied';
+        toast.classList.add('show');
+        clearTimeout(timer);
+        timer = setTimeout(function () { toast.classList.remove('show'); }, 2200);
+      }
+      function fallbackCopy(text) {
+        var ta = document.createElement('textarea');
+        ta.value = text;
+        ta.setAttribute('readonly', '');
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        var ok = false;
+        try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+        document.body.removeChild(ta);
+        if (ok) show();
+      }
+      function copyText(text) {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(show, function () { fallbackCopy(text); });
+        } else {
+          fallbackCopy(text);
+        }
+      }
+      document.querySelectorAll('[data-copy]').forEach(function (btn) {
+        btn.addEventListener('click', function () { copyText(btn.getAttribute('data-copy')); });
+      });
+    })();
+  </script>
+</body>
+</html>
